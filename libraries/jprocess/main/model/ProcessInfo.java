@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jutils.jprocesses.model;
+package libraries.jprocess.main.model;
 
 import java.util.HashMap;
 import java.util.Map;

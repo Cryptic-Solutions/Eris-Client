@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jutils.jprocesses.info;
-
-import org.jutils.jprocesses.model.JProcessesResponse;
-import org.jutils.jprocesses.model.ProcessInfo;
+package libraries.jprocess.main.info;
 
 import java.util.List;
+
+import libraries.jprocess.main.model.JProcessesResponse;
+import libraries.jprocess.main.model.ProcessInfo;
 
 /**
  * Interface for service retrieving processes information

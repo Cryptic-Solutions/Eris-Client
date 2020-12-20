@@ -39,6 +39,7 @@ public class Step extends Module {
 		if (mc.thePlayer == null || mc.theWorld == null) return;
 		if (e instanceof EventUpdate) {
 			if (needStep && safe) {
+				setMode(mode.getValue().toString());
 				EventUpdate event = (EventUpdate)e;
 				event.setOnGround(mc.thePlayer.onGround);
 				event.setY(mc.thePlayer.posY);

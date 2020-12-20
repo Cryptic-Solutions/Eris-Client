@@ -38,6 +38,7 @@ public class Velocity extends Module {
 	@Override
 	public void onEvent(Event e) {
 		if (e instanceof EventPacket) {
+			setMode(modeValue.getValue().toString());
 			EventPacket event = (EventPacket)e;
 			if (event.isReceiving()) {
 		        if(event.getPacket() instanceof S12PacketEntityVelocity) {

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jutils.jprocesses;
-
-import org.jutils.jprocesses.info.ProcessesFactory;
-import org.jutils.jprocesses.info.ProcessesService;
-import org.jutils.jprocesses.model.JProcessesResponse;
-import org.jutils.jprocesses.model.ProcessInfo;
-import org.jutils.jprocesses.model.WindowsPriority;
+package libraries.jprocess.main;
 
 import java.util.List;
+
+import libraries.jprocess.main.info.ProcessesFactory;
+import libraries.jprocess.main.info.ProcessesService;
+import libraries.jprocess.main.model.JProcessesResponse;
+import libraries.jprocess.main.model.ProcessInfo;
+import libraries.jprocess.main.model.WindowsPriority;
 
 /**
  * Class that gives access to Processes details.<p>

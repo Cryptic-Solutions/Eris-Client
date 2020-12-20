@@ -33,6 +33,7 @@ public class Speed extends Module {
 	public void onEvent(Event e) { 
 
 		if (e instanceof EventUpdate) {
+			setMode(mode.getValue().toString());
 			EventUpdate eu = (EventUpdate)e;
 			double xDist = mc.thePlayer.posX - mc.thePlayer.prevPosX;
 			double zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;

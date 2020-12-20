@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jutils.jprocesses.info;
+package libraries.jprocess.main.info;
 
-import org.jutils.jprocesses.model.JProcessesResponse;
-import org.jutils.jprocesses.model.ProcessInfo;
-import org.jutils.jprocesses.util.ProcessesUtils;
-
+import libraries.jprocess.main.model.JProcessesResponse;
+import libraries.jprocess.main.model.ProcessInfo;
+import libraries.jprocess.main.util.ProcessesUtils;
 import libraries.jprocess.wmi4java.WMI4Java;
 import libraries.jprocess.wmi4java.WMIClass;
 

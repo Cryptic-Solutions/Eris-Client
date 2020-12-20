@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jutils.jprocesses.info;
+package libraries.jprocess.main.info;
 
-import org.jutils.jprocesses.util.OSDetector;
+import libraries.jprocess.main.util.OSDetector;
 
 /**
  * Factory class to get the right information for the OS

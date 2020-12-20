@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jutils.jprocesses.info;
+package libraries.jprocess.main.info;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -22,10 +22,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jutils.jprocesses.model.JProcessesResponse;
-import org.jutils.jprocesses.model.ProcessInfo;
-import org.jutils.jprocesses.util.OSDetector;
-import org.jutils.jprocesses.util.ProcessesUtils;
+import libraries.jprocess.main.model.JProcessesResponse;
+import libraries.jprocess.main.model.ProcessInfo;
+import libraries.jprocess.main.util.OSDetector;
+import libraries.jprocess.main.util.ProcessesUtils;
 
 /**
  * Service implementation for Unix/BSD systems

