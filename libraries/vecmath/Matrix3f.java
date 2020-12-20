@@ -6,8 +6,7 @@ package libraries.vecmath;
 
 import java.io.Serializable;
 
-public class Matrix3f implements Serializable, Cloneable
-{
+public class Matrix3f implements Serializable, Cloneable {
     static final long serialVersionUID = 329697160112089834L;
     public float m00;
     public float m01;
@@ -19,7 +18,7 @@ public class Matrix3f implements Serializable, Cloneable
     public float m21;
     public float m22;
     private static final double EPS = 1.0E-8;
-    
+
     public Matrix3f(final float m00, final float m01, final float m02, final float m10, final float m11, final float m12, final float m20, final float m21, final float m22) {
         this.m00 = m00;
         this.m01 = m01;
@@ -31,7 +30,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = m21;
         this.m22 = m22;
     }
-    
+
     public Matrix3f(final float[] v) {
         this.m00 = v[0];
         this.m01 = v[1];
@@ -43,19 +42,19 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = v[7];
         this.m22 = v[8];
     }
-    
+
     public Matrix3f(final Matrix3d m1) {
-        this.m00 = (float)m1.m00;
-        this.m01 = (float)m1.m01;
-        this.m02 = (float)m1.m02;
-        this.m10 = (float)m1.m10;
-        this.m11 = (float)m1.m11;
-        this.m12 = (float)m1.m12;
-        this.m20 = (float)m1.m20;
-        this.m21 = (float)m1.m21;
-        this.m22 = (float)m1.m22;
+        this.m00 = (float) m1.m00;
+        this.m01 = (float) m1.m01;
+        this.m02 = (float) m1.m02;
+        this.m10 = (float) m1.m10;
+        this.m11 = (float) m1.m11;
+        this.m12 = (float) m1.m12;
+        this.m20 = (float) m1.m20;
+        this.m21 = (float) m1.m21;
+        this.m22 = (float) m1.m22;
     }
-    
+
     public Matrix3f(final Matrix3f m1) {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
@@ -67,7 +66,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = m1.m21;
         this.m22 = m1.m22;
     }
-    
+
     public Matrix3f() {
         this.m00 = 0.0f;
         this.m01 = 0.0f;
@@ -79,12 +78,12 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = 0.0f;
         this.m22 = 0.0f;
     }
-    
+
     @Override
     public String toString() {
         return this.m00 + ", " + this.m01 + ", " + this.m02 + "\n" + this.m10 + ", " + this.m11 + ", " + this.m12 + "\n" + this.m20 + ", " + this.m21 + ", " + this.m22 + "\n";
     }
-    
+
     public final void setIdentity() {
         this.m00 = 1.0f;
         this.m01 = 0.0f;
@@ -96,24 +95,25 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = 0.0f;
         this.m22 = 1.0f;
     }
-    
+
     public final void setScale(final float scale) {
         final double[] tmp_rot = new double[9];
         final double[] tmp_scale = new double[3];
         this.getScaleRotate(tmp_scale, tmp_rot);
-        this.m00 = (float)(tmp_rot[0] * scale);
-        this.m01 = (float)(tmp_rot[1] * scale);
-        this.m02 = (float)(tmp_rot[2] * scale);
-        this.m10 = (float)(tmp_rot[3] * scale);
-        this.m11 = (float)(tmp_rot[4] * scale);
-        this.m12 = (float)(tmp_rot[5] * scale);
-        this.m20 = (float)(tmp_rot[6] * scale);
-        this.m21 = (float)(tmp_rot[7] * scale);
-        this.m22 = (float)(tmp_rot[8] * scale);
+        this.m00 = (float) (tmp_rot[0] * scale);
+        this.m01 = (float) (tmp_rot[1] * scale);
+        this.m02 = (float) (tmp_rot[2] * scale);
+        this.m10 = (float) (tmp_rot[3] * scale);
+        this.m11 = (float) (tmp_rot[4] * scale);
+        this.m12 = (float) (tmp_rot[5] * scale);
+        this.m20 = (float) (tmp_rot[6] * scale);
+        this.m21 = (float) (tmp_rot[7] * scale);
+        this.m22 = (float) (tmp_rot[8] * scale);
     }
-    
+
     public final void setElement(final int row, final int column, final float value) {
-        Label_0234: {
+        Label_0234:
+        {
             switch (row) {
                 case 0: {
                     switch (column) {
@@ -133,7 +133,7 @@ public class Matrix3f implements Serializable, Cloneable
                             throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f0"));
                         }
                     }
-                    
+
                 }
                 case 1: {
                     switch (column) {
@@ -153,7 +153,7 @@ public class Matrix3f implements Serializable, Cloneable
                             throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f0"));
                         }
                     }
-                    
+
                 }
                 case 2: {
                     switch (column) {
@@ -173,7 +173,7 @@ public class Matrix3f implements Serializable, Cloneable
                             throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f0"));
                         }
                     }
-                    
+
                 }
                 default: {
                     throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f0"));
@@ -181,19 +181,17 @@ public class Matrix3f implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void getRow(final int row, final Vector3f v) {
         if (row == 0) {
             v.x = this.m00;
             v.y = this.m01;
             v.z = this.m02;
-        }
-        else if (row == 1) {
+        } else if (row == 1) {
             v.x = this.m10;
             v.y = this.m11;
             v.z = this.m12;
-        }
-        else {
+        } else {
             if (row != 2) {
                 throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f1"));
             }
@@ -202,19 +200,17 @@ public class Matrix3f implements Serializable, Cloneable
             v.z = this.m22;
         }
     }
-    
+
     public final void getRow(final int row, final float[] v) {
         if (row == 0) {
             v[0] = this.m00;
             v[1] = this.m01;
             v[2] = this.m02;
-        }
-        else if (row == 1) {
+        } else if (row == 1) {
             v[0] = this.m10;
             v[1] = this.m11;
             v[2] = this.m12;
-        }
-        else {
+        } else {
             if (row != 2) {
                 throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f1"));
             }
@@ -223,19 +219,17 @@ public class Matrix3f implements Serializable, Cloneable
             v[2] = this.m22;
         }
     }
-    
+
     public final void getColumn(final int column, final Vector3f v) {
         if (column == 0) {
             v.x = this.m00;
             v.y = this.m10;
             v.z = this.m20;
-        }
-        else if (column == 1) {
+        } else if (column == 1) {
             v.x = this.m01;
             v.y = this.m11;
             v.z = this.m21;
-        }
-        else {
+        } else {
             if (column != 2) {
                 throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f3"));
             }
@@ -244,19 +238,17 @@ public class Matrix3f implements Serializable, Cloneable
             v.z = this.m22;
         }
     }
-    
+
     public final void getColumn(final int column, final float[] v) {
         if (column == 0) {
             v[0] = this.m00;
             v[1] = this.m10;
             v[2] = this.m20;
-        }
-        else if (column == 1) {
+        } else if (column == 1) {
             v[0] = this.m01;
             v[1] = this.m11;
             v[2] = this.m21;
-        }
-        else {
+        } else {
             if (column != 2) {
                 throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f3"));
             }
@@ -265,9 +257,10 @@ public class Matrix3f implements Serializable, Cloneable
             v[2] = this.m22;
         }
     }
-    
+
     public final float getElement(final int row, final int column) {
-        Label_0162: {
+        Label_0162:
+        {
             switch (row) {
                 case 0: {
                     switch (column) {
@@ -284,7 +277,7 @@ public class Matrix3f implements Serializable, Cloneable
                             break Label_0162;
                         }
                     }
-                    
+
                 }
                 case 1: {
                     switch (column) {
@@ -301,7 +294,7 @@ public class Matrix3f implements Serializable, Cloneable
                             break Label_0162;
                         }
                     }
-                    
+
                 }
                 case 2: {
                     switch (column) {
@@ -318,13 +311,13 @@ public class Matrix3f implements Serializable, Cloneable
                             break Label_0162;
                         }
                     }
-                    
+
                 }
             }
         }
         throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3f5"));
     }
-    
+
     public final void setRow(final int row, final float x, final float y, final float z) {
         switch (row) {
             case 0: {
@@ -350,7 +343,7 @@ public class Matrix3f implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void setRow(final int row, final Vector3f v) {
         switch (row) {
             case 0: {
@@ -376,7 +369,7 @@ public class Matrix3f implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void setRow(final int row, final float[] v) {
         switch (row) {
             case 0: {
@@ -402,7 +395,7 @@ public class Matrix3f implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void setColumn(final int column, final float x, final float y, final float z) {
         switch (column) {
             case 0: {
@@ -428,7 +421,7 @@ public class Matrix3f implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void setColumn(final int column, final Vector3f v) {
         switch (column) {
             case 0: {
@@ -454,7 +447,7 @@ public class Matrix3f implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void setColumn(final int column, final float[] v) {
         switch (column) {
             case 0: {
@@ -480,14 +473,14 @@ public class Matrix3f implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final float getScale() {
         final double[] tmp_rot = new double[9];
         final double[] tmp_scale = new double[3];
         this.getScaleRotate(tmp_scale, tmp_rot);
-        return (float)Matrix3d.max3(tmp_scale);
+        return (float) Matrix3d.max3(tmp_scale);
     }
-    
+
     public final void add(final float scalar) {
         this.m00 += scalar;
         this.m01 += scalar;
@@ -499,7 +492,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 += scalar;
         this.m22 += scalar;
     }
-    
+
     public final void add(final float scalar, final Matrix3f m1) {
         this.m00 = m1.m00 + scalar;
         this.m01 = m1.m01 + scalar;
@@ -511,7 +504,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = m1.m21 + scalar;
         this.m22 = m1.m22 + scalar;
     }
-    
+
     public final void add(final Matrix3f m1, final Matrix3f m2) {
         this.m00 = m1.m00 + m2.m00;
         this.m01 = m1.m01 + m2.m01;
@@ -523,7 +516,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = m1.m21 + m2.m21;
         this.m22 = m1.m22 + m2.m22;
     }
-    
+
     public final void add(final Matrix3f m1) {
         this.m00 += m1.m00;
         this.m01 += m1.m01;
@@ -535,7 +528,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 += m1.m21;
         this.m22 += m1.m22;
     }
-    
+
     public final void sub(final Matrix3f m1, final Matrix3f m2) {
         this.m00 = m1.m00 - m2.m00;
         this.m01 = m1.m01 - m2.m01;
@@ -547,7 +540,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = m1.m21 - m2.m21;
         this.m22 = m1.m22 - m2.m22;
     }
-    
+
     public final void sub(final Matrix3f m1) {
         this.m00 -= m1.m00;
         this.m01 -= m1.m01;
@@ -559,7 +552,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 -= m1.m21;
         this.m22 -= m1.m22;
     }
-    
+
     public final void transpose() {
         float temp = this.m10;
         this.m10 = this.m01;
@@ -571,7 +564,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = this.m12;
         this.m12 = temp;
     }
-    
+
     public final void transpose(final Matrix3f m1) {
         if (this != m1) {
             this.m00 = m1.m00;
@@ -583,12 +576,11 @@ public class Matrix3f implements Serializable, Cloneable
             this.m20 = m1.m02;
             this.m21 = m1.m12;
             this.m22 = m1.m22;
-        }
-        else {
+        } else {
             this.transpose();
         }
     }
-    
+
     public final void set(final Quat4f q1) {
         this.m00 = 1.0f - 2.0f * q1.y * q1.y - 2.0f * q1.z * q1.z;
         this.m10 = 2.0f * (q1.x * q1.y + q1.w * q1.z);
@@ -600,9 +592,9 @@ public class Matrix3f implements Serializable, Cloneable
         this.m12 = 2.0f * (q1.y * q1.z - q1.w * q1.x);
         this.m22 = 1.0f - 2.0f * q1.x * q1.x - 2.0f * q1.y * q1.y;
     }
-    
+
     public final void set(final AxisAngle4f a1) {
-        float mag = (float)Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
+        float mag = (float) Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
         if (mag < 1.0E-8) {
             this.m00 = 1.0f;
             this.m01 = 0.0f;
@@ -613,14 +605,13 @@ public class Matrix3f implements Serializable, Cloneable
             this.m20 = 0.0f;
             this.m21 = 0.0f;
             this.m22 = 1.0f;
-        }
-        else {
+        } else {
             mag = 1.0f / mag;
             final float ax = a1.x * mag;
             final float ay = a1.y * mag;
             final float az = a1.z * mag;
-            final float sinTheta = (float)Math.sin(a1.angle);
-            final float cosTheta = (float)Math.cos(a1.angle);
+            final float sinTheta = (float) Math.sin(a1.angle);
+            final float cosTheta = (float) Math.cos(a1.angle);
             final float t = 1.0f - cosTheta;
             final float xz = ax * az;
             final float xy = ax * ay;
@@ -636,7 +627,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m22 = t * az * az + cosTheta;
         }
     }
-    
+
     public final void set(final AxisAngle4d a1) {
         double mag = Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
         if (mag < 1.0E-8) {
@@ -649,8 +640,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m20 = 0.0f;
             this.m21 = 0.0f;
             this.m22 = 1.0f;
-        }
-        else {
+        } else {
             mag = 1.0 / mag;
             final double ax = a1.x * mag;
             final double ay = a1.y * mag;
@@ -661,30 +651,30 @@ public class Matrix3f implements Serializable, Cloneable
             final double xz = ax * az;
             final double xy = ax * ay;
             final double yz = ay * az;
-            this.m00 = (float)(t * ax * ax + cosTheta);
-            this.m01 = (float)(t * xy - sinTheta * az);
-            this.m02 = (float)(t * xz + sinTheta * ay);
-            this.m10 = (float)(t * xy + sinTheta * az);
-            this.m11 = (float)(t * ay * ay + cosTheta);
-            this.m12 = (float)(t * yz - sinTheta * ax);
-            this.m20 = (float)(t * xz - sinTheta * ay);
-            this.m21 = (float)(t * yz + sinTheta * ax);
-            this.m22 = (float)(t * az * az + cosTheta);
+            this.m00 = (float) (t * ax * ax + cosTheta);
+            this.m01 = (float) (t * xy - sinTheta * az);
+            this.m02 = (float) (t * xz + sinTheta * ay);
+            this.m10 = (float) (t * xy + sinTheta * az);
+            this.m11 = (float) (t * ay * ay + cosTheta);
+            this.m12 = (float) (t * yz - sinTheta * ax);
+            this.m20 = (float) (t * xz - sinTheta * ay);
+            this.m21 = (float) (t * yz + sinTheta * ax);
+            this.m22 = (float) (t * az * az + cosTheta);
         }
     }
-    
+
     public final void set(final Quat4d q1) {
-        this.m00 = (float)(1.0 - 2.0 * q1.y * q1.y - 2.0 * q1.z * q1.z);
-        this.m10 = (float)(2.0 * (q1.x * q1.y + q1.w * q1.z));
-        this.m20 = (float)(2.0 * (q1.x * q1.z - q1.w * q1.y));
-        this.m01 = (float)(2.0 * (q1.x * q1.y - q1.w * q1.z));
-        this.m11 = (float)(1.0 - 2.0 * q1.x * q1.x - 2.0 * q1.z * q1.z);
-        this.m21 = (float)(2.0 * (q1.y * q1.z + q1.w * q1.x));
-        this.m02 = (float)(2.0 * (q1.x * q1.z + q1.w * q1.y));
-        this.m12 = (float)(2.0 * (q1.y * q1.z - q1.w * q1.x));
-        this.m22 = (float)(1.0 - 2.0 * q1.x * q1.x - 2.0 * q1.y * q1.y);
+        this.m00 = (float) (1.0 - 2.0 * q1.y * q1.y - 2.0 * q1.z * q1.z);
+        this.m10 = (float) (2.0 * (q1.x * q1.y + q1.w * q1.z));
+        this.m20 = (float) (2.0 * (q1.x * q1.z - q1.w * q1.y));
+        this.m01 = (float) (2.0 * (q1.x * q1.y - q1.w * q1.z));
+        this.m11 = (float) (1.0 - 2.0 * q1.x * q1.x - 2.0 * q1.z * q1.z);
+        this.m21 = (float) (2.0 * (q1.y * q1.z + q1.w * q1.x));
+        this.m02 = (float) (2.0 * (q1.x * q1.z + q1.w * q1.y));
+        this.m12 = (float) (2.0 * (q1.y * q1.z - q1.w * q1.x));
+        this.m22 = (float) (1.0 - 2.0 * q1.x * q1.x - 2.0 * q1.y * q1.y);
     }
-    
+
     public final void set(final float[] m) {
         this.m00 = m[0];
         this.m01 = m[1];
@@ -696,7 +686,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = m[7];
         this.m22 = m[8];
     }
-    
+
     public final void set(final Matrix3f m1) {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
@@ -708,27 +698,27 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = m1.m21;
         this.m22 = m1.m22;
     }
-    
+
     public final void set(final Matrix3d m1) {
-        this.m00 = (float)m1.m00;
-        this.m01 = (float)m1.m01;
-        this.m02 = (float)m1.m02;
-        this.m10 = (float)m1.m10;
-        this.m11 = (float)m1.m11;
-        this.m12 = (float)m1.m12;
-        this.m20 = (float)m1.m20;
-        this.m21 = (float)m1.m21;
-        this.m22 = (float)m1.m22;
+        this.m00 = (float) m1.m00;
+        this.m01 = (float) m1.m01;
+        this.m02 = (float) m1.m02;
+        this.m10 = (float) m1.m10;
+        this.m11 = (float) m1.m11;
+        this.m12 = (float) m1.m12;
+        this.m20 = (float) m1.m20;
+        this.m21 = (float) m1.m21;
+        this.m22 = (float) m1.m22;
     }
-    
+
     public final void invert(final Matrix3f m1) {
         this.invertGeneral(m1);
     }
-    
+
     public final void invert() {
         this.invertGeneral(this);
     }
-    
+
     private final void invertGeneral(final Matrix3f m1) {
         final double[] temp = new double[9];
         final double[] result = new double[9];
@@ -751,17 +741,17 @@ public class Matrix3f implements Serializable, Cloneable
         result[0] = 1.0;
         result[8] = (result[4] = 1.0);
         luBacksubstitution(temp, row_perm, result);
-        this.m00 = (float)result[0];
-        this.m01 = (float)result[1];
-        this.m02 = (float)result[2];
-        this.m10 = (float)result[3];
-        this.m11 = (float)result[4];
-        this.m12 = (float)result[5];
-        this.m20 = (float)result[6];
-        this.m21 = (float)result[7];
-        this.m22 = (float)result[8];
+        this.m00 = (float) result[0];
+        this.m01 = (float) result[1];
+        this.m02 = (float) result[2];
+        this.m10 = (float) result[3];
+        this.m11 = (float) result[4];
+        this.m12 = (float) result[5];
+        this.m20 = (float) result[6];
+        this.m21 = (float) result[7];
+        this.m22 = (float) result[8];
     }
-    
+
     static boolean luDecomposition(final double[] matrix0, final int[] row_perm) {
         final double[] row_scale = new double[3];
         int ptr = 0;
@@ -848,7 +838,7 @@ public class Matrix3f implements Serializable, Cloneable
         }
         return true;
     }
-    
+
     static void luBacksubstitution(final double[] matrix1, final int[] row_perm, final double[] matrix2) {
         final int rp = 0;
         for (int k = 0; k < 3; ++k) {
@@ -863,8 +853,7 @@ public class Matrix3f implements Serializable, Cloneable
                     for (int j = ii; j <= i - 1; ++j) {
                         sum -= matrix1[rv + j] * matrix2[cv + 3 * j];
                     }
-                }
-                else if (sum != 0.0) {
+                } else if (sum != 0.0) {
                     ii = i;
                 }
                 matrix2[cv + 3 * i] = sum;
@@ -878,12 +867,12 @@ public class Matrix3f implements Serializable, Cloneable
             matrix2[cv + 0] = (matrix2[cv + 0] - matrix1[rv + 1] * matrix2[cv + 3] - matrix1[rv + 2] * matrix2[cv + 6]) / matrix1[rv + 0];
         }
     }
-    
+
     public final float determinant() {
         final float total = this.m00 * (this.m11 * this.m22 - this.m12 * this.m21) + this.m01 * (this.m12 * this.m20 - this.m10 * this.m22) + this.m02 * (this.m10 * this.m21 - this.m11 * this.m20);
         return total;
     }
-    
+
     public final void set(final float scale) {
         this.m00 = scale;
         this.m01 = 0.0f;
@@ -895,10 +884,10 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = 0.0f;
         this.m22 = scale;
     }
-    
+
     public final void rotX(final float angle) {
-        final float sinAngle = (float)Math.sin(angle);
-        final float cosAngle = (float)Math.cos(angle);
+        final float sinAngle = (float) Math.sin(angle);
+        final float cosAngle = (float) Math.cos(angle);
         this.m00 = 1.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
@@ -909,10 +898,10 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = sinAngle;
         this.m22 = cosAngle;
     }
-    
+
     public final void rotY(final float angle) {
-        final float sinAngle = (float)Math.sin(angle);
-        final float cosAngle = (float)Math.cos(angle);
+        final float sinAngle = (float) Math.sin(angle);
+        final float cosAngle = (float) Math.cos(angle);
         this.m00 = cosAngle;
         this.m01 = 0.0f;
         this.m02 = sinAngle;
@@ -923,10 +912,10 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = 0.0f;
         this.m22 = cosAngle;
     }
-    
+
     public final void rotZ(final float angle) {
-        final float sinAngle = (float)Math.sin(angle);
-        final float cosAngle = (float)Math.cos(angle);
+        final float sinAngle = (float) Math.sin(angle);
+        final float cosAngle = (float) Math.cos(angle);
         this.m00 = cosAngle;
         this.m01 = -sinAngle;
         this.m02 = 0.0f;
@@ -937,7 +926,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = 0.0f;
         this.m22 = 1.0f;
     }
-    
+
     public final void mul(final float scalar) {
         this.m00 *= scalar;
         this.m01 *= scalar;
@@ -949,7 +938,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 *= scalar;
         this.m22 *= scalar;
     }
-    
+
     public final void mul(final float scalar, final Matrix3f m1) {
         this.m00 = scalar * m1.m00;
         this.m01 = scalar * m1.m01;
@@ -961,7 +950,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = scalar * m1.m21;
         this.m22 = scalar * m1.m22;
     }
-    
+
     public final void mul(final Matrix3f m1) {
         final float m2 = this.m00 * m1.m00 + this.m01 * m1.m10 + this.m02 * m1.m20;
         final float m3 = this.m00 * m1.m01 + this.m01 * m1.m11 + this.m02 * m1.m21;
@@ -982,7 +971,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = m9;
         this.m22 = m10;
     }
-    
+
     public final void mul(final Matrix3f m1, final Matrix3f m2) {
         if (this != m1 && this != m2) {
             this.m00 = m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20;
@@ -994,8 +983,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m20 = m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20;
             this.m21 = m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21;
             this.m22 = m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22;
-        }
-        else {
+        } else {
             final float m3 = m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20;
             final float m4 = m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21;
             final float m5 = m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22;
@@ -1016,7 +1004,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m22 = m11;
         }
     }
-    
+
     public final void mulNormalize(final Matrix3f m1) {
         final double[] tmp = new double[9];
         final double[] tmp_rot = new double[9];
@@ -1031,17 +1019,17 @@ public class Matrix3f implements Serializable, Cloneable
         tmp[7] = this.m20 * m1.m01 + this.m21 * m1.m11 + this.m22 * m1.m21;
         tmp[8] = this.m20 * m1.m02 + this.m21 * m1.m12 + this.m22 * m1.m22;
         Matrix3d.compute_svd(tmp, tmp_scale, tmp_rot);
-        this.m00 = (float)tmp_rot[0];
-        this.m01 = (float)tmp_rot[1];
-        this.m02 = (float)tmp_rot[2];
-        this.m10 = (float)tmp_rot[3];
-        this.m11 = (float)tmp_rot[4];
-        this.m12 = (float)tmp_rot[5];
-        this.m20 = (float)tmp_rot[6];
-        this.m21 = (float)tmp_rot[7];
-        this.m22 = (float)tmp_rot[8];
+        this.m00 = (float) tmp_rot[0];
+        this.m01 = (float) tmp_rot[1];
+        this.m02 = (float) tmp_rot[2];
+        this.m10 = (float) tmp_rot[3];
+        this.m11 = (float) tmp_rot[4];
+        this.m12 = (float) tmp_rot[5];
+        this.m20 = (float) tmp_rot[6];
+        this.m21 = (float) tmp_rot[7];
+        this.m22 = (float) tmp_rot[8];
     }
-    
+
     public final void mulNormalize(final Matrix3f m1, final Matrix3f m2) {
         final double[] tmp = new double[9];
         final double[] tmp_rot = new double[9];
@@ -1056,17 +1044,17 @@ public class Matrix3f implements Serializable, Cloneable
         tmp[7] = m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21;
         tmp[8] = m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22;
         Matrix3d.compute_svd(tmp, tmp_scale, tmp_rot);
-        this.m00 = (float)tmp_rot[0];
-        this.m01 = (float)tmp_rot[1];
-        this.m02 = (float)tmp_rot[2];
-        this.m10 = (float)tmp_rot[3];
-        this.m11 = (float)tmp_rot[4];
-        this.m12 = (float)tmp_rot[5];
-        this.m20 = (float)tmp_rot[6];
-        this.m21 = (float)tmp_rot[7];
-        this.m22 = (float)tmp_rot[8];
+        this.m00 = (float) tmp_rot[0];
+        this.m01 = (float) tmp_rot[1];
+        this.m02 = (float) tmp_rot[2];
+        this.m10 = (float) tmp_rot[3];
+        this.m11 = (float) tmp_rot[4];
+        this.m12 = (float) tmp_rot[5];
+        this.m20 = (float) tmp_rot[6];
+        this.m21 = (float) tmp_rot[7];
+        this.m22 = (float) tmp_rot[8];
     }
-    
+
     public final void mulTransposeBoth(final Matrix3f m1, final Matrix3f m2) {
         if (this != m1 && this != m2) {
             this.m00 = m1.m00 * m2.m00 + m1.m10 * m2.m01 + m1.m20 * m2.m02;
@@ -1078,8 +1066,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m20 = m1.m02 * m2.m00 + m1.m12 * m2.m01 + m1.m22 * m2.m02;
             this.m21 = m1.m02 * m2.m10 + m1.m12 * m2.m11 + m1.m22 * m2.m12;
             this.m22 = m1.m02 * m2.m20 + m1.m12 * m2.m21 + m1.m22 * m2.m22;
-        }
-        else {
+        } else {
             final float m3 = m1.m00 * m2.m00 + m1.m10 * m2.m01 + m1.m20 * m2.m02;
             final float m4 = m1.m00 * m2.m10 + m1.m10 * m2.m11 + m1.m20 * m2.m12;
             final float m5 = m1.m00 * m2.m20 + m1.m10 * m2.m21 + m1.m20 * m2.m22;
@@ -1100,7 +1087,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m22 = m11;
         }
     }
-    
+
     public final void mulTransposeRight(final Matrix3f m1, final Matrix3f m2) {
         if (this != m1 && this != m2) {
             this.m00 = m1.m00 * m2.m00 + m1.m01 * m2.m01 + m1.m02 * m2.m02;
@@ -1112,8 +1099,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m20 = m1.m20 * m2.m00 + m1.m21 * m2.m01 + m1.m22 * m2.m02;
             this.m21 = m1.m20 * m2.m10 + m1.m21 * m2.m11 + m1.m22 * m2.m12;
             this.m22 = m1.m20 * m2.m20 + m1.m21 * m2.m21 + m1.m22 * m2.m22;
-        }
-        else {
+        } else {
             final float m3 = m1.m00 * m2.m00 + m1.m01 * m2.m01 + m1.m02 * m2.m02;
             final float m4 = m1.m00 * m2.m10 + m1.m01 * m2.m11 + m1.m02 * m2.m12;
             final float m5 = m1.m00 * m2.m20 + m1.m01 * m2.m21 + m1.m02 * m2.m22;
@@ -1134,7 +1120,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m22 = m11;
         }
     }
-    
+
     public final void mulTransposeLeft(final Matrix3f m1, final Matrix3f m2) {
         if (this != m1 && this != m2) {
             this.m00 = m1.m00 * m2.m00 + m1.m10 * m2.m10 + m1.m20 * m2.m20;
@@ -1146,8 +1132,7 @@ public class Matrix3f implements Serializable, Cloneable
             this.m20 = m1.m02 * m2.m00 + m1.m12 * m2.m10 + m1.m22 * m2.m20;
             this.m21 = m1.m02 * m2.m01 + m1.m12 * m2.m11 + m1.m22 * m2.m21;
             this.m22 = m1.m02 * m2.m02 + m1.m12 * m2.m12 + m1.m22 * m2.m22;
-        }
-        else {
+        } else {
             final float m3 = m1.m00 * m2.m00 + m1.m10 * m2.m10 + m1.m20 * m2.m20;
             final float m4 = m1.m00 * m2.m01 + m1.m10 * m2.m11 + m1.m20 * m2.m21;
             final float m5 = m1.m00 * m2.m02 + m1.m10 * m2.m12 + m1.m20 * m2.m22;
@@ -1168,22 +1153,22 @@ public class Matrix3f implements Serializable, Cloneable
             this.m22 = m11;
         }
     }
-    
+
     public final void normalize() {
         final double[] tmp_rot = new double[9];
         final double[] tmp_scale = new double[3];
         this.getScaleRotate(tmp_scale, tmp_rot);
-        this.m00 = (float)tmp_rot[0];
-        this.m01 = (float)tmp_rot[1];
-        this.m02 = (float)tmp_rot[2];
-        this.m10 = (float)tmp_rot[3];
-        this.m11 = (float)tmp_rot[4];
-        this.m12 = (float)tmp_rot[5];
-        this.m20 = (float)tmp_rot[6];
-        this.m21 = (float)tmp_rot[7];
-        this.m22 = (float)tmp_rot[8];
+        this.m00 = (float) tmp_rot[0];
+        this.m01 = (float) tmp_rot[1];
+        this.m02 = (float) tmp_rot[2];
+        this.m10 = (float) tmp_rot[3];
+        this.m11 = (float) tmp_rot[4];
+        this.m12 = (float) tmp_rot[5];
+        this.m20 = (float) tmp_rot[6];
+        this.m21 = (float) tmp_rot[7];
+        this.m22 = (float) tmp_rot[8];
     }
-    
+
     public final void normalize(final Matrix3f m1) {
         final double[] tmp = new double[9];
         final double[] tmp_rot = new double[9];
@@ -1198,23 +1183,23 @@ public class Matrix3f implements Serializable, Cloneable
         tmp[7] = m1.m21;
         tmp[8] = m1.m22;
         Matrix3d.compute_svd(tmp, tmp_scale, tmp_rot);
-        this.m00 = (float)tmp_rot[0];
-        this.m01 = (float)tmp_rot[1];
-        this.m02 = (float)tmp_rot[2];
-        this.m10 = (float)tmp_rot[3];
-        this.m11 = (float)tmp_rot[4];
-        this.m12 = (float)tmp_rot[5];
-        this.m20 = (float)tmp_rot[6];
-        this.m21 = (float)tmp_rot[7];
-        this.m22 = (float)tmp_rot[8];
+        this.m00 = (float) tmp_rot[0];
+        this.m01 = (float) tmp_rot[1];
+        this.m02 = (float) tmp_rot[2];
+        this.m10 = (float) tmp_rot[3];
+        this.m11 = (float) tmp_rot[4];
+        this.m12 = (float) tmp_rot[5];
+        this.m20 = (float) tmp_rot[6];
+        this.m21 = (float) tmp_rot[7];
+        this.m22 = (float) tmp_rot[8];
     }
-    
+
     public final void normalizeCP() {
-        float mag = 1.0f / (float)Math.sqrt(this.m00 * this.m00 + this.m10 * this.m10 + this.m20 * this.m20);
+        float mag = 1.0f / (float) Math.sqrt(this.m00 * this.m00 + this.m10 * this.m10 + this.m20 * this.m20);
         this.m00 *= mag;
         this.m10 *= mag;
         this.m20 *= mag;
-        mag = 1.0f / (float)Math.sqrt(this.m01 * this.m01 + this.m11 * this.m11 + this.m21 * this.m21);
+        mag = 1.0f / (float) Math.sqrt(this.m01 * this.m01 + this.m11 * this.m11 + this.m21 * this.m21);
         this.m01 *= mag;
         this.m11 *= mag;
         this.m21 *= mag;
@@ -1222,13 +1207,13 @@ public class Matrix3f implements Serializable, Cloneable
         this.m12 = this.m01 * this.m20 - this.m00 * this.m21;
         this.m22 = this.m00 * this.m11 - this.m01 * this.m10;
     }
-    
+
     public final void normalizeCP(final Matrix3f m1) {
-        float mag = 1.0f / (float)Math.sqrt(m1.m00 * m1.m00 + m1.m10 * m1.m10 + m1.m20 * m1.m20);
+        float mag = 1.0f / (float) Math.sqrt(m1.m00 * m1.m00 + m1.m10 * m1.m10 + m1.m20 * m1.m20);
         this.m00 = m1.m00 * mag;
         this.m10 = m1.m10 * mag;
         this.m20 = m1.m20 * mag;
-        mag = 1.0f / (float)Math.sqrt(m1.m01 * m1.m01 + m1.m11 * m1.m11 + m1.m21 * m1.m21);
+        mag = 1.0f / (float) Math.sqrt(m1.m01 * m1.m01 + m1.m11 * m1.m11 + m1.m21 * m1.m21);
         this.m01 = m1.m01 * mag;
         this.m11 = m1.m11 * mag;
         this.m21 = m1.m21 * mag;
@@ -1236,30 +1221,27 @@ public class Matrix3f implements Serializable, Cloneable
         this.m12 = this.m01 * this.m20 - this.m00 * this.m21;
         this.m22 = this.m00 * this.m11 - this.m01 * this.m10;
     }
-    
+
     public boolean equals(final Matrix3f m1) {
         try {
             return this.m00 == m1.m00 && this.m01 == m1.m01 && this.m02 == m1.m02 && this.m10 == m1.m10 && this.m11 == m1.m11 && this.m12 == m1.m12 && this.m20 == m1.m20 && this.m21 == m1.m21 && this.m22 == m1.m22;
-        }
-        catch (NullPointerException e2) {
+        } catch (NullPointerException e2) {
             return false;
         }
     }
-    
+
     @Override
     public boolean equals(final Object o1) {
         try {
-            final Matrix3f m2 = (Matrix3f)o1;
+            final Matrix3f m2 = (Matrix3f) o1;
             return this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m10 == m2.m10 && this.m11 == m2.m11 && this.m12 == m2.m12 && this.m20 == m2.m20 && this.m21 == m2.m21 && this.m22 == m2.m22;
-        }
-        catch (ClassCastException e1) {
+        } catch (ClassCastException e1) {
             return false;
-        }
-        catch (NullPointerException e2) {
+        } catch (NullPointerException e2) {
             return false;
         }
     }
-    
+
     public boolean epsilonEquals(final Matrix3f m1, final float epsilon) {
         boolean status = true;
         if (Math.abs(this.m00 - m1.m00) > epsilon) {
@@ -1291,7 +1273,7 @@ public class Matrix3f implements Serializable, Cloneable
         }
         return status;
     }
-    
+
     @Override
     public int hashCode() {
         long bits = 1L;
@@ -1304,9 +1286,9 @@ public class Matrix3f implements Serializable, Cloneable
         bits = 31L * bits + VecMathUtil.floatToIntBits(this.m20);
         bits = 31L * bits + VecMathUtil.floatToIntBits(this.m21);
         bits = 31L * bits + VecMathUtil.floatToIntBits(this.m22);
-        return (int)(bits ^ bits >> 32);
+        return (int) (bits ^ bits >> 32);
     }
-    
+
     public final void setZero() {
         this.m00 = 0.0f;
         this.m01 = 0.0f;
@@ -1318,7 +1300,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = 0.0f;
         this.m22 = 0.0f;
     }
-    
+
     public final void negate() {
         this.m00 = -this.m00;
         this.m01 = -this.m01;
@@ -1330,7 +1312,7 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = -this.m21;
         this.m22 = -this.m22;
     }
-    
+
     public final void negate(final Matrix3f m1) {
         this.m00 = -m1.m00;
         this.m01 = -m1.m01;
@@ -1342,14 +1324,14 @@ public class Matrix3f implements Serializable, Cloneable
         this.m21 = -m1.m21;
         this.m22 = -m1.m22;
     }
-    
+
     public final void transform(final Tuple3f t) {
         final float x = this.m00 * t.x + this.m01 * t.y + this.m02 * t.z;
         final float y = this.m10 * t.x + this.m11 * t.y + this.m12 * t.z;
         final float z = this.m20 * t.x + this.m21 * t.y + this.m22 * t.z;
         t.set(x, y, z);
     }
-    
+
     public final void transform(final Tuple3f t, final Tuple3f result) {
         final float x = this.m00 * t.x + this.m01 * t.y + this.m02 * t.z;
         final float y = this.m10 * t.x + this.m11 * t.y + this.m12 * t.z;
@@ -1357,91 +1339,90 @@ public class Matrix3f implements Serializable, Cloneable
         result.x = x;
         result.y = y;
     }
-    
+
     void getScaleRotate(final double[] scales, final double[] rot) {
-        final double[] tmp = { this.m00, this.m01, this.m02, this.m10, this.m11, this.m12, this.m20, this.m21, this.m22 };
+        final double[] tmp = {this.m00, this.m01, this.m02, this.m10, this.m11, this.m12, this.m20, this.m21, this.m22};
         Matrix3d.compute_svd(tmp, scales, rot);
     }
-    
+
     public Object clone() {
         Matrix3f m1 = null;
         try {
-            m1 = (Matrix3f)super.clone();
-        }
-        catch (CloneNotSupportedException e) {
+            m1 = (Matrix3f) super.clone();
+        } catch (CloneNotSupportedException e) {
             throw new InternalError();
         }
         return m1;
     }
-    
+
     public final float getM00() {
         return this.m00;
     }
-    
+
     public final void setM00(final float m00) {
         this.m00 = m00;
     }
-    
+
     public final float getM01() {
         return this.m01;
     }
-    
+
     public final void setM01(final float m01) {
         this.m01 = m01;
     }
-    
+
     public final float getM02() {
         return this.m02;
     }
-    
+
     public final void setM02(final float m02) {
         this.m02 = m02;
     }
-    
+
     public final float getM10() {
         return this.m10;
     }
-    
+
     public final void setM10(final float m10) {
         this.m10 = m10;
     }
-    
+
     public final float getM11() {
         return this.m11;
     }
-    
+
     public final void setM11(final float m11) {
         this.m11 = m11;
     }
-    
+
     public final float getM12() {
         return this.m12;
     }
-    
+
     public final void setM12(final float m12) {
         this.m12 = m12;
     }
-    
+
     public final float getM20() {
         return this.m20;
     }
-    
+
     public final void setM20(final float m20) {
         this.m20 = m20;
     }
-    
+
     public final float getM21() {
         return this.m21;
     }
-    
+
     public final void setM21(final float m21) {
         this.m21 = m21;
     }
-    
+
     public final float getM22() {
         return this.m22;
     }
-    
+
     public final void setM22(final float m22) {
         this.m22 = m22;
     }

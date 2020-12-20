@@ -17,7 +17,7 @@ package libraries.jprocess.main.model;
 
 /**
  * Encapsulates the response of a JProcesses operation
- * 
+ *
  * @author Javier Garcia Alonso
  */
 public class JProcessesResponse {
@@ -39,6 +39,6 @@ public class JProcessesResponse {
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    
+
+
 }

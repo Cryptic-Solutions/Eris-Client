@@ -131,7 +131,7 @@ class VBScriptHelper {
     /**
      * Changes the priority of a process
      *
-     * @param pid the PID
+     * @param pid         the PID
      * @param newPriority the priority to set @see Windo
      * @return the output of the script
      */

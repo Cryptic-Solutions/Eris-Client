@@ -6,16 +6,14 @@ import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 
-public abstract class NodeProcessor
-{
+public abstract class NodeProcessor {
     protected IBlockAccess blockaccess;
     protected IntHashMap<PathPoint> pointMap = new IntHashMap();
     protected int entitySizeX;
     protected int entitySizeY;
     protected int entitySizeZ;
 
-    public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn)
-    {
+    public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn) {
         this.blockaccess = iblockaccessIn;
         this.pointMap.clearMap();
         this.entitySizeX = MathHelper.floor_float(entityIn.width + 1.0F);
@@ -25,23 +23,20 @@ public abstract class NodeProcessor
 
     /**
      * This method is called when all nodes have been processed and PathEntity is created.
-     *  {@link net.minecraft.world.pathfinder.WalkNodeProcessor WalkNodeProcessor} uses this to change its field {@link
+     * {@link net.minecraft.world.pathfinder.WalkNodeProcessor WalkNodeProcessor} uses this to change its field {@link
      * net.minecraft.world.pathfinder.WalkNodeProcessor#avoidsWater avoidsWater}
      */
-    public void postProcess()
-    {
+    public void postProcess() {
     }
 
     /**
      * Returns a mapped point or creates and adds one
      */
-    protected PathPoint openPoint(int x, int y, int z)
-    {
+    protected PathPoint openPoint(int x, int y, int z) {
         int i = PathPoint.makeHash(x, y, z);
-        PathPoint pathpoint = (PathPoint)this.pointMap.lookup(i);
+        PathPoint pathpoint = (PathPoint) this.pointMap.lookup(i);
 
-        if (pathpoint == null)
-        {
+        if (pathpoint == null) {
             pathpoint = new PathPoint(x, y, z);
             this.pointMap.addKey(i, pathpoint);
         }
@@ -56,11 +51,11 @@ public abstract class NodeProcessor
 
     /**
      * Returns PathPoint for given coordinates
-     *  
+     *
      * @param entityIn entity which size will be used to center position
-     * @param x target x coordinate
-     * @param y target y coordinate
-     * @param target z coordinate
+     * @param x        target x coordinate
+     * @param y        target y coordinate
+     * @param target   z coordinate
      */
     public abstract PathPoint getPathPointToCoords(Entity entityIn, double x, double y, double target);
 

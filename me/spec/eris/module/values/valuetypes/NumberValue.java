@@ -19,16 +19,19 @@ public class NumberValue<T> extends Value<T> {
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
     }
+
     public NumberValue(String valueName, T defaultValueObject, T minimumValue, T maximumValue, Module parent, String description) {
         super(valueName, defaultValueObject, parent, null, description);
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
     }
+
     public NumberValue(String valueName, T defaultValueObject, T minimumValue, T maximumValue, Module parent) {
         super(valueName, defaultValueObject, parent, null, "");
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
     }
+
     public T getMinimumValue() {
         return minimumValue;
     }

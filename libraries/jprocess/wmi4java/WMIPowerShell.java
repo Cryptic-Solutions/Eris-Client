@@ -74,7 +74,7 @@ class WMIPowerShell implements WMIStub {
     }
 
     public String listProperties(String wmiClass, String namespace, String computerName) throws WMIException {
-    	String command = initCommand(wmiClass, namespace, computerName);
+        String command = initCommand(wmiClass, namespace, computerName);
 
         command += " | ";
 
@@ -86,7 +86,7 @@ class WMIPowerShell implements WMIStub {
     }
 
     public String listObject(String wmiClass, String namespace, String computerName) throws WMIException {
-    	String command = initCommand(wmiClass, namespace, computerName);
+        String command = initCommand(wmiClass, namespace, computerName);
 
         command += " | ";
 
@@ -99,7 +99,7 @@ class WMIPowerShell implements WMIStub {
 
     public String queryObject(String wmiClass, List<String> wmiProperties, List<String> conditions, String namespace, String computerName) throws WMIException {
         String command = initCommand(wmiClass, namespace, computerName);
-        		
+
         List<String> usedWMIProperties;
         if (wmiProperties == null || wmiProperties.isEmpty()) {
             usedWMIProperties = Collections.singletonList("*");
@@ -121,9 +121,9 @@ class WMIPowerShell implements WMIStub {
 
         return executeCommand(command);
     }
-    
-    private String initCommand (String wmiClass, String namespace, String computerName) {
-    	String command = GETWMIOBJECT_COMMAND + wmiClass + " ";
+
+    private String initCommand(String wmiClass, String namespace, String computerName) {
+        String command = GETWMIOBJECT_COMMAND + wmiClass + " ";
 
         if (!"*".equals(namespace)) {
             command += NAMESPACE_PARAM + namespace + " ";
@@ -131,7 +131,7 @@ class WMIPowerShell implements WMIStub {
         if (!computerName.isEmpty()) {
             command += COMPUTERNAME_PARAM + computerName + " ";
         }
-        
+
         return command;
     }
 }

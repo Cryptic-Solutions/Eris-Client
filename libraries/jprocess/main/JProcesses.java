@@ -25,8 +25,8 @@ import libraries.jprocess.main.model.WindowsPriority;
 
 /**
  * Class that gives access to Processes details.<p>
- * 
- * JProcesses allows to interact with system processes. It is possible to 
+ * <p>
+ * JProcesses allows to interact with system processes. It is possible to
  * list all alive processes, kill them or change the priority.
  *
  * @author Javier Garcia Alonso
@@ -41,8 +41,8 @@ public class JProcesses {
 
     /**
      * Gets the JProcesses instance.<br>
-     * This method creates a new instance each time. 
-     *  
+     * This method creates a new instance each time.
+     *
      * @return JProcesses instance
      */
     public static JProcesses get() {
@@ -50,10 +50,10 @@ public class JProcesses {
     }
 
     /**
-     * Enables the fast mode. <br>In this mode JProcesses does not try to retrieve 
+     * Enables the fast mode. <br>In this mode JProcesses does not try to retrieve
      * time consuming data as the use percentage or the owner of the process in Windows implementation.<br>
      * <b>This flag has no effect in Linux implementation as it is fast enough</b>.
-     * 
+     *
      * @return JProcesses instance
      */
     public JProcesses fastMode() {
@@ -62,10 +62,10 @@ public class JProcesses {
     }
 
     /**
-     * Enables/disables the fast mode. <br>In this mode JProcesses does not try to retrieve 
+     * Enables/disables the fast mode. <br>In this mode JProcesses does not try to retrieve
      * time consuming data as the use percentage or the owner of the process in Windows implementation.<br>
      * <b>This flag has no effect in Linux implementation as it is fast enough</b>.
-     * 
+     *
      * @param enabled boolean true or false
      * @return JProcesses instance
      */
@@ -85,9 +85,9 @@ public class JProcesses {
      * <li>Priority</li>
      * </ul>
      * [...]<p>
-     * 
-     * For further details see {@link ProcessInfo} 
-     * 
+     * <p>
+     * For further details see {@link ProcessInfo}
+     *
      * @return List of processes
      */
     public List<ProcessInfo> listProcesses() {
@@ -105,9 +105,9 @@ public class JProcesses {
      * <li>Priority</li>
      * </ul>
      * [...]<p>
-     * 
-     * For further details see {@link ProcessInfo} 
-     * 
+     * <p>
+     * For further details see {@link ProcessInfo}
+     *
      * @param name The name of the searched process
      * @return List of found processes
      */
@@ -116,7 +116,7 @@ public class JProcesses {
     }
 
     /**
-     * Convenience static method that returns the list of processes 
+     * Convenience static method that returns the list of processes
      * that match with the provided name.<br>
      * For each process some information is retrieved:
      * <ul>
@@ -127,9 +127,9 @@ public class JProcesses {
      * <li>Priority</li>
      * </ul>
      * [...]<p>
-     * 
-     * For further details see {@link ProcessInfo} 
-     * 
+     * <p>
+     * For further details see {@link ProcessInfo}
+     *
      * @return List of found processes
      */
     public static List<ProcessInfo> getProcessList() {
@@ -137,7 +137,7 @@ public class JProcesses {
     }
 
     /**
-     * Convenience static method that returns the list of processes 
+     * Convenience static method that returns the list of processes
      * that match with the provided name.<br>
      * For each process some information is retrieved:
      * <ul>
@@ -148,9 +148,9 @@ public class JProcesses {
      * <li>Priority</li>
      * </ul>
      * [...]<p>
-     * 
-     * For further details see {@link ProcessInfo} 
-     * 
+     * <p>
+     * For further details see {@link ProcessInfo}
+     *
      * @param name The name of the searched process
      * @return List of found processes
      */
@@ -159,7 +159,7 @@ public class JProcesses {
     }
 
     /**
-     * Static method that returns the information of a process<br> 
+     * Static method that returns the information of a process<br>
      * Some information is retrieved:
      * <ul>
      * <li>PID</li>
@@ -169,9 +169,9 @@ public class JProcesses {
      * <li>Priority</li>
      * </ul>
      * [...]<p>
-     * 
-     * For further details see {@link ProcessInfo} 
-     * 
+     * <p>
+     * For further details see {@link ProcessInfo}
+     *
      * @param pid The PID of the searched process
      * @return {@link JProcesses} object with the information of the process
      */
@@ -180,10 +180,10 @@ public class JProcesses {
     }
 
     /**
-     * Static method that kills a process abruptly (forced mode)<br> 
-     * 
-     * For further details see {@link ProcessInfo} 
-     * 
+     * Static method that kills a process abruptly (forced mode)<br>
+     * <p>
+     * For further details see {@link ProcessInfo}
+     *
      * @param pid The PID of the process to kill
      * @return {@link JProcessesResponse} response object that contains information about the result of the operation
      */
@@ -192,11 +192,11 @@ public class JProcesses {
     }
 
     /**
-     * Static method that kills a process, letting it the necessary time to finish<br> 
+     * Static method that kills a process, letting it the necessary time to finish<br>
      * If the process does not finish with this method, try with the stronger killProcess()<p>
-     * 
-     * For further details see {@link ProcessInfo} 
-     * 
+     * <p>
+     * For further details see {@link ProcessInfo}
+     *
      * @param pid The PID of the process to kill
      * @return {@link JProcessesResponse} response object that contains information about the result of the operation
      */
@@ -205,12 +205,12 @@ public class JProcesses {
     }
 
     /**
-     * Static method that changes the priority of a process<br> 
+     * Static method that changes the priority of a process<br>
      * If the process does not finish with this method, try with the stronger killProcess()<p>
-     * 
-     * For further details see {@link ProcessInfo} 
-     * 
-     * @param pid the PID of the process tochange priority
+     * <p>
+     * For further details see {@link ProcessInfo}
+     *
+     * @param pid         the PID of the process tochange priority
      * @param newPriority integer with the new version. For windows you can use the helper constants at {@link WindowsPriority}
      * @return {@link JProcessesResponse} response object that contains information about the result of the operation
      */

@@ -17,9 +17,9 @@ package libraries.jprocess.wmi4java;
 
 /**
  * Convenience class that facilitates the usage of different WMI classes.<p>
- * 
+ * <p>
  * It only contains root/cimv2 classes
- * 
+ *
  * @author Javier Garcia Alonso
  */
 public enum WMIClass {

@@ -34,7 +34,7 @@ public final class ServiceSwitcher {
     private final FieldAdapter userAuthentication = new FieldAdapter(MINECRAFT_AUTHENTICATION_SERVICE_CLASS);
 
     public static AlteningServiceType lastService = AlteningServiceType.MOJANG;
-    
+
     public ServiceSwitcher() {
         try {
             minecraftSessionServer.updateFieldIfPresent("WHITELISTED_DOMAINS", WHITELISTED_DOMAINS);
@@ -44,7 +44,7 @@ public final class ServiceSwitcher {
     }
 
     public AlteningServiceType switchToService(AlteningServiceType service) {
-    	lastService = service;
+        lastService = service;
         try {
             String authServer = service.getAuthServer();
             FieldAdapter userAuth = this.userAuthentication;
@@ -67,7 +67,7 @@ public final class ServiceSwitcher {
 
         return service;
     }
-    
+
     public AlteningServiceType switchToServiceNoUpdate(AlteningServiceType service) {
         try {
             String authServer = service.getAuthServer();

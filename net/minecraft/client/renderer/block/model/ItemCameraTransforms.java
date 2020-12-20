@@ -5,11 +5,12 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+
 import java.lang.reflect.Type;
+
 import net.minecraft.client.renderer.GlStateManager;
 
-public class ItemCameraTransforms
-{
+public class ItemCameraTransforms {
     public static final ItemCameraTransforms DEFAULT = new ItemCameraTransforms();
     public static float field_181690_b = 0.0F;
     public static float field_181691_c = 0.0F;
@@ -27,13 +28,11 @@ public class ItemCameraTransforms
     public final ItemTransformVec3f field_181699_o;
     public final ItemTransformVec3f field_181700_p;
 
-    private ItemCameraTransforms()
-    {
+    private ItemCameraTransforms() {
         this(ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT);
     }
 
-    public ItemCameraTransforms(ItemCameraTransforms p_i46443_1_)
-    {
+    public ItemCameraTransforms(ItemCameraTransforms p_i46443_1_) {
         this.thirdPerson = p_i46443_1_.thirdPerson;
         this.firstPerson = p_i46443_1_.firstPerson;
         this.head = p_i46443_1_.head;
@@ -42,8 +41,7 @@ public class ItemCameraTransforms
         this.field_181700_p = p_i46443_1_.field_181700_p;
     }
 
-    public ItemCameraTransforms(ItemTransformVec3f p_i46444_1_, ItemTransformVec3f p_i46444_2_, ItemTransformVec3f p_i46444_3_, ItemTransformVec3f p_i46444_4_, ItemTransformVec3f p_i46444_5_, ItemTransformVec3f p_i46444_6_)
-    {
+    public ItemCameraTransforms(ItemTransformVec3f p_i46444_1_, ItemTransformVec3f p_i46444_2_, ItemTransformVec3f p_i46444_3_, ItemTransformVec3f p_i46444_4_, ItemTransformVec3f p_i46444_5_, ItemTransformVec3f p_i46444_6_) {
         this.thirdPerson = p_i46444_1_;
         this.firstPerson = p_i46444_2_;
         this.head = p_i46444_3_;
@@ -52,12 +50,10 @@ public class ItemCameraTransforms
         this.field_181700_p = p_i46444_6_;
     }
 
-    public void func_181689_a(ItemCameraTransforms.TransformType p_181689_1_)
-    {
+    public void func_181689_a(ItemCameraTransforms.TransformType p_181689_1_) {
         ItemTransformVec3f itemtransformvec3f = this.func_181688_b(p_181689_1_);
 
-        if (itemtransformvec3f != ItemTransformVec3f.DEFAULT)
-        {
+        if (itemtransformvec3f != ItemTransformVec3f.DEFAULT) {
             GlStateManager.translate(itemtransformvec3f.translation.x + field_181690_b, itemtransformvec3f.translation.y + field_181691_c, itemtransformvec3f.translation.z + field_181692_d);
             GlStateManager.rotate(itemtransformvec3f.rotation.y + field_181694_f, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(itemtransformvec3f.rotation.x + field_181693_e, 1.0F, 0.0F, 0.0F);
@@ -66,10 +62,8 @@ public class ItemCameraTransforms
         }
     }
 
-    public ItemTransformVec3f func_181688_b(ItemCameraTransforms.TransformType p_181688_1_)
-    {
-        switch (p_181688_1_)
-        {
+    public ItemTransformVec3f func_181688_b(ItemCameraTransforms.TransformType p_181688_1_) {
+        switch (p_181688_1_) {
             case THIRD_PERSON:
                 return this.thirdPerson;
 
@@ -93,15 +87,12 @@ public class ItemCameraTransforms
         }
     }
 
-    public boolean func_181687_c(ItemCameraTransforms.TransformType p_181687_1_)
-    {
+    public boolean func_181687_c(ItemCameraTransforms.TransformType p_181687_1_) {
         return !this.func_181688_b(p_181687_1_).equals(ItemTransformVec3f.DEFAULT);
     }
 
-    static class Deserializer implements JsonDeserializer<ItemCameraTransforms>
-    {
-        public ItemCameraTransforms deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
-        {
+    static class Deserializer implements JsonDeserializer<ItemCameraTransforms> {
+        public ItemCameraTransforms deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
             JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
             ItemTransformVec3f itemtransformvec3f = this.func_181683_a(p_deserialize_3_, jsonobject, "thirdperson");
             ItemTransformVec3f itemtransformvec3f1 = this.func_181683_a(p_deserialize_3_, jsonobject, "firstperson");
@@ -112,14 +103,12 @@ public class ItemCameraTransforms
             return new ItemCameraTransforms(itemtransformvec3f, itemtransformvec3f1, itemtransformvec3f2, itemtransformvec3f3, itemtransformvec3f4, itemtransformvec3f5);
         }
 
-        private ItemTransformVec3f func_181683_a(JsonDeserializationContext p_181683_1_, JsonObject p_181683_2_, String p_181683_3_)
-        {
-            return p_181683_2_.has(p_181683_3_) ? (ItemTransformVec3f)p_181683_1_.deserialize(p_181683_2_.get(p_181683_3_), ItemTransformVec3f.class) : ItemTransformVec3f.DEFAULT;
+        private ItemTransformVec3f func_181683_a(JsonDeserializationContext p_181683_1_, JsonObject p_181683_2_, String p_181683_3_) {
+            return p_181683_2_.has(p_181683_3_) ? (ItemTransformVec3f) p_181683_1_.deserialize(p_181683_2_.get(p_181683_3_), ItemTransformVec3f.class) : ItemTransformVec3f.DEFAULT;
         }
     }
 
-    public static enum TransformType
-    {
+    public static enum TransformType {
         NONE,
         THIRD_PERSON,
         FIRST_PERSON,

@@ -24,84 +24,84 @@ import me.spec.eris.ui.notifications.Notification;
 
 public class ConfigManager {
 
-	private ArrayList<ClientConfig> configs = new ArrayList<ClientConfig>();
+    private ArrayList<ClientConfig> configs = new ArrayList<ClientConfig>();
 
-	public ArrayList<ClientConfig> getConfigs() {
-		return configs;
-	}
-	
-	public ConfigManager() {
-		File defaultFile = new File(Eris.instance.fileManager.dir, "defaultconfig.eriscnf");
-		if (!defaultFile.exists()) {
-			try {
-				defaultFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				String content = FileUtils.readFileToString(defaultFile);
-		        JsonObject configurationObject = new GsonBuilder().create().fromJson(content, JsonObject.class);
+    public ArrayList<ClientConfig> getConfigs() {
+        return configs;
+    }
 
-		        for(Map.Entry<String, JsonElement> entry : configurationObject.entrySet()) {
-		            if (entry.getValue() instanceof JsonObject) {
-		                JsonObject moduleObject = (JsonObject) entry.getValue();
+    public ConfigManager() {
+        File defaultFile = new File(Eris.instance.fileManager.dir, "defaultconfig.eriscnf");
+        if (!defaultFile.exists()) {
+            try {
+                defaultFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                String content = FileUtils.readFileToString(defaultFile);
+                JsonObject configurationObject = new GsonBuilder().create().fromJson(content, JsonObject.class);
 
-		                for(Module module : Eris.getInstance().modules.getModules()) {
-		                    if(module.getName().equalsIgnoreCase(moduleObject.get("name").getAsString()) && module.getCategory() != null) {
-		                            if(moduleObject.get("active").getAsBoolean()) {
-		                                module.toggle(false);
-		                            } else {
-		                                module.setToggled(false, false);
-		                            }
-		                        for(Value value : module.getSettings()) {
-		                            if(moduleObject.get(value.getValueName()) != null) {
-		                                if(value instanceof NumberValue) {
-		                                    if(value.getValue() instanceof Double) {
-		                                        value.setValueObject(moduleObject.get(value.getValueName()).getAsDouble());
-		                                    }
-		                                    if(value.getValue() instanceof Integer) {
-		                                        value.setValueObject(moduleObject.get(value.getValueName()).getAsInt());
-		                                    }
-		                                    if(value.getValue() instanceof Float) {
-		                                        value.setValueObject(moduleObject.get(value.getValueName()).getAsFloat());
-		                                    }
-		                                }
-		                                if(value instanceof BooleanValue) {
-		                                    value.setValueObject(moduleObject.get(value.getValueName()).getAsBoolean());
-		                                }
-		                                if(value instanceof ModeValue) {
-		                                    for(int i = 0;i < ((ModeValue) value).getModes().length;i++) {
-		                                        if(((ModeValue) value).getModes()[i].name().equalsIgnoreCase(moduleObject.get(value.getValueName()).getAsString())) {
-		                                             value.setValueObject(((ModeValue) value).getModes()[i]);
-		                                        }
-		                                    }
-		                                }
-		                            }
-		                        }
-		                    }
-		                }
-		            }
-		        }
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void saveDefaultFile() {
-		Eris.getInstance().clickUI.reload(false);
+                for (Map.Entry<String, JsonElement> entry : configurationObject.entrySet()) {
+                    if (entry.getValue() instanceof JsonObject) {
+                        JsonObject moduleObject = (JsonObject) entry.getValue();
+
+                        for (Module module : Eris.getInstance().modules.getModules()) {
+                            if (module.getName().equalsIgnoreCase(moduleObject.get("name").getAsString()) && module.getCategory() != null) {
+                                if (moduleObject.get("active").getAsBoolean()) {
+                                    module.toggle(false);
+                                } else {
+                                    module.setToggled(false, false);
+                                }
+                                for (Value value : module.getSettings()) {
+                                    if (moduleObject.get(value.getValueName()) != null) {
+                                        if (value instanceof NumberValue) {
+                                            if (value.getValue() instanceof Double) {
+                                                value.setValueObject(moduleObject.get(value.getValueName()).getAsDouble());
+                                            }
+                                            if (value.getValue() instanceof Integer) {
+                                                value.setValueObject(moduleObject.get(value.getValueName()).getAsInt());
+                                            }
+                                            if (value.getValue() instanceof Float) {
+                                                value.setValueObject(moduleObject.get(value.getValueName()).getAsFloat());
+                                            }
+                                        }
+                                        if (value instanceof BooleanValue) {
+                                            value.setValueObject(moduleObject.get(value.getValueName()).getAsBoolean());
+                                        }
+                                        if (value instanceof ModeValue) {
+                                            for (int i = 0; i < ((ModeValue) value).getModes().length; i++) {
+                                                if (((ModeValue) value).getModes()[i].name().equalsIgnoreCase(moduleObject.get(value.getValueName()).getAsString())) {
+                                                    value.setValueObject(((ModeValue) value).getModes()[i]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void saveDefaultFile() {
+        Eris.getInstance().clickUI.reload(false);
         JsonObject jsonObject = new JsonObject();
-        for(Module module : Eris.getInstance().modules.getModules()) {
-        	if (module.getCategory() != null) {
-	        	JsonObject moduleObject = new JsonObject();
-	        	moduleObject.addProperty("name", module.getName());
-	        	moduleObject.addProperty("active", module.isToggled());
-	
-	        	module.getSettings().forEach(value -> moduleObject.addProperty(value.getValueName(), String.valueOf(value.getValue())));
-	
-	        	jsonObject.add(module.getName(), moduleObject);
-        	}
+        for (Module module : Eris.getInstance().modules.getModules()) {
+            if (module.getCategory() != null) {
+                JsonObject moduleObject = new JsonObject();
+                moduleObject.addProperty("name", module.getName());
+                moduleObject.addProperty("active", module.isToggled());
+
+                module.getSettings().forEach(value -> moduleObject.addProperty(value.getValueName(), String.valueOf(value.getValue())));
+
+                jsonObject.add(module.getName(), moduleObject);
+            }
         }
 
         try {
@@ -111,31 +111,31 @@ public class ConfigManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-	}
-	
+    }
+
     public void saveConfig(ClientConfig clientConfig) {
-    	Eris.getInstance().notifications.send(new Notification("Saved " + clientConfig.getConfigName(), "Config", 2000));
+        Eris.getInstance().notifications.send(new Notification("Saved " + clientConfig.getConfigName(), "Config", 2000));
         Eris.getInstance().clickUI.reload(false);
         JsonObject jsonObject = new JsonObject();
-      for(Module module : Eris.getInstance().modules.getModules()) {
-    	  if (module.getCategory() != null) {
-      			JsonObject moduleObject = new JsonObject();
-      			moduleObject.addProperty("name", module.getName());
-      			moduleObject.addProperty("active", module.isToggled());
-      		
-      			module.getSettings().forEach(value -> moduleObject.addProperty(value.getValueName(), String.valueOf(value.getValue())));
-      		
-      			jsonObject.add(module.getName(), moduleObject);
-    	  }
-      }
-      
-      try {
-    	  FileWriter fileWriter = new FileWriter(clientConfig.getConfigFile());
-    	  fileWriter.write(new GsonBuilder().create().toJson(jsonObject));
-    	  fileWriter.close();
-      } catch (IOException e) {
-    	  e.printStackTrace();
-      }
+        for (Module module : Eris.getInstance().modules.getModules()) {
+            if (module.getCategory() != null) {
+                JsonObject moduleObject = new JsonObject();
+                moduleObject.addProperty("name", module.getName());
+                moduleObject.addProperty("active", module.isToggled());
+
+                module.getSettings().forEach(value -> moduleObject.addProperty(value.getValueName(), String.valueOf(value.getValue())));
+
+                jsonObject.add(module.getName(), moduleObject);
+            }
+        }
+
+        try {
+            FileWriter fileWriter = new FileWriter(clientConfig.getConfigFile());
+            fileWriter.write(new GsonBuilder().create().toJson(jsonObject));
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         configs.add(clientConfig);
     }
@@ -147,37 +147,37 @@ public class ConfigManager {
 
         JsonObject configurationObject = new GsonBuilder().create().fromJson(content, JsonObject.class);
 
-        for(Map.Entry<String, JsonElement> entry : configurationObject.entrySet()) {
+        for (Map.Entry<String, JsonElement> entry : configurationObject.entrySet()) {
             if (entry.getValue() instanceof JsonObject) {
                 JsonObject moduleObject = (JsonObject) entry.getValue();
 
-                for(Module module : Eris.getInstance().modules.getModules()) {
-                    if(module.getName().equalsIgnoreCase(moduleObject.get("name").getAsString()) && module.getCategory() != null) {
-                            if(moduleObject.get("active").getAsBoolean()) {
-                                module.toggle(false);
-                            } else {
-                                module.setToggled(false, false);
-                            }
-                        for(Value value : module.getSettings()) {
-                            if(moduleObject.get(value.getValueName()) != null) {
-                                if(value instanceof NumberValue) {
-                                    if(value.getValue() instanceof Double) {
+                for (Module module : Eris.getInstance().modules.getModules()) {
+                    if (module.getName().equalsIgnoreCase(moduleObject.get("name").getAsString()) && module.getCategory() != null) {
+                        if (moduleObject.get("active").getAsBoolean()) {
+                            module.toggle(false);
+                        } else {
+                            module.setToggled(false, false);
+                        }
+                        for (Value value : module.getSettings()) {
+                            if (moduleObject.get(value.getValueName()) != null) {
+                                if (value instanceof NumberValue) {
+                                    if (value.getValue() instanceof Double) {
                                         value.setValueObject(moduleObject.get(value.getValueName()).getAsDouble());
                                     }
-                                    if(value.getValue() instanceof Integer) {
+                                    if (value.getValue() instanceof Integer) {
                                         value.setValueObject(moduleObject.get(value.getValueName()).getAsInt());
                                     }
-                                    if(value.getValue() instanceof Float) {
+                                    if (value.getValue() instanceof Float) {
                                         value.setValueObject(moduleObject.get(value.getValueName()).getAsFloat());
                                     }
                                 }
-                                if(value instanceof BooleanValue) {
+                                if (value instanceof BooleanValue) {
                                     value.setValueObject(moduleObject.get(value.getValueName()).getAsBoolean());
                                 }
-                                if(value instanceof ModeValue) {
-                                    for(int i = 0;i < ((ModeValue) value).getModes().length;i++) {
-                                        if(((ModeValue) value).getModes()[i].name().equalsIgnoreCase(moduleObject.get(value.getValueName()).getAsString())) {
-                                             value.setValueObject(((ModeValue) value).getModes()[i]);
+                                if (value instanceof ModeValue) {
+                                    for (int i = 0; i < ((ModeValue) value).getModes().length; i++) {
+                                        if (((ModeValue) value).getModes()[i].name().equalsIgnoreCase(moduleObject.get(value.getValueName()).getAsString())) {
+                                            value.setValueObject(((ModeValue) value).getModes()[i]);
                                         }
                                     }
                                 }
@@ -188,14 +188,14 @@ public class ConfigManager {
             }
         }
     }
-    
+
     public void loadConfigs() {
         List<String> searchResult = new ArrayList<>();
-       	for (File file : Eris.getInstance().fileManager.configDir.listFiles()) {
-       		if (file.getName().endsWith(".eriscnf")) {
-       			searchResult.add(file.getName());
-       		}
-       	}
+        for (File file : Eris.getInstance().fileManager.configDir.listFiles()) {
+            if (file.getName().endsWith(".eriscnf")) {
+                searchResult.add(file.getName());
+            }
+        }
         for (String configName : searchResult) {
 
             this.configs.add(new ClientConfig(configName.replace(".eriscnf", "")));
@@ -203,8 +203,8 @@ public class ConfigManager {
     }
 
     public void deleteConfig(ClientConfig clientConfig) {
-        if(clientConfig.getConfigFile() != null) {
-            if(clientConfig.getConfigFile().delete()) {
+        if (clientConfig.getConfigFile() != null) {
+            if (clientConfig.getConfigFile().delete()) {
                 deleteConfig(clientConfig);
                 this.configs.remove(clientConfig);
                 loadConfigs();

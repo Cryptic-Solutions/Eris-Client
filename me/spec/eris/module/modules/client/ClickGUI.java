@@ -8,14 +8,14 @@ import me.spec.eris.module.Module;
 
 public class ClickGUI extends Module {
 
-	public ClickGUI() {
-		super("ClickGUI", Category.CLIENT);
-		this.setKey(Keyboard.KEY_RSHIFT, false);
-	}
+    public ClickGUI() {
+        super("ClickGUI", Category.CLIENT);
+        this.setKey(Keyboard.KEY_RSHIFT, false);
+    }
 
-	@Override
-	public void onEnable() {
-		this.setToggled(false, true);
-		mc.displayGuiScreen(Eris.instance.clickUI);
-	}
+    @Override
+    public void onEnable() {
+        this.setToggled(false, true);
+        mc.displayGuiScreen(Eris.instance.clickUI);
+    }
 }
