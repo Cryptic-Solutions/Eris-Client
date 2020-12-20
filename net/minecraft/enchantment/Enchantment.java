@@ -2,11 +2,9 @@ package net.minecraft.enchantment;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -15,28 +13,23 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-public abstract class Enchantment {
+public abstract class Enchantment
+{
     private static final Enchantment[] enchantmentsList = new Enchantment[256];
     public static final Enchantment[] enchantmentsBookList;
     private static final Map<ResourceLocation, Enchantment> locationEnchantments = Maps.<ResourceLocation, Enchantment>newHashMap();
     public static final Enchantment protection = new EnchantmentProtection(0, new ResourceLocation("protection"), 10, 0);
 
-    /**
-     * Protection against fire
-     */
+    /** Protection against fire */
     public static final Enchantment fireProtection = new EnchantmentProtection(1, new ResourceLocation("fire_protection"), 5, 1);
     public static final Enchantment featherFalling = new EnchantmentProtection(2, new ResourceLocation("feather_falling"), 5, 2);
 
-    /**
-     * Protection against explosions
-     */
+    /** Protection against explosions */
     public static final Enchantment blastProtection = new EnchantmentProtection(3, new ResourceLocation("blast_protection"), 2, 3);
     public static final Enchantment projectileProtection = new EnchantmentProtection(4, new ResourceLocation("projectile_protection"), 5, 4);
     public static final Enchantment respiration = new EnchantmentOxygen(5, new ResourceLocation("respiration"), 2);
 
-    /**
-     * Increases underwater mining rate
-     */
+    /** Increases underwater mining rate */
     public static final Enchantment aquaAffinity = new EnchantmentWaterWorker(6, new ResourceLocation("aqua_affinity"), 2);
     public static final Enchantment thorns = new EnchantmentThorns(7, new ResourceLocation("thorns"), 1);
     public static final Enchantment depthStrider = new EnchantmentWaterWalker(8, new ResourceLocation("depth_strider"), 2);
@@ -45,19 +38,13 @@ public abstract class Enchantment {
     public static final Enchantment baneOfArthropods = new EnchantmentDamage(18, new ResourceLocation("bane_of_arthropods"), 5, 2);
     public static final Enchantment knockback = new EnchantmentKnockback(19, new ResourceLocation("knockback"), 5);
 
-    /**
-     * Lights mobs on fire
-     */
+    /** Lights mobs on fire */
     public static final Enchantment fireAspect = new EnchantmentFireAspect(20, new ResourceLocation("fire_aspect"), 2);
 
-    /**
-     * Mobs have a chance to drop more loot
-     */
+    /** Mobs have a chance to drop more loot */
     public static final Enchantment looting = new EnchantmentLootBonus(21, new ResourceLocation("looting"), 2, EnumEnchantmentType.WEAPON);
 
-    /**
-     * Faster resource gathering while in use
-     */
+    /** Faster resource gathering while in use */
     public static final Enchantment efficiency = new EnchantmentDigging(32, new ResourceLocation("efficiency"), 10);
 
     /**
@@ -71,14 +58,10 @@ public abstract class Enchantment {
      */
     public static final Enchantment unbreaking = new EnchantmentDurability(34, new ResourceLocation("unbreaking"), 5);
 
-    /**
-     * Can multiply the drop rate of items from blocks
-     */
+    /** Can multiply the drop rate of items from blocks */
     public static final Enchantment fortune = new EnchantmentLootBonus(35, new ResourceLocation("fortune"), 2, EnumEnchantmentType.DIGGER);
 
-    /**
-     * Power enchantment for bows, add's extra damage to arrows.
-     */
+    /** Power enchantment for bows, add's extra damage to arrows. */
     public static final Enchantment power = new EnchantmentArrowDamage(48, new ResourceLocation("power"), 10);
 
     /**
@@ -101,33 +84,34 @@ public abstract class Enchantment {
     public final int effectId;
     private final int weight;
 
-    /**
-     * The EnumEnchantmentType given to this Enchantment.
-     */
+    /** The EnumEnchantmentType given to this Enchantment. */
     public EnumEnchantmentType type;
 
-    /**
-     * Used in localisation and stats.
-     */
+    /** Used in localisation and stats. */
     protected String name;
 
     /**
      * Retrieves an Enchantment from the enchantmentsList
-     *
+     *  
      * @param enchID The numeric ID, used to represent an enchantment.
      */
-    public static Enchantment getEnchantmentById(int enchID) {
+    public static Enchantment getEnchantmentById(int enchID)
+    {
         return enchID >= 0 && enchID < enchantmentsList.length ? enchantmentsList[enchID] : null;
     }
 
-    protected Enchantment(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType) {
+    protected Enchantment(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType)
+    {
         this.effectId = enchID;
         this.weight = enchWeight;
         this.type = enchType;
 
-        if (enchantmentsList[enchID] != null) {
+        if (enchantmentsList[enchID] != null)
+        {
             throw new IllegalArgumentException("Duplicate enchantment id!");
-        } else {
+        }
+        else
+        {
             enchantmentsList[enchID] = this;
             locationEnchantments.put(enchName, this);
         }
@@ -136,11 +120,13 @@ public abstract class Enchantment {
     /**
      * Retrieves an enchantment by using its location name.
      */
-    public static Enchantment getEnchantmentByLocation(String location) {
-        return (Enchantment) locationEnchantments.get(new ResourceLocation(location));
+    public static Enchantment getEnchantmentByLocation(String location)
+    {
+        return (Enchantment)locationEnchantments.get(new ResourceLocation(location));
     }
 
-    public static Set<ResourceLocation> func_181077_c() {
+    public static Set<ResourceLocation> func_181077_c()
+    {
         return locationEnchantments.keySet();
     }
 
@@ -148,75 +134,84 @@ public abstract class Enchantment {
      * Retrieves the weight value of an Enchantment. This weight value is used within vanilla to determine how rare an
      * enchantment is.
      */
-    public int getWeight() {
+    public int getWeight()
+    {
         return this.weight;
     }
 
     /**
      * Returns the minimum level that the enchantment can have.
      */
-    public int getMinLevel() {
+    public int getMinLevel()
+    {
         return 1;
     }
 
     /**
      * Returns the maximum level that the enchantment can have.
      */
-    public int getMaxLevel() {
+    public int getMaxLevel()
+    {
         return 1;
     }
 
     /**
      * Returns the minimal value of enchantability needed on the enchantment level passed.
      */
-    public int getMinEnchantability(int enchantmentLevel) {
+    public int getMinEnchantability(int enchantmentLevel)
+    {
         return 1 + enchantmentLevel * 10;
     }
 
     /**
      * Returns the maximum value of enchantability nedded on the enchantment level passed.
      */
-    public int getMaxEnchantability(int enchantmentLevel) {
+    public int getMaxEnchantability(int enchantmentLevel)
+    {
         return this.getMinEnchantability(enchantmentLevel) + 5;
     }
 
     /**
      * Calculates the damage protection of the enchantment based on level and damage source passed.
-     *
-     * @param level  The level of this enchantment.
+     *  
+     * @param level The level of this enchantment.
      * @param source The source of the damage.
      */
-    public int calcModifierDamage(int level, DamageSource source) {
+    public int calcModifierDamage(int level, DamageSource source)
+    {
         return 0;
     }
 
     /**
      * Calculates the additional damage that will be dealt by an item with this enchantment. This alternative to
      * calcModifierDamage is sensitive to the targets EnumCreatureAttribute.
-     *
-     * @param level        The level of this specific enchantment.
+     *  
+     * @param level The level of this specific enchantment.
      * @param creatureType The EnumCreatureAttribute which represents the target entity. This can be used to have an
-     *                     effect only apply to a specific group of creatures such as Undead or Arthropods.
+     * effect only apply to a specific group of creatures such as Undead or Arthropods.
      */
-    public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
+    public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType)
+    {
         return 0.0F;
     }
 
     /**
      * Determines if the enchantment passed can be applyied together with this enchantment.
-     *
+     *  
      * @param ench A possible enchantment that may be applied along side this enchantment, depending on the results.
      */
-    public boolean canApplyTogether(Enchantment ench) {
+    public boolean canApplyTogether(Enchantment ench)
+    {
         return this != ench;
     }
 
     /**
      * Sets the enchantment name
-     *
+     *  
      * @param enchName The simple name for this enchantment.
      */
-    public Enchantment setName(String enchName) {
+    public Enchantment setName(String enchName)
+    {
         this.name = enchName;
         return this;
     }
@@ -224,60 +219,68 @@ public abstract class Enchantment {
     /**
      * Return the name of key in translation table of this enchantment.
      */
-    public String getName() {
+    public String getName()
+    {
         return "enchantment." + this.name;
     }
 
     /**
      * Returns the correct traslated name of the enchantment and the level in roman numbers.
-     *
+     *  
      * @param level The level of this enchantment, used to create a roman numeral representation of the enchantments
-     *              tier.
+     * tier.
      */
-    public String getTranslatedName(int level) {
+    public String getTranslatedName(int level)
+    {
         String s = StatCollector.translateToLocal(this.getName());
         return s + " " + StatCollector.translateToLocal("enchantment.level." + level);
     }
 
     /**
      * Determines if this enchantment can be applied to a specific ItemStack.
-     *
+     *  
      * @param stack The ItemStack that is attempting to become enchanted with with enchantment.
      */
-    public boolean canApply(ItemStack stack) {
+    public boolean canApply(ItemStack stack)
+    {
         return this.type.canEnchantItem(stack.getItem());
     }
 
     /**
      * Called whenever a mob is damaged with an item that has this enchantment on it.
-     *
-     * @param user   An instance of the entity which used the enchantment. This is normally an EntityPlayer.
+     *  
+     * @param user An instance of the entity which used the enchantment. This is normally an EntityPlayer.
      * @param target An instance of the damaged entity.
-     * @param level  The level of the enchantment used.
+     * @param level The level of the enchantment used.
      */
-    public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {
+    public void onEntityDamaged(EntityLivingBase user, Entity target, int level)
+    {
     }
 
     /**
      * Whenever an entity that has this enchantment on one of its associated items is damaged this method will be
      * called.
-     *
-     * @param user     An instance of the entity that is associated with this enchantment.
+     *  
+     * @param user An instance of the entity that is associated with this enchantment.
      * @param attacker An instance of the entity that has attacked the using entity.
-     * @param level    The level of the enchantment used.
+     * @param level The level of the enchantment used.
      */
-    public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {
+    public void onUserHurt(EntityLivingBase user, Entity attacker, int level)
+    {
     }
 
-    static {
+    static
+    {
         List<Enchantment> list = Lists.<Enchantment>newArrayList();
 
-        for (Enchantment enchantment : enchantmentsList) {
-            if (enchantment != null) {
+        for (Enchantment enchantment : enchantmentsList)
+        {
+            if (enchantment != null)
+            {
                 list.add(enchantment);
             }
         }
 
-        enchantmentsBookList = (Enchantment[]) list.toArray(new Enchantment[list.size()]);
+        enchantmentsBookList = (Enchantment[])list.toArray(new Enchantment[list.size()]);
     }
 }

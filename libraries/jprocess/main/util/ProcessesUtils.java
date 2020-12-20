@@ -32,13 +32,13 @@ import java.util.logging.Logger;
  * Utility methods
  *
  * @author Javier Garcia Alonso
- */
+ */ 
 public class ProcessesUtils {
 
     private static final String CRLF = "\r\n";
     private static String customDateFormat;
     private static Locale customLocale;
-
+  
 
     //Hide constructor
     private ProcessesUtils() {
@@ -110,9 +110,11 @@ public class ProcessesUtils {
      * Parse Window DateTime format to time format (hh:mm:ss).
      *
      * @param dateTime original datetime format
-     * @return string with formatted time (hh:mm:ss)
-     * @see <a href="https://msdn.microsoft.com/fr-fr/library/windows/desktop/aa387237(v=vs.85).aspx">
+     * @see
+     * <a href="https://msdn.microsoft.com/fr-fr/library/windows/desktop/aa387237(v=vs.85).aspx">
      * https://msdn.microsoft.com/fr-fr/library/windows/desktop/aa387237(v=vs.85).aspx</a>
+     *
+     * @return string with formatted time (hh:mm:ss)
      */
     public static String parseWindowsDateTimeToSimpleTime(String dateTime) {
         String returnedDate = dateTime;
@@ -130,9 +132,11 @@ public class ProcessesUtils {
      * Parse Window DateTime format to time format (MM/dd/yyyy hh:mm:ss)
      *
      * @param dateTime original datetime format
-     * @return string with formatted time (mm/dd/yyyy HH:mm:ss)
-     * @see <a href="https://msdn.microsoft.com/fr-fr/library/windows/desktop/aa387237(v=vs.85).aspx">
+     * @see
+     * <a href="https://msdn.microsoft.com/fr-fr/library/windows/desktop/aa387237(v=vs.85).aspx">
      * https://msdn.microsoft.com/fr-fr/library/windows/desktop/aa387237(v=vs.85).aspx</a>
+     *
+     * @return string with formatted time (mm/dd/yyyy HH:mm:ss)
      */
     public static String parseWindowsDateTimeToFullDate(String dateTime) {
         String returnedDate = dateTime;
@@ -155,6 +159,7 @@ public class ProcessesUtils {
      * MM/dd/yyyy HH:mm:ss
      *
      * @param longFormatDate original datetime format
+     *
      * @return string with formatted date and time (mm/dd/yyyy HH:mm:ss)
      */
     public static String parseUnixLongTimeToFullDate(String longFormatDate) throws ParseException {
@@ -162,17 +167,17 @@ public class ProcessesUtils {
         List<String> formatsToTry = new ArrayList<String>();
         formatsToTry.addAll(Arrays.asList("MMM dd HH:mm:ss yyyy", "dd MMM HH:mm:ss yyyy"));
         List<Locale> localesToTry = new ArrayList<Locale>();
-        localesToTry.addAll(Arrays.asList(Locale.getDefault(),
-                Locale.getDefault(Locale.Category.FORMAT),
-                Locale.ENGLISH)
+        localesToTry.addAll(Arrays.asList(Locale.getDefault(), 
+            Locale.getDefault(Locale.Category.FORMAT), 
+            Locale.ENGLISH)
         );
-        if (getCustomDateFormat() != null) {
+        if (getCustomDateFormat() != null) {           
             formatsToTry.add(0, getCustomDateFormat());
         }
         if (getCustomLocale() != null) {
             localesToTry.add(0, getCustomLocale());
         }
-
+      
         ParseException lastException = null;
         for (Locale locale : localesToTry) {
             for (String format : formatsToTry) {
@@ -184,19 +189,18 @@ public class ProcessesUtils {
                 }
             }
         }
-        throw lastException;
+        throw lastException; 
     }
-
+    
     public static String getCustomDateFormat() {
         return customDateFormat;
     }
-
+  
     /**
      * Custom date format to be used when parsing date string in "ps" output<br>
      * NOTE: We assume 5 space separated fields for date, where we pass the last 4 to the parser, e.g.
      * for input text <code>søn 23 okt 08:30:00 2016</code> we would send <code>23 okt 08:30:00 2016</code>
      * to the parser, so a pattern <code>dd MMM HH:mm:ss yyyy</code> would work.
-     *
      * @param dateFormat the custom date format string to use
      */
     public static void setCustomDateFormat(String dateFormat) {
@@ -204,15 +208,14 @@ public class ProcessesUtils {
     }
 
     public static Locale getCustomLocale() {
-        return customLocale;
+      return customLocale;
     }
 
     /**
      * Sets a custom locale if the defaults won't parse your ps output
-     *
      * @param customLocale the Locale object to use
      */
     public static void setCustomLocale(Locale customLocale) {
         ProcessesUtils.customLocale = customLocale;
-    }
+      }
 }

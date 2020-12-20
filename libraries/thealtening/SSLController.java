@@ -37,7 +37,7 @@ public final class SSLController {
         try {
             sc = SSLContext.getInstance("SSL");
             sc.init(null, ALL_TRUSTING_TRUST_MANAGER, new SecureRandom());
-        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+        }catch (NoSuchAlgorithmException | KeyManagementException e) {
             e.printStackTrace();
         }
 
@@ -60,17 +60,13 @@ public final class SSLController {
     }
 
     static {
-        ALL_TRUSTING_TRUST_MANAGER = new TrustManager[]{
+        ALL_TRUSTING_TRUST_MANAGER = new TrustManager[] {
                 new X509TrustManager() {
                     public X509Certificate[] getAcceptedIssuers() {
                         return null;
                     }
-
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                    }
-
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                    }
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {}
                 }
         };
 

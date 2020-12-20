@@ -1,5 +1,6 @@
 package net.optifine.expr;
 
-public interface IExpressionCached {
+public interface IExpressionCached
+{
     void reset();
 }

@@ -1,4 +1,5 @@
 package net.minecraftforge.client.model;
 
-public interface IModelPart {
+public interface IModelPart
+{
 }

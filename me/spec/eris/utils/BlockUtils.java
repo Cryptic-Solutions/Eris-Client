@@ -70,7 +70,6 @@ public class BlockUtils {
         return getBlockAtPos(
                 new BlockPos(inPlayer.posX, (inPlayer.posY + (mc.thePlayer.motionY + 0.1D)) - 1D, inPlayer.posZ));
     }
-
     public static float getHorizontalPlayerBlockDistance(BlockPos blockPos) {
         float xDiff = (float) (mc.thePlayer.posX - blockPos.getX());
         float zDiff = (float) (mc.thePlayer.posZ - blockPos.getZ());

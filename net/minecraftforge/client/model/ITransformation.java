@@ -3,7 +3,8 @@ package net.minecraftforge.client.model;
 import libraries.vecmath.Matrix4f;
 import net.minecraft.util.EnumFacing;
 
-public interface ITransformation {
+public interface ITransformation
+{
     Matrix4f getMatrix();
 
     EnumFacing rotate(EnumFacing var1);

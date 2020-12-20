@@ -31,51 +31,51 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class HUD extends Module {
-    public HUD() {
-        super("HUD", Category.RENDER);
-    }
+	public HUD() {
+		super("HUD", Category.RENDER);
+	} 
 
-    private int y;
-    private static TTFFontRenderer fontRender;
+	private int y;
+	private static TTFFontRenderer fontRender;
+	
+	public static TTFFontRenderer getFont() {
+		if (fontRender == null) {
+			fontRender = Eris.instance.fontManager.getFont("SFUI 18");
+		}
+		return fontRender;
+	}
+	
+	@Override
+	public void onEvent(Event e) {
+		if (e instanceof EventRender2D) {
 
-    public static TTFFontRenderer getFont() {
-        if (fontRender == null) {
-            fontRender = Eris.instance.fontManager.getFont("SFUI 18");
-        }
-        return fontRender;
-    }
+			ScaledResolution scaledResolution = new ScaledResolution(mc);
+			mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getInstance().getClientColor().getRGB());
 
-    @Override
-    public void onEvent(Event e) {
-        if (e instanceof EventRender2D) {
+			List<Module> mods = Eris.getInstance().modules.getModulesForRender(); 
 
-            ScaledResolution scaledResolution = new ScaledResolution(mc);
-            mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getInstance().getClientColor().getRGB());
+			mods.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
+			if (!mods.isEmpty()) {
+				y = 0;
+				mods.forEach(mod -> { 
+					String name = mod.getFullModuleDisplayName(); 
+					getFont().drawStringWithShadow(name, scaledResolution.getScaledWidth() - getFont().getStringWidth(name), y, new Color(255,0,0).getRGB());
+					y += getFont().getHeight(name);
+				});
 
-            List<Module> mods = Eris.getInstance().modules.getModulesForRender();
+				
+			}
+			renderPotions();
+		}
+	}
 
-            mods.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
-            if (!mods.isEmpty()) {
-                y = 0;
-                mods.forEach(mod -> {
-                    String name = mod.getFullModuleDisplayName();
-                    getFont().drawStringWithShadow(name, scaledResolution.getScaledWidth() - getFont().getStringWidth(name), y, new Color(255, 0, 0).getRGB());
-                    y += getFont().getHeight(name);
-                });
-
-
-            }
-            renderPotions();
-        }
-    }
-
-
-    public void renderPotions() {
-        ScaledResolution scaledResolution = new ScaledResolution(mc);
+	
+	public void renderPotions() {
+		ScaledResolution scaledResolution = new ScaledResolution(mc);
         GL11.glPushMatrix();
         int size = 16;
         float x = 37;
-        float y = (scaledResolution.getScaledHeight() - (230) - size * 2) - 5;
+        float y = (scaledResolution.getScaledHeight() - (230)- size * 2) - 5;
         Collection var4 = this.mc.thePlayer.getActivePotionEffects();
         int i = 0;
         if (!var4.isEmpty()) {
@@ -94,15 +94,14 @@ public class HUD extends Module {
             }
         }
         GL11.glPopMatrix();
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-    }
-
-    @Override
-    public void onEnable() {
-        super.onEnable();
-    }
+	}
+	
+	@Override
+	public void onDisable() { 
+		super.onDisable();
+	}
+	@Override
+	public void onEnable() {
+		super.onEnable();
+	}
 }

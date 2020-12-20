@@ -2,14 +2,17 @@ package net.optifine.reflect;
 
 import java.lang.reflect.Field;
 
-public class FieldLocatorFixed implements IFieldLocator {
+public class FieldLocatorFixed implements IFieldLocator
+{
     private Field field;
 
-    public FieldLocatorFixed(Field field) {
+    public FieldLocatorFixed(Field field)
+    {
         this.field = field;
     }
 
-    public Field getField() {
+    public Field getField()
+    {
         return this.field;
     }
 }

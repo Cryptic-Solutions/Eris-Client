@@ -1,6 +1,7 @@
 package net.minecraft.inventory;
 
-public interface IInvBasic {
+public interface IInvBasic
+{
     /**
      * Called by InventoryBasic.onInventoryChanged() on a array that is never filled.
      */

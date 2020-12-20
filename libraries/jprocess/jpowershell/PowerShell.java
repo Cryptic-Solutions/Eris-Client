@@ -121,8 +121,8 @@ public class PowerShell implements AutoCloseable {
      * @return an instance of the class
      * @throws PowerShellNotAvailableException if PowerShell is not installed in the system
      */
-    public static PowerShell openSession(String customPowerShellExecutablePath) throws PowerShellNotAvailableException {
-        PowerShell powerShell = new PowerShell();
+    public static PowerShell openSession(String customPowerShellExecutablePath) throws PowerShellNotAvailableException { 
+		PowerShell powerShell = new PowerShell();
 
         // Start with default configuration
         powerShell.configuration(null);
@@ -296,7 +296,7 @@ public class PowerShell implements AutoCloseable {
      * @param scriptPath the full path of the script
      * @param params     the parameters of the script
      * @return response with the output of the command
-     */
+     */ 
     public PowerShellResponse executeScript(String scriptPath, String params) {
         try (BufferedReader srcReader = new BufferedReader(new FileReader(new File(scriptPath)))) {
             return executeScript(srcReader, params);

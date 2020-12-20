@@ -3,7 +3,8 @@ package net.minecraft.tileentity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.world.World;
 
-public interface IHopper extends IInventory {
+public interface IHopper extends IInventory
+{
     /**
      * Returns the worldObj for this tileEntity.
      */

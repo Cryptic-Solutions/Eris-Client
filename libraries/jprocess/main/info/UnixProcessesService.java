@@ -40,14 +40,14 @@ class UnixProcessesService extends AbstractProcessesService {
 
     private static final int PS_COLUMNS_SIZE = PS_COLUMNS.split(",").length;
     private static final int PS_FULL_COMMAND_SIZE = PS_FULL_COMMAND.split(",").length;
-
+    
     private String nameFilter = null;
 
     @Override
     protected List<Map<String, String>> parseList(String rawData) {
         List<Map<String, String>> processesDataList = new ArrayList<Map<String, String>>();
         String[] dataStringLines = rawData.split("\\r?\\n");
-
+        
         int index;
         for (final String dataLine : dataStringLines) {
             String line = dataLine.trim();
@@ -64,13 +64,13 @@ class UnixProcessesService extends AbstractProcessesService {
                 element.put("physical_memory", elements[index++]);
                 element.put("cpu_usage", elements[index++]);
                 index++; // Skip weekday
-                String longDate = elements[index++] + " "
-                        + elements[index++] + " "
-                        + elements[index++] + " "
-                        + elements[index++];
+                String longDate = elements[index++] + " " 
+                                + elements[index++] + " " 
+                                + elements[index++]+ " " 
+                                + elements[index++];                
                 element.put("start_time", elements[index - 2]);
                 try {
-                    element.put("start_datetime",
+                    element.put("start_datetime", 
                             ProcessesUtils.parseUnixLongTimeToFullDate(longDate));
                 } catch (ParseException e) {
                     element.put("start_datetime", "01/01/2000 00:00:00");
@@ -78,7 +78,7 @@ class UnixProcessesService extends AbstractProcessesService {
                 }
                 element.put("proc_time", elements[index++]);
                 element.put("priority", elements[index++]);
-                element.put("proc_name", elements[index++]);
+                element.put("proc_name", elements[index++]);                
                 // first init full command by content of proc_name
                 element.put("command", elements[index - 1]);
 
@@ -134,16 +134,16 @@ class UnixProcessesService extends AbstractProcessesService {
         }
         return response;
     }
-
+    
     public ProcessInfo getProcess(int pid) {
-        return getProcess(pid, false);
+        return getProcess (pid, false);
     }
 
     public ProcessInfo getProcess(int pid, boolean fastMode) {
         this.fastMode = fastMode;
         List<Map<String, String>> processList
                 = parseList(ProcessesUtils.executeCommand("ps",
-                "-o", PS_COLUMNS, "-p", String.valueOf(pid)));
+                                "-o", PS_COLUMNS, "-p", String.valueOf(pid)));
 
         if (processList != null && !processList.isEmpty()) {
             Map<String, String> processData = processList.get(0);
@@ -185,8 +185,8 @@ class UnixProcessesService extends AbstractProcessesService {
             }
         }
     }
-
-
+    
+    
     private void filterByName(List<Map<String, String>> processesDataList) {
         List<Map<String, String>> processesToRemove = new ArrayList<Map<String, String>>();
         for (final Map<String, String> process : processesDataList) {
@@ -195,5 +195,5 @@ class UnixProcessesService extends AbstractProcessesService {
             }
         }
         processesDataList.removeAll(processesToRemove);
-    }
+    }    
 }

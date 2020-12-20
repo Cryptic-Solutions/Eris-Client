@@ -11,7 +11,7 @@ import me.spec.eris.module.Module;
  * Project: Client
  */
 public class Value<T> {
-    private String description = "";
+	private String description = "";
     private String valueName;
     private Supplier supplier;
     private T valueObject;
@@ -21,43 +21,43 @@ public class Value<T> {
     public Value(String valueName, T defaultValueObject, Module parent, Supplier supplier, String description) {
         this.supplier = supplier;
         this.valueName = valueName;
-        this.description = description;
+    	this.description = description;
         this.defaultValueObject = defaultValueObject;
         this.parent = parent;
-        if (valueObject == null) {
+        if(valueObject == null) {
             valueObject = defaultValueObject;
         }
         parent.addSetting(this);
     }
-
+    
     public Value(String valueName, T defaultValueObject, Module parent, Supplier supplier) {
         this.supplier = supplier;
         this.valueName = valueName;
         this.defaultValueObject = defaultValueObject;
         this.parent = parent;
-        if (valueObject == null) {
+        if(valueObject == null) {
             valueObject = defaultValueObject;
         }
         parent.addSetting(this);
     }
-
+    
     public Value(String valueName, T defaultValueObject, Module parent) {
         this.supplier = null;
         this.valueName = valueName;
         this.defaultValueObject = defaultValueObject;
         this.parent = parent;
-        if (valueObject == null) {
+        if(valueObject == null) {
             valueObject = defaultValueObject;
         }
         parent.addSetting(this);
     }
-
+    
     public String getDescription() {
-        return description;
+    	return description;
     }
-
+    
     public boolean checkDependants() {
-        return supplier == null ? true : (Boolean) supplier.get();
+    	return supplier == null ? true : (Boolean)supplier.get();
     }
 
     public String getValueName() {
