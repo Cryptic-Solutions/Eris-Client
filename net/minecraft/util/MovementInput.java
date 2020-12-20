@@ -1,7 +1,6 @@
 package net.minecraft.util;
 
-public class MovementInput
-{
+public class MovementInput {
     /**
      * The speed at which the player is strafing. Postive numbers to the left and negative to the right.
      */
@@ -14,15 +13,14 @@ public class MovementInput
     public static boolean jump;
     public static boolean sneak;
 
-    public void updatePlayerMoveState()
-    {
+    public void updatePlayerMoveState() {
     }
 
-	public double getForward() {
-		return moveForward;
-	}
+    public double getForward() {
+        return moveForward;
+    }
 
-	public double getStrafe() {
-		return moveStrafe;
-	}
+    public double getStrafe() {
+        return moveStrafe;
+    }
 }

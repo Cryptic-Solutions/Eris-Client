@@ -19,30 +19,28 @@ public class GuiTheAltening extends GuiScreen {
     private final GuiScreen previousScreen;
     private AltLoginThread thread;
     private GuiTextField token;
-    
+
     protected Minecraft mc = Minecraft.getMinecraft();
-    
+
     public GuiTheAltening(final GuiScreen previousScreen) {
         this.previousScreen = previousScreen;
     }
-    
+
     @Override
     protected void actionPerformed(final GuiButton button) throws IOException {
         switch (button.id) {
             case 1: {
-               	mc.displayGuiScreen(this.previousScreen);
+                mc.displayGuiScreen(this.previousScreen);
                 break;
             }
             case 0: {
                 if (this.token.getText().isEmpty()) {
                     this.thread = new AltLoginThread(this.token.getText(), "Mantics", false);
-                }
-                else if (!this.token.getText().isEmpty() && this.token.getText().contains(":")) {
+                } else if (!this.token.getText().isEmpty() && this.token.getText().contains(":")) {
                     final String u = this.token.getText().split(":")[0];
                     final String p = this.token.getText().split(":")[1];
                     this.thread = new AltLoginThread(u.replaceAll(" ", ""), p.replaceAll(" ", ""), false);
-                }
-                else {
+                } else {
                     this.thread = new AltLoginThread(this.token.getText(), "Explicit", false);
                 }
                 this.thread.start();
@@ -51,10 +49,10 @@ public class GuiTheAltening extends GuiScreen {
             case 2: {
                 Eris.instance.alteningAPI = api.getText();
                 Thread t = new Thread(new Runnable() {
-					@Override
-					public void run() {
-						Eris.instance.fileManager.saveDataFile();
-					}
+                    @Override
+                    public void run() {
+                        Eris.instance.fileManager.saveDataFile();
+                    }
                 });
                 t.start();
                 theAltening(false, this);
@@ -62,37 +60,35 @@ public class GuiTheAltening extends GuiScreen {
             }
         }
     }
-    
-    public void theAltening(boolean usingReconnect, GuiScreen oldOne) throws IOException
-    {		
-    	String token = getToken();
+
+    public void theAltening(boolean usingReconnect, GuiScreen oldOne) throws IOException {
+        String token = getToken();
         this.thread = new AltLoginThread(token, "Emilio", false);
         this.thread.start();
     }
-    
-    
-	public String getToken() throws IOException
-	{
-		String text;
-		if (Eris.instance.alteningAPI != null && Eris.instance.alteningAPI != "" && (api == null || api.getText() == null || api.getText() == "")) {
-			text = Eris.instance.alteningAPI;
-		} else {
-			text = api.getText();
-		}
-		int startChar = 10;
-		int endChar = 29;
-		BufferedReader br = null;
-		String token = "";
-		String _line = "";
-		URL url = new URL("http://api.thealtening.com/v1/generate?token=");
+
+
+    public String getToken() throws IOException {
+        String text;
+        if (Eris.instance.alteningAPI != null && Eris.instance.alteningAPI != "" && (api == null || api.getText() == null || api.getText() == "")) {
+            text = Eris.instance.alteningAPI;
+        } else {
+            text = api.getText();
+        }
+        int startChar = 10;
+        int endChar = 29;
+        BufferedReader br = null;
+        String token = "";
+        String _line = "";
+        URL url = new URL("http://api.thealtening.com/v1/generate?token=");
         try {
-        	System.out.println(text);
+            System.out.println(text);
             url = new URL("http://api.thealtening.com/v1/generate?token=" + text);
             br = new BufferedReader(new InputStreamReader(url.openStream()));
             String line = br.readLine();
             _line = line;
             for (int k = 0; k < (endChar - startChar); k++) {
-            	token = token + line.charAt(startChar + k);
+                token = token + line.charAt(startChar + k);
             }
         } finally {
             if (br != null) {
@@ -101,25 +97,25 @@ public class GuiTheAltening extends GuiScreen {
         }
         System.out.println(_line);
         System.out.println(token);
-		return token;
-	}
-    
+        return token;
+    }
+
     @Override
     public void drawScreen(final int x, final int y, final float z) {
-    	this.drawDefaultBackground();
+        this.drawDefaultBackground();
         this.api.drawTextBox();
         this.token.drawTextBox();
         mc.fontRendererObj.drawCenteredString("Alt Login", this.width / 2, 20, -1);
-        mc.fontRendererObj.drawCenteredString((this.thread == null) ? "§eWaiting..." : this.thread.getStatus(), this.width / 2, 29, -1);
+        mc.fontRendererObj.drawCenteredString((this.thread == null) ? "ï¿½eWaiting..." : this.thread.getStatus(), this.width / 2, 29, -1);
         if (this.api.getText().isEmpty()) {
-            mc.fontRendererObj.drawStringWithShadow("API", (float)(this.width / 2 - 94), 106.0f, -7829368);
+            mc.fontRendererObj.drawStringWithShadow("API", (float) (this.width / 2 - 94), 106.0f, -7829368);
         }
         if (this.token.getText().isEmpty()) {
-            mc.fontRendererObj.drawStringWithShadow("Token", (float)(this.width / 2 - 94), 156.0f, -7829368);
+            mc.fontRendererObj.drawStringWithShadow("Token", (float) (this.width / 2 - 94), 156.0f, -7829368);
         }
         super.drawScreen(x, y, z);
     }
-    
+
     @Override
     public void initGui() {
         final int var3 = this.height / 4 + 24;
@@ -131,16 +127,15 @@ public class GuiTheAltening extends GuiScreen {
         this.api.setFocused(true);
         Keyboard.enableRepeatEvents(true);
         if (!Eris.instance.alteningAPI.equals("")) {
-        	api.setText(Eris.instance.alteningAPI);
+            api.setText(Eris.instance.alteningAPI);
         }
     }
-    
+
     @Override
     protected void keyTyped(final char character, final int key) throws IOException {
         try {
             super.keyTyped(character, key);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         if (character == '\t' && (this.api.isFocused() || this.token.isFocused())) {
@@ -153,31 +148,30 @@ public class GuiTheAltening extends GuiScreen {
         this.api.textboxKeyTyped(character, key);
         this.token.textboxKeyTyped(character, key);
     }
-    
+
     @Override
     protected void mouseClicked(final int x, final int y, final int button) {
         try {
             super.mouseClicked(x, y, button);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         this.api.mouseClicked(x, y, button);
         this.api.mouseClicked(x, y, button);
         this.token.mouseClicked(x, y, button);
     }
-    
+
     @Override
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
-    
+
     @Override
     public void updateScreen() {
         this.api.updateCursorCounter();
         this.api.updateCursorCounter();
         this.token.updateCursorCounter();
     }
-    
-    
+
+
 }

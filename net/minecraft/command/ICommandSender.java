@@ -6,8 +6,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public interface ICommandSender
-{
+public interface ICommandSender {
     /**
      * Gets the name of this command sender (usually username, but possibly "Rcon")
      */
@@ -20,15 +19,15 @@ public interface ICommandSender
 
     /**
      * Send a chat message to the CommandSender
-     *  
+     *
      * @param component The ChatComponent to send
      */
     void addChatMessage(IChatComponent component);
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
-     *  
-     * @param permLevel The permission level required to execute the command
+     *
+     * @param permLevel   The permission level required to execute the command
      * @param commandName The name of the command
      */
     boolean canCommandSenderUseCommand(int permLevel, String commandName);
