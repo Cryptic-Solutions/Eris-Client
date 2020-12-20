@@ -15,17 +15,17 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 
 public class InventoryUtils {
-	public static boolean busy;
+    public static boolean busy;
     public static Minecraft mc = Minecraft.getMinecraft();
 
-	public static boolean isHoldingSword() {
+    public static boolean isHoldingSword() {
         if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() != null
                 && Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getItem() instanceof ItemSword) {
             return true;
         }
         return false;
     }
-    
+
     public static boolean isContainerFull(Container container) {
         boolean full = true;
         for (Slot slot : container.inventorySlots) {
@@ -84,133 +84,133 @@ public class InventoryUtils {
         return armorItem.damageReduceAmount + ((6 + protectionLevel * protectionLevel) * 0.75 / 3);
 
     }
-    
 
-	public static int getSwordSlot() {
-		if (mc.thePlayer == null) {
-			return -1;
-		}
-		
-		int bestSword = -1;
-		float bestDamage = 1F;
-		
-		for (int i = 9; i < 45; ++i) {
+
+    public static int getSwordSlot() {
+        if (mc.thePlayer == null) {
+            return -1;
+        }
+
+        int bestSword = -1;
+        float bestDamage = 1F;
+
+        for (int i = 9; i < 45; ++i) {
             if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
                 final ItemStack item = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-    	    	if (item != null) {
-    	    		if (item.getItem() instanceof ItemSword) {
-    	    			ItemSword is = (ItemSword) item.getItem();
-    	    			float damage = is.getDamageVsEntity();
-    	    	    	damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, item) * 1.26F + 
-    	    	    			EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, item) * 0.01f;
-    			    	if (damage > bestDamage) {
-    			    		bestDamage = damage;
-    			    		bestSword = i;
-    			    	}
-    	    		}
-    	    	}
+                if (item != null) {
+                    if (item.getItem() instanceof ItemSword) {
+                        ItemSword is = (ItemSword) item.getItem();
+                        float damage = is.getDamageVsEntity();
+                        damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, item) * 1.26F +
+                                EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, item) * 0.01f;
+                        if (damage > bestDamage) {
+                            bestDamage = damage;
+                            bestSword = i;
+                        }
+                    }
+                }
             }
-		}
-		return bestSword;
-	}
-	
-	public static int getEmptyHotbarSlot() {
+        }
+        return bestSword;
+    }
+
+    public static int getEmptyHotbarSlot() {
         for (int k = 0; k < 9; ++k) {
             if (mc.thePlayer.inventory.mainInventory[k] == null) {
                 return k;
             }
         }
-		return -1;
-	}
-	
-	public static int getPickaxeSlot() {
-		if (mc.thePlayer == null) {
-			return -1;
-		}
-		
-		int bestSword = -1;
-		float bestDamage = 1F;
-		
-		for (int i = 9; i < 45; ++i) {
-            if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
-                final ItemStack item = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-    	    	if (item != null) {
-    	    		if (item.getItem() instanceof ItemPickaxe) {
-    	    			ItemPickaxe is = (ItemPickaxe) item.getItem();
-    	    			float damage = is.getStrVsBlock(item, Block.getBlockById(4));
-    			    	if (damage > bestDamage) {
-    			    		bestDamage = damage;
-    			    		bestSword = i;
-    			    	}
-    	    		}
-    	    	}
-            }
-	    }
-		return bestSword;
-	}
-	
-	public static int getAxeSlot() {
-		if (mc.thePlayer == null) {
-			return -1;
-		}
-		
-		int bestSword = -1;
-		float bestDamage = 1F;
-		
-		for (int i = 9; i < 45; ++i) {
-            if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
-                final ItemStack item = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-    	    	if (item != null) {
-    	    		if (item.getItem() instanceof ItemAxe) {
-    	    			ItemAxe is = (ItemAxe) item.getItem();
-    	    			float damage = is.getStrVsBlock(item, Block.getBlockById(17));
-    			    	if (damage > bestDamage) {
-    			    		bestDamage = damage;
-    			    		bestSword = i;
-    			    	}
-    	    		}
-    	    	}
-            }
-	    }
-		return bestSword;
-	}
-	
-	public static int getShovelSlot() {
-		if (mc.thePlayer == null) {
-			return -1;
-		}
-		
-		int bestSword = -1;
-		float bestDamage = 1F;
-		
-		for (int i = 9; i < 45; ++i) {
-            if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
-                final ItemStack item = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-    	    	if (item != null) {
-    	    		if (item.getItem() instanceof ItemTool) {
-    	    			ItemTool is = (ItemTool) item.getItem();
-    	    			if (isShovel(is)) {
-    		    			float damage = is.getStrVsBlock(item, Block.getBlockById(3));
-    				    	if (damage > bestDamage) {
-    				    		bestDamage = damage;
-    				    		bestSword = i;
-    				    	}
-    	    			}
-    	    		}
-    	    	}
-            }
-	    }
-		return bestSword;
-	}
-	
-	public static boolean isShovel(Item is) {
-		return Item.getItemById(256) == is || Item.getItemById(269) == is || Item.getItemById(273) == is || Item.getItemById(277) == is || Item.getItemById(284) == is;
-	}
+        return -1;
+    }
 
-	public static void shiftClick(int k) {
-		Minecraft.getMinecraft().playerController.windowClick(Minecraft.getMinecraft().thePlayer.inventoryContainer.windowId, k, 0, 1, Minecraft.getMinecraft().thePlayer);
-	}
-	
+    public static int getPickaxeSlot() {
+        if (mc.thePlayer == null) {
+            return -1;
+        }
+
+        int bestSword = -1;
+        float bestDamage = 1F;
+
+        for (int i = 9; i < 45; ++i) {
+            if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
+                final ItemStack item = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+                if (item != null) {
+                    if (item.getItem() instanceof ItemPickaxe) {
+                        ItemPickaxe is = (ItemPickaxe) item.getItem();
+                        float damage = is.getStrVsBlock(item, Block.getBlockById(4));
+                        if (damage > bestDamage) {
+                            bestDamage = damage;
+                            bestSword = i;
+                        }
+                    }
+                }
+            }
+        }
+        return bestSword;
+    }
+
+    public static int getAxeSlot() {
+        if (mc.thePlayer == null) {
+            return -1;
+        }
+
+        int bestSword = -1;
+        float bestDamage = 1F;
+
+        for (int i = 9; i < 45; ++i) {
+            if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
+                final ItemStack item = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+                if (item != null) {
+                    if (item.getItem() instanceof ItemAxe) {
+                        ItemAxe is = (ItemAxe) item.getItem();
+                        float damage = is.getStrVsBlock(item, Block.getBlockById(17));
+                        if (damage > bestDamage) {
+                            bestDamage = damage;
+                            bestSword = i;
+                        }
+                    }
+                }
+            }
+        }
+        return bestSword;
+    }
+
+    public static int getShovelSlot() {
+        if (mc.thePlayer == null) {
+            return -1;
+        }
+
+        int bestSword = -1;
+        float bestDamage = 1F;
+
+        for (int i = 9; i < 45; ++i) {
+            if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
+                final ItemStack item = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+                if (item != null) {
+                    if (item.getItem() instanceof ItemTool) {
+                        ItemTool is = (ItemTool) item.getItem();
+                        if (isShovel(is)) {
+                            float damage = is.getStrVsBlock(item, Block.getBlockById(3));
+                            if (damage > bestDamage) {
+                                bestDamage = damage;
+                                bestSword = i;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return bestSword;
+    }
+
+    public static boolean isShovel(Item is) {
+        return Item.getItemById(256) == is || Item.getItemById(269) == is || Item.getItemById(273) == is || Item.getItemById(277) == is || Item.getItemById(284) == is;
+    }
+
+    public static void shiftClick(int k) {
+        Minecraft.getMinecraft().playerController.windowClick(Minecraft.getMinecraft().thePlayer.inventoryContainer.windowId, k, 0, 1, Minecraft.getMinecraft().thePlayer);
+    }
+
     public static ItemStack compareProtection(ItemStack item1, ItemStack item2) {
         if (!(item1.getItem() instanceof ItemArmor) && !(item2.getItem() instanceof ItemArmor))
             return null;

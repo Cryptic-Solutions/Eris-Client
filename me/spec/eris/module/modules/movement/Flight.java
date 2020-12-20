@@ -19,55 +19,55 @@ import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 
 public class Flight extends Module {
 
-	private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.VANILLA, this);
-	private NumberValue<Float> speed = new NumberValue<Float>("Speed", 1F, 0.3F, 3F, this, "Speed");
-	
-	public Flight() {
-		super("Flight", Category.MOVEMENT);
-		setModuleType(ModuleType.FLAGGABLE);
-		setModulePriority(ModulePriority.HIGHEST);
-	}
-	
-	@Override
-	public void onEvent(Event e) {
-		setMode(mode.getValue().toString());
-		if (ModulePrioritizer.isModuleUsable(this)) return;
-		if (e instanceof EventMove) {
-			EventMove em = (EventMove)e;
-			switch (mode.getValue()) {
-			case VANILLA:
-				if (mc.gameSettings.keyBindJump.isKeyDown() && !mc.gameSettings.keyBindSneak.isKeyDown()) {
-					em.setY(mc.thePlayer.motionY = this.speed.getValue());
-				} else if (!mc.gameSettings.keyBindJump.isKeyDown() && mc.gameSettings.keyBindSneak.isKeyDown()) {
-					em.setY(mc.thePlayer.motionY = -this.speed.getValue());
-				} else {
-					em.setY(mc.thePlayer.motionY = 0);
-				} 
-				em.setMoveSpeed(speed.getValue());
-				break;
-			}
-		} else if (e instanceof EventUpdate) {
-			EventUpdate event = (EventUpdate)e;
-			switch (mode.getValue()) {
-			case VANILLA:
- 
-				break;
-			}
-		}
-	}
-	
-	@Override
-	public void onEnable() {
-		setLastDistance(0.0);
-		super.onEnable();
-	}
-	
-	@Override
-	public void onDisable() {
-		super.onDisable();
-	}
+    private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.VANILLA, this);
+    private NumberValue<Float> speed = new NumberValue<Float>("Speed", 1F, 0.3F, 3F, this, "Speed");
 
-	public enum Mode {
-		VANILLA
-	}
+    public Flight() {
+        super("Flight", Category.MOVEMENT);
+        setModuleType(ModuleType.FLAGGABLE);
+        setModulePriority(ModulePriority.HIGHEST);
+    }
+
+    @Override
+    public void onEvent(Event e) {
+        setMode(mode.getValue().toString());
+        if (ModulePrioritizer.isModuleUsable(this)) return;
+        if (e instanceof EventMove) {
+            EventMove em = (EventMove) e;
+            switch (mode.getValue()) {
+                case VANILLA:
+                    if (mc.gameSettings.keyBindJump.isKeyDown() && !mc.gameSettings.keyBindSneak.isKeyDown()) {
+                        em.setY(mc.thePlayer.motionY = this.speed.getValue());
+                    } else if (!mc.gameSettings.keyBindJump.isKeyDown() && mc.gameSettings.keyBindSneak.isKeyDown()) {
+                        em.setY(mc.thePlayer.motionY = -this.speed.getValue());
+                    } else {
+                        em.setY(mc.thePlayer.motionY = 0);
+                    }
+                    em.setMoveSpeed(speed.getValue());
+                    break;
+            }
+        } else if (e instanceof EventUpdate) {
+            EventUpdate event = (EventUpdate) e;
+            switch (mode.getValue()) {
+                case VANILLA:
+
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onEnable() {
+        setLastDistance(0.0);
+        super.onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+    }
+
+    public enum Mode {
+        VANILLA
+    }
 }

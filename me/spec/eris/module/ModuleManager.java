@@ -40,7 +40,7 @@ public class ModuleManager {
         //Misc bullshit
         modules.add(new ChestSteal());
         modules.add(new InventoryManager());
-        
+
         //Visual
         modules.add(new HUD());
         modules.add(new ESP());

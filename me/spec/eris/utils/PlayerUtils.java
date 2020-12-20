@@ -86,16 +86,17 @@ public class PlayerUtils {
         }
         return false;
     }
-    
+
     public static boolean isBad(final ItemStack item) {
-    	return !(item.getItem() instanceof ItemArmor || item.getItem() instanceof ItemTool || item.getItem() instanceof ItemBlock || item.getItem() instanceof ItemSword || item.getItem() instanceof ItemEnderPearl || item.getItem() instanceof ItemFood || (item.getItem() instanceof ItemPotion && !isBadPotion(item))) && !item.getDisplayName().toLowerCase().contains(EnumChatFormatting.GRAY +"(right click)");
+        return !(item.getItem() instanceof ItemArmor || item.getItem() instanceof ItemTool || item.getItem() instanceof ItemBlock || item.getItem() instanceof ItemSword || item.getItem() instanceof ItemEnderPearl || item.getItem() instanceof ItemFood || (item.getItem() instanceof ItemPotion && !isBadPotion(item))) && !item.getDisplayName().toLowerCase().contains(EnumChatFormatting.GRAY + "(right click)");
     }
+
     public static boolean isBadPotion(final ItemStack stack) {
         if (stack != null && stack.getItem() instanceof ItemPotion) {
-            final ItemPotion potion = (ItemPotion)stack.getItem();
+            final ItemPotion potion = (ItemPotion) stack.getItem();
             if (ItemPotion.isSplash(stack.getItemDamage())) {
                 for (final Object o : potion.getEffects(stack)) {
-                    final PotionEffect effect = (PotionEffect)o;
+                    final PotionEffect effect = (PotionEffect) o;
                     if (effect.getPotionID() == Potion.poison.getId() || effect.getPotionID() == Potion.harm.getId() || effect.getPotionID() == Potion.moveSlowdown.getId() || effect.getPotionID() == Potion.weakness.getId()) {
                         return true;
                     }
