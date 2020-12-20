@@ -34,7 +34,6 @@ public class Speed extends Module {
 	public void onEvent(Event e) { 
 		if (e instanceof EventStep) {
 			if (!((EventStep) e).isPre()) {
-
     			double height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
 				speed = height > .626 ? 0 : .25;
 				mc.thePlayer.motionY *= .98f;

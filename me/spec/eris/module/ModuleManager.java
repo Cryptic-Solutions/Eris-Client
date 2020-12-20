@@ -7,6 +7,8 @@ import me.spec.eris.module.antiflag.detection.FlagDetect;
 import me.spec.eris.module.modules.client.AntiCrash;
 import me.spec.eris.module.modules.client.ClickGUI;
 import me.spec.eris.module.modules.combat.*;
+import me.spec.eris.module.modules.misc.ChestSteal;
+import me.spec.eris.module.modules.misc.InventoryManager;
 import me.spec.eris.module.modules.movement.*;
 import me.spec.eris.module.modules.persistance.FlagDetection;
 import me.spec.eris.module.modules.persistance.Heartbeat;
@@ -35,7 +37,10 @@ public class ModuleManager {
         modules.add(new Killaura());
         modules.add(new Velocity());
         modules.add(new Criticals());
-
+        //Misc bullshit
+        modules.add(new ChestSteal());
+        modules.add(new InventoryManager());
+        
         //Visual
         modules.add(new HUD());
         modules.add(new ESP());

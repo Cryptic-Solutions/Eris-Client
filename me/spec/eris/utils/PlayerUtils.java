@@ -11,8 +11,18 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemEnderPearl;
+import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemPotion;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 
 public class PlayerUtils {
 
@@ -73,6 +83,24 @@ public class PlayerUtils {
     public static boolean isHoldingSword() {
         if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() != null && Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getItem() instanceof ItemSword) {
             return true;
+        }
+        return false;
+    }
+    
+    public static boolean isBad(final ItemStack item) {
+    	return !(item.getItem() instanceof ItemArmor || item.getItem() instanceof ItemTool || item.getItem() instanceof ItemBlock || item.getItem() instanceof ItemSword || item.getItem() instanceof ItemEnderPearl || item.getItem() instanceof ItemFood || (item.getItem() instanceof ItemPotion && !isBadPotion(item))) && !item.getDisplayName().toLowerCase().contains(EnumChatFormatting.GRAY +"(right click)");
+    }
+    public static boolean isBadPotion(final ItemStack stack) {
+        if (stack != null && stack.getItem() instanceof ItemPotion) {
+            final ItemPotion potion = (ItemPotion)stack.getItem();
+            if (ItemPotion.isSplash(stack.getItemDamage())) {
+                for (final Object o : potion.getEffects(stack)) {
+                    final PotionEffect effect = (PotionEffect)o;
+                    if (effect.getPotionID() == Potion.poison.getId() || effect.getPotionID() == Potion.harm.getId() || effect.getPotionID() == Potion.moveSlowdown.getId() || effect.getPotionID() == Potion.weakness.getId()) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
