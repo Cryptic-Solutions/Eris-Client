@@ -192,7 +192,7 @@ public class Killaura extends Module {
 						crits.doUpdate(eu);
 					}
 					if (!Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Flight.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Speed.class).isToggled() && clientRaper.hasReached(100) && !mc.thePlayer.isMoving() && ServerUtils.onServer("hypixel") && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-						mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, eu.getY(), mc.thePlayer.posZ, eu.isOnGround()));
+						//mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, eu.getY(), mc.thePlayer.posZ, eu.isOnGround()));
 						clientRaper.reset();
 					}
 					prepareAttack(eu, scaffoldCheck); 

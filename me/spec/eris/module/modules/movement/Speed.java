@@ -39,7 +39,7 @@ public class Speed extends Module {
 			double zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
 			setLastDistance(Math.sqrt(xDist * xDist + zDist * zDist));
 			if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-				eu.setY(eu.getY() + 9.0E-4d);
+				eu.setY(eu.getY() + 9.225E-4d);
 			}
 		}
 		
@@ -62,7 +62,7 @@ public class Speed extends Module {
 			if (stage == 0) {
 				if (mc.thePlayer.onGround) { 
 					if (mc.timer.timerSpeed < 1.0f) mc.timer.timerSpeed = 1.0f;
-                	em.setY(mc.thePlayer.motionY = (float)em.getMotionY(.42f - 9.0e-4D * 2));
+                	em.setY(mc.thePlayer.motionY = (float)em.getMotionY(.42f - 9.0e-4D * 1.25));
 	            	speed = em.getMovementSpeed() * 2.22;
 				}
 				stage = 0;
@@ -70,9 +70,9 @@ public class Speed extends Module {
             	speed = getLastDistance() - .65 * (getLastDistance() - em.getMovementSpeed());
 			} else { 
 				if (mc.thePlayer.motionY < 0) {
-					em.setY(mc.thePlayer.motionY *= 1.025);
+					em.setY(mc.thePlayer.motionY *= 1.015);
 				}
-				speed = getLastDistance() - getLastDistance() / 160 - 8.99999999999999e-4D;
+				speed = getLastDistance() - getLastDistance() / 159 + 4.0e-9d;
 			}
 			em.setMoveSpeed(speed);
 			stage++;

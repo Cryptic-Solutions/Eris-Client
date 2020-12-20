@@ -32,6 +32,9 @@ import net.optifine.reflect.Reflector;
 import net.optifine.shaders.Shaders;
 import org.lwjgl.opengl.GL11;
 
+import me.spec.eris.Eris;
+import me.spec.eris.module.modules.combat.Killaura;
+
 public class ItemRenderer
 {
     private static final ResourceLocation RES_MAP_BACKGROUND = new ResourceLocation("textures/map/map_background.png");
@@ -342,14 +345,15 @@ public class ItemRenderer
             this.func_178110_a((EntityPlayerSP)abstractclientplayer, partialTicks);
             GlStateManager.enableRescaleNormal();
             GlStateManager.pushMatrix();
-
+            Killaura aura = (Killaura) Eris.instance.modules.getModuleByClass(Killaura.class);
+            
             if (this.itemToRender != null)
             {
                 if (this.itemToRender.getItem() instanceof ItemMap)
                 {
                     this.renderItemMap(abstractclientplayer, f2, f, f1);
                 }
-                else if (abstractclientplayer.getItemInUseCount() > 0)
+                else if (abstractclientplayer.getItemInUseCount() > 0 || aura.blocking)
                 {
                     EnumAction enumaction = this.itemToRender.getItemUseAction();
 
