@@ -19,23 +19,23 @@ import libraries.jprocess.main.util.OSDetector;
 
 /**
  * Factory class to get the right information for the OS
- *
+ * 
  * @author Javier Garcia Alonso
  */
 public class ProcessesFactory {
-
+    
     //Hide constructor
     private ProcessesFactory() {
     }
-
-    //use getShape method to get object of type shape
-    public static ProcessesService getService() {
-        if (OSDetector.isWindows()) {
-            return new WindowsProcessesService();
-        } else if (OSDetector.isUnix()) {
-            return new UnixProcessesService();
-        }
-
-        throw new UnsupportedOperationException("Your Operating System is not supported by this library.");
-    }
+    
+   //use getShape method to get object of type shape 
+   public static ProcessesService getService(){     
+      if (OSDetector.isWindows()) {
+          return new WindowsProcessesService();
+      } else if (OSDetector.isUnix()) {
+          return new UnixProcessesService();
+      }
+      
+      throw new UnsupportedOperationException("Your Operating System is not supported by this library.");
+   }
 }

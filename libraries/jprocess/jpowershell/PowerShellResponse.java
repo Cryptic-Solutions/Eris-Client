@@ -35,7 +35,7 @@ public class PowerShellResponse {
 
     /**
      * True if the command could not be correctly executed (timeout or unexpected error)<p>
-     * <p>
+     *
      * If you want to check if the command itself finished in error, use the method {@link PowerShell#isLastCommandInError()}
      * instead
      *

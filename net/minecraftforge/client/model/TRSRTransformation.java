@@ -4,12 +4,15 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import libraries.vecmath.Matrix4f;
 
-public class TRSRTransformation {
-    public TRSRTransformation(Matrix4f matrix) {
+public class TRSRTransformation
+{
+    public TRSRTransformation(Matrix4f matrix)
+    {
         throw new NotImplementedException("Forge dummy class");
     }
 
-    public static boolean isInteger(Matrix4f matrix) {
+    public static boolean isInteger(Matrix4f matrix)
+    {
         return false;
     }
 }

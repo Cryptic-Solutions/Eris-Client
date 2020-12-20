@@ -1,6 +1,7 @@
 package net.minecraft.stats;
 
-public interface IStatType {
+public interface IStatType
+{
     /**
      * Formats a given stat for human consumption.
      */

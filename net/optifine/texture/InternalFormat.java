@@ -1,6 +1,7 @@
 package net.optifine.texture;
 
-public enum InternalFormat {
+public enum InternalFormat
+{
     R8(33321),
     RG8(33323),
     RGB8(32849),
@@ -41,11 +42,13 @@ public enum InternalFormat {
 
     private int id;
 
-    private InternalFormat(int id) {
+    private InternalFormat(int id)
+    {
         this.id = id;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return this.id;
     }
 }

@@ -1,6 +1,7 @@
 package net.optifine.shaders;
 
-public interface ICustomTexture {
+public interface ICustomTexture
+{
     int getTextureId();
 
     int getTextureUnit();

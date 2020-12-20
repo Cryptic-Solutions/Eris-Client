@@ -35,7 +35,7 @@ public class ProcessInfo {
     private String startTime;
     private String priority;
     private String command;
-
+    
     //Used to store system specific data
     private Map<String, String> extraData = new HashMap<String, String>();
 
@@ -142,11 +142,11 @@ public class ProcessInfo {
     public void setExtraData(Map<String, String> extraData) {
         this.extraData = extraData;
     }
-
+    
     public void addExtraData(String key, String value) {
         this.extraData.put(key, value);
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

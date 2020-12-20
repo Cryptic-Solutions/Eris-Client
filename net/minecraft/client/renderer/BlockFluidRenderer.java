@@ -16,15 +16,18 @@ import net.optifine.CustomColors;
 import net.optifine.render.RenderEnv;
 import net.optifine.shaders.SVertexBuilder;
 
-public class BlockFluidRenderer {
+public class BlockFluidRenderer
+{
     private TextureAtlasSprite[] atlasSpritesLava = new TextureAtlasSprite[2];
     private TextureAtlasSprite[] atlasSpritesWater = new TextureAtlasSprite[2];
 
-    public BlockFluidRenderer() {
+    public BlockFluidRenderer()
+    {
         this.initAtlasSprites();
     }
 
-    protected void initAtlasSprites() {
+    protected void initAtlasSprites()
+    {
         TextureMap texturemap = Minecraft.getMinecraft().getTextureMapBlocks();
         this.atlasSpritesLava[0] = texturemap.getAtlasSprite("minecraft:blocks/lava_still");
         this.atlasSpritesLava[1] = texturemap.getAtlasSprite("minecraft:blocks/lava_flow");
@@ -32,22 +35,25 @@ public class BlockFluidRenderer {
         this.atlasSpritesWater[1] = texturemap.getAtlasSprite("minecraft:blocks/water_flow");
     }
 
-    public boolean renderFluid(IBlockAccess blockAccess, IBlockState blockStateIn, BlockPos blockPosIn, WorldRenderer worldRendererIn) {
+    public boolean renderFluid(IBlockAccess blockAccess, IBlockState blockStateIn, BlockPos blockPosIn, WorldRenderer worldRendererIn)
+    {
         boolean flag2;
 
-        try {
-            if (Config.isShaders()) {
+        try
+        {
+            if (Config.isShaders())
+            {
                 SVertexBuilder.pushEntity(blockStateIn, blockPosIn, blockAccess, worldRendererIn);
             }
 
-            BlockLiquid blockliquid = (BlockLiquid) blockStateIn.getBlock();
+            BlockLiquid blockliquid = (BlockLiquid)blockStateIn.getBlock();
             blockliquid.setBlockBoundsBasedOnState(blockAccess, blockPosIn);
             TextureAtlasSprite[] atextureatlassprite = blockliquid.getMaterial() == Material.lava ? this.atlasSpritesLava : this.atlasSpritesWater;
             RenderEnv renderenv = worldRendererIn.getRenderEnv(blockStateIn, blockPosIn);
             int i = CustomColors.getFluidColor(blockAccess, blockStateIn, blockPosIn, renderenv);
-            float f = (float) (i >> 16 & 255) / 255.0F;
-            float f1 = (float) (i >> 8 & 255) / 255.0F;
-            float f2 = (float) (i & 255) / 255.0F;
+            float f = (float)(i >> 16 & 255) / 255.0F;
+            float f1 = (float)(i >> 8 & 255) / 255.0F;
+            float f2 = (float)(i & 255) / 255.0F;
             boolean flag = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.up(), EnumFacing.UP);
             boolean flag1 = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.down(), EnumFacing.DOWN);
             boolean[] aboolean = renderenv.getBorderFlags();
@@ -56,7 +62,8 @@ public class BlockFluidRenderer {
             aboolean[2] = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.west(), EnumFacing.WEST);
             aboolean[3] = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.east(), EnumFacing.EAST);
 
-            if (flag || flag1 || aboolean[0] || aboolean[1] || aboolean[2] || aboolean[3]) {
+            if (flag || flag1 || aboolean[0] || aboolean[1] || aboolean[2] || aboolean[3])
+            {
                 flag2 = false;
                 float f3 = 0.5F;
                 float f4 = 1.0F;
@@ -67,17 +74,19 @@ public class BlockFluidRenderer {
                 float f8 = this.getFluidHeight(blockAccess, blockPosIn.south(), material);
                 float f9 = this.getFluidHeight(blockAccess, blockPosIn.east().south(), material);
                 float f10 = this.getFluidHeight(blockAccess, blockPosIn.east(), material);
-                double d0 = (double) blockPosIn.getX();
-                double d1 = (double) blockPosIn.getY();
-                double d2 = (double) blockPosIn.getZ();
+                double d0 = (double)blockPosIn.getX();
+                double d1 = (double)blockPosIn.getY();
+                double d2 = (double)blockPosIn.getZ();
                 float f11 = 0.001F;
 
-                if (flag) {
+                if (flag)
+                {
                     flag2 = true;
                     TextureAtlasSprite textureatlassprite = atextureatlassprite[0];
-                    float f12 = (float) BlockLiquid.getFlowDirection(blockAccess, blockPosIn, material);
+                    float f12 = (float)BlockLiquid.getFlowDirection(blockAccess, blockPosIn, material);
 
-                    if (f12 > -999.0F) {
+                    if (f12 > -999.0F)
+                    {
                         textureatlassprite = atextureatlassprite[1];
                     }
 
@@ -95,7 +104,8 @@ public class BlockFluidRenderer {
                     float f19;
                     float f20;
 
-                    if (f12 < -999.0F) {
+                    if (f12 < -999.0F)
+                    {
                         f13 = textureatlassprite.getInterpolatedU(0.0D);
                         f17 = textureatlassprite.getInterpolatedV(0.0D);
                         f14 = f13;
@@ -104,18 +114,20 @@ public class BlockFluidRenderer {
                         f19 = f18;
                         f16 = f15;
                         f20 = f17;
-                    } else {
+                    }
+                    else
+                    {
                         float f21 = MathHelper.sin(f12) * 0.25F;
                         float f22 = MathHelper.cos(f12) * 0.25F;
                         float f23 = 8.0F;
-                        f13 = textureatlassprite.getInterpolatedU((double) (8.0F + (-f22 - f21) * 16.0F));
-                        f17 = textureatlassprite.getInterpolatedV((double) (8.0F + (-f22 + f21) * 16.0F));
-                        f14 = textureatlassprite.getInterpolatedU((double) (8.0F + (-f22 + f21) * 16.0F));
-                        f18 = textureatlassprite.getInterpolatedV((double) (8.0F + (f22 + f21) * 16.0F));
-                        f15 = textureatlassprite.getInterpolatedU((double) (8.0F + (f22 + f21) * 16.0F));
-                        f19 = textureatlassprite.getInterpolatedV((double) (8.0F + (f22 - f21) * 16.0F));
-                        f16 = textureatlassprite.getInterpolatedU((double) (8.0F + (f22 - f21) * 16.0F));
-                        f20 = textureatlassprite.getInterpolatedV((double) (8.0F + (-f22 - f21) * 16.0F));
+                        f13 = textureatlassprite.getInterpolatedU((double)(8.0F + (-f22 - f21) * 16.0F));
+                        f17 = textureatlassprite.getInterpolatedV((double)(8.0F + (-f22 + f21) * 16.0F));
+                        f14 = textureatlassprite.getInterpolatedU((double)(8.0F + (-f22 + f21) * 16.0F));
+                        f18 = textureatlassprite.getInterpolatedV((double)(8.0F + (f22 + f21) * 16.0F));
+                        f15 = textureatlassprite.getInterpolatedU((double)(8.0F + (f22 + f21) * 16.0F));
+                        f19 = textureatlassprite.getInterpolatedV((double)(8.0F + (f22 - f21) * 16.0F));
+                        f16 = textureatlassprite.getInterpolatedU((double)(8.0F + (f22 - f21) * 16.0F));
+                        f20 = textureatlassprite.getInterpolatedV((double)(8.0F + (-f22 - f21) * 16.0F));
                     }
 
                     int k2 = blockliquid.getMixedBrightnessForBlock(blockAccess, blockPosIn);
@@ -124,20 +136,22 @@ public class BlockFluidRenderer {
                     float f24 = f4 * f;
                     float f25 = f4 * f1;
                     float f26 = f4 * f2;
-                    worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double) f7, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double) f13, (double) f17).func_181671_a(l2, i3).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double) f8, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double) f14, (double) f18).func_181671_a(l2, i3).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double) f9, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double) f15, (double) f19).func_181671_a(l2, i3).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double) f10, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double) f16, (double) f20).func_181671_a(l2, i3).func_181675_d();
+                    worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double)f7, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f13, (double)f17).func_181671_a(l2, i3).func_181675_d();
+                    worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double)f8, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f14, (double)f18).func_181671_a(l2, i3).func_181675_d();
+                    worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double)f9, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f15, (double)f19).func_181671_a(l2, i3).func_181675_d();
+                    worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double)f10, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f16, (double)f20).func_181671_a(l2, i3).func_181675_d();
 
-                    if (blockliquid.func_176364_g(blockAccess, blockPosIn.up())) {
-                        worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double) f7, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double) f13, (double) f17).func_181671_a(l2, i3).func_181675_d();
-                        worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double) f10, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double) f16, (double) f20).func_181671_a(l2, i3).func_181675_d();
-                        worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double) f9, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double) f15, (double) f19).func_181671_a(l2, i3).func_181675_d();
-                        worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double) f8, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double) f14, (double) f18).func_181671_a(l2, i3).func_181675_d();
+                    if (blockliquid.func_176364_g(blockAccess, blockPosIn.up()))
+                    {
+                        worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double)f7, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f13, (double)f17).func_181671_a(l2, i3).func_181675_d();
+                        worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double)f10, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f16, (double)f20).func_181671_a(l2, i3).func_181675_d();
+                        worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double)f9, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f15, (double)f19).func_181671_a(l2, i3).func_181675_d();
+                        worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double)f8, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f14, (double)f18).func_181671_a(l2, i3).func_181675_d();
                     }
                 }
 
-                if (flag1) {
+                if (flag1)
+                {
                     worldRendererIn.setSprite(atextureatlassprite[0]);
                     float f35 = atextureatlassprite[0].getMinU();
                     float f36 = atextureatlassprite[0].getMaxU();
@@ -147,30 +161,35 @@ public class BlockFluidRenderer {
                     int i2 = l1 >> 16 & 65535;
                     int j2 = l1 & 65535;
                     float f41 = FaceBakery.getFaceBrightness(EnumFacing.DOWN);
-                    worldRendererIn.func_181662_b(d0, d1, d2 + 1.0D).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double) f35, (double) f38).func_181671_a(i2, j2).func_181675_d();
-                    worldRendererIn.func_181662_b(d0, d1, d2).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double) f35, (double) f37).func_181671_a(i2, j2).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 1.0D, d1, d2).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double) f36, (double) f37).func_181671_a(i2, j2).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 1.0D, d1, d2 + 1.0D).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double) f36, (double) f38).func_181671_a(i2, j2).func_181675_d();
+                    worldRendererIn.func_181662_b(d0, d1, d2 + 1.0D).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double)f35, (double)f38).func_181671_a(i2, j2).func_181675_d();
+                    worldRendererIn.func_181662_b(d0, d1, d2).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double)f35, (double)f37).func_181671_a(i2, j2).func_181675_d();
+                    worldRendererIn.func_181662_b(d0 + 1.0D, d1, d2).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double)f36, (double)f37).func_181671_a(i2, j2).func_181675_d();
+                    worldRendererIn.func_181662_b(d0 + 1.0D, d1, d2 + 1.0D).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double)f36, (double)f38).func_181671_a(i2, j2).func_181675_d();
                     flag2 = true;
                 }
 
-                for (int i1 = 0; i1 < 4; ++i1) {
+                for (int i1 = 0; i1 < 4; ++i1)
+                {
                     int j1 = 0;
                     int k1 = 0;
 
-                    if (i1 == 0) {
+                    if (i1 == 0)
+                    {
                         --k1;
                     }
 
-                    if (i1 == 1) {
+                    if (i1 == 1)
+                    {
                         ++k1;
                     }
 
-                    if (i1 == 2) {
+                    if (i1 == 2)
+                    {
                         --j1;
                     }
 
-                    if (i1 == 3) {
+                    if (i1 == 3)
+                    {
                         ++j1;
                     }
 
@@ -178,7 +197,8 @@ public class BlockFluidRenderer {
                     TextureAtlasSprite textureatlassprite1 = atextureatlassprite[1];
                     worldRendererIn.setSprite(textureatlassprite1);
 
-                    if (aboolean[i1]) {
+                    if (aboolean[i1])
+                    {
                         float f39;
                         float f40;
                         double d3;
@@ -186,32 +206,39 @@ public class BlockFluidRenderer {
                         double d5;
                         double d6;
 
-                        if (i1 == 0) {
+                        if (i1 == 0)
+                        {
                             f39 = f7;
                             f40 = f10;
                             d3 = d0;
                             d5 = d0 + 1.0D;
-                            d4 = d2 + (double) f11;
-                            d6 = d2 + (double) f11;
-                        } else if (i1 == 1) {
+                            d4 = d2 + (double)f11;
+                            d6 = d2 + (double)f11;
+                        }
+                        else if (i1 == 1)
+                        {
                             f39 = f9;
                             f40 = f8;
                             d3 = d0 + 1.0D;
                             d5 = d0;
-                            d4 = d2 + 1.0D - (double) f11;
-                            d6 = d2 + 1.0D - (double) f11;
-                        } else if (i1 == 2) {
+                            d4 = d2 + 1.0D - (double)f11;
+                            d6 = d2 + 1.0D - (double)f11;
+                        }
+                        else if (i1 == 2)
+                        {
                             f39 = f8;
                             f40 = f7;
-                            d3 = d0 + (double) f11;
-                            d5 = d0 + (double) f11;
+                            d3 = d0 + (double)f11;
+                            d5 = d0 + (double)f11;
                             d4 = d2 + 1.0D;
                             d6 = d2;
-                        } else {
+                        }
+                        else
+                        {
                             f39 = f10;
                             f40 = f9;
-                            d3 = d0 + 1.0D - (double) f11;
-                            d5 = d0 + 1.0D - (double) f11;
+                            d3 = d0 + 1.0D - (double)f11;
+                            d5 = d0 + 1.0D - (double)f11;
                             d4 = d2;
                             d6 = d2 + 1.0D;
                         }
@@ -219,8 +246,8 @@ public class BlockFluidRenderer {
                         flag2 = true;
                         float f42 = textureatlassprite1.getInterpolatedU(0.0D);
                         float f27 = textureatlassprite1.getInterpolatedU(8.0D);
-                        float f28 = textureatlassprite1.getInterpolatedV((double) ((1.0F - f39) * 16.0F * 0.5F));
-                        float f29 = textureatlassprite1.getInterpolatedV((double) ((1.0F - f40) * 16.0F * 0.5F));
+                        float f28 = textureatlassprite1.getInterpolatedV((double)((1.0F - f39) * 16.0F * 0.5F));
+                        float f29 = textureatlassprite1.getInterpolatedV((double)((1.0F - f40) * 16.0F * 0.5F));
                         float f30 = textureatlassprite1.getInterpolatedV(8.0D);
                         int j = blockliquid.getMixedBrightnessForBlock(blockAccess, blockpos);
                         int k = j >> 16 & 65535;
@@ -229,25 +256,28 @@ public class BlockFluidRenderer {
                         float f32 = f4 * f31 * f;
                         float f33 = f4 * f31 * f1;
                         float f34 = f4 * f31 * f2;
-                        worldRendererIn.func_181662_b(d3, d1 + (double) f39, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double) f42, (double) f28).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d5, d1 + (double) f40, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double) f27, (double) f29).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d5, d1 + 0.0D, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double) f27, (double) f30).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d3, d1 + 0.0D, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double) f42, (double) f30).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d3, d1 + 0.0D, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double) f42, (double) f30).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d5, d1 + 0.0D, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double) f27, (double) f30).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d5, d1 + (double) f40, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double) f27, (double) f29).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d3, d1 + (double) f39, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double) f42, (double) f28).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.func_181662_b(d3, d1 + (double)f39, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f42, (double)f28).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.func_181662_b(d5, d1 + (double)f40, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f27, (double)f29).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.func_181662_b(d5, d1 + 0.0D, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f27, (double)f30).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.func_181662_b(d3, d1 + 0.0D, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f42, (double)f30).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.func_181662_b(d3, d1 + 0.0D, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f42, (double)f30).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.func_181662_b(d5, d1 + 0.0D, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f27, (double)f30).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.func_181662_b(d5, d1 + (double)f40, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f27, (double)f29).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.func_181662_b(d3, d1 + (double)f39, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f42, (double)f28).func_181671_a(k, l).func_181675_d();
                     }
                 }
 
-                worldRendererIn.setSprite((TextureAtlasSprite) null);
+                worldRendererIn.setSprite((TextureAtlasSprite)null);
                 boolean flag3 = flag2;
                 return flag3;
             }
 
             flag2 = false;
-        } finally {
-            if (Config.isShaders()) {
+        }
+        finally
+        {
+            if (Config.isShaders())
+            {
                 SVertexBuilder.popEntity(worldRendererIn);
             }
         }
@@ -255,29 +285,37 @@ public class BlockFluidRenderer {
         return flag2;
     }
 
-    private float getFluidHeight(IBlockAccess blockAccess, BlockPos blockPosIn, Material blockMaterial) {
+    private float getFluidHeight(IBlockAccess blockAccess, BlockPos blockPosIn, Material blockMaterial)
+    {
         int i = 0;
         float f = 0.0F;
 
-        for (int j = 0; j < 4; ++j) {
+        for (int j = 0; j < 4; ++j)
+        {
             BlockPos blockpos = blockPosIn.add(-(j & 1), 0, -(j >> 1 & 1));
 
-            if (blockAccess.getBlockState(blockpos.up()).getBlock().getMaterial() == blockMaterial) {
+            if (blockAccess.getBlockState(blockpos.up()).getBlock().getMaterial() == blockMaterial)
+            {
                 return 1.0F;
             }
 
             IBlockState iblockstate = blockAccess.getBlockState(blockpos);
             Material material = iblockstate.getBlock().getMaterial();
 
-            if (material != blockMaterial) {
-                if (!material.isSolid()) {
+            if (material != blockMaterial)
+            {
+                if (!material.isSolid())
+                {
                     ++f;
                     ++i;
                 }
-            } else {
-                int k = ((Integer) iblockstate.getValue(BlockLiquid.LEVEL)).intValue();
+            }
+            else
+            {
+                int k = ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue();
 
-                if (k >= 8 || k == 0) {
+                if (k >= 8 || k == 0)
+                {
                     f += BlockLiquid.getLiquidHeightPercent(k) * 10.0F;
                     i += 10;
                 }
@@ -287,6 +325,6 @@ public class BlockFluidRenderer {
             }
         }
 
-        return 1.0F - f / (float) i;
+        return 1.0F - f / (float)i;
     }
 }

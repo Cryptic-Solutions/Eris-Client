@@ -4,7 +4,8 @@ import tv.twitch.ErrorCode;
 import tv.twitch.broadcast.IngestServer;
 import tv.twitch.chat.ChatUserInfo;
 
-public interface IStream {
+public interface IStream
+{
     /**
      * Shuts down a steam
      */
@@ -77,7 +78,8 @@ public interface IStream {
 
     IStream.AuthFailureReason func_152918_H();
 
-    public static enum AuthFailureReason {
+    public static enum AuthFailureReason
+    {
         ERROR,
         INVALID_TOKEN;
     }

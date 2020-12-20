@@ -18,7 +18,6 @@ public class BooleanValue<T> extends Value<T> {
     public BooleanValue(String valueName, T defaultValueObject, Module parent, String description) {
         super(valueName, defaultValueObject, parent, null, description);
     }
-
     public BooleanValue(String valueName, T defaultValueObject, Module parent) {
         super(valueName, defaultValueObject, parent, null, "");
     }

@@ -28,17 +28,17 @@ import libraries.jprocess.main.model.ProcessInfo;
  * @author Javier Garcia Alonso
  */
 abstract class AbstractProcessesService implements ProcessesService {
-
+    
     protected boolean fastMode = false;
 
     public List<ProcessInfo> getList() {
         return getList(null);
     }
-
+    
     public List<ProcessInfo> getList(boolean fastMode) {
         return getList(null, fastMode);
     }
-
+    
     public List<ProcessInfo> getList(String name) {
         return getList(name, false);
     }
@@ -83,7 +83,7 @@ abstract class AbstractProcessesService implements ProcessesService {
             info.setUser(map.get("user"));
             info.setVirtualMemory(map.get("virtual_memory"));
             info.setPriority(map.get("priority"));
-
+            
             //Adds extra data
             info.setExtraData(map);
 

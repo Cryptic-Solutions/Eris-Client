@@ -13,38 +13,39 @@ import me.spec.eris.Eris;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class FontManager {
-    private ResourceLocation darrow;
+public class FontManager
+{
+	private ResourceLocation darrow;
     private TTFFontRenderer defaultFont;
     private FontManager instance;
     private HashMap<String, TTFFontRenderer> fonts;
-
+    
     public FontManager getInstance() {
         return this.instance;
     }
-
+    
     public TTFFontRenderer getFont(final String key) {
         return this.fonts.getOrDefault(key, this.defaultFont);
     }
-
-    private static TTFFontRenderer fontRender;
-
-    public static TTFFontRenderer getFont() {
-        if (fontRender == null) {
-            fontRender = Eris.instance.fontManager.getFont("SFUI 18");
-        }
-        return fontRender;
-    }
-
+    
+	private static TTFFontRenderer fontRender;
+	
+	public static TTFFontRenderer getFont() {
+		if (fontRender == null) {
+			fontRender = Eris.instance.fontManager.getFont("SFUI 18");
+		}
+		return fontRender;
+	}
+    
     public FontManager() {
-        textureQueue = new ConcurrentLinkedQueue<TextureData>();
-        executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
-        this.run();
+    	textureQueue = new ConcurrentLinkedQueue<TextureData>();
+        executorService = (ThreadPoolExecutor)Executors.newFixedThreadPool(8);
+    	this.run();
     }
-
+    
     final ThreadPoolExecutor executorService;
     final ConcurrentLinkedQueue<TextureData> textureQueue;
-
+    
     public void run() {
         this.darrow = new ResourceLocation("Roboto-Regular.ttf");
         this.fonts = new HashMap<String, TTFFontRenderer>();
@@ -54,23 +55,25 @@ public class FontManager {
             for (int i = 10; i < 22; i++) {
                 final InputStream istream = this.getClass().getResourceAsStream("/assets/minecraft/eris/fonts/SF-UI-Display-Regular.ttf");
                 Font myFont = Font.createFont(0, istream);
-                myFont = myFont.deriveFont(0, (float) i);
+                myFont = myFont.deriveFont(0, (float)i);
                 fonts.put("SFUI " + i, new TTFFontRenderer(executorService, textureQueue, myFont));
             }
             for (int i = 10; i < 22; i++) {
                 final InputStream istream = this.getClass().getResourceAsStream("/assets/minecraft/eris/fonts/Arial.ttf");
                 Font myFont = Font.createFont(0, istream);
-                myFont = myFont.deriveFont(0, (float) i);
+                myFont = myFont.deriveFont(0, (float)i);
                 fonts.put("Arial " + i, new TTFFontRenderer(executorService, textureQueue, myFont));
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        }
+        catch (Exception ex) {
+        	ex.printStackTrace();
         }
         executorService.shutdown();
         while (!executorService.isTerminated()) {
             try {
                 Thread.sleep(10L);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace();
             }
             while (!textureQueue.isEmpty()) {
@@ -82,14 +85,14 @@ public class FontManager {
             }
         }
     }
-
+    
     public TTFFontRenderer getInstalledFont(String name, int size) {
-        try {
-            return new TTFFontRenderer((ThreadPoolExecutor) Executors.newFixedThreadPool(8), new ConcurrentLinkedQueue<TextureData>(), new Font(name, 0, size));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+    	try {
+    		return new TTFFontRenderer((ThreadPoolExecutor)Executors.newFixedThreadPool(8), new ConcurrentLinkedQueue<TextureData>(), new Font(name, 0, size));
+    	} catch (Exception e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return null;
     }
 }
 

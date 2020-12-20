@@ -1,5 +1,4 @@
 package me.spec.eris.utils.math.vec;
-
 import org.lwjgl.util.vector.Vector3f;
 
 import net.minecraft.util.BlockPos;

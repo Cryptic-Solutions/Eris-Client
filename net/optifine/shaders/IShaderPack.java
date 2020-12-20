@@ -2,7 +2,8 @@ package net.optifine.shaders;
 
 import java.io.InputStream;
 
-public interface IShaderPack {
+public interface IShaderPack
+{
     String getName();
 
     InputStream getResourceAsStream(String var1);

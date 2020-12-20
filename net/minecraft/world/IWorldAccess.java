@@ -4,7 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
-public interface IWorldAccess {
+public interface IWorldAccess
+{
     void markBlockForUpdate(BlockPos pos);
 
     void notifyLightSet(BlockPos pos);

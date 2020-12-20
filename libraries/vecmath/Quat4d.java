@@ -6,12 +6,13 @@ package libraries.vecmath;
 
 import java.io.Serializable;
 
-public class Quat4d extends Tuple4d implements Serializable {
+public class Quat4d extends Tuple4d implements Serializable
+{
     static final long serialVersionUID = 7577479888820201099L;
     static final double EPS = 1.0E-12;
     static final double EPS2 = 1.0E-30;
     static final double PIO2 = 1.57079632679;
-
+    
     public Quat4d(final double x, final double y, final double z, final double w) {
         final double mag = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
         this.x = x * mag;
@@ -19,7 +20,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.z = z * mag;
         this.w = w * mag;
     }
-
+    
     public Quat4d(final double[] q) {
         final double mag = 1.0 / Math.sqrt(q[0] * q[0] + q[1] * q[1] + q[2] * q[2] + q[3] * q[3]);
         this.x = q[0] * mag;
@@ -27,15 +28,15 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.z = q[2] * mag;
         this.w = q[3] * mag;
     }
-
+    
     public Quat4d(final Quat4d q1) {
         super(q1);
     }
-
+    
     public Quat4d(final Quat4f q1) {
         super(q1);
     }
-
+    
     public Quat4d(final Tuple4f t1) {
         final double mag = 1.0 / Math.sqrt(t1.x * t1.x + t1.y * t1.y + t1.z * t1.z + t1.w * t1.w);
         this.x = t1.x * mag;
@@ -43,7 +44,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.z = t1.z * mag;
         this.w = t1.w * mag;
     }
-
+    
     public Quat4d(final Tuple4d t1) {
         final double mag = 1.0 / Math.sqrt(t1.x * t1.x + t1.y * t1.y + t1.z * t1.z + t1.w * t1.w);
         this.x = t1.x * mag;
@@ -51,30 +52,31 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.z = t1.z * mag;
         this.w = t1.w * mag;
     }
-
+    
     public Quat4d() {
     }
-
+    
     public final void conjugate(final Quat4d q1) {
         this.x = -q1.x;
         this.y = -q1.y;
         this.z = -q1.z;
         this.w = q1.w;
     }
-
+    
     public final void conjugate() {
         this.x = -this.x;
         this.y = -this.y;
         this.z = -this.z;
     }
-
+    
     public final void mul(final Quat4d q1, final Quat4d q2) {
         if (this != q1 && this != q2) {
             this.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
             this.x = q1.w * q2.x + q2.w * q1.x + q1.y * q2.z - q1.z * q2.y;
             this.y = q1.w * q2.y + q2.w * q1.y - q1.x * q2.z + q1.z * q2.x;
             this.z = q1.w * q2.z + q2.w * q1.z + q1.x * q2.y - q1.y * q2.x;
-        } else {
+        }
+        else {
             final double w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
             final double x = q1.w * q2.x + q2.w * q1.x + q1.y * q2.z - q1.z * q2.y;
             final double y = q1.w * q2.y + q2.w * q1.y - q1.x * q2.z + q1.z * q2.x;
@@ -84,7 +86,7 @@ public class Quat4d extends Tuple4d implements Serializable {
             this.y = y;
         }
     }
-
+    
     public final void mul(final Quat4d q1) {
         final double w = this.w * q1.w - this.x * q1.x - this.y * q1.y - this.z * q1.z;
         final double x = this.w * q1.x + q1.w * this.x + this.y * q1.z - this.z * q1.y;
@@ -94,19 +96,19 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.x = x;
         this.y = y;
     }
-
+    
     public final void mulInverse(final Quat4d q1, final Quat4d q2) {
         final Quat4d tempQuat = new Quat4d(q2);
         tempQuat.inverse();
         this.mul(q1, tempQuat);
     }
-
+    
     public final void mulInverse(final Quat4d q1) {
         final Quat4d tempQuat = new Quat4d(q1);
         tempQuat.inverse();
         this.mul(tempQuat);
     }
-
+    
     public final void inverse(final Quat4d q1) {
         final double norm = 1.0 / (q1.w * q1.w + q1.x * q1.x + q1.y * q1.y + q1.z * q1.z);
         this.w = norm * q1.w;
@@ -114,7 +116,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.y = -norm * q1.y;
         this.z = -norm * q1.z;
     }
-
+    
     public final void inverse() {
         final double norm = 1.0 / (this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z);
         this.w *= norm;
@@ -122,7 +124,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.y *= -norm;
         this.z *= -norm;
     }
-
+    
     public final void normalize(final Quat4d q1) {
         double norm = q1.x * q1.x + q1.y * q1.y + q1.z * q1.z + q1.w * q1.w;
         if (norm > 0.0) {
@@ -131,14 +133,15 @@ public class Quat4d extends Tuple4d implements Serializable {
             this.y = norm * q1.y;
             this.z = norm * q1.z;
             this.w = norm * q1.w;
-        } else {
+        }
+        else {
             this.x = 0.0;
             this.y = 0.0;
             this.z = 0.0;
             this.w = 0.0;
         }
     }
-
+    
     public final void normalize() {
         double norm = this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
         if (norm > 0.0) {
@@ -147,14 +150,15 @@ public class Quat4d extends Tuple4d implements Serializable {
             this.y *= norm;
             this.z *= norm;
             this.w *= norm;
-        } else {
+        }
+        else {
             this.x = 0.0;
             this.y = 0.0;
             this.z = 0.0;
             this.w = 0.0;
         }
     }
-
+    
     public final void set(final Matrix4f m1) {
         double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + m1.m33);
         if (ww < 0.0) {
@@ -197,7 +201,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.y = 0.0;
         this.z = 1.0;
     }
-
+    
     public final void set(final Matrix4d m1) {
         double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + m1.m33);
         if (ww < 0.0) {
@@ -240,7 +244,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.y = 0.0;
         this.z = 1.0;
     }
-
+    
     public final void set(final Matrix3f m1) {
         double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + 1.0);
         if (ww < 0.0) {
@@ -282,7 +286,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.y = 0.0;
         this.z = 1.0;
     }
-
+    
     public final void set(final Matrix3d m1) {
         double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + 1.0);
         if (ww < 0.0) {
@@ -325,7 +329,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.y = 0.0;
         this.z = 1.0;
     }
-
+    
     public final void set(final AxisAngle4f a) {
         double amag = Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
         if (amag < 1.0E-12) {
@@ -333,7 +337,8 @@ public class Quat4d extends Tuple4d implements Serializable {
             this.x = 0.0;
             this.y = 0.0;
             this.z = 0.0;
-        } else {
+        }
+        else {
             final double mag = Math.sin(a.angle / 2.0);
             amag = 1.0 / amag;
             this.w = Math.cos(a.angle / 2.0);
@@ -342,7 +347,7 @@ public class Quat4d extends Tuple4d implements Serializable {
             this.z = a.z * amag * mag;
         }
     }
-
+    
     public final void set(final AxisAngle4d a) {
         double amag = Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
         if (amag < 1.0E-12) {
@@ -350,7 +355,8 @@ public class Quat4d extends Tuple4d implements Serializable {
             this.x = 0.0;
             this.y = 0.0;
             this.z = 0.0;
-        } else {
+        }
+        else {
             amag = 1.0 / amag;
             final double mag = Math.sin(a.angle / 2.0);
             this.w = Math.cos(a.angle / 2.0);
@@ -359,7 +365,7 @@ public class Quat4d extends Tuple4d implements Serializable {
             this.z = a.z * amag * mag;
         }
     }
-
+    
     public final void interpolate(final Quat4d q1, final double alpha) {
         double dot = this.x * q1.x + this.y * q1.y + this.z * q1.z + this.w * q1.w;
         if (dot < 0.0) {
@@ -376,7 +382,8 @@ public class Quat4d extends Tuple4d implements Serializable {
             final double sinom = Math.sin(om);
             s1 = Math.sin((1.0 - alpha) * om) / sinom;
             s2 = Math.sin(alpha * om) / sinom;
-        } else {
+        }
+        else {
             s1 = 1.0 - alpha;
             s2 = alpha;
         }
@@ -385,7 +392,7 @@ public class Quat4d extends Tuple4d implements Serializable {
         this.y = s1 * this.y + s2 * q1.y;
         this.z = s1 * this.z + s2 * q1.z;
     }
-
+    
     public final void interpolate(final Quat4d q1, final Quat4d q2, final double alpha) {
         double dot = q2.x * q1.x + q2.y * q1.y + q2.z * q1.z + q2.w * q1.w;
         if (dot < 0.0) {
@@ -402,7 +409,8 @@ public class Quat4d extends Tuple4d implements Serializable {
             final double sinom = Math.sin(om);
             s1 = Math.sin((1.0 - alpha) * om) / sinom;
             s2 = Math.sin(alpha * om) / sinom;
-        } else {
+        }
+        else {
             s1 = 1.0 - alpha;
             s2 = alpha;
         }

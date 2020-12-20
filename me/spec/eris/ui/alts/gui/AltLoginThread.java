@@ -14,7 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Session;
 
 public final class AltLoginThread
-        extends Thread {
+extends Thread {
     private final String password;
     private String status;
     private final String username;
@@ -26,23 +26,24 @@ public final class AltLoginThread
         this.username = username;
         this.password = password;
         Mojang = mojang;
-        this.status = (Object) ((Object) EnumChatFormatting.GRAY) + "Waiting...";
+        this.status = (Object)((Object)EnumChatFormatting.GRAY) + "Waiting...";
     }
 
     private Session createSession(String username, String password) {
-        if (Mojang) {
-            Eris.instance.serviceSwitcher.switchToService(AlteningServiceType.MOJANG);
-        } else {
-            Eris.instance.serviceSwitcher.switchToService(AlteningServiceType.THEALTENING);
-        }
+    	if (Mojang) {
+    		Eris.instance.serviceSwitcher.switchToService(AlteningServiceType.MOJANG);
+    	} else {
+    		Eris.instance.serviceSwitcher.switchToService(AlteningServiceType.THEALTENING);
+    	}
         YggdrasilAuthenticationService service = new YggdrasilAuthenticationService(Proxy.NO_PROXY, "");
-        YggdrasilUserAuthentication auth = (YggdrasilUserAuthentication) service.createUserAuthentication(Agent.MINECRAFT);
+        YggdrasilUserAuthentication auth = (YggdrasilUserAuthentication)service.createUserAuthentication(Agent.MINECRAFT);
         auth.setUsername(username);
         auth.setPassword(password);
         try {
             auth.logIn();
             return new Session(auth.getSelectedProfile().getName(), auth.getSelectedProfile().getId().toString(), auth.getAuthenticatedToken(), "mojang");
-        } catch (AuthenticationException localAuthenticationException) {
+        }
+        catch (AuthenticationException localAuthenticationException) {
             localAuthenticationException.printStackTrace();
         }
         return null;
@@ -55,16 +56,16 @@ public final class AltLoginThread
     @Override
     public void run() {
         if (this.password.equals("")) {
-            Minecraft.getMinecraft().session = new Session(this.username, "", "", "mojang");
-            this.status = (Object) ((Object) EnumChatFormatting.GREEN) + "Logged in. (" + this.username + " - offline name)";
+        	Minecraft.getMinecraft().session = new Session(this.username, "", "", "mojang");
+            this.status = (Object)((Object)EnumChatFormatting.GREEN) + "Logged in. (" + this.username + " - offline name)";
             return;
         }
-        this.status = (Object) ((Object) EnumChatFormatting.YELLOW) + "Logging in...";
+        this.status = (Object)((Object)EnumChatFormatting.YELLOW) + "Logging in...";
         Session auth = this.createSession(this.username, this.password);
         if (auth == null) {
-            this.status = (Object) ((Object) EnumChatFormatting.RED) + "Login failed!";
+        	this.status = (Object)((Object)EnumChatFormatting.RED) + "Login failed!";
         } else {
-            this.status = (Object) ((Object) EnumChatFormatting.GREEN) + "Logged in. (" + auth.getUsername() + ")";
+            this.status = (Object)((Object)EnumChatFormatting.GREEN) + "Logged in. (" + auth.getUsername() + ")";
             Minecraft.getMinecraft().session = auth;
             //Sight.instance.connection.printUsername();
         }
