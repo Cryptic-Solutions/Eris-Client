@@ -20,116 +20,115 @@ import net.minecraft.util.MathHelper;
 
 public class AntiBot extends Module {
 
-    public static ArrayList<EntityPlayer> bots = new ArrayList<>();
-    private ModeValue<Mode> mode = new ModeValue<>("Mode", Mode.WATCHDOG, this);
-    public BooleanValue<Boolean> removeValue = new BooleanValue<>("Remove World", true, this, "Remove bots from the world");
+	public static ArrayList<EntityPlayer> bots = new ArrayList<>();
+	private ModeValue<Mode> mode = new ModeValue<>("Mode", Mode.WATCHDOG, this);
+	public BooleanValue<Boolean> removeValue = new BooleanValue<>("Remove World", true, this, "Remove bots from the world");
 
-    public AntiBot() {
-        super("Antibot", Category.COMBAT);
-    }
+	public AntiBot() {
+		super("Antibot", Category.COMBAT);
+	}
 
-    public enum Mode {
-        WATCHDOG, GWEN, REFLEX
-    }
+	public enum Mode {
+		WATCHDOG, GWEN, REFLEX
+	}
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        bots.clear();
-    }
+	@Override
+	public void onEnable() {
+		super.onEnable();
+		bots.clear();
+	}
 
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        bots.clear();
-    }
+	@Override
+	public void onDisable() {
+		super.onDisable();
+		bots.clear();
+	}
+	
+	private boolean isInTablist (EntityLivingBase player){
+		if (mc.isSingleplayer()) {
+			return true;
+		}
+		for (Object o : mc.getNetHandler().getPlayerInfoMap()) {
+			NetworkPlayerInfo playerInfo = (NetworkPlayerInfo) o;
+			if (playerInfo.getGameProfile().getName().equalsIgnoreCase(player.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public void onEvent(Event e) {
+		if (e instanceof EventPacket) {
+			EventPacket event = (EventPacket)e;
+			if (event.isReceiving()) { 
+					if (event.getPacket() instanceof S18PacketEntityTeleport) {
+						S18PacketEntityTeleport packet = (S18PacketEntityTeleport) event.getPacket();
+						Entity entity = mc.theWorld.getEntityByID(packet.getEntityId());
+						if (entity != null && entity instanceof EntityPlayer) {
+							if (entity.isInvisible()) {
+								bots.add((EntityPlayer) entity);
+							}
+						}
+					} 
+			}
+		}
+		
+		if (e instanceof EventUpdate) {
+			EventUpdate event = (EventUpdate)e;
+			
+			for (Entity entity : mc.theWorld.loadedEntityList) {
+				if ((entity instanceof EntityPlayer)) {
+					EntityPlayer player = (EntityPlayer)entity; 
 
-    private boolean isInTablist(EntityLivingBase player) {
-        if (mc.isSingleplayer()) {
-            return true;
-        }
-        for (Object o : mc.getNetHandler().getPlayerInfoMap()) {
-            NetworkPlayerInfo playerInfo = (NetworkPlayerInfo) o;
-            if (playerInfo.getGameProfile().getName().equalsIgnoreCase(player.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void onEvent(Event e) {
-        if (e instanceof EventPacket) {
-            EventPacket event = (EventPacket) e;
-            if (event.isReceiving()) {
-                if (event.getPacket() instanceof S18PacketEntityTeleport) {
-                    S18PacketEntityTeleport packet = (S18PacketEntityTeleport) event.getPacket();
-                    Entity entity = mc.theWorld.getEntityByID(packet.getEntityId());
-                    if (entity != null && entity instanceof EntityPlayer) {
-                        if (entity.isInvisible()) {
-                            bots.add((EntityPlayer) entity);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (e instanceof EventUpdate) {
-            EventUpdate event = (EventUpdate) e;
-
-            for (Entity entity : mc.theWorld.loadedEntityList) {
-                if ((entity instanceof EntityPlayer)) {
-                    EntityPlayer player = (EntityPlayer) entity;
-
-                    if (mode.getValue().equals(Mode.REFLEX)) {
-                        if (player.isInvisible() && player.isEntityInsideOpaqueBlock()) {
-                            bots.add(player);
-                        }
-                    }
-                    if (mode.getValue().equals(Mode.WATCHDOG)) {
-                        if (player.getName().startsWith("ï¿½c") && !isInTablist(player) && player.isInvisible()) {
-                            if (!bots.contains(player)) {
-                                bots.add(player);
-                            }
-                        }
-                        if (player.isInvisible() && !bots.contains(player)) {
-                            float xDist = (float) (mc.thePlayer.posX - player.posX);
-                            float zDist = (float) (mc.thePlayer.posZ - player.posZ);
-                            double horizontalReaach = MathHelper.sqrt_float(xDist * xDist + zDist * zDist);
-                            if (horizontalReaach < .6) {
-                                double vert = mc.thePlayer.posY - player.posY;
-                                if (vert <= 5 && vert > 1) {
-                                    if (mc.thePlayer.ticksExisted % 5 == 0) {
-                                        bots.add(player);
-                                    }
-                                }
-                            }
-                        }
-                        if (bots.contains(player) && player.hurtTime > 0 || player.fallDistance > 0) {
-                            bots.remove(player);
-                        }
-                    } else if (mode.getValue().equals(Mode.GWEN)) {
-                        if (player.getHealth() != Float.NaN && player != mc.thePlayer) mc.theWorld.removeEntity(player);
-
-                    }
-                }
-            }
-
-            if (!bots.isEmpty() && mc.thePlayer.ticksExisted % 20 == 0) {
-                for (int i = 0; i < bots.size(); i++) {
-                    if (bots.contains(bots.get(i))) {
-                        if (!mc.theWorld.playerEntities.contains(bots.get(i))) bots.remove(bots.get(i));
-                    }
-                }
-                if (removeValue.getValue()) {
-                    for (Entity entity : mc.theWorld.loadedEntityList) {
-                        if ((entity instanceof EntityPlayer)) {
-                            if (!entity.getName().equalsIgnoreCase(mc.thePlayer.getName()) && bots.contains(entity))
-                                mc.theWorld.removeEntity(entity);
-                        }
-                    }
-                }
-            }
-        }
-    }
+					if (mode.getValue().equals(Mode.REFLEX)) {
+						if (player.isInvisible() && player.isEntityInsideOpaqueBlock()) {
+							bots.add(player);
+						}
+					}
+					if (mode.getValue().equals(Mode.WATCHDOG)) {
+						if (player.getName().startsWith("§c") && !isInTablist(player) && player.isInvisible()) {
+							if (!bots.contains(player)) {
+								bots.add(player);
+							}
+						}
+						if (player.isInvisible() && !bots.contains(player)) {
+							float xDist = (float) (mc.thePlayer.posX - player.posX);
+							float zDist = (float) (mc.thePlayer.posZ - player.posZ);
+							double horizontalReaach = MathHelper.sqrt_float(xDist * xDist + zDist * zDist);
+							if (horizontalReaach < .6) {
+								double vert = mc.thePlayer.posY - player.posY;
+								if (vert <= 5 && vert > 1) {
+									if (mc.thePlayer.ticksExisted % 5 == 0) {
+										bots.add(player);
+									}
+								}
+							}
+						}
+						if (bots.contains(player) && player.hurtTime > 0 || player.fallDistance > 0) {
+							bots.remove(player);
+						}
+					} else if (mode.getValue().equals(Mode.GWEN)) {
+						if (player.getHealth() != Float.NaN && player != mc.thePlayer) mc.theWorld.removeEntity(player);
+						
+					}
+				}
+			}
+			
+			if (!bots.isEmpty() && mc.thePlayer.ticksExisted % 20 == 0) {
+				for (int i = 0; i < bots.size(); i++) {
+					if (bots.contains(bots.get(i))) {
+						if (!mc.theWorld.playerEntities.contains(bots.get(i))) bots.remove(bots.get(i));
+					}	
+				}	
+				if (removeValue.getValue()) {
+					for (Entity entity : mc.theWorld.loadedEntityList) {
+						if ((entity instanceof EntityPlayer)) {
+							if (!entity.getName().equalsIgnoreCase(mc.thePlayer.getName()) && bots.contains(entity)) mc.theWorld.removeEntity(entity);
+						}
+					}
+				}
+			}
+		}
+	}
 }
