@@ -6,12 +6,11 @@ package libraries.vecmath;
 
 import java.io.Serializable;
 
-public class GVector implements Serializable, Cloneable
-{
+public class GVector implements Serializable, Cloneable {
     private int length;
     double[] values;
     static final long serialVersionUID = 1398850036893875112L;
-    
+
     public GVector(final int length) {
         this.length = length;
         this.values = new double[length];
@@ -19,7 +18,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = 0.0;
         }
     }
-    
+
     public GVector(final double[] vector) {
         this.length = vector.length;
         this.values = new double[vector.length];
@@ -27,7 +26,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = vector[i];
         }
     }
-    
+
     public GVector(final GVector vector) {
         this.values = new double[vector.length];
         this.length = vector.length;
@@ -35,27 +34,27 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = vector.values[i];
         }
     }
-    
+
     public GVector(final Tuple2f tuple) {
         (this.values = new double[2])[0] = tuple.x;
         this.values[1] = tuple.y;
         this.length = 2;
     }
-    
+
     public GVector(final Tuple3f tuple) {
         (this.values = new double[3])[0] = tuple.x;
         this.values[1] = tuple.y;
         this.values[2] = tuple.z;
         this.length = 3;
     }
-    
+
     public GVector(final Tuple3d tuple) {
         (this.values = new double[3])[0] = tuple.x;
         this.values[1] = tuple.y;
         this.values[2] = tuple.z;
         this.length = 3;
     }
-    
+
     public GVector(final Tuple4f tuple) {
         (this.values = new double[4])[0] = tuple.x;
         this.values[1] = tuple.y;
@@ -63,7 +62,7 @@ public class GVector implements Serializable, Cloneable
         this.values[3] = tuple.w;
         this.length = 4;
     }
-    
+
     public GVector(final Tuple4d tuple) {
         (this.values = new double[4])[0] = tuple.x;
         this.values[1] = tuple.y;
@@ -71,7 +70,7 @@ public class GVector implements Serializable, Cloneable
         this.values[3] = tuple.w;
         this.length = 4;
     }
-    
+
     public GVector(final double[] vector, final int length) {
         this.length = length;
         this.values = new double[length];
@@ -79,7 +78,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = vector[i];
         }
     }
-    
+
     public final double norm() {
         double sq = 0.0;
         for (int i = 0; i < this.length; ++i) {
@@ -87,7 +86,7 @@ public class GVector implements Serializable, Cloneable
         }
         return Math.sqrt(sq);
     }
-    
+
     public final double normSquared() {
         double sq = 0.0;
         for (int i = 0; i < this.length; ++i) {
@@ -95,7 +94,7 @@ public class GVector implements Serializable, Cloneable
         }
         return sq;
     }
-    
+
     public final void normalize(final GVector v1) {
         double sq = 0.0;
         if (this.length != v1.length) {
@@ -109,7 +108,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = v1.values[i] * invMag;
         }
     }
-    
+
     public final void normalize() {
         double sq = 0.0;
         for (int i = 0; i < this.length; ++i) {
@@ -120,7 +119,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] *= invMag;
         }
     }
-    
+
     public final void scale(final double s, final GVector v1) {
         if (this.length != v1.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector1"));
@@ -129,13 +128,13 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = v1.values[i] * s;
         }
     }
-    
+
     public final void scale(final double s) {
         for (int i = 0; i < this.length; ++i) {
             this.values[i] *= s;
         }
     }
-    
+
     public final void scaleAdd(final double s, final GVector v1, final GVector v2) {
         if (v2.length != v1.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector2"));
@@ -147,7 +146,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = v1.values[i] * s + v2.values[i];
         }
     }
-    
+
     public final void add(final GVector vector) {
         if (this.length != vector.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector4"));
@@ -158,7 +157,7 @@ public class GVector implements Serializable, Cloneable
             values[n] += vector.values[i];
         }
     }
-    
+
     public final void add(final GVector vector1, final GVector vector2) {
         if (vector1.length != vector2.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector5"));
@@ -170,7 +169,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = vector1.values[i] + vector2.values[i];
         }
     }
-    
+
     public final void sub(final GVector vector) {
         if (this.length != vector.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector7"));
@@ -181,7 +180,7 @@ public class GVector implements Serializable, Cloneable
             values[n] -= vector.values[i];
         }
     }
-    
+
     public final void sub(final GVector vector1, final GVector vector2) {
         if (vector1.length != vector2.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector8"));
@@ -193,7 +192,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = vector1.values[i] - vector2.values[i];
         }
     }
-    
+
     public final void mul(final GMatrix m1, final GVector v1) {
         if (m1.getNumCol() != v1.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector10"));
@@ -204,8 +203,7 @@ public class GVector implements Serializable, Cloneable
         double[] v2;
         if (v1 != this) {
             v2 = v1.values;
-        }
-        else {
+        } else {
             v2 = this.values.clone();
         }
         for (int j = this.length - 1; j >= 0; --j) {
@@ -217,7 +215,7 @@ public class GVector implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void mul(final GVector v1, final GMatrix m1) {
         if (m1.getNumRow() != v1.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector12"));
@@ -228,8 +226,7 @@ public class GVector implements Serializable, Cloneable
         double[] v2;
         if (v1 != this) {
             v2 = v1.values;
-        }
-        else {
+        } else {
             v2 = this.values.clone();
         }
         for (int j = this.length - 1; j >= 0; --j) {
@@ -241,7 +238,7 @@ public class GVector implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void negate() {
         for (int i = this.length - 1; i >= 0; --i) {
             final double[] values = this.values;
@@ -249,20 +246,19 @@ public class GVector implements Serializable, Cloneable
             values[n] *= -1.0;
         }
     }
-    
+
     public final void zero() {
         for (int i = 0; i < this.length; ++i) {
             this.values[i] = 0.0;
         }
     }
-    
+
     public final void setSize(final int length) {
         final double[] tmp = new double[length];
         int max;
         if (this.length < length) {
             max = this.length;
-        }
-        else {
+        } else {
             max = length;
         }
         for (int i = 0; i < max; ++i) {
@@ -271,13 +267,13 @@ public class GVector implements Serializable, Cloneable
         this.length = length;
         this.values = tmp;
     }
-    
+
     public final void set(final double[] vector) {
         for (int i = this.length - 1; i >= 0; --i) {
             this.values[i] = vector[i];
         }
     }
-    
+
     public final void set(final GVector vector) {
         if (this.length < vector.length) {
             this.length = vector.length;
@@ -285,8 +281,7 @@ public class GVector implements Serializable, Cloneable
             for (int i = 0; i < this.length; ++i) {
                 this.values[i] = vector.values[i];
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < vector.length; ++i) {
                 this.values[i] = vector.values[i];
             }
@@ -295,7 +290,7 @@ public class GVector implements Serializable, Cloneable
             }
         }
     }
-    
+
     public final void set(final Tuple2f tuple) {
         if (this.length < 2) {
             this.length = 2;
@@ -307,7 +302,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = 0.0;
         }
     }
-    
+
     public final void set(final Tuple3f tuple) {
         if (this.length < 3) {
             this.length = 3;
@@ -320,7 +315,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = 0.0;
         }
     }
-    
+
     public final void set(final Tuple3d tuple) {
         if (this.length < 3) {
             this.length = 3;
@@ -333,7 +328,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = 0.0;
         }
     }
-    
+
     public final void set(final Tuple4f tuple) {
         if (this.length < 4) {
             this.length = 4;
@@ -347,7 +342,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = 0.0;
         }
     }
-    
+
     public final void set(final Tuple4d tuple) {
         if (this.length < 4) {
             this.length = 4;
@@ -361,19 +356,19 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = 0.0;
         }
     }
-    
+
     public final int getSize() {
         return this.values.length;
     }
-    
+
     public final double getElement(final int index) {
         return this.values[index];
     }
-    
+
     public final void setElement(final int index, final double value) {
         this.values[index] = value;
     }
-    
+
     @Override
     public String toString() {
         final StringBuffer buffer = new StringBuffer(this.length * 8);
@@ -382,16 +377,16 @@ public class GVector implements Serializable, Cloneable
         }
         return buffer.toString();
     }
-    
+
     @Override
     public int hashCode() {
         long bits = 1L;
         for (int i = 0; i < this.length; ++i) {
             bits = 31L * bits + VecMathUtil.doubleToLongBits(this.values[i]);
         }
-        return (int)(bits ^ bits >> 32);
+        return (int) (bits ^ bits >> 32);
     }
-    
+
     public boolean equals(final GVector vector1) {
         try {
             if (this.length != vector1.length) {
@@ -403,16 +398,15 @@ public class GVector implements Serializable, Cloneable
                 }
             }
             return true;
-        }
-        catch (NullPointerException e2) {
+        } catch (NullPointerException e2) {
             return false;
         }
     }
-    
+
     @Override
     public boolean equals(final Object o1) {
         try {
-            final GVector v2 = (GVector)o1;
+            final GVector v2 = (GVector) o1;
             if (this.length != v2.length) {
                 return false;
             }
@@ -422,15 +416,13 @@ public class GVector implements Serializable, Cloneable
                 }
             }
             return true;
-        }
-        catch (ClassCastException e1) {
+        } catch (ClassCastException e1) {
             return false;
-        }
-        catch (NullPointerException e2) {
+        } catch (NullPointerException e2) {
             return false;
         }
     }
-    
+
     public boolean epsilonEquals(final GVector v1, final double epsilon) {
         if (this.length != v1.length) {
             return false;
@@ -443,7 +435,7 @@ public class GVector implements Serializable, Cloneable
         }
         return true;
     }
-    
+
     public final double dot(final GVector v1) {
         if (this.length != v1.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector14"));
@@ -454,7 +446,7 @@ public class GVector implements Serializable, Cloneable
         }
         return result;
     }
-    
+
     public final void SVDBackSolve(final GMatrix U, final GMatrix W, final GMatrix V, final GVector b) {
         if (U.nRow != b.getSize() || U.nRow != U.nCol || U.nRow != W.nRow) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector15"));
@@ -468,7 +460,7 @@ public class GVector implements Serializable, Cloneable
         tmp.invert();
         this.mul(tmp, b);
     }
-    
+
     public final void LUDBackSolve(final GMatrix LU, final GVector b, final GVector permutation) {
         final int size = LU.nRow * LU.nCol;
         final double[] temp = new double[size];
@@ -495,28 +487,28 @@ public class GVector implements Serializable, Cloneable
             result[i * LU.nCol] = b.values[i];
         }
         for (int i = 0; i < LU.nCol; ++i) {
-            row_perm[i] = (int)permutation.values[i];
+            row_perm[i] = (int) permutation.values[i];
         }
         GMatrix.luBacksubstitution(LU.nRow, temp, row_perm, result);
         for (int i = 0; i < LU.nRow; ++i) {
             this.values[i] = result[i * LU.nCol];
         }
     }
-    
+
     public final double angle(final GVector v1) {
         return Math.acos(this.dot(v1) / (this.norm() * v1.norm()));
     }
-    
+
     @Deprecated
     public final void interpolate(final GVector v1, final GVector v2, final float alpha) {
-        this.interpolate(v1, v2, (double)alpha);
+        this.interpolate(v1, v2, (double) alpha);
     }
-    
+
     @Deprecated
     public final void interpolate(final GVector v1, final float alpha) {
-        this.interpolate(v1, (double)alpha);
+        this.interpolate(v1, (double) alpha);
     }
-    
+
     public final void interpolate(final GVector v1, final GVector v2, final double alpha) {
         if (v2.length != v1.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector20"));
@@ -528,7 +520,7 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = (1.0 - alpha) * v1.values[i] + alpha * v2.values[i];
         }
     }
-    
+
     public final void interpolate(final GVector v1, final double alpha) {
         if (v1.length != this.length) {
             throw new MismatchedSizeException(VecMathI18N.getString("GVector22"));
@@ -537,13 +529,12 @@ public class GVector implements Serializable, Cloneable
             this.values[i] = (1.0 - alpha) * this.values[i] + alpha * v1.values[i];
         }
     }
-    
+
     public Object clone() {
         GVector v1 = null;
         try {
-            v1 = (GVector)super.clone();
-        }
-        catch (CloneNotSupportedException e) {
+            v1 = (GVector) super.clone();
+        } catch (CloneNotSupportedException e) {
             throw new InternalError();
         }
         v1.values = new double[this.length];

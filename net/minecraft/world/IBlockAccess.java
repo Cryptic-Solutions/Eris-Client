@@ -6,8 +6,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public interface IBlockAccess
-{
+public interface IBlockAccess {
     TileEntity getTileEntity(BlockPos pos);
 
     int getCombinedLight(BlockPos pos, int lightValue);
@@ -17,7 +16,7 @@ public interface IBlockAccess
     /**
      * Checks to see if an air block exists at the provided location. Note that this only checks to see if the blocks
      * material is set to air, meaning it is possible for non-vanilla blocks to still pass this check.
-     *  
+     *
      * @param pos The position of the block being checked.
      */
     boolean isAirBlock(BlockPos pos);

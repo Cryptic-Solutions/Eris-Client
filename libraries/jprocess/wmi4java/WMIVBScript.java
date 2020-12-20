@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * @author Javier Garcia Alonso
  */
 class WMIVBScript implements WMIStub {
-    
+
     private static final String ROOT_CIMV2 = "root/cimv2";
     private static final String IMPERSONATION_VARIABLE = "Set objWMIService=GetObject(\"winmgmts:{impersonationLevel=impersonate}!\\\\";
 
@@ -179,14 +179,14 @@ class WMIVBScript implements WMIStub {
             scriptCode.append("\")").append(CRLF);
             scriptCode.append("For Each element In wmiQueryData").append(CRLF);
             for (final String wmiProperty : usedWMIProperties) {
-            	if (!wmiProperty.equals("ConfigOptions")) {
-	                scriptCode.append("Wscript.Echo \"").append(wmiProperty)
-	                        .append(": \" & ").append("element.").append(wmiProperty).append(CRLF);
-            	} else {
-            		//Fix for ConfigOptions that is a Variant Array
-            		scriptCode.append("Wscript.Echo \"").append(wmiProperty)
-                    .append(": \" & ").append("Join(element.").append(wmiProperty).append(", \"|\")").append(CRLF);
-            	}
+                if (!wmiProperty.equals("ConfigOptions")) {
+                    scriptCode.append("Wscript.Echo \"").append(wmiProperty)
+                            .append(": \" & ").append("element.").append(wmiProperty).append(CRLF);
+                } else {
+                    //Fix for ConfigOptions that is a Variant Array
+                    scriptCode.append("Wscript.Echo \"").append(wmiProperty)
+                            .append(": \" & ").append("Join(element.").append(wmiProperty).append(", \"|\")").append(CRLF);
+                }
             }
             scriptCode.append("Next").append(CRLF);
 

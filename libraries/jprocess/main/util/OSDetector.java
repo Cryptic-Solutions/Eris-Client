@@ -17,15 +17,15 @@ package libraries.jprocess.main.util;
 
 /**
  * Detects used OS
- * 
+ *
  * @author Javier Garcia Alonso
  */
 public class OSDetector {
 
     private static final String OS = System.getProperty("os.name").toLowerCase();
-    
+
     //Hide constructor
-    private OSDetector() {        
+    private OSDetector() {
     }
 
     public static boolean isWindows() {
@@ -37,9 +37,9 @@ public class OSDetector {
     }
 
     public static boolean isUnix() {
-        return OS.contains("nix") || OS.contains("nux") || OS.contains("aix") || OS.matches( "mac.*os.*x" );
+        return OS.contains("nix") || OS.contains("nux") || OS.contains("aix") || OS.matches("mac.*os.*x");
     }
-    
+
     public static boolean isLinux() {
         return OS.contains("linux");
     }

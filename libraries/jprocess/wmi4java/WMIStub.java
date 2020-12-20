@@ -20,40 +20,40 @@ import java.util.List;
 /**
  * Interface for the stub that performs the operations to query WMI in order to
  * retrieve the classes, properties and object details
- * 
+ *
  * @author Javier Garcia Alonso
  */
 interface WMIStub {
 
     /**
      * List all the WMI classes for the required namespace/computername
-     * 
-     * @param namespace the namespace 
+     *
+     * @param namespace    the namespace
      * @param computerName the computer name
      * @return String with all the raw information returned after the query
-     * @throws WMIException 
+     * @throws WMIException
      */
     String listClasses(String namespace, String computerName) throws WMIException;
 
     /**
      * List all elements of the selected WMI class for the required namespace/computername
-     * 
-     * @param wmiClass the name of the queried wmi class
-     * @param namespace the namespace 
-     * @param computerName the computer name     
+     *
+     * @param wmiClass     the name of the queried wmi class
+     * @param namespace    the namespace
+     * @param computerName the computer name
      * @return String with all the raw information returned after the query
-     * @throws WMIException 
+     * @throws WMIException
      */
     String listObject(String wmiClass, String namespace, String computerName) throws WMIException;
 
     /**
      * Queries a WMI class getting specific properties and applying filters
      *
-     * @param wmiClass the name of the queried wmi class
+     * @param wmiClass      the name of the queried wmi class
      * @param wmiProperties properties to return
-     * @param conditions conditions to meet
-     * @param namespace the namespace
-     * @param computerName the computer name     
+     * @param conditions    conditions to meet
+     * @param namespace     the namespace
+     * @param computerName  the computer name
      * @return String with all the raw information returned after the query
      * @throws WMIException
      */
@@ -61,12 +61,12 @@ interface WMIStub {
 
     /**
      * List all properties of the selected WMI class for the required namespace/computername
-     * 
-     * @param wmiClass the name of the queried wmi class
-     * @param namespace the namespace 
-     * @param computerName the computer name     
+     *
+     * @param wmiClass     the name of the queried wmi class
+     * @param namespace    the namespace
+     * @param computerName the computer name
      * @return String with all the raw information returned after the query
-     * @throws WMIException 
+     * @throws WMIException
      */
     String listProperties(String wmiClass, String namespace, String computerName) throws WMIException;
 }

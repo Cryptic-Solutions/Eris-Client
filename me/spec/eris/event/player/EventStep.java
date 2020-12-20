@@ -26,12 +26,12 @@ public class EventStep extends Event {
     public float getStepHeight() {
         return stepHeight;
     }
-    
+
     public boolean isPre() {
-    	return this.pre;
+        return this.pre;
     }
-    
+
     public void setStage(boolean pre) {
-    	this.pre = pre;
+        this.pre = pre;
     }
 } 
