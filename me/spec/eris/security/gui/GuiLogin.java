@@ -50,18 +50,18 @@ public class GuiLogin extends GuiScreen {
             case 0: {
                 try {
 
-                    InvalidProcess.run();
-                    AntiHostsEdit.run();
-                    AntiVM.run();
-                    SerDes serializer = new SerDes(null, Arrays.asList(C42069ProtectionPacket.class, C42069ProtectionPacket.class));
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    DataOutputStream output = new DataOutputStream(baos);
-                    C42069ProtectionPacket packet = new C42069ProtectionPacket();
-                    packet.NAME = this.name.getText();
-                    packet.PASSWORD = this.password.getText();
+              //      InvalidProcess.run();
+             //       AntiHostsEdit.run();
+            //        AntiVM.run();
+                 //   SerDes serializer = new SerDes(null, Arrays.asList(C42069ProtectionPacket.class, C42069ProtectionPacket.class));
+               //     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    //DataOutputStream output = new DataOutputStream(baos);
+                    //C42069ProtectionPacket packet = new C42069ProtectionPacket();
+                   // packet.NAME = this.name.getText();
+                   // packet.PASSWORD = this.password.getText();
                     //packet.UID = Integer.parseInt(this.uid.getText());
-                    serializer.writeObject(packet, output);
-                    output.flush();
+          //          serializer.writeObject(packet, output);
+             //       output.flush();
 	        		/*Socket s = new Socket("127.0.0.1", 3000);
 	        		PrintWriter pw = new PrintWriter(s.getOutputStream(), true);
 	        		pw.println(new String(baos.toByteArray()));
@@ -83,9 +83,7 @@ public class GuiLogin extends GuiScreen {
                     Eris.instance = new Eris();
                     Eris.instance.onStart();
                     mc.displayGuiScreen(this.previousScreen);
-                } catch (NoSuchMethodException | SecurityException e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception e) {}
                 break;
             }
         }
