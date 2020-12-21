@@ -164,6 +164,10 @@ public class Killaura extends Module {
                 return;
             }
             boolean scaffoldCheck = Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled();
+            if (scaffoldCheck) {
+            	unBlock();
+            	return;
+            }
             if (modeValue.getValue() == Mode.SWITCH) {
 
                 updateTargetList();
@@ -196,11 +200,12 @@ public class Killaura extends Module {
                     if (crits.isToggled()) {
                         crits.doUpdate(eu);
                     }
-                    if (!Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Flight.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Speed.class).isToggled() && clientRaper.hasReached(100) && !mc.thePlayer.isMoving() && ServerUtils.onServer("hypixel") && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-                        //mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, eu.getY(), mc.thePlayer.posZ, eu.isOnGround()));
+                    prepareAttack(eu, scaffoldCheck);
+
+                    if (!Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Flight.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Speed.class).isToggled() && clientRaper.hasReached(150) && !mc.thePlayer.isMoving() && ServerUtils.onServer("hypixel") && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && Math.abs(eu.getY() - mc.thePlayer.posY) > .06) {
+                        mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, eu.getY(), mc.thePlayer.posZ, eu.isOnGround()));
                         clientRaper.reset();
                     }
-                    prepareAttack(eu, scaffoldCheck);
                 } else if (!eu.isPre()) {
                     if (!scaffoldCheck) {
                         block();

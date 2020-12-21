@@ -103,8 +103,7 @@ public class Scaffold extends Module {
 
             BlockPos blockBelow = new BlockPos(mc.thePlayer.posX + xOffset, mc.thePlayer.posY - 1, mc.thePlayer.posZ + zOffset);
 
-            BlockData blockEntry = mc.gameSettings.keyBindSneak.isKeyDown() ? find(new Vec3(0, -1, 0)) : mc.theWorld.getBlockState(blockBelow).getBlock() == Blocks.air ? find(new Vec3(0, 0, 0)) : null;
-
+            BlockData blockEntry = mc.gameSettings.keyBindSneak.isKeyDown() ? find(new Vec3(0, -1, 0)) : mc.theWorld.getBlockState(blockBelow).getBlock() == Blocks.air ? blockEntry = getBlockData2(blockBelow) : null;
             float speed = 0.4f;
             float yaw = 0;
             float pitch = 0;
@@ -141,6 +140,7 @@ public class Scaffold extends Module {
                     return;
                 }
                 boolean hasBlock = false;
+                boolean blocking = false;
                 if (switcher.getValue()) {
                     for (int i = 0; i < 9; ++i) {
                         if (mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).stackSize != 0 && mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemBlock && !invalid.contains(((ItemBlock) mc.thePlayer.inventory.getStackInSlot(i).getItem()).getBlock())) {
@@ -149,15 +149,13 @@ public class Scaffold extends Module {
                             break;
                         }
                     }
-                    if (!hasBlock) {
-                        for (int i = 0; i < 45; ++i) {
-                            if (mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).stackSize != 0 && mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemBlock && !invalid.contains(((ItemBlock) mc.thePlayer.inventory.getStackInSlot(i).getItem()).getBlock())) {
-                                mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 8, 2, mc.thePlayer);
-                                break;
-                            }
-                        }
-                    }
-                }
+ 
+        		} 
+        		
+        		if (blocking) {
+    	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+    	        	blocking = false;
+    			}
                 if (tower.getValue().equals(true)) {
                     if (mc.gameSettings.keyBindJump.isKeyDown() && !mc.thePlayer.isPotionActive(Potion.jump)) {
                         if (!mc.thePlayer.isMoving()) {
@@ -328,5 +326,379 @@ public class Scaffold extends Module {
             this.position = position;
             this.face = face;
         }
+    }
+    
+    public BlockData getBlockData2(BlockPos pos) {
+        if (!invalid.contains(mc.theWorld.getBlockState((pos.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        BlockPos pos1 = pos.add(-1, 0, 0);
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos1.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos1.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos1.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos1.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos1.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        BlockPos pos2 = pos.add(1, 0, 0);
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos2.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos2.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos2.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos2.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos2.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        BlockPos pos3 = pos.add(0, 0, 1);
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos3.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos3.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos3.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos3.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos3.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        BlockPos pos4 = pos.add(0, 0, -1);
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos4.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos4.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos4.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos4.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos4.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        BlockPos pos19 = pos.add(-2, 0, 0);
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos1.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos1.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos1.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos1.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos1.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos2.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos2.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos2.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos2.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos2.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos2.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos3.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos3.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos3.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos3.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos3.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos3.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos3.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos3.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos3.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos3.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos3.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos3.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos3.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos3.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos3.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos3.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos2.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos2.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos2.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos2.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos2.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos2.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos2.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos2.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos2.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos2.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos1.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos1.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos1.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos1.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos1.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos1.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos1.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos1.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos1.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos1.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos4.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos4.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos4.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos4.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos4.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos4.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos4.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos4.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos4.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos4.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos4.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos4.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos4.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos4.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos4.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        BlockPos pos5 = pos.add(0, -1, 0);
+        if (!invalid.contains(mc.theWorld.getBlockState((pos5.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos5.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos5.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos5.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos5.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos5.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos5.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos5.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos5.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos5.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos5.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos5.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos5.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos5.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos5.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos5.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos5.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos5.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos5.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos5.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        BlockPos pos6 = pos5.add(1, 0, 0);
+        if (!invalid.contains(mc.theWorld.getBlockState((pos6.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos6.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos6.add(-1, 0, 0))).getBlock())) {
+            return new BlockData(pos6.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos6.add(1, 0, 0))).getBlock())) {
+            return new BlockData(pos6.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos6.add(0, 0, 1))).getBlock())) {
+            return new BlockData(pos6.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState((pos6.add(0, 0, -1))).getBlock())) {
+            return new BlockData(pos6.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos6.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos6.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos6.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos6.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos6.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos6.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos6.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos6.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos6.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos6.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        BlockPos pos7 = pos5.add(-1, 0, 0);
+        if (!invalid.contains(mc.theWorld.getBlockState((pos7.add(0, -1, 0))).getBlock())) {
+            return new BlockData(pos7.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(-1, 0, 0)).getBlock())) {
+            return new BlockData(pos7.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(1, 0, 0)).getBlock())) {
+            return new BlockData(pos7.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(0, 0, 1)).getBlock())) {
+            return new BlockData(pos7.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(0, 0, -1)).getBlock())) {
+            return new BlockData(pos7.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos7.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos7.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos7.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos7.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos7.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos7.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        BlockPos pos8 = pos5.add(0, 0, 1);
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(0, -1, 0)).getBlock())) {
+            return new BlockData(pos8.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(-1, 0, 0)).getBlock())) {
+            return new BlockData(pos8.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(1, 0, 0)).getBlock())) {
+            return new BlockData(pos8.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(0, 0, 1)).getBlock())) {
+            return new BlockData(pos8.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(0, 0, -1)).getBlock())) {
+            return new BlockData(pos8.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos8.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos8.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos8.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos8.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos8.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos8.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        BlockPos pos9 = pos5.add(0, 0, -1);
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(0, -1, 0)).getBlock())) {
+            return new BlockData(pos9.add(0, -1, 0), EnumFacing.UP);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(-1, 0, 0)).getBlock())) {
+            return new BlockData(pos9.add(-1, 0, 0), EnumFacing.EAST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(1, 0, 0)).getBlock())) {
+            return new BlockData(pos9.add(1, 0, 0), EnumFacing.WEST);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(0, 0, 1)).getBlock())) {
+            return new BlockData(pos9.add(0, 0, 1), EnumFacing.NORTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(0, 0, -1)).getBlock())) {
+            return new BlockData(pos9.add(0, 0, -1), EnumFacing.SOUTH);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(0, 1, 0)).getBlock())) {
+            return new BlockData(pos9.add(0, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(0, 1, -1)).getBlock())) {
+            return new BlockData(pos9.add(0, 1, -1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(0, 1, 1)).getBlock())) {
+            return new BlockData(pos9.add(0, 1, 1), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(-1, 1, 0)).getBlock())) {
+            return new BlockData(pos9.add(-1, 1, 0), EnumFacing.DOWN);
+        }
+        if (!invalid.contains(mc.theWorld.getBlockState(pos9.add(1, 1, 0)).getBlock())) {
+            return new BlockData(pos9.add(1, 1, 0), EnumFacing.DOWN);
+        }
+        return null;
     }
 }

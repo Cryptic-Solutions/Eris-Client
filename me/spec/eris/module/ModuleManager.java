@@ -7,11 +7,13 @@ import me.spec.eris.module.antiflag.detection.FlagDetect;
 import me.spec.eris.module.modules.client.AntiCrash;
 import me.spec.eris.module.modules.client.ClickGUI;
 import me.spec.eris.module.modules.combat.*;
-import me.spec.eris.module.modules.misc.ChestSteal;
-import me.spec.eris.module.modules.misc.InventoryManager;
 import me.spec.eris.module.modules.movement.*;
 import me.spec.eris.module.modules.persistance.FlagDetection;
 import me.spec.eris.module.modules.persistance.Heartbeat;
+import me.spec.eris.module.modules.player.AntiVoid;
+import me.spec.eris.module.modules.player.ChestSteal;
+import me.spec.eris.module.modules.player.InventoryManager;
+import me.spec.eris.module.modules.player.NoFall;
 import me.spec.eris.module.modules.render.ESP;
 import me.spec.eris.module.modules.render.HUD;
 
@@ -38,6 +40,8 @@ public class ModuleManager {
         modules.add(new Velocity());
         modules.add(new Criticals());
         //Misc bullshit
+        modules.add(new NoFall());
+        modules.add(new AntiVoid());
         modules.add(new ChestSteal());
         modules.add(new InventoryManager());
 

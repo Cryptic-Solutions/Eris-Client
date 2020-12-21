@@ -66,6 +66,7 @@ public class Speed extends Module {
             }
 
             if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0) {
+              	 mc.timer.timerSpeed = 1.0f;
                 if (stage < 4) {
                     stage = -2;
                 }
@@ -74,18 +75,19 @@ public class Speed extends Module {
             }
             if (stage == 0) {
                 if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-                    if (mc.timer.timerSpeed < 1.0f) mc.timer.timerSpeed = 1.0f;
+                	 mc.timer.timerSpeed = 1.13f;
                     em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 4.0e-9f * 1.25));
-                    speed = em.getMovementSpeed() * 2.13;
+                    speed = em.getMovementSpeed() * 2.14999;
                 }
                 stage = 0;
             } else if (stage == 1) {
-                speed = getLastDistance() - .66 * (getLastDistance() - em.getMovementSpeed());
+            	speed = getLastDistance() - .65999 * (getLastDistance() - em.getMovementSpeed());
             } else {
-                if (stage > 13) {
-                    stage = -2;
-                }
-                speed = getLastDistance() - getLastDistance() / 159 + 4.0e-9d;
+            	mc.timer.timerSpeed = 1.0f;
+            	if (stage > 13) {
+            		stage = -2;
+           	 	}
+           	 	speed = getLastDistance() - getLastDistance() / 160 - 1.0e-9; 
             }
             em.setMoveSpeed(speed);
             stage++;
@@ -101,6 +103,7 @@ public class Speed extends Module {
 
     @Override
     public void onDisable() {
+      	 mc.timer.timerSpeed = 1.0f;
         super.onDisable();
     }
 }

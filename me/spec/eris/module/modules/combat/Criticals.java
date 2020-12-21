@@ -126,15 +126,17 @@ public class Criticals extends Module {
                     waitTicks = 6;
                 }
             }
-        } else if (e instanceof EventStep) {
-            if (((EventStep) e).isPre()) {
+        } else if (e instanceof EventStep) { 
                 if (mc.thePlayer == null)
                     return;
                 if (mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY < .626 && mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY > .4) {
-                    sendPosition(0, 0, 0, true, false);
-                    waitTicks = 3;
-                }
-            }
+                    waitTicks = 4;
+                    if (airTime > 0) {
+                    	Eris.instance.tellUser("Didnt do it! 1");
+                    	sendPosition(0, 0, 0, true, false);
+                    }
+                    airTime = 0;
+                } 
         } else if (e instanceof EventPacket) {
             if (mc.thePlayer == null || !interferanceFree()) return;
             EventPacket ep = (EventPacket) e;
@@ -166,8 +168,6 @@ public class Criticals extends Module {
                         aura.critStopwatch.reset();
                         eventPlayerUpdate.setOnGround(false);
                         forceUpdate = true;
-                        eventPlayerUpdate.setY(mc.thePlayer.posY + posY);
-                        Eris.getInstance().tellUser("check");
                         if (airTime >= 3) {
                             posY = 9.0e-4d * 2;
                             airTime = 0;
@@ -177,6 +177,7 @@ public class Criticals extends Module {
                                 posY -= 9.0e-4d * 2;
                             }
                         }
+                        eventPlayerUpdate.setY(mc.thePlayer.posY + posY); 
                         airTime++;
                     } else {
                         if (accumulatedFall >= 3) {
@@ -190,7 +191,9 @@ public class Criticals extends Module {
                         waitTicks--;
                     }
                 } else {
+                	waitTicks = 2;
                     Step.safe = true;
+                    Eris.instance.tellUser("Didnt do it!");
                 }
             } else {
                 Step.safe = true;
