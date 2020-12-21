@@ -6,10 +6,12 @@ import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
 import me.spec.eris.event.client.EventPacket;
 import me.spec.eris.event.player.EventUpdate;
+import me.spec.eris.event.render.EventRender2D;
 import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
+import me.spec.eris.utils.PlayerUtils;
 import me.spec.eris.utils.math.MathUtils;
 import net.minecraft.block.Block;
 import net.minecraft.util.MouseFilter;
@@ -70,6 +72,8 @@ public class Scaffold extends Module {
     private int item;
     private int towerTicks;
 
+    private boolean blocking;
+    
     @Override
     public void onDisable() {
         super.onDisable();
@@ -85,12 +89,18 @@ public class Scaffold extends Module {
 
     @Override
     public void onEvent(Event e) {
-
+    	if (e instanceof EventRender2D) {
+    		
+    	}
         if (e instanceof EventPacket) {
-
             EventPacket event = (EventPacket) e;
-            if (event.isSending()) {
-
+            if (event.isSending() && PlayerUtils.isHoldingSword()) {
+            	if (event.getPacket() instanceof C07PacketPlayerDigging) {
+            		blocking = true;
+            	}
+            	if (event.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+            		blocking = true;
+            	}
             }
         }
         if (e instanceof EventUpdate) {
@@ -128,6 +138,10 @@ public class Scaffold extends Module {
                 event.setYaw(yaw);
             } else {
                 int heldItem = mc.thePlayer.inventory.currentItem;
+                if (PlayerUtils.isHoldingSword() && blocking) {
+    	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+    	        	blocking = false;
+                }
                 if (!this.switcher.getValue()) {
                     for (int i = 0; i < 9; ++i) {
                         if (mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).stackSize != 0 && mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemBlock && !invalid.contains(((ItemBlock) mc.thePlayer.inventory.getStackInSlot(i).getItem()).getBlock())) {
@@ -140,7 +154,6 @@ public class Scaffold extends Module {
                     return;
                 }
                 boolean hasBlock = false;
-                boolean blocking = false;
                 if (switcher.getValue()) {
                     for (int i = 0; i < 9; ++i) {
                         if (mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).stackSize != 0 && mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemBlock && !invalid.contains(((ItemBlock) mc.thePlayer.inventory.getStackInSlot(i).getItem()).getBlock())) {
@@ -149,13 +162,7 @@ public class Scaffold extends Module {
                             break;
                         }
                     }
- 
-        		} 
-        		
-        		if (blocking) {
-    	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
-    	        	blocking = false;
-    			}
+        		}  
                 if (tower.getValue().equals(true)) {
                     if (mc.gameSettings.keyBindJump.isKeyDown() && !mc.thePlayer.isPotionActive(Potion.jump)) {
                         if (!mc.thePlayer.isMoving()) {

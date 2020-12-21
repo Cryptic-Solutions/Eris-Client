@@ -10,6 +10,7 @@ import me.spec.eris.module.Module;
 import me.spec.eris.module.antiflag.prioritization.ModulePrioritizer;
 import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.module.modules.combat.Criticals;
 import me.spec.eris.module.modules.combat.Killaura;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.module.values.valuetypes.ModeValue;
@@ -24,7 +25,7 @@ public class Speed extends Module {
 
     public double speed;
     public boolean reset;
-    public int stage;
+    public int stage, waitTicks, hops;
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
@@ -52,7 +53,8 @@ public class Speed extends Module {
             }
         }
 
-        if (e instanceof EventMove && mc.thePlayer.isMoving()) {
+        
+        if (e instanceof EventMove) {
             EventMove em = (EventMove) e;
             if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS)) {
                 if (!mc.thePlayer.onGround) {
@@ -65,37 +67,42 @@ public class Speed extends Module {
                 }
             }
 
+
+
+        	if (mc.thePlayer.fallDistance > 2.25) {
+        		waitTicks = 10; 
+       	 	}
             if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0) {
-              	 mc.timer.timerSpeed = 1.0f;
-                if (stage < 4) {
-                    stage = -2;
-                }
+            	if (reset) mc.timer.timerSpeed = 1.0f;
                 stage = 0;
                 setLastDistance(0.0);
             }
-            if (stage == 0) {
-                if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-                	 mc.timer.timerSpeed = 1.13f;
-                    em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 4.0e-9f * 1.25));
-                    speed = em.getMovementSpeed() * 2.14999;
-                }
-                stage = 0;
-            } else if (stage == 1) {
-            	speed = getLastDistance() - .65999 * (getLastDistance() - em.getMovementSpeed());
-            } else {
-            	mc.timer.timerSpeed = 1.0f;
-            	if (stage > 13) {
-            		stage = -2;
-           	 	}
-           	 	speed = getLastDistance() - getLastDistance() / 160 - 1.0e-9; 
-            }
-            em.setMoveSpeed(speed);
+            
+            if (waitTicks > 0) waitTicks--; 
+	           	if (stage == 0) {
+	           		Step step = ((Step)Eris.getInstance().modules.getModuleByClass(Step.class));
+	           		if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && step.height < .627 && mc.thePlayer.isMoving() && waitTicks <= 0) {
+	           			mc.timer.timerSpeed = 1.2f;
+	           			reset = true;
+	           			em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 4.0e-9f * 1.25));
+	           			speed = em.getMovementSpeed() * (waitTicks > 0 ? 1.9 : hops > 3 ? 2.1499 : 2.18);
+	           			hops++;
+	           		}
+	           	} else if (stage == 1) {
+	           		speed = getLastDistance() - .65999 * (getLastDistance() - em.getMovementSpeed());
+	           	} else {
+	           		if (stage == 2 || stage == 4) {
+	           			mc.timer.timerSpeed -= .1f;
+	           		}
+	           	}   
+            em.setMoveSpeed(stage > 1 ? getLastDistance() - getLastDistance() / 160 - 1.0e-9 : speed); 
             stage++;
         }
     }
 
     @Override
     public void onEnable() {
+    	hops = 0;
         setLastDistance(0.0);
         stage = 0;
         super.onEnable();

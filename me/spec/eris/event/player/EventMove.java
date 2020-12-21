@@ -91,33 +91,29 @@ public class EventMove extends Event {
         //moveForward = 1;
         //}
         //}
-        double moveStrafe = /*targetStrafe ? TargetStrafe.direction : */movementInput.getStrafe();
+        double moveStrafe = /*targetStrafe ? TargetStrafe.direction : */movementInput.getStrafe() * 1.0;
         double yaw = /*targetStrafe ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] :*/ mc.thePlayer.rotationYaw;
-        if (moveForward == 0.0D && moveStrafe == 0.0D) {
-            setX(0.0D);
-            setZ(0.0D);
-        } else {
-            if (moveStrafe > 0) {
-                moveStrafe = 1;
-            } else if (moveStrafe < 0) {
-                moveStrafe = -1;
-            }
-            if (moveForward != 0.0D) {
-                if (moveStrafe > 0.0D) {
-                    yaw += (moveForward > 0.0D ? -45 : 45);
-                } else if (moveStrafe < 0.0D) {
-                    yaw += (moveForward > 0.0D ? 45 : -45);
-                }
-                moveStrafe = 0.0D;
-                if (moveForward > 0.0D) {
-                    moveForward = 1.0D;
-                } else if (moveForward < 0.0D) {
-                    moveForward = -1.0D;
-                }
-            }
-            setX(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw + 90)) + moveStrafe * moveSpeed * Math.sin(Math.toRadians(yaw + 90)));
-            setZ(moveForward * moveSpeed * Math.sin(Math.toRadians(yaw + 90)) - moveStrafe * moveSpeed * Math.cos(Math.toRadians(yaw + 90)));
+        double value = mc.thePlayer.hurtTime > 3 ? 1.2 : 1;
+        if (moveStrafe > 0) {
+        	moveStrafe = value;
+        } else if (moveStrafe < 0) {
+        	moveStrafe = -value;
         }
+        if (moveForward != 0.0D) {
+        	if (moveStrafe > 0.0D) {
+        		yaw += (moveForward > 0.0D ? -45 : 45);
+        	} else if (moveStrafe < 0.0D) {
+        		yaw += (moveForward > 0.0D ? 45 : -45);
+        	}
+        	moveStrafe = 0.0D;
+        	if (moveForward > 0.0D) {
+        		moveForward = 1.0D;
+        	} else if (moveForward < 0.0D) {
+        		moveForward = -1.0D;
+        	}
+            }
+        setX(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw + 90)) + moveStrafe * moveSpeed * Math.sin(Math.toRadians(yaw + 90)));
+        setZ(moveForward * moveSpeed * Math.sin(Math.toRadians(yaw + 90)) - moveStrafe * moveSpeed * Math.cos(Math.toRadians(yaw + 90))); 
     }
 
     public double getJumpBoostModifier(double baseJumpHeight) {

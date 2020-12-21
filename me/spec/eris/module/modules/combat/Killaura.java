@@ -195,17 +195,16 @@ public class Killaura extends Module {
                         index = 3;
                     }
 
+                    if (!Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Flight.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Speed.class).isToggled() && clientRaper.hasReached(350) && !mc.thePlayer.isMoving() && ServerUtils.onServer("hypixel") && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && Math.abs(eu.getY() - mc.thePlayer.posY) > .07) {
+                    	sendPosition(0,-9.001E-4D,0, false, false);
+                        clientRaper.reset();
+                    }
                     aim(eu);
                     unBlock();
                     if (crits.isToggled()) {
                         crits.doUpdate(eu);
                     }
-                    prepareAttack(eu, scaffoldCheck);
-
-                    if (!Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Flight.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Speed.class).isToggled() && clientRaper.hasReached(150) && !mc.thePlayer.isMoving() && ServerUtils.onServer("hypixel") && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && Math.abs(eu.getY() - mc.thePlayer.posY) > .06) {
-                        mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, eu.getY(), mc.thePlayer.posZ, eu.isOnGround()));
-                        clientRaper.reset();
-                    }
+                    prepareAttack(eu, scaffoldCheck); 
                 } else if (!eu.isPre()) {
                     if (!scaffoldCheck) {
                         block();

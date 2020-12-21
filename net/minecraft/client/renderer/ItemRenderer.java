@@ -324,7 +324,7 @@ public class ItemRenderer {
             if (this.itemToRender != null) {
                 if (this.itemToRender.getItem() instanceof ItemMap) {
                     this.renderItemMap(abstractclientplayer, f2, f, f1);
-                } else if (abstractclientplayer.getItemInUseCount() > 0 || aura.blocking) {
+                } else if (abstractclientplayer.getItemInUseCount() > 0) {
                     EnumAction enumaction = this.itemToRender.getItemUseAction();
 
                     switch (enumaction) {
@@ -347,6 +347,9 @@ public class ItemRenderer {
                             this.transformFirstPersonItem(f, 0.0F);
                             this.func_178098_a(partialTicks, abstractclientplayer);
                     }
+                } else if (aura.blocking) {
+                    this.transformFirstPersonItem(f, f1);
+                    this.func_178103_d();
                 } else {
                     this.func_178105_d(f1);
                     this.transformFirstPersonItem(f, f1);

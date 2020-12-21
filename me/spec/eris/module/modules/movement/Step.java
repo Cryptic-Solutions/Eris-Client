@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
+import me.spec.eris.event.player.EventMove;
 import me.spec.eris.event.player.EventStep;
 import me.spec.eris.event.player.EventUpdate;
 import me.spec.eris.module.Category;
@@ -36,6 +37,7 @@ public class Step extends Module {
     public enum Mode {NCP, VANILLA}
 
     public final TimerUtils stepDelay = new TimerUtils();
+	public double height;
 
     @Override
     public void onEvent(Event e) {
@@ -55,7 +57,7 @@ public class Step extends Module {
 
                 double currentX = mc.thePlayer.posX, currentY = mc.thePlayer.posY, currentZ = mc.thePlayer.posZ;
                 boolean isInvalid = false;
-                String[] invalidBlocks = {"snow", "chest", "slab", "stair"};
+                String[] invalidBlocks = {"chest", "slab", "stair", "anvil", "enchant"};
 
                 for (double x = currentX - radius; x <= currentX + radius; x++) {
                     for (double y = currentY - radius; y <= currentY + radius; y++) {
@@ -69,18 +71,27 @@ public class Step extends Module {
                         }
                     }
                 }
+                if (isInvalid || Eris.instance.modules.isEnabled(Speed.class)) return;
                 if (mc.thePlayer.isInWater() || mc.thePlayer.isInLava() || mc.thePlayer.isOnLadder() || ModulePrioritizer.flaggableMovementModules() || BlockUtils.isOnLiquid(mc.thePlayer)) {
                     stepDelay.reset();
                 }
-                if (stepDelay.hasReached(isInvalid ? 500 : 250) && !Eris.instance.modules.isEnabled(Speed.class)) {
+                if (stepDelay.hasReached(250)) {
                     needStep = true;
                 }
                 if ((needStep && safe) || needStep && !Eris.instance.modules.isEnabled(Criticals.class)) {
-                    event.setStepHeight(Eris.instance.modules.isEnabled(Speed.class) ? .626f : mc.thePlayer.isPotionActive(Potion.jump) ? 1 : 2.0f);
+                    event.setStepHeight(mc.thePlayer.isPotionActive(Potion.jump) ? 1 : 2.0f);
                 }
+                height = 0;
             } else if (needStep) {
-                double height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
-
+            	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
+                
+				Criticals crits = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));
+				crits.accumulatedFall = 0; 
+				if (crits.airTime > 0) {
+					sendPosition(0,0,0,true,false);
+					crits.airTime = 0;
+					crits.waitTicks = 3;
+				}
                 double posX = mc.thePlayer.posX;
                 double posY = mc.thePlayer.posY;
                 double posZ = mc.thePlayer.posZ;

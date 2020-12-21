@@ -132,8 +132,7 @@ public class Criticals extends Module {
                 if (mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY < .626 && mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY > .4) {
                     waitTicks = 4;
                     if (airTime > 0) {
-                    	Eris.instance.tellUser("Didnt do it! 1");
-                    	sendPosition(0, 0, 0, true, false);
+                    	Eris.instance.tellUser("Didnt do it! 1"); 
                     }
                     airTime = 0;
                 } 
