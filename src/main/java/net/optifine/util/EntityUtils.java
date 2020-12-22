@@ -8,15 +8,15 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.src.Config;
 
 public class EntityUtils {
-    private static final Map<Class, Integer> mapIdByClass = new HashMap();
-    private static final Map<String, Integer> mapIdByName = new HashMap();
-    private static final Map<String, Class> mapClassByName = new HashMap();
+    private static final Map<Class<?>, Integer> mapIdByClass = new HashMap<Class<?>, Integer>();
+    private static final Map<String, Integer> mapIdByName = new HashMap<String, Integer>();
+    private static final Map<String, Class<?>> mapClassByName = new HashMap<String, Class<?>>();
 
     public static int getEntityIdByClass(Entity entity) {
         return entity == null ? -1 : getEntityIdByClass(entity.getClass());
     }
 
-    public static int getEntityIdByClass(Class cls) {
+    public static int getEntityIdByClass(Class<? extends Entity> cls) {
         Integer integer = (Integer) mapIdByClass.get(cls);
         return integer == null ? -1 : integer.intValue();
     }
@@ -26,14 +26,14 @@ public class EntityUtils {
         return integer == null ? -1 : integer.intValue();
     }
 
-    public static Class getEntityClassByName(String name) {
-        Class oclass = (Class) mapClassByName.get(name);
+    public static Class<?> getEntityClassByName(String name) {
+        Class<?> oclass = (Class<?>) mapClassByName.get(name);
         return oclass;
     }
 
     static {
         for (int i = 0; i < 1000; ++i) {
-            Class oclass = EntityList.getClassFromID(i);
+            Class<?> oclass = EntityList.getClassFromID(i);
 
             if (oclass != null) {
                 String s = EntityList.getStringFromID(i);

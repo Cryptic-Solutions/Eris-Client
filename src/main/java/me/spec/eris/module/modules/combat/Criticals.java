@@ -15,17 +15,13 @@ import me.spec.eris.module.modules.movement.Scaffold;
 import me.spec.eris.module.modules.movement.Speed;
 import me.spec.eris.module.modules.movement.Step;
 import me.spec.eris.module.values.valuetypes.ModeValue;
-import me.spec.eris.module.values.valuetypes.NumberValue;
 import me.spec.eris.utils.PlayerUtils;
 import me.spec.eris.utils.ServerUtils;
-import me.spec.eris.utils.TimerUtils;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 
 public class Criticals extends Module {
-    private TimerUtils critTimer = new TimerUtils();
     private double groundSpoofDist = 0.001;
-    private boolean cubeCrit, forceUpdate;
-    private float yaw, pitch;
+    private boolean forceUpdate;
     public int airTime, waitTicks;
     public ModeValue<Mode> modeValue = new ModeValue<>("Mode", Mode.SPOOF, this);
     public double accumulatedFall, posY;
@@ -72,7 +68,7 @@ public class Criticals extends Module {
             EventUpdate eu = (EventUpdate) e;
             Killaura aura = ((Killaura) Eris.instance.modules.getModuleByClass(Killaura.class));
 
-            if ((!aura.isToggled() || aura.target == null) && Step.needStep && !Step.safe) {
+            if ((!aura.isToggled() || Killaura.target == null) && Step.needStep && !Step.safe) {
                 Step.safe = true;
             }
             if (modeValue.getValue() == Mode.SPOOF) {
@@ -157,7 +153,7 @@ public class Criticals extends Module {
     public void doUpdate(EventUpdate eventPlayerUpdate) {
         Killaura aura = ((Killaura) Eris.instance.modules.getModuleByClass(Killaura.class));
 
-        if (!(!aura.isToggled() || aura.target == null)) {
+        if (!(!aura.isToggled() || Killaura.target == null)) {
             if (interferanceFree()) {
 
                 if (Step.needStep || !Eris.instance.modules.isEnabled(Step.class)) {

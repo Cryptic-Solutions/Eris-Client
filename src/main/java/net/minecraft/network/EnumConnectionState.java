@@ -255,7 +255,7 @@ public enum EnumConnectionState {
     }
 
     protected EnumConnectionState registerPacket(EnumPacketDirection direction, Class<? extends Packet> packetClass) {
-        BiMap<Integer, Class<? extends Packet>> bimap = (BiMap) this.directionMaps.get(direction);
+        BiMap<Integer, Class<? extends Packet>> bimap = this.directionMaps.get(direction);
 
         if (bimap == null) {
             bimap = HashBiMap.<Integer, Class<? extends Packet>>create();
@@ -272,13 +272,13 @@ public enum EnumConnectionState {
         }
     }
 
-    public Integer getPacketId(EnumPacketDirection direction, Packet packetIn) {
-        return (Integer) ((BiMap) this.directionMaps.get(direction)).inverse().get(packetIn.getClass());
+    public Integer getPacketId(EnumPacketDirection direction, Packet<?> packetIn) {
+        return (Integer) this.directionMaps.get(direction).inverse().get(packetIn.getClass());
     }
 
-    public Packet getPacket(EnumPacketDirection direction, int packetId) throws InstantiationException, IllegalAccessException {
-        Class<? extends Packet> oclass = (Class) ((BiMap) this.directionMaps.get(direction)).get(Integer.valueOf(packetId));
-        return oclass == null ? null : (Packet) oclass.newInstance();
+    public Packet<?> getPacket(EnumPacketDirection direction, int packetId) throws InstantiationException, IllegalAccessException {
+        Class<? extends Packet> oclass = (Class<? extends Packet>) this.directionMaps.get(direction).get(Integer.valueOf(packetId));
+        return oclass == null ? null : oclass.newInstance();
     }
 
     public int getId() {
@@ -289,8 +289,8 @@ public enum EnumConnectionState {
         return stateId >= field_181136_e && stateId <= field_181137_f ? STATES_BY_ID[stateId - field_181136_e] : null;
     }
 
-    public static EnumConnectionState getFromPacket(Packet packetIn) {
-        return (EnumConnectionState) STATES_BY_CLASS.get(packetIn.getClass());
+    public static EnumConnectionState getFromPacket(Packet<?> packetIn) {
+        return STATES_BY_CLASS.get(packetIn.getClass());
     }
 
     static {

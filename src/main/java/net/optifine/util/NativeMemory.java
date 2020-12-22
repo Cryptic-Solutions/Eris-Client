@@ -19,7 +19,7 @@ public class NativeMemory {
     }
 
     private static LongSupplier makeLongSupplier(String[][] paths) {
-        List<Throwable> list = new ArrayList();
+        List<Throwable> list = new ArrayList<Throwable>();
 
         for (int i = 0; i < paths.length; ++i) {
             String[] astring = paths[i];
@@ -43,7 +43,7 @@ public class NativeMemory {
         if (path.length < 2) {
             return null;
         } else {
-            Class oclass = Class.forName(path[0]);
+            Class<?> oclass = Class.forName(path[0]);
             Method method = oclass.getMethod(path[1]);
             method.setAccessible(true);
             Object object = null;

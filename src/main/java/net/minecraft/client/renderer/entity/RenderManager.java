@@ -222,13 +222,13 @@ public class RenderManager {
     }
 
     public void setRenderPosition(double renderPosXIn, double renderPosYIn, double renderPosZIn) {
-        this.renderPosX = renderPosXIn;
-        this.renderPosY = renderPosYIn;
-        this.renderPosZ = renderPosZIn;
+        RenderManager.renderPosX = renderPosXIn;
+        RenderManager.renderPosY = renderPosYIn;
+        RenderManager.renderPosZ = renderPosZIn;
     }
 
     public <T extends Entity> Render<T> getEntityClassRenderObject(Class<? extends Entity> p_78715_1_) {
-        Render<? extends Entity> render = (Render) this.entityRenderMap.get(p_78715_1_);
+        Render<? extends Entity> render = this.entityRenderMap.get(p_78715_1_);
 
         if (render == null && p_78715_1_ != Entity.class) {
             render = this.<Entity>getEntityClassRenderObject((Class<? extends Entity>) p_78715_1_.getSuperclass());
@@ -241,7 +241,7 @@ public class RenderManager {
     public <T extends Entity> Render<T> getEntityRenderObject(Entity entityIn) {
         if (entityIn instanceof AbstractClientPlayer) {
             String s = ((AbstractClientPlayer) entityIn).getSkinType();
-            RenderPlayer renderplayer = (RenderPlayer) this.skinMap.get(s);
+            RenderPlayer renderplayer = this.skinMap.get(s);
             return (Render<T>) (renderplayer != null ? renderplayer : this.playerRenderer);
         } else {
             return this.<T>getEntityClassRenderObject(entityIn.getClass());
@@ -262,20 +262,20 @@ public class RenderManager {
             if (Reflector.callBoolean(block, Reflector.ForgeBlock_isBed, new Object[]{iblockstate, worldIn, new BlockPos(livingPlayerIn), (EntityLivingBase) livingPlayerIn})) {
                 EnumFacing enumfacing = (EnumFacing) Reflector.call(block, Reflector.ForgeBlock_getBedDirection, new Object[]{iblockstate, worldIn, new BlockPos(livingPlayerIn)});
                 int i = enumfacing.getHorizontalIndex();
-                this.playerViewY = (float) (i * 90 + 180);
+                RenderManager.playerViewY = (float) (i * 90 + 180);
                 this.playerViewX = 0.0F;
             } else if (block == Blocks.bed) {
                 int j = ((EnumFacing) iblockstate.getValue(BlockBed.FACING)).getHorizontalIndex();
-                this.playerViewY = (float) (j * 90 + 180);
+                RenderManager.playerViewY = (float) (j * 90 + 180);
                 this.playerViewX = 0.0F;
             }
         } else {
-            this.playerViewY = livingPlayerIn.prevRotationYaw + (livingPlayerIn.rotationYaw - livingPlayerIn.prevRotationYaw) * partialTicks;
+            RenderManager.playerViewY = livingPlayerIn.prevRotationYaw + (livingPlayerIn.rotationYaw - livingPlayerIn.prevRotationYaw) * partialTicks;
             this.playerViewX = livingPlayerIn.prevRotationPitch + (livingPlayerIn.rotationPitch - livingPlayerIn.prevRotationPitch) * partialTicks;
         }
 
         if (optionsIn.thirdPersonView == 2) {
-            this.playerViewY += 180.0F;
+            RenderManager.playerViewY += 180.0F;
         }
 
         this.viewerPosX = livingPlayerIn.lastTickPosX + (livingPlayerIn.posX - livingPlayerIn.lastTickPosX) * (double) partialTicks;
@@ -284,7 +284,7 @@ public class RenderManager {
     }
 
     public void setPlayerViewY(float playerViewYIn) {
-        this.playerViewY = playerViewYIn;
+        RenderManager.playerViewY = playerViewYIn;
     }
 
     public boolean isRenderShadow() {
@@ -333,7 +333,7 @@ public class RenderManager {
         int k = i / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        return this.doRenderEntity(entity, d0 - this.renderPosX, d1 - this.renderPosY, d2 - this.renderPosZ, f, partialTicks, p_147936_3_);
+        return this.doRenderEntity(entity, d0 - RenderManager.renderPosX, d1 - RenderManager.renderPosY, d2 - RenderManager.renderPosZ, f, partialTicks, p_147936_3_);
     }
 
     public void renderWitherSkull(Entity entityIn, float partialTicks) {
@@ -348,7 +348,7 @@ public class RenderManager {
             int k = i / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            render.renderName(entityIn, d0 - this.renderPosX, d1 - this.renderPosY, d2 - this.renderPosZ);
+            render.renderName(entityIn, d0 - RenderManager.renderPosX, d1 - RenderManager.renderPosY, d2 - RenderManager.renderPosZ);
         }
     }
 
@@ -472,7 +472,7 @@ public class RenderManager {
         return this.entityRenderMap;
     }
 
-    public void setEntityRenderMap(Map p_setEntityRenderMap_1_) {
+    public void setEntityRenderMap(Map<Class, Render> p_setEntityRenderMap_1_) {
         this.entityRenderMap = p_setEntityRenderMap_1_;
     }
 

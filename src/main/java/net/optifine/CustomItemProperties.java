@@ -962,7 +962,7 @@ public class CustomItemProperties {
                 Map map = (Map) Reflector.getFieldValue(modelBakery, Reflector.ModelLoader_stateModels);
                 checkNull(map, "stateModels is null");
                 map.put(modelresourcelocation, object1);
-                Set set = (Set) Reflector.getFieldValue(modelBakery, Reflector.ModelLoader_textures);
+                Set<?> set = (Set) Reflector.getFieldValue(modelBakery, Reflector.ModelLoader_textures);
                 checkNull(set, "registryTextures is null");
                 Collection collection = (Collection) Reflector.call(object1, Reflector.IModel_getTextures, new Object[0]);
                 checkNull(collection, "modelTextures is null");

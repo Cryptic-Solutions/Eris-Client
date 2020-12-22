@@ -162,7 +162,7 @@ public class CustomGuis {
         guiProperties = (CustomGuiProperties[][]) null;
 
         if (Config.isCustomGuis()) {
-            List<List<CustomGuiProperties>> list = new ArrayList();
+            List<List<CustomGuiProperties>> list = new ArrayList<List<CustomGuiProperties>>();
             IResourcePack[] airesourcepack = Config.getResourcePacks();
 
             for (int i = airesourcepack.length - 1; i >= 0; --i) {
@@ -182,7 +182,7 @@ public class CustomGuis {
 
             for (int i = 0; i < acustomguiproperties.length; ++i) {
                 if (listProps.size() > i) {
-                    List<CustomGuiProperties> list = (List) listProps.get(i);
+                    List<CustomGuiProperties> list = (List<CustomGuiProperties>) listProps.get(i);
 
                     if (list != null) {
                         CustomGuiProperties[] acustomguiproperties1 = (CustomGuiProperties[]) ((CustomGuiProperties[]) list.toArray(new CustomGuiProperties[list.size()]));
@@ -237,10 +237,10 @@ public class CustomGuis {
                 listProps.add(null);
             }
 
-            List<CustomGuiProperties> list = (List) listProps.get(i);
+            List<CustomGuiProperties> list = (List<CustomGuiProperties>) listProps.get(i);
 
             if (list == null) {
-                list = new ArrayList();
+                list = new ArrayList<CustomGuiProperties>();
                 listProps.set(i, list);
             }
 

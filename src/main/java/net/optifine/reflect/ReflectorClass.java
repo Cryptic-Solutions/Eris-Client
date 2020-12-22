@@ -5,7 +5,7 @@ import net.minecraft.src.Config;
 public class ReflectorClass {
     private String targetClassName;
     private boolean checked;
-    private Class targetClass;
+    private Class<?> targetClass;
 
     public ReflectorClass(String targetClassName) {
         this(targetClassName, false);
@@ -18,11 +18,11 @@ public class ReflectorClass {
         this.targetClassName = targetClassName;
 
         if (!lazyResolve) {
-            Class oclass = this.getTargetClass();
+            Class<?> oclass = this.getTargetClass();
         }
     }
 
-    public ReflectorClass(Class targetClass) {
+    public ReflectorClass(Class<?> targetClass) {
         this.targetClassName = null;
         this.checked = false;
         this.targetClass = null;
@@ -31,7 +31,7 @@ public class ReflectorClass {
         this.checked = true;
     }
 
-    public Class getTargetClass() {
+    public Class<?> getTargetClass() {
         if (this.checked) {
             return this.targetClass;
         } else {

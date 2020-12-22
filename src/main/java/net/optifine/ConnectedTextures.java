@@ -185,14 +185,14 @@ public class ConnectedTextures {
             int i = sprite.getIndexInMap();
 
             if (i >= 0 && i < spriteQuadMaps.length) {
-                Map map = spriteQuadMaps[i];
+                Map<BakedQuad, BakedQuad> map = spriteQuadMaps[i];
 
                 if (map == null) {
-                    map = new IdentityHashMap(1);
+                    map = new IdentityHashMap<BakedQuad, BakedQuad>(1);
                     spriteQuadMaps[i] = map;
                 }
 
-                BakedQuad bakedquad = (BakedQuad) map.get(quadIn);
+                BakedQuad bakedquad = map.get(quadIn);
 
                 if (bakedquad == null) {
                     bakedquad = makeSpriteQuad(quadIn, sprite);
@@ -215,15 +215,15 @@ public class ConnectedTextures {
             int i = sprite.getIndexInMap();
 
             if (i >= 0 && i < spriteQuadFullMaps.length) {
-                Map map = spriteQuadFullMaps[i];
+                Map<EnumFacing, BakedQuad> map = spriteQuadFullMaps[i];
 
                 if (map == null) {
-                    map = new EnumMap(EnumFacing.class);
+                    map = new EnumMap<EnumFacing, BakedQuad>(EnumFacing.class);
                     spriteQuadFullMaps[i] = map;
                 }
 
                 EnumFacing enumfacing = quadIn.getFace();
-                BakedQuad bakedquad = (BakedQuad) map.get(enumfacing);
+                BakedQuad bakedquad = map.get(enumfacing);
 
                 if (bakedquad == null) {
                     bakedquad = BlockModelUtils.makeBakedQuad(enumfacing, sprite, tintIndex);
@@ -271,7 +271,7 @@ public class ConnectedTextures {
             List<BakedQuad> list = renderEnv.getListQuadsCtmMultipass(abakedquad);
 
             for (int i = 0; i < list.size(); ++i) {
-                BakedQuad bakedquad = (BakedQuad) list.get(i);
+                BakedQuad bakedquad = list.get(i);
                 BakedQuad bakedquad1 = bakedquad;
 
                 for (int j = 0; j < 3; ++j) {
@@ -288,7 +288,7 @@ public class ConnectedTextures {
             }
 
             for (int k = 0; k < abakedquad.length; ++k) {
-                abakedquad[k] = (BakedQuad) list.get(k);
+                abakedquad[k] = list.get(k);
             }
 
             return abakedquad;
@@ -1824,15 +1824,15 @@ public class ConnectedTextures {
     }
 
     private static List makePropertyList(ConnectedProperties[][] propsArr) {
-        List list = new ArrayList();
+        List list = new ArrayList<List<ConnectedProperties>>();
 
         if (propsArr != null) {
             for (int i = 0; i < propsArr.length; ++i) {
                 ConnectedProperties[] aconnectedproperties = propsArr[i];
-                List list1 = null;
+                List<ConnectedProperties> list1 = null;
 
                 if (aconnectedproperties != null) {
-                    list1 = new ArrayList(Arrays.asList(aconnectedproperties));
+                    list1 = new ArrayList<ConnectedProperties>(Arrays.asList(aconnectedproperties));
                 }
 
                 list.add(list1);
@@ -1843,7 +1843,7 @@ public class ConnectedTextures {
     }
 
     private static boolean detectMultipass() {
-        List list = new ArrayList();
+        List<ConnectedProperties> list = new ArrayList<ConnectedProperties>();
 
         for (int i = 0; i < tileProperties.length; ++i) {
             ConnectedProperties[] aconnectedproperties = tileProperties[i];
@@ -1861,9 +1861,9 @@ public class ConnectedTextures {
             }
         }
 
-        ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) ((ConnectedProperties[]) list.toArray(new ConnectedProperties[list.size()]));
-        Set set1 = new HashSet();
-        Set set = new HashSet();
+        ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) list.toArray(new ConnectedProperties[list.size()]);
+        Set<TextureAtlasSprite> set1 = new HashSet<TextureAtlasSprite>();
+        Set<TextureAtlasSprite> set = new HashSet<TextureAtlasSprite>();
 
         for (int j = 0; j < aconnectedproperties1.length; ++j) {
             ConnectedProperties connectedproperties = aconnectedproperties1[j];
@@ -1927,15 +1927,15 @@ public class ConnectedTextures {
         }
     }
 
-    private static void addToList(ConnectedProperties cp, List list, int id) {
+    private static void addToList(ConnectedProperties cp, List<List> list, int id) {
         while (id >= list.size()) {
             list.add(null);
         }
 
-        List l = (List) list.get(id);
+        List<ConnectedProperties> l = (List<ConnectedProperties>) list.get(id);
 
         if (l == null) {
-            l = new ArrayList();
+            l = new ArrayList<ConnectedProperties>();
             list.set(id, l);
         }
 
@@ -1943,7 +1943,7 @@ public class ConnectedTextures {
     }
 
     private static String[] getDefaultCtmPaths() {
-        List list = new ArrayList();
+        List<Object> list = new ArrayList<Object>();
         String s = "mcpatcher/ctm/default/";
 
         if (Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/glass.png"))) {
@@ -1970,7 +1970,7 @@ public class ConnectedTextures {
             }
         }
 
-        String[] astring1 = (String[]) ((String[]) list.toArray(new String[list.size()]));
+        String[] astring1 = (String[]) list.toArray(new String[list.size()]);
         return astring1;
     }
 }

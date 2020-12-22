@@ -4,13 +4,11 @@ import java.util.ArrayList;
 
 import me.spec.eris.Eris;
 import me.spec.eris.module.Module;
-import me.spec.eris.module.ModuleManager;
 import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.module.modules.movement.Flight;
 import me.spec.eris.module.modules.movement.Longjump;
 import me.spec.eris.module.modules.movement.Speed;
-import net.minecraft.entity.player.EntityPlayer;
 
 /*
  *
@@ -33,7 +31,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class ModulePrioritizer {
 
     public static boolean isModuleUsable(Module module) {
-        ArrayList<Module> modules = new ArrayList();
+        ArrayList<Module> modules = new ArrayList<Module>();
         Eris.getInstance().modules.getModules().forEach(mod ->
                 {
                     if (mod.getModuleType().equals(ModuleType.FLAGGABLE) && !modules.contains(mod) && mod.getModulePriority() != ModulePriority.LOWEST)

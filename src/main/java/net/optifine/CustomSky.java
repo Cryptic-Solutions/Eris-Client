@@ -38,7 +38,7 @@ public class CustomSky {
 
         for (int j = 0; j < acustomskylayer.length; ++j) {
             String s1 = s + j + "/sky";
-            List list = new ArrayList();
+            List<CustomSkyLayer> list = new ArrayList<CustomSkyLayer>();
 
             for (int k = 1; k < 1000; ++k) {
                 String s2 = s1 + k + ".properties";

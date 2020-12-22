@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IObjectIntIterable<V> {
-    protected final ObjectIntIdentityMap<V> underlyingIntegerMap = new ObjectIntIdentityMap();
+    protected final ObjectIntIdentityMap<V> underlyingIntegerMap = new ObjectIntIdentityMap<V>();
     protected final Map<V, K> inverseObjectRegistry;
 
     public RegistryNamespaced() {
@@ -54,7 +54,7 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
      * @param id The id to fetch from the registry
      */
     public V getObjectById(int id) {
-        return (V) this.underlyingIntegerMap.getByValue(id);
+        return this.underlyingIntegerMap.getByValue(id);
     }
 
     public Iterator<V> iterator() {

@@ -427,7 +427,7 @@ public class Shaders {
     private static Set<String> shaderPackOptionSliders = null;
     static ShaderProfile[] shaderPackProfiles = null;
     static Map<String, ScreenShaderOptions> shaderPackGuiScreens = null;
-    static Map<String, IExpressionBool> shaderPackProgramConditions = new HashMap();
+    static Map<String, IExpressionBool> shaderPackProgramConditions = new HashMap<String, IExpressionBool>();
     public static final String PATH_SHADERS_PROPERTIES = "/shaders/shaders.properties";
     public static PropertyDefaultFastFancyOff shaderPackClouds = new PropertyDefaultFastFancyOff("clouds", "Clouds", 0);
     public static PropertyDefaultTrueFalse shaderPackOldLighting = new PropertyDefaultTrueFalse("oldLighting", "Classic Lighting", 0);
@@ -446,20 +446,16 @@ public class Shaders {
     public static PropertyDefaultTrueFalse shaderPackBeaconBeamDepth = new PropertyDefaultTrueFalse("beacon.beam.depth", "Rain Depth", 0);
     public static PropertyDefaultTrueFalse shaderPackSeparateAo = new PropertyDefaultTrueFalse("separateAo", "Separate AO", 0);
     public static PropertyDefaultTrueFalse shaderPackFrustumCulling = new PropertyDefaultTrueFalse("frustum.culling", "Frustum Culling", 0);
-    private static Map<String, String> shaderPackResources = new HashMap();
+    private static Map<String, String> shaderPackResources = new HashMap<String, String>();
     private static World currentWorld = null;
-    private static List<Integer> shaderPackDimensions = new ArrayList();
+    private static List<Integer> shaderPackDimensions = new ArrayList<Integer>();
     private static ICustomTexture[] customTexturesGbuffers = null;
     private static ICustomTexture[] customTexturesComposite = null;
     private static ICustomTexture[] customTexturesDeferred = null;
     private static String noiseTexturePath = null;
     private static CustomUniforms customUniforms = null;
-    private static final int STAGE_GBUFFERS = 0;
-    private static final int STAGE_COMPOSITE = 1;
-    private static final int STAGE_DEFERRED = 2;
     private static final String[] STAGE_NAMES = new String[]{"gbuffers", "composite", "deferred"};
     public static final boolean enableShadersOption = true;
-    private static final boolean enableShadersDebug = true;
     public static final boolean saveFinalShaders = System.getProperty("shaders.debug.save", "false").equals("true");
     public static float blockLightLevel05 = 0.5F;
     public static float blockLightLevel06 = 0.6F;
@@ -995,8 +991,8 @@ public class Shaders {
 
     private static ICustomTexture[] loadCustomTextures(Properties props, int stage) {
         String s = "texture." + STAGE_NAMES[stage] + ".";
-        Set set = props.keySet();
-        List<ICustomTexture> list = new ArrayList();
+        Set<?> set = props.keySet();
+        List<ICustomTexture> list = new ArrayList<ICustomTexture>();
 
         for (Object e : set) {
             String s1 = (String) e;
@@ -1060,7 +1056,7 @@ public class Shaders {
     private static ICustomTexture loadCustomTextureRaw(int textureUnit, String line) {
         ConnectedParser connectedparser = new ConnectedParser("Shaders");
         String[] astring = Config.tokenize(line, " ");
-        Deque<String> deque = new ArrayDeque(Arrays.asList(astring));
+        Deque<String> deque = new ArrayDeque<String>(Arrays.asList(astring));
         String s = (String) deque.poll();
         TextureType texturetype = (TextureType) connectedparser.parseEnum((String) deque.poll(), TextureType.values(), "texture type");
 
@@ -1377,7 +1373,7 @@ public class Shaders {
                 return new ShaderOption[0];
             } else {
                 ShaderOption[] ashaderoption1 = screenshaderoptions.getShaderOptions();
-                List<ShaderOption> list = new ArrayList();
+                List<ShaderOption> list = new ArrayList<ShaderOption>();
 
                 for (int i = 0; i < ashaderoption1.length; ++i) {
                     ShaderOption shaderoption = ashaderoption1[i];
@@ -1410,7 +1406,7 @@ public class Shaders {
     }
 
     private static ShaderOption[] getShaderOptionsRest(Map<String, ScreenShaderOptions> mapScreens, ShaderOption[] ops) {
-        Set<String> set = new HashSet();
+        Set<String> set = new HashSet<String>();
 
         for (String s : mapScreens.keySet()) {
             ScreenShaderOptions screenshaderoptions = (ScreenShaderOptions) mapScreens.get(s);
@@ -1425,7 +1421,7 @@ public class Shaders {
             }
         }
 
-        List<ShaderOption> list = new ArrayList();
+        List<ShaderOption> list = new ArrayList<ShaderOption>();
 
         for (int j = 0; j < ops.length; ++j) {
             ShaderOption shaderoption1 = ops[j];
@@ -1456,7 +1452,7 @@ public class Shaders {
     }
 
     private static ShaderOption[] getVisibleOptions(ShaderOption[] ops) {
-        List<ShaderOption> list = new ArrayList();
+        List<ShaderOption> list = new ArrayList<ShaderOption>();
 
         for (int i = 0; i < ops.length; ++i) {
             ShaderOption shaderoption = ops[i];
@@ -1552,7 +1548,7 @@ public class Shaders {
     }
 
     public static ShaderOption[] getChangedOptions(ShaderOption[] ops) {
-        List<ShaderOption> list = new ArrayList();
+        List<ShaderOption> list = new ArrayList<ShaderOption>();
 
         for (int i = 0; i < ops.length; ++i) {
             ShaderOption shaderoption = ops[i];
@@ -1583,8 +1579,8 @@ public class Shaders {
         }
     }
 
-    public static ArrayList listOfShaders() {
-        ArrayList<String> arraylist = new ArrayList();
+    public static ArrayList<String> listOfShaders() {
+        ArrayList<String> arraylist = new ArrayList<String>();
         arraylist.add("OFF");
         arraylist.add("(internal)");
         int i = arraylist.size();
@@ -2256,7 +2252,7 @@ public class Shaders {
             }
 
             ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<String>();
 
             if (bufferedreader != null) {
                 try {//TODO : Fix unclosed -
@@ -2338,7 +2334,7 @@ public class Shaders {
             }
 
             ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<String>();
             progArbGeometryShader4 = false;
             progMaxVerticesOut = 3;
 
@@ -2418,7 +2414,7 @@ public class Shaders {
             }
 
             ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<String>();
 
             if (bufferedreader != null) {
                 try {//TODO: Fix unclosed
@@ -2710,7 +2706,7 @@ public class Shaders {
     }
 
     private static boolean printShaderLogInfo(int shader, String name, List<String> listFiles) {
-        IntBuffer intbuffer = BufferUtils.createIntBuffer(1);
+        BufferUtils.createIntBuffer(1);
         int i = GL20.glGetShaderi(shader, 35716);
 
         if (i <= 1) {
@@ -3008,7 +3004,7 @@ public class Shaders {
     }
 
     private static void loadEntityDataMap() {
-        mapBlockToEntityData = new IdentityHashMap(300);
+        mapBlockToEntityData = new IdentityHashMap<Block, Integer>(300);
 
         if (mapBlockToEntityData.isEmpty()) {
             for (ResourceLocation resourcelocation : Block.blockRegistry.getKeys()) {
@@ -4690,7 +4686,7 @@ public class Shaders {
 
     public static void checkShadersModInstalled() {
         try {
-            Class oclass = Class.forName("shadersmod.transform.SMCClassTransformer");
+            Class.forName("shadersmod.transform.SMCClassTransformer");
         } catch (Throwable var1) {
             return;
         }
@@ -4709,10 +4705,10 @@ public class Shaders {
     }
 
     private static void loadShaderPackResources() {
-        shaderPackResources = new HashMap();
+        shaderPackResources = new HashMap<String, String>();
 
         if (shaderPackLoaded) {
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<String>();
             String s = "/shaders/lang/";
             String s1 = "en_US";
             String s2 = ".lang";

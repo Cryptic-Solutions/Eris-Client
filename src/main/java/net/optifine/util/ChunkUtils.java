@@ -44,8 +44,8 @@ public class ChunkUtils {
     private static ReflectorField findFieldHasEntities() {
         try {
             Chunk chunk = new Chunk((World) null, 0, 0);
-            List list = new ArrayList();
-            List list1 = new ArrayList();
+            List<Field> list = new ArrayList<Field>();
+            List<Object> list1 = new ArrayList<Object>();
             Field[] afield = Chunk.class.getDeclaredFields();
 
             for (int i = 0; i < afield.length; ++i) {
@@ -59,7 +59,7 @@ public class ChunkUtils {
             }
 
             chunk.setHasEntities(false);
-            List list2 = new ArrayList();
+            List<Object> list2 = new ArrayList<Object>();
 
             for (Object e : list) {
                 Field field1 = (Field) e;
@@ -67,16 +67,16 @@ public class ChunkUtils {
             }
 
             chunk.setHasEntities(true);
-            List list3 = new ArrayList();
+            List<Object> list3 = new ArrayList<Object>();
 
             for (Object e : list) {
                 Field field2 = (Field) e;
                 list3.add(field2.get(chunk));
             }
 
-            List list4 = new ArrayList();
+            List<Field> list4 = new ArrayList<Field>();
 
-            for (int j = 0; j < ((List) list).size(); ++j) {
+            for (int j = 0; j < ((List<Field>) list).size(); ++j) {
                 Field field3 = (Field) list.get(j);
                 Boolean obool = (Boolean) list2.get(j);
                 Boolean obool1 = (Boolean) list3.get(j);

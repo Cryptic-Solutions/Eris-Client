@@ -76,10 +76,10 @@ public class HUD extends Module {
         int size = 16;
         float x = 37;
         float y = (scaledResolution.getScaledHeight() - (230) - size * 2) - 5;
-        Collection var4 = this.mc.thePlayer.getActivePotionEffects();
+        Collection<?> var4 = this.mc.thePlayer.getActivePotionEffects();
         int i = 0;
         if (!var4.isEmpty()) {
-            for (Iterator var6 = this.mc.thePlayer.getActivePotionEffects().iterator(); var6.hasNext(); ) {
+            for (Iterator<?> var6 = this.mc.thePlayer.getActivePotionEffects().iterator(); var6.hasNext(); ) {
                 PotionEffect var7 = (PotionEffect) var6.next();
                 Potion var8 = Potion.potionTypes[var7.getPotionID()];
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

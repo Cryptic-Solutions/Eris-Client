@@ -12,7 +12,7 @@ public class FileManager {
 
     private ArrayList<DataFile> files = new ArrayList<DataFile>();
     public static File dir;
-    public static File configDir;
+    public File configDir;
     public static File hitsDir;
 
     public FileManager() {

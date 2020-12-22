@@ -63,7 +63,7 @@ public class ModelRenderer {
     public float offsetX;
     public float offsetY;
     public float offsetZ;
-    public List spriteList;
+    public List<ModelSprite> spriteList;
     public boolean mirrorV;
     public float scaleX;
     public float scaleY;
@@ -75,7 +75,7 @@ public class ModelRenderer {
     private RenderGlobal renderGlobal;
 
     public ModelRenderer(ModelBase model, String boxNameIn) {
-        this.spriteList = new ArrayList();
+        this.spriteList = new ArrayList<ModelSprite>();
         this.mirrorV = false;
         this.scaleX = 1.0F;
         this.scaleY = 1.0F;

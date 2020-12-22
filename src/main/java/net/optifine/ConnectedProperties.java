@@ -139,7 +139,7 @@ public class ConnectedProperties {
         if (this.tiles == null) {
             return null;
         } else {
-            Map<Integer, Integer> map = new HashMap();
+            Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
             for (Object object : props.keySet()) {
                 if (object instanceof String) {
@@ -209,33 +209,11 @@ public class ConnectedProperties {
         }
     }
 
-    private static String parseName(String path) {
-        String s = path;
-        int i = path.lastIndexOf(47);
-
-        if (i >= 0) {
-            s = path.substring(i + 1);
-        }
-
-        int j = s.lastIndexOf(46);
-
-        if (j >= 0) {
-            s = s.substring(0, j);
-        }
-
-        return s;
-    }
-
-    private static String parseBasePath(String path) {
-        int i = path.lastIndexOf(47);
-        return i < 0 ? "" : path.substring(0, i);
-    }
-
     private String[] parseTileNames(String str) {
         if (str == null) {
             return null;
         } else {
-            List list = new ArrayList();
+            List<String> list = new ArrayList<String>();
             String[] astring = Config.tokenize(str, " ,");
             label32:
 
@@ -379,9 +357,9 @@ public class ConnectedProperties {
         }
     }
 
-    public static IProperty getProperty(String key, Collection properties) {
+    public static IProperty<?> getProperty(String key, Collection<?> properties) {
         for (Object e : properties) {
-            IProperty iproperty = (IProperty) e;
+            IProperty<?> iproperty = (IProperty<?>) e;
             if (key.equals(iproperty.getName())) {
                 return iproperty;
             }
@@ -864,7 +842,7 @@ public class ConnectedProperties {
         if (tileNames == null) {
             return null;
         } else {
-            List list = new ArrayList();
+            List<TextureAtlasSprite> list = new ArrayList<TextureAtlasSprite>();
 
             for (int i = 0; i < tileNames.length; ++i) {
                 String s = tileNames[i];

@@ -2,8 +2,6 @@ package me.spec.eris.module.modules.combat;
 
 import java.util.ArrayList;
 
-import me.spec.eris.Eris;
-import me.spec.eris.Eris.Gamemode;
 import me.spec.eris.event.Event;
 import me.spec.eris.event.client.EventPacket;
 import me.spec.eris.event.player.EventUpdate;

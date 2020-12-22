@@ -19,7 +19,7 @@ public class ModelAdapterHorse extends ModelAdapter {
         super(EntityHorse.class, "horse", 0.75F);
     }
 
-    protected ModelAdapterHorse(Class entityClass, String name, float shadowSize) {
+    protected ModelAdapterHorse(Class<?> entityClass, String name, float shadowSize) {
         super(entityClass, name, shadowSize);
     }
 
@@ -51,7 +51,7 @@ public class ModelAdapterHorse extends ModelAdapter {
         if (mapPartFields != null) {
             return mapPartFields;
         } else {
-            mapPartFields = new HashMap();
+            mapPartFields = new HashMap<String, Integer>();
             mapPartFields.put("head", Integer.valueOf(0));
             mapPartFields.put("upper_mouth", Integer.valueOf(1));
             mapPartFields.put("lower_mouth", Integer.valueOf(2));

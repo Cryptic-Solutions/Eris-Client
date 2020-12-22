@@ -10,7 +10,7 @@ public class StrUtils {
             if (mask.indexOf(wildChar) < 0) {
                 return mask.indexOf(wildCharSingle) < 0 ? mask.equals(str) : equalsMaskSingle(str, mask, wildCharSingle);
             } else {
-                List list = new ArrayList();
+                List<String> list = new ArrayList<String>();
                 String s = "" + wildChar;
 
                 if (mask.startsWith(s)) {
@@ -39,7 +39,7 @@ public class StrUtils {
                     } else {
                         int i = 0;
 
-                        for (int j = 0; j < ((List) list).size(); ++j) {
+                        for (int j = 0; j < ((List<String>) list).size(); ++j) {
                             String s3 = (String) list.get(j);
 
                             if (s3.length() > 0) {
@@ -149,7 +149,7 @@ public class StrUtils {
             if (mask.indexOf(wildChar) < 0) {
                 return mask.equals(str);
             } else {
-                List list = new ArrayList();
+                List<String> list = new ArrayList<String>();
                 String s = "" + wildChar;
 
                 if (mask.startsWith(s)) {
@@ -178,7 +178,7 @@ public class StrUtils {
                     } else {
                         int i = 0;
 
-                        for (int j = 0; j < ((List) list).size(); ++j) {
+                        for (int j = 0; j < ((List<String>) list).size(); ++j) {
                             String s3 = (String) list.get(j);
 
                             if (s3.length() > 0) {
@@ -206,7 +206,7 @@ public class StrUtils {
             if (separators == null) {
                 return new String[]{str};
             } else {
-                List list = new ArrayList();
+                List<String> list = new ArrayList<String>();
                 int i = 0;
 
                 for (int j = 0; j < str.length(); ++j) {
@@ -464,7 +464,7 @@ public class StrUtils {
             if (start >= end) {
                 return strs;
             } else {
-                List<String> list = new ArrayList(strs.length);
+                List<String> list = new ArrayList<String>(strs.length);
 
                 for (int i = 0; i < strs.length; ++i) {
                     String s = strs[i];

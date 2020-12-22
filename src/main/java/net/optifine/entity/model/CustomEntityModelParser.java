@@ -63,8 +63,8 @@ public class CustomEntityModelParser {
         float f = Json.getFloat(obj, "shadowSize", -1.0F);
         JsonArray jsonarray = (JsonArray) obj.get("models");
         checkNull(jsonarray, "Missing models");
-        Map map = new HashMap();
-        List list = new ArrayList();
+        Map<String, JsonObject> map = new HashMap<String, JsonObject>();
+        List<CustomModelRenderer> list = new ArrayList<CustomModelRenderer>();
 
         for (int i = 0; i < jsonarray.size(); ++i) {
             JsonObject jsonobject = (JsonObject) jsonarray.get(i);
@@ -89,7 +89,7 @@ public class CustomEntityModelParser {
         return customentityrenderer;
     }
 
-    private static void processBaseId(JsonObject elem, Map mapModelJsons) {
+    private static void processBaseId(JsonObject elem, Map<String, JsonObject> mapModelJsons) {
         String s = Json.getString(elem, "baseId");
 
         if (s != null) {
@@ -103,7 +103,7 @@ public class CustomEntityModelParser {
         }
     }
 
-    private static void processExternalModel(JsonObject elem, Map mapModelJsons, String basePath) {
+    private static void processExternalModel(JsonObject elem, Map<String, JsonObject> mapModelJsons, String basePath) {
         String s = Json.getString(elem, "model");
 
         if (s != null) {
@@ -152,7 +152,7 @@ public class CustomEntityModelParser {
         return new ResourceLocation(path);
     }
 
-    private static void processId(JsonObject elem, Map mapModelJsons) {
+    private static void processId(JsonObject elem, Map<String, JsonObject> mapModelJsons) {
         String s = Json.getString(elem, "id");
 
         if (s != null) {
@@ -181,7 +181,7 @@ public class CustomEntityModelParser {
         JsonArray jsonarray = (JsonArray) elem.get("animations");
 
         if (jsonarray != null) {
-            List<ModelVariableUpdater> list = new ArrayList();
+            List<ModelVariableUpdater> list = new ArrayList<ModelVariableUpdater>();
 
             for (int i = 0; i < jsonarray.size(); ++i) {
                 JsonObject jsonobject = (JsonObject) jsonarray.get(i);

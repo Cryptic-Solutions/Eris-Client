@@ -9,8 +9,8 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.init.Blocks;
 
 public class ListQuadsOverlay {
-    private List<BakedQuad> listQuads = new ArrayList();
-    private List<IBlockState> listBlockStates = new ArrayList();
+    private List<BakedQuad> listQuads = new ArrayList<BakedQuad>();
+    private List<IBlockState> listBlockStates = new ArrayList<IBlockState>();
     private List<BakedQuad> listQuadsSingle = Arrays.<BakedQuad>asList(new BakedQuad[1]);
 
     public void addQuad(BakedQuad quad, IBlockState blockState) {

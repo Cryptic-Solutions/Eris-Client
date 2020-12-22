@@ -11,19 +11,19 @@ import net.minecraft.src.Config;
 public class FieldLocatorTypes implements IFieldLocator {
     private Field field = null;
 
-    public FieldLocatorTypes(Class cls, Class[] preTypes, Class type, Class[] postTypes, String errorName) {
+    public FieldLocatorTypes(Class<?> cls, Class[] preTypes, Class<?> type, Class[] postTypes, String errorName) {
         Field[] afield = cls.getDeclaredFields();
-        List<Class> list = new ArrayList();
+        List<Object> list = new ArrayList<Object>();
 
         for (int i = 0; i < afield.length; ++i) {
             Field field = afield[i];
             list.add(field.getType());
         }
 
-        List<Class> list1 = new ArrayList();
-        list1.addAll(Arrays.<Class>asList(preTypes));
+        List<Object> list1 = new ArrayList<Object>();
+        list1.addAll(Arrays.<Class<?>>asList(preTypes));
         list1.add(type);
-        list1.addAll(Arrays.<Class>asList(postTypes));
+        list1.addAll(Arrays.<Class<?>>asList(postTypes));
         int l = Collections.indexOfSubList(list, list1);
 
         if (l < 0) {

@@ -1,11 +1,7 @@
 package me.spec.eris.antivirus;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import me.spec.eris.Eris;
@@ -71,10 +67,6 @@ public class AntiVirus extends Thread {
         }
 
         return deleted;
-    }
-
-    private void sendMessage(String message) {
-        this.sendMessage(message, 3000);
     }
 
     private void sendMessage(String message, int duration) {

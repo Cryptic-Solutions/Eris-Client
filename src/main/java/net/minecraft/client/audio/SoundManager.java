@@ -76,7 +76,7 @@ public class SoundManager {
     private final Map<String, Integer> playingSoundsStopTime;
 
     public SoundManager(SoundHandler p_i45119_1_, GameSettings p_i45119_2_) {
-        this.invPlayingSounds = ((BiMap) this.playingSounds).inverse();
+        this.invPlayingSounds = ((BiMap<String, ISound>) this.playingSounds).inverse();
         this.playingSoundPoolEntries = Maps.<ISound, SoundPoolEntry>newHashMap();
         this.categorySounds = HashMultimap.<SoundCategory, String>create();
         this.tickableSounds = Lists.<ITickableSound>newArrayList();
@@ -156,8 +156,8 @@ public class SoundManager {
                 this.sndSystem.setMasterVolume(volume);
             } else {
                 for (String s : this.categorySounds.get(category)) {
-                    ISound isound = (ISound) this.playingSounds.get(s);
-                    float f = this.getNormalizedVolume(isound, (SoundPoolEntry) this.playingSoundPoolEntries.get(isound), category);
+                    ISound isound = this.playingSounds.get(s);
+                    float f = this.getNormalizedVolume(isound, this.playingSoundPoolEntries.get(isound), category);
 
                     if (f <= 0.0F) {
                         this.stopSound(isound);
@@ -207,9 +207,9 @@ public class SoundManager {
             if (itickablesound.isDonePlaying()) {
                 this.stopSound(itickablesound);
             } else {
-                String s = (String) this.invPlayingSounds.get(itickablesound);
-                this.sndSystem.setVolume(s, this.getNormalizedVolume(itickablesound, (SoundPoolEntry) this.playingSoundPoolEntries.get(itickablesound), this.sndHandler.getSound(itickablesound.getSoundLocation()).getSoundCategory()));
-                this.sndSystem.setPitch(s, this.getNormalizedPitch(itickablesound, (SoundPoolEntry) this.playingSoundPoolEntries.get(itickablesound)));
+                String s = this.invPlayingSounds.get(itickablesound);
+                this.sndSystem.setVolume(s, this.getNormalizedVolume(itickablesound, this.playingSoundPoolEntries.get(itickablesound), this.sndHandler.getSound(itickablesound.getSoundLocation()).getSoundCategory()));
+                this.sndSystem.setPitch(s, this.getNormalizedPitch(itickablesound, this.playingSoundPoolEntries.get(itickablesound)));
                 this.sndSystem.setPosition(s, itickablesound.getXPosF(), itickablesound.getYPosF(), itickablesound.getZPosF());
             }
         }
@@ -217,12 +217,12 @@ public class SoundManager {
         Iterator<Entry<String, ISound>> iterator = this.playingSounds.entrySet().iterator();
 
         while (iterator.hasNext()) {
-            Entry<String, ISound> entry = (Entry) iterator.next();
-            String s1 = (String) entry.getKey();
-            ISound isound = (ISound) entry.getValue();
+            Entry<String, ISound> entry = iterator.next();
+            String s1 = entry.getKey();
+            ISound isound = entry.getValue();
 
             if (!this.sndSystem.playing(s1)) {
-                int i = ((Integer) this.playingSoundsStopTime.get(s1)).intValue();
+                int i = this.playingSoundsStopTime.get(s1).intValue();
 
                 if (i <= this.playTime) {
                     int j = isound.getRepeatDelay();
@@ -253,10 +253,10 @@ public class SoundManager {
         Iterator<Entry<ISound, Integer>> iterator1 = this.delayedSounds.entrySet().iterator();
 
         while (iterator1.hasNext()) {
-            Entry<ISound, Integer> entry1 = (Entry) iterator1.next();
+            Entry<ISound, Integer> entry1 = iterator1.next();
 
-            if (this.playTime >= ((Integer) entry1.getValue()).intValue()) {
-                ISound isound1 = (ISound) entry1.getKey();
+            if (this.playTime >= entry1.getValue().intValue()) {
+                ISound isound1 = entry1.getKey();
 
                 if (isound1 instanceof ITickableSound) {
                     ((ITickableSound) isound1).update();
@@ -275,14 +275,14 @@ public class SoundManager {
         if (!this.loaded) {
             return false;
         } else {
-            String s = (String) this.invPlayingSounds.get(sound);
-            return s == null ? false : this.sndSystem.playing(s) || this.playingSoundsStopTime.containsKey(s) && ((Integer) this.playingSoundsStopTime.get(s)).intValue() <= this.playTime;
+            String s = this.invPlayingSounds.get(sound);
+            return s == null ? false : this.sndSystem.playing(s) || this.playingSoundsStopTime.containsKey(s) && this.playingSoundsStopTime.get(s).intValue() <= this.playTime;
         }
     }
 
     public void stopSound(ISound sound) {
         if (this.loaded) {
-            String s = (String) this.invPlayingSounds.get(sound);
+            String s = this.invPlayingSounds.get(sound);
 
             if (s != null) {
                 this.sndSystem.stop(s);

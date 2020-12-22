@@ -8,20 +8,20 @@ public class ReflectorConstructor {
     private ReflectorClass reflectorClass = null;
     private Class[] parameterTypes = null;
     private boolean checked = false;
-    private Constructor targetConstructor = null;
+    private Constructor<?> targetConstructor = null;
 
     public ReflectorConstructor(ReflectorClass reflectorClass, Class[] parameterTypes) {
         this.reflectorClass = reflectorClass;
         this.parameterTypes = parameterTypes;
-        Constructor constructor = this.getTargetConstructor();
+        Constructor<?> constructor = this.getTargetConstructor();
     }
 
-    public Constructor getTargetConstructor() {
+    public Constructor<?> getTargetConstructor() {
         if (this.checked) {
             return this.targetConstructor;
         } else {
             this.checked = true;
-            Class oclass = this.reflectorClass.getTargetClass();
+            Class<?> oclass = this.reflectorClass.getTargetClass();
 
             if (oclass == null) {
                 return null;
@@ -45,11 +45,11 @@ public class ReflectorConstructor {
         }
     }
 
-    private static Constructor findConstructor(Class cls, Class[] paramTypes) {
+    private static Constructor<?> findConstructor(Class<?> cls, Class[] paramTypes) {
         Constructor[] aconstructor = cls.getDeclaredConstructors();
 
         for (int i = 0; i < aconstructor.length; ++i) {
-            Constructor constructor = aconstructor[i];
+            Constructor<?> constructor = aconstructor[i];
             Class[] aclass = constructor.getParameterTypes();
 
             if (Reflector.matchesTypes(paramTypes, aclass)) {

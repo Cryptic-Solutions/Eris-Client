@@ -3,7 +3,7 @@ package net.optifine.util;
 import java.util.ArrayList;
 
 public class CompactArrayList {
-    private ArrayList list;
+    private ArrayList<Object> list;
     private int initialCapacity;
     private float loadFactor;
     private int countValid;
@@ -21,7 +21,7 @@ public class CompactArrayList {
         this.initialCapacity = 0;
         this.loadFactor = 1.0F;
         this.countValid = 0;
-        this.list = new ArrayList(initialCapacity);
+        this.list = new ArrayList<Object>(initialCapacity);
         this.initialCapacity = initialCapacity;
         this.loadFactor = loadFactor;
     }

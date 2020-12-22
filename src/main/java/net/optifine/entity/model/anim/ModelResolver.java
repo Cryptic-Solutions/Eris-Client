@@ -20,7 +20,7 @@ public class ModelResolver implements IModelResolver {
         this.modelAdapter = modelAdapter;
         this.model = model;
         this.customModelRenderers = customModelRenderers;
-        Class oclass = modelAdapter.getEntityClass();
+        Class<?> oclass = modelAdapter.getEntityClass();
 
         if (TileEntity.class.isAssignableFrom(oclass)) {
             this.renderResolver = new RenderResolverTileEntity();

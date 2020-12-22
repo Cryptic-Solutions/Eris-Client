@@ -33,13 +33,13 @@ public class BlockModelUtils {
     }
 
     public static IBakedModel makeModelCube(TextureAtlasSprite sprite, int tintIndex) {
-        List list = new ArrayList();
+        List<BakedQuad> list = new ArrayList<BakedQuad>();
         EnumFacing[] aenumfacing = EnumFacing.VALUES;
-        List<List<BakedQuad>> list1 = new ArrayList();
+        List<List<BakedQuad>> list1 = new ArrayList<List<BakedQuad>>();
 
         for (int i = 0; i < aenumfacing.length; ++i) {
             EnumFacing enumfacing = aenumfacing[i];
-            List list2 = new ArrayList();
+            List<BakedQuad> list2 = new ArrayList<BakedQuad>();
             list2.add(makeBakedQuad(enumfacing, sprite, tintIndex));
             list1.add(list2);
         }
@@ -49,15 +49,15 @@ public class BlockModelUtils {
     }
 
     public static IBakedModel joinModelsCube(IBakedModel modelBase, IBakedModel modelAdd) {
-        List<BakedQuad> list = new ArrayList();
+        List<BakedQuad> list = new ArrayList<BakedQuad>();
         list.addAll(modelBase.getGeneralQuads());
         list.addAll(modelAdd.getGeneralQuads());
         EnumFacing[] aenumfacing = EnumFacing.VALUES;
-        List list1 = new ArrayList();
+        List<List<BakedQuad>> list1 = new ArrayList<List<BakedQuad>>();
 
         for (int i = 0; i < aenumfacing.length; ++i) {
             EnumFacing enumfacing = aenumfacing[i];
-            List list2 = new ArrayList();
+            List<BakedQuad> list2 = new ArrayList<BakedQuad>();
             list2.addAll(modelBase.getFaceQuads(enumfacing));
             list2.addAll(modelAdd.getFaceQuads(enumfacing));
             list1.add(list2);
@@ -125,7 +125,7 @@ public class BlockModelUtils {
     }
 
     private static void replaceTexture(List<BakedQuad> quads, TextureAtlasSprite spriteOld, TextureAtlasSprite spriteNew) {
-        List<BakedQuad> list = new ArrayList();
+        List<BakedQuad> list = new ArrayList<BakedQuad>();
 
         for (BakedQuad bakedquad : quads) {
             if (bakedquad.getSprite() == spriteOld) {
@@ -164,4 +164,8 @@ public class BlockModelUtils {
 
         return aabb.offset(d0, d2, d1);
     }
+
+	public static float getVertexCoordAccuracy() {
+		return VERTEX_COORD_ACCURACY;
+	}
 }

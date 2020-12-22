@@ -7,18 +7,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.src.Config;
 
 public class CacheObjectArray {
-    private static ArrayDeque<int[]> arrays = new ArrayDeque();
+    private static ArrayDeque<int[]> arrays = new ArrayDeque<int[]>();
     private static int maxCacheSize = 10;
-
-    private static synchronized int[] allocateArray(int size) {
-        int[] aint = (int[]) arrays.pollLast();
-
-        if (aint == null || aint.length < size) {
-            aint = new int[size];
-        }
-
-        return aint;
-    }
 
     public static synchronized void freeArray(int[] ints) {
         if (arrays.size() < maxCacheSize) {
@@ -51,7 +41,7 @@ public class CacheObjectArray {
         int[] aint = new int[size];
 
         for (int j = 0; j < count; ++j) {
-            int[] aint1 = (int[]) aint.clone();
+            aint.clone();
         }
 
         long k = System.currentTimeMillis();
@@ -62,7 +52,7 @@ public class CacheObjectArray {
         long i = System.currentTimeMillis();
 
         for (int j = 0; j < count; ++j) {
-            int[] aint = (int[]) ((int[]) Array.newInstance(Integer.TYPE, size));
+            Array.newInstance(Integer.TYPE, size);
         }
 
         long k = System.currentTimeMillis();
@@ -74,7 +64,7 @@ public class CacheObjectArray {
         IBlockState[] aiblockstate = new IBlockState[size];
 
         for (int j = 0; j < count; ++j) {
-            IBlockState[] aiblockstate1 = (IBlockState[]) aiblockstate.clone();
+            aiblockstate.clone();
         }
 
         long k = System.currentTimeMillis();
@@ -85,18 +75,17 @@ public class CacheObjectArray {
         long i = System.currentTimeMillis();
 
         for (int j = 0; j < count; ++j) {
-            IBlockState[] aiblockstate = new IBlockState[size];
         }
 
         long k = System.currentTimeMillis();
         return k - i;
     }
 
-    private static long testNewObjDyn(Class cls, int size, int count) {
+    private static long testNewObjDyn(Class<IBlockState> cls, int size, int count) {
         long i = System.currentTimeMillis();
 
         for (int j = 0; j < count; ++j) {
-            Object[] aobject = (Object[]) ((Object[]) Array.newInstance(cls, size));
+            Array.newInstance(cls, size);
         }
 
         long k = System.currentTimeMillis();

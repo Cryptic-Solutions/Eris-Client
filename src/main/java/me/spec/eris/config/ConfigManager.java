@@ -14,7 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import me.spec.eris.Eris;
-import me.spec.eris.module.Category;
+import me.spec.eris.config.files.FileManager;
 import me.spec.eris.module.Module;
 import me.spec.eris.module.values.Value;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
@@ -31,7 +31,7 @@ public class ConfigManager {
     }
 
     public ConfigManager() {
-        File defaultFile = new File(Eris.instance.fileManager.dir, "defaultconfig.eriscnf");
+        File defaultFile = new File(FileManager.dir, "defaultconfig.eriscnf");
         if (!defaultFile.exists()) {
             try {
                 defaultFile.createNewFile();
@@ -105,7 +105,7 @@ public class ConfigManager {
         }
 
         try {
-            FileWriter fileWriter = new FileWriter(new File(Eris.instance.fileManager.dir, "defaultconfig.eriscnf"));
+            FileWriter fileWriter = new FileWriter(new File(FileManager.dir, "defaultconfig.eriscnf"));
             fileWriter.write(new GsonBuilder().create().toJson(jsonObject));
             fileWriter.close();
         } catch (IOException e) {

@@ -14,7 +14,7 @@ public class FieldLocatorName implements IFieldLocator {
     }
 
     public Field getField() {
-        Class oclass = this.reflectorClass.getTargetClass();
+        Class<?> oclass = this.reflectorClass.getTargetClass();
 
         if (oclass == null) {
             return null;
@@ -36,7 +36,7 @@ public class FieldLocatorName implements IFieldLocator {
         }
     }
 
-    private Field getDeclaredField(Class cls, String name) throws NoSuchFieldException {
+    private Field getDeclaredField(Class<?> cls, String name) throws NoSuchFieldException {
         Field[] afield = cls.getDeclaredFields();
 
         for (int i = 0; i < afield.length; ++i) {

@@ -19,14 +19,13 @@ public class RegionRenderCache extends ChunkCache {
     private final BlockPos position;
     private int[] combinedLights;
     private IBlockState[] blockStates;
-    private static ArrayDeque<int[]> cacheLights = new ArrayDeque();
-    private static ArrayDeque<IBlockState[]> cacheStates = new ArrayDeque();
+    private static ArrayDeque<int[]> cacheLights = new ArrayDeque<int[]>();
+    private static ArrayDeque<IBlockState[]> cacheStates = new ArrayDeque<IBlockState[]>();
     private static int maxCacheSize = Config.limit(Runtime.getRuntime().availableProcessors(), 1, 32);
 
     public RegionRenderCache(World worldIn, BlockPos posFromIn, BlockPos posToIn, int subIn) {
         super(worldIn, posFromIn, posToIn, subIn);
         this.position = posFromIn.subtract(new Vec3i(subIn, subIn, subIn));
-        int i = 8000;
         this.combinedLights = allocateLights(8000);
         Arrays.fill((int[]) ((int[]) this.combinedLights), (int) -1);
         this.blockStates = allocateStates(8000);
@@ -124,4 +123,8 @@ public class RegionRenderCache extends ChunkCache {
             }
         }
     }
+
+	public static IBlockState getDefaultState() {
+		return DEFAULT_STATE;
+	}
 }

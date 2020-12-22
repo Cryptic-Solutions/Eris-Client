@@ -1,8 +1,5 @@
 package net.optifine.entity.model;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -21,7 +21,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.entity.model.anim.ModelResolver;
@@ -60,9 +59,9 @@ public class CustomEntityModels {
 
                         if (oclass != null) {
                             if (ientityrenderer instanceof Render) {
-                                map.put(oclass, (Render) ientityrenderer);
+                                map.put(oclass, (Render<?>) ientityrenderer);
                             } else if (ientityrenderer instanceof TileEntitySpecialRenderer) {
-                                map1.put(oclass, (TileEntitySpecialRenderer) ientityrenderer);
+                                map1.put(oclass, (TileEntitySpecialRenderer<?>) ientityrenderer);
                             } else {
                                 Config.warn("Unknown renderer type: " + ientityrenderer.getClass().getName());
                             }
@@ -116,7 +115,7 @@ public class CustomEntityModels {
             }
         }
 
-        ResourceLocation[] aresourcelocation = (ResourceLocation[]) ((ResourceLocation[]) list.toArray(new ResourceLocation[list.size()]));
+        ResourceLocation[] aresourcelocation = list.toArray(new ResourceLocation[list.size()]);
         return aresourcelocation;
     }
 
@@ -219,13 +218,13 @@ public class CustomEntityModels {
 
                 if (modelrenderer.childModels != null) {
                     ModelRenderer[] amodelrenderer = modelAdapter.getModelRenderers(model);
-                    Set<ModelRenderer> set = Collections.<ModelRenderer>newSetFromMap(new IdentityHashMap());
+                    Set<ModelRenderer> set = Collections.<ModelRenderer>newSetFromMap(new IdentityHashMap<ModelRenderer, Boolean>());
                     set.addAll(Arrays.<ModelRenderer>asList(amodelrenderer));
                     List<ModelRenderer> list = modelrenderer.childModels;
-                    Iterator iterator = list.iterator();
+                    Iterator<ModelRenderer> iterator = list.iterator();
 
                     while (iterator.hasNext()) {
-                        ModelRenderer modelrenderer1 = (ModelRenderer) iterator.next();
+                        ModelRenderer modelrenderer1 = iterator.next();
 
                         if (!set.contains(modelrenderer1)) {
                             iterator.remove();

@@ -144,7 +144,7 @@ public class ChunkVisibility {
         EnumFacing[][] aenumfacing = new EnumFacing[i][];
 
         for (int j = 0; j < i; ++j) {
-            List<EnumFacing> list = new ArrayList();
+            List<EnumFacing> list = new ArrayList<EnumFacing>();
 
             for (int k = 0; k < EnumFacing.VALUES.length; ++k) {
                 EnumFacing enumfacing = EnumFacing.VALUES[k];

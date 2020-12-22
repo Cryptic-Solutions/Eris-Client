@@ -98,7 +98,7 @@ public class ChunkRenderWorker implements Runnable {
             }
 
             final CompiledChunk lvt_7_1_ = generator.getCompiledChunk();
-            ArrayList lvt_8_1_ = Lists.newArrayList();
+            ArrayList<ListenableFuture> lvt_8_1_ = Lists.newArrayList();
 
             if (chunkcompiletaskgenerator$type == ChunkCompileTaskGenerator.Type.REBUILD_CHUNK) {
                 for (EnumWorldBlockLayer enumworldblocklayer : EnumWorldBlockLayer.values()) {
@@ -110,7 +110,7 @@ public class ChunkRenderWorker implements Runnable {
                 lvt_8_1_.add(this.chunkRenderDispatcher.uploadChunk(EnumWorldBlockLayer.TRANSLUCENT, generator.getRegionRenderCacheBuilder().getWorldRendererByLayer(EnumWorldBlockLayer.TRANSLUCENT), generator.getRenderChunk(), lvt_7_1_));
             }
 
-            final ListenableFuture<List<Object>> listenablefuture = Futures.allAsList(lvt_8_1_);
+            final ListenableFuture<List<Object>> listenablefuture = Futures.allAsList((Iterable<? extends ListenableFuture<? extends Object>>) lvt_8_1_);
             generator.addFinishRunnable(new Runnable() {
                 public void run() {
                     listenablefuture.cancel(false);

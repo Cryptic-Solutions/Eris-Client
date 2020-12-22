@@ -68,14 +68,14 @@ public class SimpleShaderTexture extends AbstractTexture {
                 TextureMetadataSection texturemetadatasection = (TextureMetadataSection) imetadataserializer.parseMetadataSection(s1, jsonobject);
 
                 if (texturemetadatasection == null) {
-                    return new TextureMetadataSection(false, false, new ArrayList());
+                    return new TextureMetadataSection(false, false, new ArrayList<Integer>());
                 }
 
                 texturemetadatasection1 = texturemetadatasection;
             } catch (RuntimeException runtimeexception) {
                 SMCLog.warning("Error reading metadata: " + s);
                 SMCLog.warning("" + runtimeexception.getClass().getName() + ": " + runtimeexception.getMessage());
-                return new TextureMetadataSection(false, false, new ArrayList());
+                return new TextureMetadataSection(false, false, new ArrayList<Integer>());
             } finally {
                 IOUtils.closeQuietly((Reader) bufferedreader);
                 IOUtils.closeQuietly(inputstream);
@@ -83,7 +83,7 @@ public class SimpleShaderTexture extends AbstractTexture {
 
             return texturemetadatasection1;
         } else {
-            return new TextureMetadataSection(false, false, new ArrayList());
+            return new TextureMetadataSection(false, false, new ArrayList<Integer>());
         }
     }
 

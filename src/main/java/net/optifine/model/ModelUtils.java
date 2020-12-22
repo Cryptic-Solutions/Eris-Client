@@ -17,16 +17,16 @@ public class ModelUtils {
 
             for (int i = 0; i < aenumfacing.length; ++i) {
                 EnumFacing enumfacing = aenumfacing[i];
-                List list = model.getFaceQuads(enumfacing);
+                List<?> list = model.getFaceQuads(enumfacing);
                 dbgQuads(enumfacing.getName(), list, "  ");
             }
 
-            List list1 = model.getGeneralQuads();
+            List<?> list1 = model.getGeneralQuads();
             dbgQuads("General", list1, "  ");
         }
     }
 
-    private static void dbgQuads(String name, List quads, String prefix) {
+    private static void dbgQuads(String name, List<?> quads, String prefix) {
         for (Object e : quads) {
             BakedQuad bakedquad = (BakedQuad) e;
             dbgQuad(name, bakedquad, prefix);
@@ -55,14 +55,14 @@ public class ModelUtils {
     }
 
     public static IBakedModel duplicateModel(IBakedModel model) {
-        List list = duplicateQuadList(model.getGeneralQuads());
+        List<BakedQuad> list = duplicateQuadList(model.getGeneralQuads());
         EnumFacing[] aenumfacing = EnumFacing.VALUES;
-        List list1 = new ArrayList();
+        List<List<BakedQuad>> list1 = new ArrayList<List<BakedQuad>>();
 
         for (int i = 0; i < aenumfacing.length; ++i) {
             EnumFacing enumfacing = aenumfacing[i];
-            List list2 = model.getFaceQuads(enumfacing);
-            List list3 = duplicateQuadList(list2);
+            List<?> list2 = model.getFaceQuads(enumfacing);
+            List<BakedQuad> list3 = duplicateQuadList(list2);
             list1.add(list3);
         }
 
@@ -70,8 +70,8 @@ public class ModelUtils {
         return simplebakedmodel;
     }
 
-    public static List duplicateQuadList(List lists) {
-        List list = new ArrayList();
+    public static List<BakedQuad> duplicateQuadList(List<?> lists) {
+        List<BakedQuad> list = new ArrayList<BakedQuad>();
 
         for (Object e : lists) {
             BakedQuad bakedquad = (BakedQuad) e;

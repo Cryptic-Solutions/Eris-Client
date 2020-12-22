@@ -185,8 +185,7 @@ public class Killaura extends Module {
                     return;
                 }
 
-                target = currentEntity = targetList.get(targetIndex);
-                Speed speed = ((Speed) Eris.getInstance().modules.getModuleByClass(Speed.class));
+                target = currentEntity = targetList.get(targetIndex); 
                 shouldCritical = crits.waitTicks == 0 && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround && crits.isToggled()
                         && critStopwatch.hasReached(200) && !Eris.getInstance().modules.getModuleByClass(Speed.class).isToggled()
                         && target.hurtResistantTime <= 15 && (crits.modeValue.getValue().equals(Criticals.Mode.WATCHDOG) && !mc.thePlayer.isMoving());
@@ -225,12 +224,11 @@ public class Killaura extends Module {
                 }
                 switch (targetHUDModeValue.getValue()) {
                     case ICE: {
-                        ScaledResolution rolf = new ScaledResolution(this.mc);
+                        ScaledResolution rolf = new ScaledResolution(mc);
                         float xNigga = (rolf.getScaledWidth() / 2) + 80;
                         float yNigga = (rolf.getScaledHeight() / 2) + 120;
                         if (Minecraft.getMinecraft().thePlayer != null && currentEntity instanceof EntityPlayer) {
-                            String playerName = StringUtils.stripControlCodes(currentEntity.getName());
-                            int distance = (int) ((mc.thePlayer.getDistanceToEntity(currentEntity)));
+                            String playerName = StringUtils.stripControlCodes(currentEntity.getName()); 
                             int maxX2 = 30;
                             float maxX = Math.max(maxX2, mc.fontRendererObj.getStringWidth(playerName) + 47);
                             // RenderUtilities.drawRectangle(xNigga - 1, yNigga - 1, 142F, 44F, new Color(0,
@@ -242,7 +240,7 @@ public class Killaura extends Module {
                             font.drawStringWithShadow(playerName, xNigga + 20F, yNigga + 6F,
                                     new Color(200, 200, 200, 255).getRGB());
                             RenderUtilities.drawEntityOnScreen((int) xNigga + 9, (int) yNigga + 28, 12, 270, 0, currentEntity);
-                            float xSpeed = 133f / (mc.getDebugFPS() * 1.05f);
+                            float xSpeed = 133f / (Minecraft.getDebugFPS() * 1.05f);
                             float desiredWidth = ((maxX - maxX2 - 2) / currentEntity.getMaxHealth())
                                     * Math.min(currentEntity.getHealth(), currentEntity.getMaxHealth());
                             if (desiredWidth < animated || desiredWidth > animated) {
@@ -264,7 +262,7 @@ public class Killaura extends Module {
                         break;
                     }
                     case OLD: {
-                        ScaledResolution rolf = new ScaledResolution(this.mc);
+                        ScaledResolution rolf = new ScaledResolution(mc);
                         float xNigga = (rolf.getScaledWidth() / 2) + 150;
                         float yNigga = (rolf.getScaledHeight() / 2) + 120;
                         if (Minecraft.getMinecraft().thePlayer != null && currentEntity instanceof EntityPlayer) {
@@ -284,7 +282,7 @@ public class Killaura extends Module {
                                     new Color(200, 200, 200, 255).getRGB());
                             RenderUtilities.drawEntityOnScreen((int) xNigga + 12, (int) yNigga + 31, 13,
                                     currentEntity.rotationYaw, -currentEntity.rotationPitch, currentEntity);
-                            float xSpeed = 133f / (mc.getDebugFPS() * 1.05f);
+                            float xSpeed = 133f / (Minecraft.getDebugFPS() * 1.05f);
                             float desiredWidth = (140F / currentEntity.getMaxHealth())
                                     * Math.min(currentEntity.getHealth(), currentEntity.getMaxHealth());
                             if (desiredWidth < animated || desiredWidth > animated) {
@@ -303,7 +301,7 @@ public class Killaura extends Module {
                     case NOVOLINE: {
                         if (currentEntity == null)
                             return;
-                        ScaledResolution sr = new ScaledResolution(this.mc);
+                        ScaledResolution sr = new ScaledResolution(mc);
                         String name = StringUtils.stripControlCodes(currentEntity.getName());
                         float startX = 20;
                         float renderX = (sr.getScaledWidth() / 2) + startX;
@@ -433,7 +431,7 @@ public class Killaura extends Module {
         if (aimMode.getValue().equals(AimMode.ASSIST)) {
             float playerYaw = mc.thePlayer.rotationYaw;
             float playerPitch = mc.thePlayer.rotationPitch;
-            float f = this.mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
+            float f = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
             float f1 = f * f * f * 8.0F;
             float f2 = (float) maxYaw * f1;
             float f3 = (float) maxPitch * f1;

@@ -6,14 +6,14 @@ import net.minecraft.src.Config;
 
 public class FieldLocatorType implements IFieldLocator {
     private ReflectorClass reflectorClass;
-    private Class targetFieldType;
+    private Class<?> targetFieldType;
     private int targetFieldIndex;
 
-    public FieldLocatorType(ReflectorClass reflectorClass, Class targetFieldType) {
+    public FieldLocatorType(ReflectorClass reflectorClass, Class<?> targetFieldType) {
         this(reflectorClass, targetFieldType, 0);
     }
 
-    public FieldLocatorType(ReflectorClass reflectorClass, Class targetFieldType, int targetFieldIndex) {
+    public FieldLocatorType(ReflectorClass reflectorClass, Class<?> targetFieldType, int targetFieldIndex) {
         this.reflectorClass = null;
         this.targetFieldType = null;
         this.reflectorClass = reflectorClass;
@@ -22,7 +22,7 @@ public class FieldLocatorType implements IFieldLocator {
     }
 
     public Field getField() {
-        Class oclass = this.reflectorClass.getTargetClass();
+        Class<?> oclass = this.reflectorClass.getTargetClass();
 
         if (oclass == null) {
             return null;

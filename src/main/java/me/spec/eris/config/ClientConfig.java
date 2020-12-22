@@ -1,7 +1,6 @@
 package me.spec.eris.config;
 
-import java.io.*;
-import java.util.Properties;
+import java.io.File;
 
 import me.spec.eris.Eris;
 

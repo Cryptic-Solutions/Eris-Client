@@ -78,11 +78,11 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 
 public class Config {
-    public static final String OF_NAME = "OptiFine";
-    public static final String MC_VERSION = "1.8.9";
-    public static final String OF_EDITION = "HD_U";
-    public static final String OF_RELEASE = "L5";
-    public static final String VERSION = "OptiFine_1.8.9_HD_U_L5";
+    public static final String OF_NAME = "Niggerfine";
+    public static final String MC_VERSION = "1337.69.420";
+    public static final String OF_EDITION = "JOE_MOMMA";
+    public static final String OF_RELEASE = "LIGMA";
+    public static final String VERSION = "Niggerfine_1337.69.420_JOE_MOMMA_LIGMA";
     private static String build = null;
     private static String newRelease = null;
     private static boolean notify64BitJava = false;
@@ -662,11 +662,11 @@ public class Config {
         return isShaders() && Shaders.aoLevel >= 0.0F ? Shaders.aoLevel : gameSettings.ofAoLevel;
     }
 
-    public static String listToString(List p_listToString_0_) {
+    public static String listToString(List<?> p_listToString_0_) {
         return listToString(p_listToString_0_, ", ");
     }
 
-    public static String listToString(List p_listToString_0_, String p_listToString_1_) {
+    public static String listToString(List<?> p_listToString_0_, String p_listToString_1_) {
         if (p_listToString_0_ == null) {
             return "";
         } else {
@@ -803,8 +803,8 @@ public class Config {
 
     public static IResourcePack[] getResourcePacks() {
         ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();
-        List list = resourcepackrepository.getRepositoryEntries();
-        List list1 = new ArrayList();
+        List<?> list = resourcepackrepository.getRepositoryEntries();
+        List<IResourcePack> list1 = new ArrayList<IResourcePack>();
 
         for (Object e : list) {
             ResourcePackRepository.Entry resourcepackrepository$entry = (Entry) e;
@@ -1063,7 +1063,7 @@ public class Config {
 
     public static String[] tokenize(String p_tokenize_0_, String p_tokenize_1_) {
         StringTokenizer stringtokenizer = new StringTokenizer(p_tokenize_0_, p_tokenize_1_);
-        List list = new ArrayList();
+        List<String> list = new ArrayList<String>();
 
         while (stringtokenizer.hasMoreTokens()) {
             String s = stringtokenizer.nextToken();
@@ -1083,7 +1083,7 @@ public class Config {
             try {
                 DisplayMode[] adisplaymode = Display.getAvailableDisplayModes();
                 Set<Dimension> set = getDisplayModeDimensions(adisplaymode);
-                List list = new ArrayList();
+                List<DisplayMode> list = new ArrayList<DisplayMode>();
 
                 for (Dimension dimension : set) {
                     DisplayMode[] adisplaymode1 = getDisplayModes(adisplaymode, dimension);
@@ -1118,7 +1118,7 @@ public class Config {
     }
 
     private static Set<Dimension> getDisplayModeDimensions(DisplayMode[] p_getDisplayModeDimensions_0_) {
-        Set<Dimension> set = new HashSet();
+        Set<Dimension> set = new HashSet<Dimension>();
 
         for (int i = 0; i < p_getDisplayModeDimensions_0_.length; ++i) {
             DisplayMode displaymode = p_getDisplayModeDimensions_0_[i];
@@ -1130,7 +1130,7 @@ public class Config {
     }
 
     private static DisplayMode[] getDisplayModes(DisplayMode[] p_getDisplayModes_0_, Dimension p_getDisplayModes_1_) {
-        List list = new ArrayList();
+        List<DisplayMode> list = new ArrayList<DisplayMode>();
 
         for (int i = 0; i < p_getDisplayModes_0_.length; ++i) {
             DisplayMode displaymode = p_getDisplayModes_0_[i];
@@ -1275,7 +1275,7 @@ public class Config {
     }
 
     public static String[] readLines(InputStream p_readLines_0_) throws IOException {
-        List list = new ArrayList();
+        List<String> list = new ArrayList<String>();
         InputStreamReader inputstreamreader = new InputStreamReader(p_readLines_0_, "ASCII");
         BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
 
@@ -1664,7 +1664,7 @@ public class Config {
     }
 
     public static Object[] addObjectToArray(Object[] p_addObjectToArray_0_, Object p_addObjectToArray_1_, int p_addObjectToArray_2_) {
-        List list = new ArrayList(Arrays.asList(p_addObjectToArray_0_));
+        List<Object> list = new ArrayList<Object>(Arrays.asList(p_addObjectToArray_0_));
         list.add(p_addObjectToArray_2_, p_addObjectToArray_1_);
         Object[] aobject = (Object[]) ((Object[]) Array.newInstance(p_addObjectToArray_0_.getClass().getComponentType(), list.size()));
         return list.toArray(aobject);
@@ -1686,13 +1686,13 @@ public class Config {
     }
 
     public static Object[] removeObjectFromArray(Object[] p_removeObjectFromArray_0_, Object p_removeObjectFromArray_1_) {
-        List list = new ArrayList(Arrays.asList(p_removeObjectFromArray_0_));
+        List<Object> list = new ArrayList<Object>(Arrays.asList(p_removeObjectFromArray_0_));
         list.remove(p_removeObjectFromArray_1_);
         Object[] aobject = collectionToArray(list, p_removeObjectFromArray_0_.getClass().getComponentType());
         return aobject;
     }
 
-    public static Object[] collectionToArray(Collection p_collectionToArray_0_, Class p_collectionToArray_1_) {
+    public static Object[] collectionToArray(Collection<Object> p_collectionToArray_0_, Class<?> p_collectionToArray_1_) {
         if (p_collectionToArray_0_ == null) {
             return null;
         } else if (p_collectionToArray_1_ == null) {

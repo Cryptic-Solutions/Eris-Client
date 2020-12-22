@@ -12,7 +12,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+
 import javax.imageio.ImageIO;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
@@ -49,8 +53,6 @@ import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.ResUtils;
 import net.optifine.util.StrUtils;
 import net.optifine.util.TextureUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class CustomColors {
     private static String paletteFormatDefault = "vanilla";
@@ -394,9 +396,9 @@ public class CustomColors {
     }
 
     private static CustomColormap[] readCustomColormaps(Properties props, String fileName) {
-        List list = new ArrayList();
+        List<CustomColormap> list = new ArrayList<CustomColormap>();
         String s = "palette.block.";
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<String, String>();
 
         for (Object e : props.keySet()) {
             String s1 = (String) e;
@@ -448,7 +450,7 @@ public class CustomColors {
     private static CustomColormap[][] readBlockColormaps(String[] basePaths, CustomColormap[] basePalettes, int width, int height) {
         String[] astring = ResUtils.collectFiles(basePaths, new String[]{".properties"});
         Arrays.sort((Object[]) astring);
-        List list = new ArrayList();
+        List list = new ArrayList<Object>();
 
         for (int i = 0; i < astring.length; ++i) {
             String s = astring[i];
@@ -509,15 +511,15 @@ public class CustomColors {
         }
     }
 
-    private static void addToList(CustomColormap cm, List lists, int id) {
+    private static void addToList(CustomColormap cm, List<Object> lists, int id) {
         while (id >= lists.size()) {
             lists.add(null);
         }
 
-        List list = (List) lists.get(id);
+        List<Object> list = (List<Object>) lists.get(id);
 
         if (list == null) {
-            list = new ArrayList();
+            list = new ArrayList<Object>();
             list.set(id, list);
         }
 
@@ -1095,8 +1097,8 @@ public class CustomColors {
     }
 
     private static int[] readSpawnEggColors(Properties props, String fileName, String prefix, String logName) {
-        List<Integer> list = new ArrayList();
-        Set set = props.keySet();
+        List<Integer> list = new ArrayList<Integer>();
+        Set<?> set = props.keySet();
         int i = 0;
 
         for (Object e : set) {
@@ -1115,7 +1117,7 @@ public class CustomColors {
                     if (k < 0) {
                         warn("Invalid spawn egg color: " + s + " = " + s1);
                     } else {
-                        while (((List) list).size() <= j) {
+                        while (((List<Integer>) list).size() <= j) {
                             list.add(Integer.valueOf(-1));
                         }
 

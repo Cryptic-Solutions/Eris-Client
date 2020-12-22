@@ -45,7 +45,7 @@ public class CustomPanorama {
     }
 
     private static String[] getPanoramaFolders() {
-        List<String> list = new ArrayList();
+        List<String> list = new ArrayList<String>();
         list.add("textures/gui/title/background");
 
         for (int i = 0; i < 100; ++i) {

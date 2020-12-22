@@ -33,6 +33,7 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.RenderGlobal.ContainerLocalRenderInformation;
 import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
 import net.minecraft.client.renderer.chunk.CompiledChunk;
 import net.minecraft.client.renderer.chunk.IRenderChunkFactory;
@@ -218,23 +219,23 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
     public boolean displayListEntitiesDirty = true;
     private CloudRenderer cloudRenderer;
     public Entity renderedEntity;
-    public Set chunksToResortTransparency = new LinkedHashSet();
-    public Set chunksToUpdateForced = new LinkedHashSet();
-    private Deque visibilityDeque = new ArrayDeque();
-    private List renderInfosEntities = new ArrayList(1024);
-    private List renderInfosTileEntities = new ArrayList(1024);
-    private List renderInfosNormal = new ArrayList(1024);
-    private List renderInfosEntitiesNormal = new ArrayList(1024);
-    private List renderInfosTileEntitiesNormal = new ArrayList(1024);
-    private List renderInfosShadow = new ArrayList(1024);
-    private List renderInfosEntitiesShadow = new ArrayList(1024);
-    private List renderInfosTileEntitiesShadow = new ArrayList(1024);
+    public Set<RenderChunk> chunksToResortTransparency = new LinkedHashSet<RenderChunk>();
+    public Set<RenderChunk> chunksToUpdateForced = new LinkedHashSet<RenderChunk>();
+    private Deque<ContainerLocalRenderInformation> visibilityDeque = new ArrayDeque<ContainerLocalRenderInformation>();
+    private List<ContainerLocalRenderInformation> renderInfosEntities = new ArrayList<ContainerLocalRenderInformation>(1024);
+    private List<ContainerLocalRenderInformation> renderInfosTileEntities = new ArrayList<ContainerLocalRenderInformation>(1024);
+    private List<ContainerLocalRenderInformation> renderInfosNormal = new ArrayList<ContainerLocalRenderInformation>(1024);
+    private List<ContainerLocalRenderInformation> renderInfosEntitiesNormal = new ArrayList<ContainerLocalRenderInformation>(1024);
+    private List<ContainerLocalRenderInformation> renderInfosTileEntitiesNormal = new ArrayList<ContainerLocalRenderInformation>(1024);
+    private List<ContainerLocalRenderInformation> renderInfosShadow = new ArrayList<ContainerLocalRenderInformation>(1024);
+    private List<ContainerLocalRenderInformation> renderInfosEntitiesShadow = new ArrayList<ContainerLocalRenderInformation>(1024);
+    private List<ContainerLocalRenderInformation> renderInfosTileEntitiesShadow = new ArrayList<ContainerLocalRenderInformation>(1024);
     private int renderDistance = 0;
     private int renderDistanceSq = 0;
-    private static final Set SET_ALL_FACINGS = Collections.unmodifiableSet(new HashSet(Arrays.asList(EnumFacing.VALUES)));
+    private static final Set<EnumFacing> SET_ALL_FACINGS = Collections.unmodifiableSet(new HashSet<EnumFacing>(Arrays.asList(EnumFacing.VALUES)));
     private int countTileEntitiesRendered;
     private IChunkProvider worldChunkProvider = null;
-    private LongHashMap worldChunkProviderMap = null;
+    private LongHashMap<?> worldChunkProviderMap = null;
     private int countLoadedChunksPrev = 0;
     private RenderEnv renderEnv = new RenderEnv(Blocks.air.getDefaultState(), new BlockPos(0, 0, 0));
     public boolean renderOverlayDamaged = false;
@@ -381,8 +382,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
     }
 
     private void renderSky(WorldRenderer worldRendererIn, float p_174968_2_, boolean p_174968_3_) {
-        int i = 64;
-        int j = 6;
         worldRendererIn.func_181668_a(7, DefaultVertexFormats.field_181705_e);
         int k = (this.renderDistance / 64 + 1) * 64 + 64;
 
@@ -464,10 +463,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 double d16 = Math.cos(d14);
 
                 for (int j = 0; j < 4; ++j) {
-                    double d17 = 0.0D;
                     double d18 = (double) ((j & 2) - 1) * d3;
                     double d19 = (double) ((j + 1 & 2) - 1) * d3;
-                    double d20 = 0.0D;
                     double d21 = d18 * d16 - d19 * d15;
                     double d22 = d19 * d16 + d18 * d15;
                     double d23 = d21 * d12 + 0.0D * d13;
@@ -710,7 +707,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 ClassInheritanceMultiMap<Entity> classinheritancemultimap = chunk.getEntityLists()[renderglobal$containerlocalrenderinformation.renderChunk.getPosition().getY() / 16];
 
                 if (!classinheritancemultimap.isEmpty()) {
-                    Iterator iterator = classinheritancemultimap.iterator();
+                    Iterator<Entity> iterator = classinheritancemultimap.iterator();
 
                     while (true) {
                         Entity entity2;
@@ -783,7 +780,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 List<TileEntity> list1 = renderglobal$containerlocalrenderinformation1.renderChunk.getCompiledChunk().getTileEntities();
 
                 if (!list1.isEmpty()) {
-                    Iterator iterator1 = list1.iterator();
+                    Iterator<TileEntity> iterator1 = list1.iterator();
 
                     while (true) {
                         TileEntity tileentity1;
@@ -1030,13 +1027,13 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             this.displayListEntitiesDirty = false;
             this.clearRenderInfos();
             this.visibilityDeque.clear();
-            Deque deque = this.visibilityDeque;
+            Deque<ContainerLocalRenderInformation> deque = this.visibilityDeque;
             boolean flag1 = this.mc.renderChunksMany;
 
             if (renderchunk != null && renderchunk.getPosition().getY() <= j) {
                 boolean flag2 = false;
                 RenderGlobal.ContainerLocalRenderInformation renderglobal$containerlocalrenderinformation4 = new RenderGlobal.ContainerLocalRenderInformation(renderchunk, (EnumFacing) null, 0);
-                Set set1 = SET_ALL_FACINGS;
+                Set<EnumFacing> set1 = SET_ALL_FACINGS;
 
                 if (set1.size() == 1) {
                     Vector3f vector3f = this.getViewVector(viewEntity, partialTicks);
@@ -1552,8 +1549,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
                 worldrenderer.func_181668_a(6, DefaultVertexFormats.field_181706_f);
                 worldrenderer.func_181662_b(0.0D, 100.0D, 0.0D).func_181666_a(f6, f7, f8, afloat[3]).func_181675_d();
-                int j = 16;
-
                 for (int l = 0; l <= 16; ++l) {
                     float f18 = (float) l * (float) Math.PI * 2.0F / 16.0F;
                     float f12 = MathHelper.sin(f18);
@@ -1678,9 +1673,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 }
 
                 GlStateManager.popMatrix();
-                float f20 = 1.0F;
                 float f22 = -((float) (d0 + 65.0D));
-                float f24 = -1.0F;
                 worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
                 worldrenderer.func_181662_b(-1.0D, (double) f22, 1.0D).func_181669_b(0, 0, 0, 255).func_181675_d();
                 worldrenderer.func_181662_b(1.0D, (double) f22, 1.0D).func_181669_b(0, 0, 0, 255).func_181675_d();
@@ -1766,8 +1759,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                     partialTicks = 0.0F;
                     GlStateManager.disableCull();
                     float f10 = (float) (this.mc.getRenderViewEntity().lastTickPosY + (this.mc.getRenderViewEntity().posY - this.mc.getRenderViewEntity().lastTickPosY) * (double) partialTicks);
-                    int i = 32;
-                    int j = 8;
                     Tessellator tessellator = Tessellator.getInstance();
                     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
                     this.renderEngine.bindTexture(locationCloudsPng);
@@ -1791,7 +1782,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                             f2 = f5;
                         }
 
-                        float f11 = 4.8828125E-4F;
                         double d2 = (double) ((float) this.cloudTickCounter + partialTicks);
                         double d0 = this.mc.getRenderViewEntity().prevPosX + (this.mc.getRenderViewEntity().posX - this.mc.getRenderViewEntity().prevPosX) * (double) partialTicks + d2 * 0.029999999329447746D;
                         double d1 = this.mc.getRenderViewEntity().prevPosZ + (this.mc.getRenderViewEntity().posZ - this.mc.getRenderViewEntity().prevPosZ) * (double) partialTicks;
@@ -1844,8 +1834,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         float f = (float) (this.mc.getRenderViewEntity().lastTickPosY + (this.mc.getRenderViewEntity().posY - this.mc.getRenderViewEntity().lastTickPosY) * (double) partialTicks);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        float f1 = 12.0F;
-        float f2 = 4.0F;
         double d0 = (double) ((float) this.cloudTickCounter + partialTicks);
         double d1 = (this.mc.getRenderViewEntity().prevPosX + (this.mc.getRenderViewEntity().posX - this.mc.getRenderViewEntity().prevPosX) * (double) partialTicks + d0 * 0.029999999329447746D) / 12.0D;
         double d2 = (this.mc.getRenderViewEntity().prevPosZ + (this.mc.getRenderViewEntity().posZ - this.mc.getRenderViewEntity().prevPosZ) * (double) partialTicks) / 12.0D + 0.33000001311302185D;
@@ -1882,14 +1870,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         float f13 = f4 * 0.8F;
         float f14 = f5 * 0.8F;
         float f15 = f6 * 0.8F;
-        float f16 = 0.00390625F;
         float f17 = (float) MathHelper.floor_double(d1) * 0.00390625F;
         float f18 = (float) MathHelper.floor_double(d2) * 0.00390625F;
         float f19 = (float) (d1 - (double) MathHelper.floor_double(d1));
         float f20 = (float) (d2 - (double) MathHelper.floor_double(d2));
-        int k = 8;
-        int l = 4;
-        float f21 = 9.765625E-4F;
         GlStateManager.scale(12.0F, 1.0F, 12.0F);
 
         for (int i1 = 0; i1 < 2; ++i1) {
@@ -1991,7 +1975,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         this.displayListEntitiesDirty |= this.renderDispatcher.runChunkUploads(finishTimeNano);
 
         if (this.chunksToUpdateForced.size() > 0) {
-            Iterator iterator = this.chunksToUpdateForced.iterator();
+            Iterator<RenderChunk> iterator = this.chunksToUpdateForced.iterator();
 
             while (iterator.hasNext()) {
                 RenderChunk renderchunk = (RenderChunk) iterator.next();
@@ -2008,7 +1992,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         }
 
         if (this.chunksToResortTransparency.size() > 0) {
-            Iterator iterator2 = this.chunksToResortTransparency.iterator();
+            Iterator<RenderChunk> iterator2 = this.chunksToResortTransparency.iterator();
 
             if (iterator2.hasNext()) {
                 RenderChunk renderchunk2 = (RenderChunk) iterator2.next();
@@ -2083,9 +2067,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             GlStateManager.enableAlpha();
             GlStateManager.disableCull();
             float f3 = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F;
-            float f4 = 0.0F;
-            float f5 = 0.0F;
-            float f6 = 128.0F;
             worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181707_g);
             worldrenderer.setTranslation(-d2, -d3, -d4);
             double d5 = Math.max((double) MathHelper.floor_double(d4 - d0), worldborder.minZ());
@@ -2268,7 +2249,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
 
             GlStateManager.depthMask(false);
-            float f = 0.002F;
             BlockPos blockpos = movingObjectPositionIn.getBlockPos();
             Block block = this.theWorld.getBlockState(blockpos).getBlock();
 
@@ -2844,7 +2824,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             } else {
                 if (ichunkprovider != this.worldChunkProvider) {
                     this.worldChunkProvider = ichunkprovider;
-                    this.worldChunkProviderMap = (LongHashMap) Reflector.getFieldValue(ichunkprovider, Reflector.ChunkProviderClient_chunkMapping);
+                    this.worldChunkProviderMap = (LongHashMap<?>) Reflector.getFieldValue(ichunkprovider, Reflector.ChunkProviderClient_chunkMapping);
                 }
 
                 return this.worldChunkProviderMap == null ? 0 : this.worldChunkProviderMap.getNumHashElements();
@@ -2866,9 +2846,9 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
     private void clearRenderInfos() {
         if (renderEntitiesCounter > 0) {
-            this.renderInfos = new ArrayList(this.renderInfos.size() + 16);
-            this.renderInfosEntities = new ArrayList(this.renderInfosEntities.size() + 16);
-            this.renderInfosTileEntities = new ArrayList(this.renderInfosTileEntities.size() + 16);
+            this.renderInfos = new ArrayList<ContainerLocalRenderInformation>(this.renderInfos.size() + 16);
+            this.renderInfosEntities = new ArrayList<ContainerLocalRenderInformation>(this.renderInfosEntities.size() + 16);
+            this.renderInfosTileEntities = new ArrayList<ContainerLocalRenderInformation>(this.renderInfosTileEntities.size() + 16);
         } else {
             this.renderInfos.clear();
             this.renderInfosEntities.clear();

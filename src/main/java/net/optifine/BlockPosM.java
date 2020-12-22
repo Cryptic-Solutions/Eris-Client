@@ -139,7 +139,8 @@ public class BlockPosM extends BlockPos {
         return new BlockPos(this.mx, this.my, this.mz);
     }
 
-    public static Iterable getAllInBoxMutable(BlockPos from, BlockPos to) {
+    @SuppressWarnings("rawtypes")
+	public static Iterable getAllInBoxMutable(BlockPos from, BlockPos to) {
         final BlockPos blockpos = new BlockPos(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()));
         final BlockPos blockpos1 = new BlockPos(Math.max(from.getX(), to.getX()), Math.max(from.getY(), to.getY()), Math.max(from.getZ(), to.getZ()));
         return new Iterable() {

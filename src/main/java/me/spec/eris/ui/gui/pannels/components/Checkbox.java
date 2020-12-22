@@ -2,19 +2,16 @@ package me.spec.eris.ui.gui.pannels.components;
 
 import java.awt.Color;
 
-import me.spec.eris.Eris;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.ui.gui.ClickGui;
 import me.spec.eris.utils.RenderUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class Checkbox extends Component {
 
-    private boolean dragging = false;
     private int x;
     private int y;
     private int height;
@@ -49,7 +46,7 @@ public class Checkbox extends Component {
         RenderUtilities.drawRoundedRect(this.x + lastX1 + 2, this.y + 6, this.x + 10 + lastX2, this.y + 13, new Color(0, 0, 0, 0).getRGB(), new Color(255, 255, 255).getRGB());
 
         if (hovered && set.getDescription().length() > 1) {
-            ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+            new ScaledResolution(Minecraft.getMinecraft());
             ClickGui.toolTip = set.getDescription();
             ClickGui.getFont().drawString(set.getDescription(), (this.x + ClickGui.getFont().getStringWidth(name) * 1.45f), (y + (ClickGui.getFont().getHeight(name) / 2) + 0.5F) * .99f, ClickGui.getPrimaryColor().getRGB());
 
@@ -62,10 +59,6 @@ public class Checkbox extends Component {
 
     private float lastX1 = 1.5F;
     private float lastX2 = -0.5F;
-
-    private float red = 0.70588235294F;
-    private float green = 0.70588235294F;
-    private float blue = 0.70588235294F;
 
     @Override
     public void mouseClicked(int x, int y, int button) {

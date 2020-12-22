@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL11;
 
 import me.spec.eris.event.Event;
 import me.spec.eris.event.render.EventEntityRender;
-import me.spec.eris.event.render.EventRender2D;
 import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
 import me.spec.eris.module.modules.combat.AntiBot;
@@ -18,7 +17,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ESP extends Module {

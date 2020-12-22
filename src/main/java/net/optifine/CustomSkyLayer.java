@@ -85,7 +85,7 @@ public class CustomSkyLayer {
 
     private List<String> parseWeatherList(String str) {
         List<String> list = Arrays.<String>asList(new String[]{"clear", "rain", "thunder"});
-        List<String> list1 = new ArrayList();
+        List<String> list1 = new ArrayList<String>();
         String[] astring = Config.tokenize(str, " ");
 
         for (int i = 0; i < astring.length; ++i) {

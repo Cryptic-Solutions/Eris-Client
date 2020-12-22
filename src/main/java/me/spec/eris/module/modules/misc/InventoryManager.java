@@ -44,11 +44,8 @@ public class InventoryManager extends Module {
     public NumberValue<Integer> swordsSlot = new NumberValue<>("Sword Slot", 1, 1, 9, this);
     public NumberValue<Integer> delay = new NumberValue<>("Delay", 150, 1, 1000, this);
     private final TimerUtils timer = new TimerUtils();
-    private int stealDelay = 2;
     public boolean switchDirection;
     private int lastSlot = -1;
-    private int exploitTime;
-    private float blockPosValue;
     private boolean withinInventory;
 
 
@@ -79,7 +76,6 @@ public class InventoryManager extends Module {
             }
         }
         if (e instanceof EventUpdate) {
-            EventUpdate event = (EventUpdate) e;
             if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiChat) || mc.thePlayer.isUsingItem()) {
                 timer.reset();
                 return;

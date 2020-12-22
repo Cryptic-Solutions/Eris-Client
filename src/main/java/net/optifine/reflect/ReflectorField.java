@@ -15,11 +15,11 @@ public class ReflectorField {
         this(new FieldLocatorName(reflectorClass, targetFieldName), lazyResolve);
     }
 
-    public ReflectorField(ReflectorClass reflectorClass, Class targetFieldType) {
+    public ReflectorField(ReflectorClass reflectorClass, Class<?> targetFieldType) {
         this(reflectorClass, targetFieldType, 0);
     }
 
-    public ReflectorField(ReflectorClass reflectorClass, Class targetFieldType, int targetFieldIndex) {
+    public ReflectorField(ReflectorClass reflectorClass, Class<?> targetFieldType, int targetFieldIndex) {
         this((IFieldLocator) (new FieldLocatorType(reflectorClass, targetFieldType, targetFieldIndex)));
     }
 

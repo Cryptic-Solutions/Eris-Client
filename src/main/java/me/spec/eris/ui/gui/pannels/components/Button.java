@@ -39,15 +39,15 @@ public class Button {
     public Button(Module mod) {
         this.mod = mod;
 
-        for (Value s : mod.getSettings()) {
+        for (Value<?> s : mod.getSettings()) {
             if (s instanceof NumberValue) {
-                this.settings.add(new Slider((NumberValue) s, this));
+                this.settings.add(new Slider((NumberValue<?>) s, this));
             }
             if (s instanceof BooleanValue) {
-                this.settings.add(new Checkbox((BooleanValue) s, this));
+                this.settings.add(new Checkbox((BooleanValue<?>) s, this));
             }
             if (s instanceof ModeValue) {
-                this.settings.add(new ModeButton((ModeValue) s, this));
+                this.settings.add(new ModeButton((ModeValue<?>) s, this));
             }
         }
         upTimer = new TimerUtils();

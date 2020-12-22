@@ -41,7 +41,7 @@ public class ReflectorMethod {
             return this.targetMethod;
         } else {
             this.checked = true;
-            Class oclass = this.reflectorClass.getTargetClass();
+            Class<?> oclass = this.reflectorClass.getTargetClass();
 
             if (oclass == null) {
                 return null;
@@ -90,7 +90,7 @@ public class ReflectorMethod {
         return this.checked ? this.targetMethod != null : this.getTargetMethod() != null;
     }
 
-    public Class getReturnType() {
+    public Class<?> getReturnType() {
         Method method = this.getTargetMethod();
         return method == null ? null : method.getReturnType();
     }
@@ -100,7 +100,7 @@ public class ReflectorMethod {
         this.targetMethod = null;
     }
 
-    public static Method getMethod(Class cls, String methodName, Class[] paramTypes) {
+    public static Method getMethod(Class<?> cls, String methodName, Class[] paramTypes) {
         Method[] amethod = cls.getDeclaredMethods();
 
         for (int i = 0; i < amethod.length; ++i) {
@@ -118,8 +118,8 @@ public class ReflectorMethod {
         return null;
     }
 
-    public static Method[] getMethods(Class cls, String methodName) {
-        List list = new ArrayList();
+    public static Method[] getMethods(Class<?> cls, String methodName) {
+        List<Method> list = new ArrayList<Method>();
         Method[] amethod = cls.getDeclaredMethods();
 
         for (int i = 0; i < amethod.length; ++i) {

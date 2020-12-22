@@ -420,7 +420,7 @@ public class TextureUtils {
     }
 
     public static Dimension getImageSize(InputStream in, String suffix) {
-        Iterator iterator = ImageIO.getImageReadersBySuffix(suffix);
+        Iterator<?> iterator = ImageIO.getImageReadersBySuffix(suffix);
 
         while (true) {
             if (iterator.hasNext()) {
@@ -503,7 +503,7 @@ public class TextureUtils {
         int j = tas.getIconHeight();
 
         if (tas.getFrameCount() < 1) {
-            List<int[][]> list = new ArrayList();
+            List<int[][]> list = new ArrayList<int[][]>();
             int[][] aint = new int[mipmaps + 1][];
             int[] aint1 = new int[i * j];
             aint[0] = aint1;
@@ -511,7 +511,7 @@ public class TextureUtils {
             tas.setFramesTextureData(list);
         }
 
-        List<int[][]> list1 = new ArrayList();
+        List<int[][]> list1 = new ArrayList<int[][]>();
         int l = tas.getFrameCount();
 
         for (int i1 = 0; i1 < l; ++i1) {

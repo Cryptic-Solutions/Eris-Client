@@ -1,6 +1,5 @@
 package me.spec.eris.event.client;
 
-import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
 import me.spec.eris.utils.Helper;
 

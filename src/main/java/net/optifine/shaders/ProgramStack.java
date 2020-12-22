@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class ProgramStack {
-    private Deque<Program> stack = new ArrayDeque();
+    private Deque<Program> stack = new ArrayDeque<Program>();
 
     public void push(Program p) {
         this.stack.addLast(p);

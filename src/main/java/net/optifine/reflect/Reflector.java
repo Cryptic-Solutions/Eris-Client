@@ -835,42 +835,6 @@ public class Reflector {
         }
     }
 
-    private static void dbgCall(boolean isStatic, String callType, ReflectorMethod refMethod, Object[] params, Object retVal) {
-        String s = refMethod.getTargetMethod().getDeclaringClass().getName();
-        String s1 = refMethod.getTargetMethod().getName();
-        String s2 = "";
-
-        if (isStatic) {
-            s2 = " static";
-        }
-
-        Config.dbg(callType + s2 + " " + s + "." + s1 + "(" + Config.arrayToString(params) + ") => " + retVal);
-    }
-
-    private static void dbgCallVoid(boolean isStatic, String callType, ReflectorMethod refMethod, Object[] params) {
-        String s = refMethod.getTargetMethod().getDeclaringClass().getName();
-        String s1 = refMethod.getTargetMethod().getName();
-        String s2 = "";
-
-        if (isStatic) {
-            s2 = " static";
-        }
-
-        Config.dbg(callType + s2 + " " + s + "." + s1 + "(" + Config.arrayToString(params) + ")");
-    }
-
-    private static void dbgFieldValue(boolean isStatic, String accessType, ReflectorField refField, Object val) {
-        String s = refField.getTargetField().getDeclaringClass().getName();
-        String s1 = refField.getTargetField().getName();
-        String s2 = "";
-
-        if (isStatic) {
-            s2 = " static";
-        }
-
-        Config.dbg(accessType + s2 + " " + s + "." + s1 + " => " + val);
-    }
-
     private static void handleException(Throwable e, Object obj, ReflectorMethod refMethod, Object[] params) {
         if (e instanceof InvocationTargetException) {
             Throwable throwable = e.getCause();
@@ -931,16 +895,6 @@ public class Reflector {
 
             return aclass;
         }
-    }
-
-    private static ReflectorField[] getReflectorFields(ReflectorClass parentClass, Class fieldType, int count) {
-        ReflectorField[] areflectorfield = new ReflectorField[count];
-
-        for (int i = 0; i < areflectorfield.length; ++i) {
-            areflectorfield[i] = new ReflectorField(parentClass, fieldType, i);
-        }
-
-        return areflectorfield;
     }
 
     private static boolean logEntry(String str) {

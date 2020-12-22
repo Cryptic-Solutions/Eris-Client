@@ -21,21 +21,13 @@ import net.optifine.expr.ParseException;
 
 public class MacroState {
     private boolean active = true;
-    private Deque<Boolean> dequeState = new ArrayDeque();
-    private Deque<Boolean> dequeResolved = new ArrayDeque();
-    private Map<String, String> mapMacroValues = new HashMap();
+    private Deque<Boolean> dequeState = new ArrayDeque<Boolean>();
+    private Deque<Boolean> dequeResolved = new ArrayDeque<Boolean>();
+    private Map<String, String> mapMacroValues = new HashMap<String, String>();
     private static final Pattern PATTERN_DIRECTIVE = Pattern.compile("\\s*#\\s*(\\w+)\\s*(.*)");
     private static final Pattern PATTERN_DEFINED = Pattern.compile("defined\\s+(\\w+)");
     private static final Pattern PATTERN_DEFINED_FUNC = Pattern.compile("defined\\s*\\(\\s*(\\w+)\\s*\\)");
     private static final Pattern PATTERN_MACRO = Pattern.compile("(\\w+)");
-    private static final String DEFINE = "define";
-    private static final String UNDEF = "undef";
-    private static final String IFDEF = "ifdef";
-    private static final String IFNDEF = "ifndef";
-    private static final String IF = "if";
-    private static final String ELSE = "else";
-    private static final String ELIF = "elif";
-    private static final String ENDIF = "endif";
     private static final List<String> MACRO_NAMES = Arrays.<String>asList(new String[]{"define", "undef", "ifdef", "ifndef", "if", "else", "elif", "endif"});
 
     public boolean processLine(String line) {
@@ -93,7 +85,7 @@ public class MacroState {
             this.dequeResolved.add(Boolean.valueOf(flag4));
         } else if (!this.dequeState.isEmpty()) {
             if (name.equals("elif")) {
-                boolean flag3 = ((Boolean) this.dequeState.removeLast()).booleanValue();
+                ((Boolean) this.dequeState.removeLast()).booleanValue();
                 boolean flag7 = ((Boolean) this.dequeResolved.removeLast()).booleanValue();
 
                 if (flag7) {
@@ -105,7 +97,7 @@ public class MacroState {
                     this.dequeResolved.add(Boolean.valueOf(flag8));
                 }
             } else if (name.equals("else")) {
-                boolean flag = ((Boolean) this.dequeState.removeLast()).booleanValue();
+                ((Boolean) this.dequeState.removeLast()).booleanValue();
                 boolean flag1 = ((Boolean) this.dequeResolved.removeLast()).booleanValue();
                 boolean flag2 = !flag1;
                 this.dequeState.add(Boolean.valueOf(flag2));
