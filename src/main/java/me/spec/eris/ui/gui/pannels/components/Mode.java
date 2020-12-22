@@ -1,13 +1,11 @@
 package me.spec.eris.ui.gui.pannels.components;
 
-import me.spec.eris.Eris;
 import me.spec.eris.module.values.valuetypes.ModeValue;
 import me.spec.eris.ui.gui.ClickGui;
 import net.minecraft.client.gui.Gui;
 
 public class Mode extends SetComp {
 
-    private boolean dragging = false;
     private int x;
     private int y;
     private int height;
@@ -16,7 +14,7 @@ public class Mode extends SetComp {
     private ModeValue set;
     private int lastIndex = 0;
 
-    public Mode(ModeValue s, Button b) {
+    public Mode(ModeValue<?> s, Button b) {
         super(s, b);
         this.set = s;
 

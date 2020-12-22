@@ -80,8 +80,6 @@ public class MainMenu extends GuiScreen implements GuiYesNoCallback {
      * Texture allocated for the current viewport of the main menu's panorama background.
      */
     private DynamicTexture viewportTexture;
-    private boolean field_175375_v = true;
-
     /**
      * The Object object utilized as a thread lock when performing non thread-safe operations
      */
@@ -121,14 +119,12 @@ public class MainMenu extends GuiScreen implements GuiYesNoCallback {
      * Minecraft Realms button.
      */
     private GuiButton realmsButton;
-    private boolean field_183502_L;
     private GuiScreen field_183503_M;
     private GuiButton modButton;
     private GuiScreen modUpdateNotification;
 
     public MainMenu() {
         this.openGLWarning2 = field_96138_a;
-        this.field_183502_L = false;
         this.splashText = "missingno";
         BufferedReader bufferedreader = null;
 
@@ -223,7 +219,6 @@ public class MainMenu extends GuiScreen implements GuiYesNoCallback {
             this.splashText = "OOoooOOOoooo! Spooky!";
         }
 
-        int i = 24;
         int j = this.height / 4 + 48;
 
         if (this.mc.isDemo()) {
@@ -439,7 +434,6 @@ public class MainMenu extends GuiScreen implements GuiYesNoCallback {
                 this.mc.getTextureManager().bindTexture(aresourcelocation[l]);
                 worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181709_i);
                 int i1 = 255 / (k + 1);
-                float f3 = 0.0F;
                 worldrenderer.func_181662_b(-1.0D, -1.0D, 1.0D).func_181673_a(0.0D, 0.0D).func_181669_b(255, 255, 255, i1).func_181675_d();
                 worldrenderer.func_181662_b(1.0D, -1.0D, 1.0D).func_181673_a(1.0D, 0.0D).func_181669_b(255, 255, 255, i1).func_181675_d();
                 worldrenderer.func_181662_b(1.0D, 1.0D, 1.0D).func_181673_a(1.0D, 1.0D).func_181669_b(255, 255, 255, i1).func_181675_d();
@@ -547,7 +541,7 @@ public class MainMenu extends GuiScreen implements GuiYesNoCallback {
         this.renderSkybox(mouseX, mouseY, partialTicks);
         GlStateManager.enableAlpha();
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        tessellator.getWorldRenderer();
         int i = 274;
         int j = this.width / 2 - i / 2;
         int k = 30;

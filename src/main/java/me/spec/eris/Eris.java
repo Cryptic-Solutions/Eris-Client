@@ -5,7 +5,6 @@ import java.awt.Color;
 import org.lwjgl.opengl.Display;
 
 import libraries.thealtening.service.ServiceSwitcher;
-import me.spec.eris.antivirus.AntiVirus;
 import me.spec.eris.config.ConfigManager;
 import me.spec.eris.config.files.FileManager;
 import me.spec.eris.module.ModuleManager;

@@ -3,8 +3,9 @@ package me.spec.eris.utils.math.vec.vectors;
 import org.lwjgl.util.vector.Vector2f;
 
 public class Vec2f extends Vector2f {
+	private static final long serialVersionUID = 1L;
 
-    public Vec2f(float x, float y) {
+	public Vec2f(float x, float y) {
         super(x, y);
     }
 

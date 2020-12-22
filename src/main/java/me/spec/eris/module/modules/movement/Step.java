@@ -5,7 +5,6 @@ import java.util.List;
 
 import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
-import me.spec.eris.event.player.EventMove;
 import me.spec.eris.event.player.EventStep;
 import me.spec.eris.event.player.EventUpdate;
 import me.spec.eris.module.Category;
@@ -14,7 +13,6 @@ import me.spec.eris.module.antiflag.prioritization.ModulePrioritizer;
 import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.module.modules.combat.Criticals;
-import me.spec.eris.module.modules.movement.Speed.Mode;
 import me.spec.eris.module.values.valuetypes.ModeValue;
 import me.spec.eris.utils.BlockUtils;
 import me.spec.eris.utils.TimerUtils;
@@ -87,7 +85,7 @@ public class Step extends Module {
                 
 				Criticals crits = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));
 				crits.accumulatedFall = 0; 
-				if (crits.airTime > 0) {
+				if (crits.airTime > 0) {	
 					sendPosition(0,0,0,true,false);
 					crits.airTime = 0;
 					crits.waitTicks = 3;

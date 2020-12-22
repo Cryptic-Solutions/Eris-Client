@@ -5,16 +5,11 @@ import java.util.function.Supplier;
 import me.spec.eris.module.Module;
 import me.spec.eris.module.values.Value;
 
-/**
- * Author: Ice
- * Created: 18:33, 12-Jun-20
- * Project: Client
- */
 public class NumberValue<T> extends Value<T> {
 
     private T minimumValue, maximumValue;
 
-    public NumberValue(String valueName, T defaultValueObject, T minimumValue, T maximumValue, Module parent, Supplier supplier, String description) {
+    public NumberValue(String valueName, T defaultValueObject, T minimumValue, T maximumValue, Module parent, Supplier<?> supplier, String description) {
         super(valueName, defaultValueObject, parent, supplier, description);
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;

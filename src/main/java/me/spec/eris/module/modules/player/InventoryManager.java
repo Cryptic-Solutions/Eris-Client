@@ -32,7 +32,7 @@ import net.minecraft.network.play.client.C16PacketClientStatus.EnumState;
 public class InventoryManager extends Module {
 
     public InventoryManager() {
-        super("InventoryManager", Category.MOVEMENT);
+        super("InventoryManager", Category.PLAYER);
     }
 
     public BooleanValue<Boolean> clean = new BooleanValue<>("Clean", true, this);
@@ -45,11 +45,8 @@ public class InventoryManager extends Module {
     public NumberValue<Integer> swordsSlot = new NumberValue<>("Sword Slot", 1, 1, 9, this);
     public NumberValue<Integer> delay = new NumberValue<>("Delay", 150, 1, 1000, this);
     private final TimerUtils timer = new TimerUtils();
-    private int stealDelay = 2;
     public boolean switchDirection;
     private int lastSlot = -1;
-    private int exploitTime;
-    private float blockPosValue;
     private boolean withinInventory;
 
 

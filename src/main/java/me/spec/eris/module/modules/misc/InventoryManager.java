@@ -13,6 +13,7 @@ import me.spec.eris.utils.InventoryUtils;
 import me.spec.eris.utils.PlayerUtils;
 import me.spec.eris.utils.TimerUtils;
 import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -53,7 +54,7 @@ public class InventoryManager extends Module {
     public void onEvent(Event e) {
         if (e instanceof EventPacket) {
             EventPacket event = (EventPacket) e;
-            if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiChat) || mc.thePlayer.isUsingItem()) {
+            if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiScreen) || mc.thePlayer.isUsingItem()) {
                 timer.reset();
                 return;
             }
@@ -76,7 +77,7 @@ public class InventoryManager extends Module {
             }
         }
         if (e instanceof EventUpdate) {
-            if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiChat) || mc.thePlayer.isUsingItem()) {
+            if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiScreen) || mc.thePlayer.isUsingItem()) {
                 timer.reset();
                 return;
             }

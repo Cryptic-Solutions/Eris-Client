@@ -195,7 +195,7 @@ public class Killaura extends Module {
                     }
 
                     if (!Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Flight.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Speed.class).isToggled() && clientRaper.hasReached(350) && !mc.thePlayer.isMoving() && ServerUtils.onServer("hypixel") && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && Math.abs(eu.getY() - mc.thePlayer.posY) > .07) {
-                    	sendPosition(0,-9.001E-4D,0, false, false);
+                    	sendPosition(0,(eu.getY() - mc.thePlayer.posY) - 9.5E-4D,0, false, false);
                         clientRaper.reset();
                     }
                     aim(eu);

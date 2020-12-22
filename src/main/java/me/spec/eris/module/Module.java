@@ -7,9 +7,7 @@ import me.spec.eris.event.Event;
 import me.spec.eris.event.player.EventMove;
 import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
-import me.spec.eris.module.modules.render.HUD;
 import me.spec.eris.module.values.Value;
-import me.spec.eris.module.values.valuetypes.ModeValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.EnumChatFormatting;
@@ -40,7 +38,7 @@ public class Module {
         this.category = null;
     }
 
-    public void addSetting(Value value) {
+    public void addSetting(Value<?> value) {
         this.settings.add(value);
     }
 

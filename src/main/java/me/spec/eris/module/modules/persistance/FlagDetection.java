@@ -1,6 +1,5 @@
 package me.spec.eris.module.modules.persistance;
 
-import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
 
 public class FlagDetection extends Module {

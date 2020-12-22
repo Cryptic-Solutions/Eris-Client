@@ -27,8 +27,6 @@ public class Panel {
     private boolean open;
     public boolean onTop;
     private boolean dragging;
-    private boolean closingModule;
-
     private ArrayList<Button> buttons = new ArrayList<Button>();
     private int xOffset;
     private int yOffset;
@@ -89,7 +87,6 @@ public class Panel {
                         if (buttons.get(i).opened) {
                             animation = -buttons.get(i).settings.size();
                             buttons.get(i).opened = false;
-                            closingModule = true;
                         }
                         offset += buttons.get(i).drawScreen(mouseX, mouseY, x, y + offset, width, open);
                     }

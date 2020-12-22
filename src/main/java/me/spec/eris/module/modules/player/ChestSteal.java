@@ -13,22 +13,12 @@ import me.spec.eris.utils.TimerUtils;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.inventory.ContainerChest;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
 
 public class ChestSteal extends Module {
 
     public ChestSteal() {
-        super("ChestSteal", Category.MOVEMENT);
+        super("ChestSteal", Category.PLAYER);
     }
 
     private final TimerUtils timer = new TimerUtils();

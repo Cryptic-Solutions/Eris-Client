@@ -7,15 +7,10 @@ import me.spec.eris.event.player.EventStep;
 import me.spec.eris.event.player.EventUpdate;
 import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
-import me.spec.eris.module.antiflag.prioritization.ModulePrioritizer;
 import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
-import me.spec.eris.module.modules.combat.Criticals;
 import me.spec.eris.module.modules.combat.Killaura;
-import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.module.values.valuetypes.ModeValue;
-import me.spec.eris.module.values.valuetypes.NumberValue;
-import me.spec.eris.utils.PlayerUtils;
 
 public class Speed extends Module {
 
@@ -58,8 +53,7 @@ public class Speed extends Module {
             EventMove em = (EventMove) e;
             if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS)) {
                 if (!mc.thePlayer.onGround) {
-                    Killaura theAura = ((Killaura) Eris.getInstance().modules.getModuleByClass(Killaura.class));
-                    if (Eris.getInstance().modules.getModuleByClass(Killaura.class).isToggled() && theAura.target != null) {
+                    if (Eris.getInstance().modules.getModuleByClass(Killaura.class).isToggled() && Killaura.target != null) {
                         mc.timer.timerSpeed = 1.15f;
                     } else {
                         mc.timer.timerSpeed = 1.00f;
@@ -82,7 +76,7 @@ public class Speed extends Module {
 	           	if (stage == 0) {
 	           		Step step = ((Step)Eris.getInstance().modules.getModuleByClass(Step.class));
 	           		if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && step.height < .627 && mc.thePlayer.isMoving() && waitTicks <= 0) {
-	           			mc.timer.timerSpeed = 1.2f;
+	           			mc.timer.timerSpeed = 1.3f;
 	           			reset = true;
 	           			em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 4.0e-9f * 1.25));
 	           			speed = em.getMovementSpeed() * (waitTicks > 0 ? 1.9 : hops > 3 ? 2.1499 : 2.18);
@@ -92,7 +86,7 @@ public class Speed extends Module {
 	           		speed = getLastDistance() - .65999 * (getLastDistance() - em.getMovementSpeed());
 	           	} else {
 	           		if (stage == 2 || stage == 4) {
-	           			mc.timer.timerSpeed -= .1f;
+	           			mc.timer.timerSpeed -= .15f;
 	           		}
 	           	}   
             em.setMoveSpeed(stage > 1 ? getLastDistance() - getLastDistance() / 160 - 1.0e-9 : speed); 

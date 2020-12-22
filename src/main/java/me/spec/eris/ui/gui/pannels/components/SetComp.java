@@ -7,7 +7,7 @@ public class SetComp {
     protected Button parent;
     protected Value set;
 
-    public SetComp(Value s, Button parent) {
+    public SetComp(Value<?> s, Button parent) {
         this.set = s;
         this.parent = parent;
     }
@@ -22,7 +22,7 @@ public class SetComp {
     public void mouseReleased(int mouseX, int mouseY, int state) {
     }
 
-    public Value getSetting() {
+    public Value<?> getSetting() {
         return this.set;
     }
 

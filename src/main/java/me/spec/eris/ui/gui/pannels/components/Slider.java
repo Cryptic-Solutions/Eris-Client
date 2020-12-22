@@ -19,7 +19,7 @@ public class Slider extends Component {
 
     private NumberValue set;
 
-    public Slider(NumberValue s, Button b) {
+    public Slider(NumberValue<?> s, Button b) {
         super(s, b);
         this.set = s;
     }

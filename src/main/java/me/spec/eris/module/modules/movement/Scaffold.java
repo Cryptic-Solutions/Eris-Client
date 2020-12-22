@@ -1,8 +1,9 @@
 package me.spec.eris.module.modules.movement;
 
+import java.awt.Color;
+import java.util.Arrays;
 import java.util.List;
 
-import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
 import me.spec.eris.event.client.EventPacket;
 import me.spec.eris.event.player.EventUpdate;
@@ -14,20 +15,10 @@ import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.utils.PlayerUtils;
 import me.spec.eris.utils.math.MathUtils;
 import net.minecraft.block.Block;
-import net.minecraft.util.MouseFilter;
-
-
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.BlockingDeque;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.init.Blocks;
@@ -38,8 +29,6 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
-import net.minecraft.network.play.client.C0BPacketEntityAction.Action;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -69,9 +58,6 @@ public class Scaffold extends Module {
 
     private BlockData lastBlockData;
     private List<Block> invalid;
-    private int item;
-    private int towerTicks;
-
     private boolean blocking;
     
     @Override
@@ -82,7 +68,6 @@ public class Scaffold extends Module {
     @Override
     public void onEnable() {
         if (!switcher.getValue() && mc.thePlayer != null) {
-            item = mc.thePlayer.inventory.currentItem;
         }
         super.onEnable();
     }
@@ -153,12 +138,10 @@ public class Scaffold extends Module {
                 if (getBlockCount() <= 0 || (switcher.getValue().equals(false) && mc.thePlayer.getCurrentEquippedItem() != null && !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBlock))) {
                     return;
                 }
-                boolean hasBlock = false;
                 if (switcher.getValue()) {
                     for (int i = 0; i < 9; ++i) {
                         if (mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).stackSize != 0 && mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemBlock && !invalid.contains(((ItemBlock) mc.thePlayer.inventory.getStackInSlot(i).getItem()).getBlock())) {
                             mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = i));
-                            hasBlock = true;
                             break;
                         }
                     }
@@ -176,7 +159,6 @@ public class Scaffold extends Module {
                             }
                         }
                     } else {
-                        towerTicks = 0;
                     }
                 }
                 blockEntry.position.add(0, (mc.gameSettings.keyBindSneak.isKeyDown() ? (mc.thePlayer.onGround ? -1 : 0) : 0), 0);
@@ -430,7 +412,7 @@ public class Scaffold extends Module {
         if (!invalid.contains(mc.theWorld.getBlockState((pos4.add(0, 0, -1))).getBlock())) {
             return new BlockData(pos4.add(0, 0, -1), EnumFacing.SOUTH);
         }
-        BlockPos pos19 = pos.add(-2, 0, 0);
+        pos.add(-2, 0, 0);
         if (!invalid.contains(mc.theWorld.getBlockState((pos1.add(0, -1, 0))).getBlock())) {
             return new BlockData(pos1.add(0, -1, 0), EnumFacing.UP);
         }

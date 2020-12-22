@@ -1,6 +1,15 @@
 package me.spec.eris.utils;
 
-import net.minecraft.block.*;
+import java.util.Objects;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockHopper;
+import net.minecraft.block.BlockIce;
+import net.minecraft.block.BlockLadder;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.BlockPackedIce;
+import net.minecraft.block.BlockVine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -9,14 +18,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-
-
-import java.util.Objects;
-
-import me.spec.eris.utils.math.vec.vectors.Vec3d;
 
 public class BlockUtils {
 

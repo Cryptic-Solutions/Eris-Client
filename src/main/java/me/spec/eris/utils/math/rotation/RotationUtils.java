@@ -18,7 +18,7 @@ public class RotationUtils {
             Vec3 lookVector = mc.thePlayer.getVectorForRotation(pitch, yaw);
             double reachDistance = range;
             Entity pointedEntity = null;
-            List var5 = mc.theWorld.getEntitiesWithinAABBExcludingEntity(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().addCoord(lookVector.xCoord * mc.playerController.getBlockReachDistance(), lookVector.yCoord * mc.playerController.getBlockReachDistance(), lookVector.zCoord * mc.playerController.getBlockReachDistance()).expand(reachDistance, reachDistance, reachDistance));
+            List<Entity> var5 = mc.theWorld.getEntitiesWithinAABBExcludingEntity(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().addCoord(lookVector.xCoord * mc.playerController.getBlockReachDistance(), lookVector.yCoord * mc.playerController.getBlockReachDistance(), lookVector.zCoord * mc.playerController.getBlockReachDistance()).expand(reachDistance, reachDistance, reachDistance));
             for (int var6 = 0; var6 < var5.size(); ++var6) {
                 Entity currentEntity = (Entity) var5.get(var6);
                 if (currentEntity.canBeCollidedWith()) {

@@ -16,17 +16,17 @@ public class Vector<T extends Number> {
         this.z = z;
     }
 
-    public Vector setX(T x) {
+    public Vector<T> setX(T x) {
         this.x = x;
         return this;
     }
 
-    public Vector setY(T y) {
+    public Vector<T> setY(T y) {
         this.y = y;
         return this;
     }
 
-    public Vector setZ(T z) {
+    public Vector<T> setZ(T z) {
         this.z = z;
         return this;
     }
@@ -67,8 +67,10 @@ public class Vector<T extends Number> {
     }
 
     public static class Vec3f extends Vector3f {
+ 
+		private static final long serialVersionUID = 1L;
 
-        public Vec3f(float x, float y, float z) {
+		public Vec3f(float x, float y, float z) {
             super(x, y, z);
         }
 

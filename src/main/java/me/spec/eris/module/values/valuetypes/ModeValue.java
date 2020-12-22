@@ -5,16 +5,11 @@ import java.util.function.Supplier;
 import me.spec.eris.module.Module;
 import me.spec.eris.module.values.Value;
 
-/**
- * Author: Ice
- * Created: 18:42, 12-Jun-20
- * Project: Client
- */
 public class ModeValue<T extends Enum<T>> extends Value<T> {
 
     private T[] modes;
 
-    public ModeValue(String valueName, T defaultValueObject, Module parent, Supplier supplier, String description) {
+    public ModeValue(String valueName, T defaultValueObject, Module parent, Supplier<?> supplier, String description) {
         super(valueName, defaultValueObject, parent, supplier, description);
         modes = readModes(getValue());
     }

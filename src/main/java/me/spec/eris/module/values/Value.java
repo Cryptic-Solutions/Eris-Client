@@ -2,23 +2,17 @@ package me.spec.eris.module.values;
 
 import java.util.function.Supplier;
 
-import me.spec.eris.Eris;
 import me.spec.eris.module.Module;
 
-/**
- * Author: Ice
- * Created: 18:31, 12-Jun-20
- * Project: Client
- */
 public class Value<T> {
     private String description = "";
     private String valueName;
-    private Supplier supplier;
+    private Supplier<?> supplier;
     private T valueObject;
     private T defaultValueObject;
     private Module parent;
 
-    public Value(String valueName, T defaultValueObject, Module parent, Supplier supplier, String description) {
+    public Value(String valueName, T defaultValueObject, Module parent, Supplier<?> supplier, String description) {
         this.supplier = supplier;
         this.valueName = valueName;
         this.description = description;
@@ -30,7 +24,7 @@ public class Value<T> {
         parent.addSetting(this);
     }
 
-    public Value(String valueName, T defaultValueObject, Module parent, Supplier supplier) {
+    public Value(String valueName, T defaultValueObject, Module parent, Supplier<?> supplier) {
         this.supplier = supplier;
         this.valueName = valueName;
         this.defaultValueObject = defaultValueObject;

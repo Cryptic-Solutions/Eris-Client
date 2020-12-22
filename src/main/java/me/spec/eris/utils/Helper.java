@@ -1,8 +1,6 @@
 package me.spec.eris.utils;
 
 import me.spec.eris.Eris;
-import me.spec.eris.event.Event;
-import me.spec.eris.event.client.EventClientTick;
 
 public class Helper {
 
@@ -16,7 +14,7 @@ public class Helper {
             }
             lastSend = System.currentTimeMillis();
             timer.reset();
-        }
+        }	
     }
 
     public static String sendMessage(String message) {

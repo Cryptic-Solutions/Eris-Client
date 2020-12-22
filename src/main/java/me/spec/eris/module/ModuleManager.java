@@ -9,13 +9,13 @@ import me.spec.eris.module.modules.client.ClickGUI;
 import me.spec.eris.module.modules.combat.*;
 import me.spec.eris.module.modules.movement.*;
 import me.spec.eris.module.modules.persistance.FlagDetection;
-import me.spec.eris.module.modules.persistance.Heartbeat;
 import me.spec.eris.module.modules.player.AntiVoid;
 import me.spec.eris.module.modules.player.ChestSteal;
 import me.spec.eris.module.modules.player.InventoryManager;
 import me.spec.eris.module.modules.player.NoFall;
 import me.spec.eris.module.modules.render.ESP;
 import me.spec.eris.module.modules.render.HUD;
+import me.spec.eris.security.checks.Heartbeat;
 
 public class ModuleManager {
 
@@ -86,7 +86,7 @@ public class ModuleManager {
         return mods;
     }
 
-    public boolean isEnabled(Class class1) {
+    public boolean isEnabled(Class<?> class1) {
         Module m = this.getModuleByClass(class1);
         if (m != null) {
             return m.isToggled();
@@ -94,7 +94,7 @@ public class ModuleManager {
         return false;
     }
 
-    public Module getModuleByClass(Class class1) {
+    public Module getModuleByClass(Class<?> class1) {
         for (int i = 0; i < this.modules.size(); i++) {
             if (this.modules.get(i).getClass() == class1) {
                 return this.modules.get(i);

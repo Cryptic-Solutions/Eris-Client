@@ -1,8 +1,5 @@
 package me.spec.eris.module.modules.movement;
 
-import org.lwjgl.input.Keyboard;
-
-import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
 import me.spec.eris.event.player.EventMove;
 import me.spec.eris.event.player.EventUpdate;
@@ -13,9 +10,6 @@ import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.module.values.valuetypes.ModeValue;
 import me.spec.eris.module.values.valuetypes.NumberValue;
-import me.spec.eris.utils.PlayerUtils;
-import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 
 public class Flight extends Module {
 

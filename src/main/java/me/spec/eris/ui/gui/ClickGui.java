@@ -4,15 +4,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import me.spec.eris.Eris;
 import me.spec.eris.module.Category;
-import me.spec.eris.module.Module;
-import me.spec.eris.module.values.Value;
-import me.spec.eris.module.values.valuetypes.BooleanValue;
-import me.spec.eris.module.values.valuetypes.ModeValue;
-import me.spec.eris.module.values.valuetypes.NumberValue;
 import me.spec.eris.ui.fonts.TTFFontRenderer;
 import me.spec.eris.ui.gui.pannels.Panel;
 import me.spec.eris.ui.gui.pannels.components.Mode;
@@ -20,20 +13,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
-/*
- * Auther: Seb
- * Seb is the best
- * buy sight lol
- */
 public class ClickGui extends GuiScreen {
     public static String toolTip = "no information to display";
     public static ArrayList<Panel> panels = new ArrayList<Panel>();
     public static boolean dragging = false;
-    public boolean createdPanels;//<- This is ghetto as fuck
+    public boolean createdPanels;
     public Mode mode;
 
     public void reload(boolean reloadUserInterface) {
-        for (Panel p : this.panels) {
+        for (Panel p : ClickGui.panels) {
             p.reload();
         }
     }
@@ -73,7 +61,8 @@ public class ClickGui extends GuiScreen {
         ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
         Minecraft.getMinecraft().fontRendererObj.drawString(toolTip, scalRes.getScaledWidth() / 2, scalRes.getScaledHeight() / 2 + 300, new Color(255, 255, 255).getRGB());
 
-        drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, Eris.getInstance().getClientColor().getRGB());
+        Eris.getInstance();
+		drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, Eris.getClientColor().getRGB());
 
         panels.sort((a, b) -> Double.compare(a.lastClickedMs, b.lastClickedMs));
         for (int i = 0; i < panels.size(); i++) {
@@ -84,14 +73,14 @@ public class ClickGui extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        for (Panel p : this.panels) {
+        for (Panel p : ClickGui.panels) {
             p.mouseClicked(mouseX, mouseY, mouseButton);
         }
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        for (Panel p : this.panels) {
+        for (Panel p : ClickGui.panels) {
             p.mouseReleased(mouseX, mouseY, state);
         }
     }
@@ -101,7 +90,7 @@ public class ClickGui extends GuiScreen {
     }
 
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        for (Panel p : this.panels) {
+        for (Panel p : ClickGui.panels) {
             p.keyTyped(typedChar, keyCode);
         }
         super.keyTyped(typedChar, keyCode);
@@ -121,6 +110,6 @@ public class ClickGui extends GuiScreen {
     }
 
     public static Color getPrimaryColor() {
-        return Eris.instance.getClientColor();
+        return Eris.getClientColor();
     }
 }

@@ -5,8 +5,9 @@ import net.minecraft.util.Vec3i;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Vec3f extends Vector3f {
+	private static final long serialVersionUID = 1L;
 
-    public Vec3f(float x, float y, float z) {
+	public Vec3f(float x, float y, float z) {
         super(x, y, z);
     }
 

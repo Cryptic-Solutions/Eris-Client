@@ -1,9 +1,7 @@
 package me.spec.eris.module.modules.render;
 
 import java.awt.Color;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,15 +11,10 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 
 import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
-import me.spec.eris.event.player.EventUpdate;
 import me.spec.eris.event.render.EventRender2D;
 import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
-import me.spec.eris.module.values.valuetypes.BooleanValue;
-import me.spec.eris.module.values.valuetypes.ModeValue;
-import me.spec.eris.module.values.valuetypes.NumberValue;
 import me.spec.eris.ui.fonts.TTFFontRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -50,7 +43,8 @@ public class HUD extends Module {
         if (e instanceof EventRender2D) {
 
             ScaledResolution scaledResolution = new ScaledResolution(mc);
-            mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getInstance().getClientColor().getRGB());
+            Eris.getInstance();
+			mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
 
             List<Module> mods = Eris.getInstance().modules.getModulesForRender();
 
@@ -76,10 +70,10 @@ public class HUD extends Module {
         int size = 16;
         float x = 37;
         float y = (scaledResolution.getScaledHeight() - (230) - size * 2) - 5;
-        Collection<?> var4 = this.mc.thePlayer.getActivePotionEffects();
+        Collection<?> var4 = Module.mc.thePlayer.getActivePotionEffects();
         int i = 0;
         if (!var4.isEmpty()) {
-            for (Iterator<?> var6 = this.mc.thePlayer.getActivePotionEffects().iterator(); var6.hasNext(); ) {
+            for (Iterator<?> var6 = Module.mc.thePlayer.getActivePotionEffects().iterator(); var6.hasNext(); ) {
                 PotionEffect var7 = (PotionEffect) var6.next();
                 Potion var8 = Potion.potionTypes[var7.getPotionID()];
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -88,7 +82,8 @@ public class HUD extends Module {
                     int var9 = var8.getStatusIconIndex();
                     Gui theGui = new Gui();
                     theGui.drawTexturedModalRect((int) x, (int) y - (18 * i), var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
-                    getFont().drawStringWithShadow("" + (var7.getDuration() <= 300 ? ChatFormatting.RED : ChatFormatting.WHITE) + Potion.getDurationString(var7), (int) x - Eris.getInstance().getFontRenderer().getStringWidth("" + Potion.getDurationString(var7)) - 5, (int) y - (18 * i) + 6, -1);
+                    Eris.getInstance();
+					getFont().drawStringWithShadow("" + (var7.getDuration() <= 300 ? ChatFormatting.RED : ChatFormatting.WHITE) + Potion.getDurationString(var7), (int) x - Eris.getFontRenderer().getStringWidth("" + Potion.getDurationString(var7)) - 5, (int) y - (18 * i) + 6, -1);
                     i++;
                 }
             }
