@@ -7,6 +7,7 @@ import me.spec.eris.event.player.EventStep;
 import me.spec.eris.event.player.EventUpdate;
 import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
+import me.spec.eris.module.antiflag.prioritization.ModulePrioritizer;
 import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.module.modules.combat.Killaura;
@@ -29,14 +30,8 @@ public class Speed extends Module {
     }
 
     @Override
-    public void onEvent(Event e) {
-        if (e instanceof EventStep) {
-            if (!((EventStep) e).isPre()) {
-                double height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
-                speed = height > .626 ? 0 : .25;
-                mc.thePlayer.motionY *= .98f;
-            }
-        }
+    public void onEvent(Event e) { 
+    	if (Eris.instance.modules.isEnabled(Flight.class)) return;
         if (e instanceof EventUpdate) {
             setMode(mode.getValue().toString());
             EventUpdate eu = (EventUpdate) e;
@@ -76,7 +71,7 @@ public class Speed extends Module {
 	           	if (stage == 0) {
 	           		Step step = ((Step)Eris.getInstance().modules.getModuleByClass(Step.class));
 	           		if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && step.height < .627 && mc.thePlayer.isMoving() && waitTicks <= 0) {
-	           			mc.timer.timerSpeed = 1.3f;
+	           			mc.timer.timerSpeed = 1.1f;
 	           			reset = true;
 	           			em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 4.0e-9f * 1.25));
 	           			speed = em.getMovementSpeed() * (waitTicks > 0 ? 1.9 : hops > 3 ? 2.1499 : 2.18);
@@ -86,7 +81,7 @@ public class Speed extends Module {
 	           		speed = getLastDistance() - .65999 * (getLastDistance() - em.getMovementSpeed());
 	           	} else {
 	           		if (stage == 2 || stage == 4) {
-	           			mc.timer.timerSpeed -= .15f;
+	           			mc.timer.timerSpeed -= .05f;
 	           		}
 	           	}   
             em.setMoveSpeed(stage > 1 ? getLastDistance() - getLastDistance() / 160 - 1.0e-9 : speed); 

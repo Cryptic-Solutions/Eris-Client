@@ -13,6 +13,7 @@ import me.spec.eris.module.Module;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.utils.PlayerUtils;
+import me.spec.eris.utils.TimerUtils;
 import me.spec.eris.utils.math.MathUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -50,23 +51,29 @@ public class Scaffold extends Module {
     }
 
     public BooleanValue<Boolean> hitVectorRandomization = new BooleanValue<>("Random Vector", false, this, "Use a randomized hitvector - hypixel");
+    public BooleanValue<Boolean> timerSpeedAbuse = new BooleanValue<>("Timer Speed", false, this, "Abuse timerspeed for boost");
     public BooleanValue<Boolean> tower = new BooleanValue<>("Tower", false, this, "Constant upwards motion when holding jump");
     public BooleanValue<Boolean> switcher = new BooleanValue<>("Switcher", false, this, "Switch blocks");
-
+    private final TimerUtils timerCap = new TimerUtils();
     private final MouseFilter pitchMouseFilter = new MouseFilter();
     private final MouseFilter yawMouseFilter = new MouseFilter();
 
+    private boolean blocking, abusedTimer, abuseTimer;
     private BlockData lastBlockData;
     private List<Block> invalid;
-    private boolean blocking;
     
     @Override
     public void onDisable() {
+    	mc.timer.timerSpeed = 1.0f;
         super.onDisable();
     }
 
     @Override
     public void onEnable() {
+    	timerCap.reset();
+    	abusedTimer = false;
+    	abuseTimer = !abuseTimer;
+    	mc.timer.timerSpeed = 1.0f;
         if (!switcher.getValue() && mc.thePlayer != null) {
         }
         super.onEnable();
@@ -89,6 +96,15 @@ public class Scaffold extends Module {
             }
         }
         if (e instanceof EventUpdate) {
+        	if (abuseTimer) {
+	        	if (!timerCap.hasReached(1500)) {
+	        		if (!abusedTimer && timerSpeedAbuse.getValue()) mc.timer.timerSpeed = 1.5f;
+	        	} else {
+	        		mc.timer.timerSpeed = 1.0f;
+	        		abusedTimer = true;
+	        		timerCap.reset();
+	        	}
+        	}
             EventUpdate event = (EventUpdate) e;
             double addition = mc.thePlayer.isCollidedHorizontally ? 0 : 0.1;
             final double x2 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw + 90.0f));

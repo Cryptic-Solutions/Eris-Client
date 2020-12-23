@@ -13,6 +13,7 @@ import me.spec.eris.module.modules.player.AntiVoid;
 import me.spec.eris.module.modules.player.ChestSteal;
 import me.spec.eris.module.modules.player.InventoryManager;
 import me.spec.eris.module.modules.player.NoFall;
+import me.spec.eris.module.modules.player.NoRotate;
 import me.spec.eris.module.modules.render.ESP;
 import me.spec.eris.module.modules.render.HUD;
 import me.spec.eris.security.checks.Heartbeat;
@@ -42,9 +43,9 @@ public class ModuleManager {
         //Misc bullshit
         modules.add(new NoFall());
         modules.add(new AntiVoid());
+        modules.add(new NoRotate());
         modules.add(new ChestSteal());
         modules.add(new InventoryManager());
-
         //Visual
         modules.add(new HUD());
         modules.add(new ESP());

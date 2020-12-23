@@ -107,9 +107,9 @@ public class EventMove extends Event {
         	}
         	moveStrafe = 0.0D;
         	if (moveForward > 0.0D) {
-        		moveForward = 1.0D;
+        		moveForward = value;
         	} else if (moveForward < 0.0D) {
-        		moveForward = -1.0D;
+        		moveForward = -value;
         	}
             }
         setX(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw + 90)) + moveStrafe * moveSpeed * Math.sin(Math.toRadians(yaw + 90)));

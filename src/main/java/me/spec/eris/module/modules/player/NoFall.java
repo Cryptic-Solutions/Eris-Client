@@ -37,11 +37,8 @@ public class NoFall extends Module {
 						 
 						fallen = true;  
 						aura.clientRaper.reset();
-						if (aura.target == null) {
-							sendPosition(0,0,0,true,true);
-						} else {
-							
-						}
+
+						sendPosition(0,0,0,true,true);
 					} 
 					mc.thePlayer.fallDistance *= .1;
 				}
