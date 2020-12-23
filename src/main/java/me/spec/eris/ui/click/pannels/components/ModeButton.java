@@ -1,7 +1,7 @@
-package me.spec.eris.ui.gui.pannels.components;
+package me.spec.eris.ui.click.pannels.components;
 
 import me.spec.eris.module.values.valuetypes.ModeValue;
-import me.spec.eris.ui.gui.ClickGui;
+import me.spec.eris.ui.click.ClickGui;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.EnumChatFormatting;
 

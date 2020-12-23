@@ -1,12 +1,11 @@
-package me.spec.eris.security.gui;
+package me.spec.eris.ui.login;
 
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.client.renderer.WorldRenderer;
 import org.lwjgl.opengl.GL11;
-import net.minecraft.client.renderer.Tessellator;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ChatAllowedCharacters;
 
 public final class GuiPasswordField extends Gui {
     private final int field_146209_f;
@@ -173,7 +172,6 @@ public final class GuiPasswordField extends Gui {
         if (p_146188_1_ > this.field_146209_f + this.field_146218_h) {
             p_146188_1_ = this.field_146209_f + this.field_146218_h;
         }
-        final WorldRenderer var6 = Tessellator.getInstance().getWorldRenderer();
         GL11.glColor4f(0.0f, 0.0f, 255.0f, 255.0f);
         GL11.glDisable(3553);
         GL11.glEnable(3058);

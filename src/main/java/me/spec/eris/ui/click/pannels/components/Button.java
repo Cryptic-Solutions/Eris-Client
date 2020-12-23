@@ -1,4 +1,4 @@
-package me.spec.eris.ui.gui.pannels.components;
+package me.spec.eris.ui.click.pannels.components;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import me.spec.eris.module.values.Value;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.module.values.valuetypes.ModeValue;
 import me.spec.eris.module.values.valuetypes.NumberValue;
-import me.spec.eris.ui.gui.ClickGui;
+import me.spec.eris.ui.click.ClickGui;
 import me.spec.eris.utils.Helper;
 import me.spec.eris.utils.TimerUtils;
 import net.minecraft.client.Minecraft;

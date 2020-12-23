@@ -1,11 +1,11 @@
-package me.spec.eris.ui.gui.pannels.components;
+package me.spec.eris.ui.click.pannels.components;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
 
 import me.spec.eris.Eris;
 import me.spec.eris.module.values.valuetypes.NumberValue;
-import me.spec.eris.ui.gui.ClickGui;
+import me.spec.eris.ui.click.ClickGui;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 

@@ -1,4 +1,4 @@
-package me.spec.eris.ui.gui.pannels;
+package me.spec.eris.ui.click.pannels;
 
 import java.util.ArrayList;
 
@@ -8,9 +8,9 @@ import me.spec.eris.Eris;
 import me.spec.eris.config.ClientConfig;
 import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
-import me.spec.eris.ui.gui.ClickGui;
-import me.spec.eris.ui.gui.pannels.components.Button;
-import me.spec.eris.ui.gui.pannels.components.ConfigButton;
+import me.spec.eris.ui.click.ClickGui;
+import me.spec.eris.ui.click.pannels.components.Button;
+import me.spec.eris.ui.click.pannels.components.ConfigButton;
 import me.spec.eris.utils.TimerUtils;
 import net.minecraft.client.gui.Gui;
 

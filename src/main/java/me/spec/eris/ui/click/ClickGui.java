@@ -1,4 +1,4 @@
-package me.spec.eris.ui.gui;
+package me.spec.eris.ui.click;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import me.spec.eris.Eris;
 import me.spec.eris.module.Category;
+import me.spec.eris.ui.click.pannels.Panel;
+import me.spec.eris.ui.click.pannels.components.Mode;
 import me.spec.eris.ui.fonts.TTFFontRenderer;
-import me.spec.eris.ui.gui.pannels.Panel;
-import me.spec.eris.ui.gui.pannels.components.Mode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;

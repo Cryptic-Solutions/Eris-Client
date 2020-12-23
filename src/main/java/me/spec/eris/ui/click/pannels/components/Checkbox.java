@@ -1,9 +1,9 @@
-package me.spec.eris.ui.gui.pannels.components;
+package me.spec.eris.ui.click.pannels.components;
 
 import java.awt.Color;
 
 import me.spec.eris.module.values.valuetypes.BooleanValue;
-import me.spec.eris.ui.gui.ClickGui;
+import me.spec.eris.ui.click.ClickGui;
 import me.spec.eris.utils.RenderUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

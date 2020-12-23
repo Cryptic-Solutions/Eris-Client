@@ -1,11 +1,11 @@
-package me.spec.eris.ui.gui.pannels.components;
+package me.spec.eris.ui.click.pannels.components;
 
 import java.awt.Color;
 import java.io.IOException;
 
 import me.spec.eris.Eris;
 import me.spec.eris.config.ClientConfig;
-import me.spec.eris.ui.gui.ClickGui;
+import me.spec.eris.ui.click.ClickGui;
 import me.spec.eris.utils.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

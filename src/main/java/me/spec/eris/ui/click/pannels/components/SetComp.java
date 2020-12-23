@@ -1,13 +1,13 @@
-package me.spec.eris.ui.gui.pannels.components;
+package me.spec.eris.ui.click.pannels.components;
 
 import me.spec.eris.module.values.Value;
 
-public class Component {
+public class SetComp {
 
     protected Button parent;
     protected Value set;
 
-    public Component(Value<?> s, Button parent) {
+    public SetComp(Value<?> s, Button parent) {
         this.set = s;
         this.parent = parent;
     }

@@ -1,0 +1,73 @@
+---- Minecraft Crash Report ----
+// Who set us up the TNT?
+
+Time: 12/22/20 4:10 PM
+Description: Rendering screen
+
+java.lang.Error: Unresolved compilation problem: 
+	The method sin(float) in the type MathHelper is not applicable for the arguments (double)
+
+	at me.spec.eris.ui.main.MainMenu.drawScreen(MainMenu.java:73)
+	at net.minecraft.client.renderer.EntityRenderer.func_181560_a(EntityRenderer.java:1239)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1035)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:454)
+	at net.minecraft.client.main.Main.main(Main.java:103)
+	at Start.main(Start.java:9)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Stacktrace:
+	at me.spec.eris.ui.main.MainMenu.drawScreen(MainMenu.java:73)
+
+-- Screen render details --
+Details:
+	Screen name: me.spec.eris.ui.main.MainMenu
+	Mouse location: Scaled: (939, 442). Absolute: (1878, 533)
+	Screen size: Scaled: (1280, 709). Absolute: (2560, 1417). Scale factor of 2
+Stacktrace:
+	at net.minecraft.client.renderer.EntityRenderer.func_181560_a(EntityRenderer.java:1239)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1035)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:454)
+	at net.minecraft.client.main.Main.main(Main.java:103)
+	at Start.main(Start.java:9)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.8.9
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_162, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 899278968 bytes (857 MB) / 1527775232 bytes (1457 MB) up to 3562536960 bytes (3397 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	Launched Version: mcp
+	LWJGL: 2.9.4
+	OpenGL: GeForce GTX 1050 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 432.00, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Very likely; Jar signature invalidated
+	Type: Client (map_client.txt)
+	Resource Packs: !    §4DOOM.zip
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 4x AMD Ryzen 3 2200G with Radeon Vega Graphics 
+	OptiFine Version: OptiFine_1.8.9_HD_U_L5
+	OptiFine Build: ~~NULL~~
+	Render Distance Chunks: 10
+	Mipmaps: 4
+	Anisotropic Filtering: 1
+	Antialiasing: 4
+	Multitexture: true
+	Shaders: null
+	OpenGlVersion: 4.6.0 NVIDIA 432.00
+	OpenGlRenderer: GeForce GTX 1050 Ti/PCIe/SSE2
+	OpenGlVendor: NVIDIA Corporation
+	CpuCount: 4

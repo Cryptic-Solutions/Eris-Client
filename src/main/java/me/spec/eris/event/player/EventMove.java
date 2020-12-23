@@ -74,7 +74,7 @@ public class EventMove extends Event {
         return speed;
     }
 
-    double forward = Minecraft.getMinecraft().thePlayer.movementInput.moveForward, strafe = Minecraft.getMinecraft().thePlayer.movementInput.moveStrafe,
+    double forward = MovementInput.moveForward, strafe = MovementInput.moveStrafe,
             yaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
 
 
@@ -93,7 +93,7 @@ public class EventMove extends Event {
         //}
         double moveStrafe = /*targetStrafe ? TargetStrafe.direction : */movementInput.getStrafe() * 1.0;
         double yaw = /*targetStrafe ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] :*/ mc.thePlayer.rotationYaw;
-        double value = mc.thePlayer.hurtTime == 3 ? 1.05 : 1;
+        double value = mc.thePlayer.hurtTime == 3 ? 1.025 : 1;
         if (moveStrafe > 0) {
         	moveStrafe = value;
         } else if (moveStrafe < 0) {

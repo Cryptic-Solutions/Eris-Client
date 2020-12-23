@@ -1,27 +1,11 @@
-package me.spec.eris.security.gui;
+package me.spec.eris.ui.login;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import me.spec.eris.Eris;
-import me.spec.eris.security.checks.AntiHostsEdit;
-import me.spec.eris.security.checks.AntiVM;
-import me.spec.eris.security.checks.InvalidProcess;
-import me.spec.eris.security.network.SerDes;
-import me.spec.eris.security.network.client.C42069ProtectionPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -90,19 +74,18 @@ public class GuiLogin extends GuiScreen {
     }
 
     @Override
-    public void drawScreen(final int x, final int y, final float z) {
-        this.drawDefaultBackground();
+    public void drawScreen(final int x, final int y, final float z) { 
         this.password.drawTextBox();
         this.name.drawTextBox();
         this.uid.drawTextBox();
         if (this.password.getText().isEmpty()) {
-            mc.fontRendererObj.drawStringWithShadow("Password", (float) (this.width / 2 - 94), 76.0f, -7829368);
+            mc.fontRendererObj.drawStringWithShadow("Password", (float) (this.width / 2 - 94), height / 2 - 10, -7829368);
         }
         if (this.uid.getText().isEmpty()) {
-            mc.fontRendererObj.drawStringWithShadow("UID", (float) (this.width / 2 - 94), 26.0f, -7829368);
+            mc.fontRendererObj.drawStringWithShadow("UID", (float) (this.width / 2 - 94), height / 2 - 65, -7829368);
         }
         if (this.name.getText().isEmpty()) {
-            mc.fontRendererObj.drawStringWithShadow("Name", (float) (this.width / 2 - 94), 51.0f, -7829368);
+            mc.fontRendererObj.drawStringWithShadow("Name", (float) (this.width / 2 - 94), height / 2 - 35, -7829368);
         }
         super.drawScreen(x, y, z);
     }
@@ -112,11 +95,11 @@ public class GuiLogin extends GuiScreen {
 
         Display.setTitle("You need to login to Eris - Just press login, login disabled until release is ready");
         final int var3 = this.height / 4 + 24;
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, 95, "Login"));
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, 118, "Back"));
-        this.password = new GuiPasswordField(this.fontRendererObj, this.width / 2 - 98, 70, 195, 20);
-        this.name = new GuiTextField(var3, this.fontRendererObj, this.width / 2 - 98, 45, 195, 20);
-        this.uid = new GuiTextField(var3, this.fontRendererObj, this.width / 2 - 98, 20, 195, 20);
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, height / 2 + 10, "Login"));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, height / 2 + 35, "Exit Client"));
+        this.password = new GuiPasswordField(this.fontRendererObj, this.width / 2 - 98, height / 2 - 20, 195, 20);
+        this.name = new GuiTextField(var3, this.fontRendererObj, this.width / 2 - 98, height / 2 - 45, 195, 20);
+        this.uid = new GuiTextField(var3, this.fontRendererObj, this.width / 2 - 98, height / 2 - 75, 195, 20);
         this.uid.setFocused(true);
         Keyboard.enableRepeatEvents(true);
     }
