@@ -88,7 +88,7 @@ public class EventMove extends Event {
 			if (mc.thePlayer.getDistanceToEntity(Aura.currentEntity) <= ((TargetStrafe) Eris.getmodulemanager.getModuleByClass(TargetStrafe.class)).distance.getValue()) {
 				moveForward = 0;
 			} else {*/
-        //moveForward = 1;
+        moveForward = 1;
         //}
         //}
         double moveStrafe = /*targetStrafe ? TargetStrafe.direction : */movementInput.getStrafe() * 1.0;
