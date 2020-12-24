@@ -22,7 +22,7 @@ public class ChestSteal extends Module {
     }
 
     private final TimerUtils timer = new TimerUtils();
-    public int delay;
+    private int delay;
     
     public static boolean isStealing;
     

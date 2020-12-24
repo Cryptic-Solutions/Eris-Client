@@ -145,6 +145,6 @@ public class Module {
     }
 
     public String getFullModuleDisplayName() {
-        return name + EnumChatFormatting.GRAY + (mode.length() > 1 ? " " : "") + mode.toLowerCase();
+        return name + EnumChatFormatting.GRAY + (mode.length() > 1 ? " " + mode.substring(0, 1) + mode.replace(mode.substring(0, 1), "").toLowerCase() : "");
     }
 }

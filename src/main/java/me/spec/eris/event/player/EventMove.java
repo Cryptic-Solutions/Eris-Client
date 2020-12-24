@@ -88,12 +88,12 @@ public class EventMove extends Event {
 			if (mc.thePlayer.getDistanceToEntity(Aura.currentEntity) <= ((TargetStrafe) Eris.getmodulemanager.getModuleByClass(TargetStrafe.class)).distance.getValue()) {
 				moveForward = 0;
 			} else {*/
-        moveForward = 1;
+      //  moveForward = 1;
         //}
         //}
         double moveStrafe = /*targetStrafe ? TargetStrafe.direction : */movementInput.getStrafe() * 1.0;
         double yaw = /*targetStrafe ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] :*/ mc.thePlayer.rotationYaw;
-        double value = mc.thePlayer.hurtTime == 3 ? 1.025 : 1;
+        double value = mc.thePlayer.hurtTime == 3 ? 1.0025 : 1;
         if (moveStrafe > 0) {
         	moveStrafe = value;
         } else if (moveStrafe < 0) {
@@ -107,9 +107,9 @@ public class EventMove extends Event {
         	}
         	moveStrafe = 0.0D;
         	if (moveForward > 0.0D) {
-        		moveForward = value;
+        		moveForward = 1;
         	} else if (moveForward < 0.0D) {
-        		moveForward = -value;
+        		moveForward = -1;
         	}
             }
         setX(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw + 90)) + moveStrafe * moveSpeed * Math.sin(Math.toRadians(yaw + 90)));

@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
+import org.lwjgl.opengl.Display;
+
+import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
 import me.spec.eris.event.client.EventPacket;
+import me.spec.eris.event.player.EventSafeWalk;
 import me.spec.eris.event.player.EventUpdate;
 import me.spec.eris.event.render.EventRender2D;
 import me.spec.eris.module.Category;
@@ -30,6 +34,8 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.network.play.client.C0BPacketEntityAction.Action;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -72,7 +78,7 @@ public class Scaffold extends Module {
     public void onEnable() {
     	timerCap.reset();
     	abusedTimer = false;
-    	abuseTimer = !abuseTimer;
+    	if (!Eris.instance.modules.isEnabled(Speed.class)) abuseTimer = !abuseTimer;
     	mc.timer.timerSpeed = 1.0f;
         if (!switcher.getValue() && mc.thePlayer != null) {
         }
@@ -82,16 +88,28 @@ public class Scaffold extends Module {
     @Override
     public void onEvent(Event e) {
     	if (e instanceof EventRender2D) {
-    		
+    		mc.fontRendererObj.drawCenteredString(String.valueOf(this.getBlockCount()), Display.getWidth() / 2, Display.getHeight() / 2, this.getBlockColor(getBlockCount()));
     	}
+
+        if (e instanceof EventSafeWalk) {
+        	e.setCancelled();
+        }
         if (e instanceof EventPacket) {
             EventPacket event = (EventPacket) e;
-            if (event.isSending() && PlayerUtils.isHoldingSword()) {
-            	if (event.getPacket() instanceof C07PacketPlayerDigging) {
-            		blocking = true;
+            
+            if (event.isSending()) {
+            	if (event.getPacket() instanceof C0BPacketEntityAction) {
+            		C0BPacketEntityAction packet = (C0BPacketEntityAction)event.getPacket();
+            		if (packet.getAction().equals(Action.START_SNEAKING) || packet.getAction().equals(Action.STOP_SNEAKING)) event.setCancelled();
+            		//Not sending sneak packets with downwards scaffold, bypasses sprint speed checks by making the server think our dumbass player enity using invalid yaw direction is somehow moving normally
             	}
-            	if (event.getPacket() instanceof C08PacketPlayerBlockPlacement) {
-            		blocking = true;
+            	if (PlayerUtils.isHoldingSword()) {
+	            	if (event.getPacket() instanceof C07PacketPlayerDigging) {
+	            		blocking = true;
+	            	}
+	            	if (event.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+	            		blocking = true;
+	            	}
             	}
             }
         }

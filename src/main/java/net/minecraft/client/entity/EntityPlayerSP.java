@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import me.spec.eris.event.player.EventBlockPush;
 import me.spec.eris.event.player.EventMove;
 import me.spec.eris.event.player.EventUpdate;
 import net.minecraft.client.Minecraft;
@@ -236,7 +237,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
             if (this.ridingEntity == null) {
                 if (flag2 && flag3) {
-                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(euPre.getX(), euPre.getY(), euPre.getZ(), euPre.getYaw(), euPre.getPitch(), euPre.isOnGround()));
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(euPre.getX(), euPre.getY(), euPre.getZ(), euPre.getYaw(), euPre.getPitch(), euPre.isOnGround())); 
+                    serverSideYaw = euPre.getYaw();
+                    serverSidePitch = euPre.getPitch();
                 } else if (flag2) {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(euPre.getX(), euPre.getY(), euPre.getZ(), euPre.isOnGround()));
                 } else if (flag3) {
@@ -416,6 +419,11 @@ public class EntityPlayerSP extends AbstractClientPlayer {
     }
 
     protected boolean pushOutOfBlocks(double x, double y, double z) {
+
+		EventBlockPush blockPushEvent = new EventBlockPush();
+		blockPushEvent.call();
+		if (blockPushEvent.isCancelled()) return false;
+		
         if (this.noClip) {
             return false;
         } else {
@@ -795,5 +803,22 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         this.motionX = 0;
         this.motionY = 0;
         this.motionZ = 0;
+    }
+
+    public float getDirection() {
+        float direction = this.rotationYaw;
+        if (this.moveForward < 0.0F)
+            direction += 180.0F;
+        float forward = 1.0F;
+        if (this.moveForward < 0.0F)
+            forward = -0.5F;
+        else if (this.moveForward > 0.0F)
+            forward = 0.5F;
+        if (this.moveStrafing > 0.0F)
+            direction -= 90.0F * forward;
+        else if (this.moveStrafing < 0.0F)
+            direction += 90.0F * forward;
+        direction *= 0.017453292F;
+        return direction;
     }
 }

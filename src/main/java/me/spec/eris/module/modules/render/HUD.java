@@ -45,7 +45,7 @@ public class HUD extends Module {
             ScaledResolution scaledResolution = new ScaledResolution(mc);
             Eris.getInstance();
 			mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
-
+			//
             List<Module> mods = Eris.getInstance().modules.getModulesForRender();
 
             mods.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));

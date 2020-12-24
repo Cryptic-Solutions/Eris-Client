@@ -6,6 +6,7 @@ import java.util.List;
 import me.spec.eris.module.antiflag.detection.FlagDetect;
 import me.spec.eris.module.modules.client.AntiCrash;
 import me.spec.eris.module.modules.client.ClickGUI;
+import me.spec.eris.module.modules.client.Disabler;
 import me.spec.eris.module.modules.combat.*;
 import me.spec.eris.module.modules.movement.*;
 import me.spec.eris.module.modules.persistance.FlagDetection;
@@ -14,6 +15,7 @@ import me.spec.eris.module.modules.player.ChestSteal;
 import me.spec.eris.module.modules.player.InventoryManager;
 import me.spec.eris.module.modules.player.NoFall;
 import me.spec.eris.module.modules.player.NoRotate;
+import me.spec.eris.module.modules.player.Phase;
 import me.spec.eris.module.modules.render.ESP;
 import me.spec.eris.module.modules.render.HUD;
 import me.spec.eris.security.checks.Heartbeat;
@@ -26,12 +28,14 @@ public class ModuleManager {
         // Client
         modules.add(new ClickGUI());
         modules.add(new AntiCrash());
+        modules.add(new Disabler());
 
         // Movement
         modules.add(new Step());
         modules.add(new Speed());
         modules.add(new Flight());
         modules.add(new Sprint());
+        modules.add(new GuiMove());
         modules.add(new Scaffold());
         modules.add(new Longjump());
 
@@ -41,6 +45,7 @@ public class ModuleManager {
         modules.add(new Velocity());
         modules.add(new Criticals());
         //Misc bullshit
+        modules.add(new Phase());
         modules.add(new NoFall());
         modules.add(new AntiVoid());
         modules.add(new NoRotate());

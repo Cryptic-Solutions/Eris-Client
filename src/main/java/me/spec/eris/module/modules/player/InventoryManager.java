@@ -45,7 +45,6 @@ public class InventoryManager extends Module {
     public NumberValue<Integer> swordsSlot = new NumberValue<>("Sword Slot", 1, 1, 9, this);
     public NumberValue<Integer> delay = new NumberValue<>("Delay", 150, 1, 1000, this);
     private final TimerUtils timer = new TimerUtils();
-    public boolean switchDirection;
     private int lastSlot = -1;
     private boolean withinInventory;
 

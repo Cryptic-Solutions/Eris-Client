@@ -32,10 +32,10 @@ public class Step extends Module {
     public static boolean safe;
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.NCP, this);
 
-    public enum Mode {NCP, VANILLA}
+    private enum Mode {NCP, VANILLA}
 
-    public final TimerUtils stepDelay = new TimerUtils();
-	public double height;
+    private final TimerUtils stepDelay = new TimerUtils();
+    public double height;
 
     @Override
     public void onEvent(Event e) {

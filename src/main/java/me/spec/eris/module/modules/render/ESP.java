@@ -9,6 +9,7 @@ import me.spec.eris.event.render.EventEntityRender;
 import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
 import me.spec.eris.module.modules.combat.AntiBot;
+import me.spec.eris.module.modules.combat.Killaura;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.module.values.valuetypes.NumberValue;
 import me.spec.eris.utils.RenderUtilities;
@@ -60,16 +61,17 @@ public class ESP extends Module {
         GL11.glEnable(3042);
         GL11.glBlendFunc(770, 771);
         /*BOTTOM*/
-        RenderUtilities.drawHorizontalLine(-6.0, 5.8, 1.0, Color.white.getRGB());
+        int renderColor = Killaura.target == e ? Color.red.getRGB() : Color.white.getRGB();
+        RenderUtilities.drawHorizontalLine(-6.0, 5.8, 1.0, renderColor);
 
         /*TOP*/
-        RenderUtilities.drawHorizontalLine(-6.0, 5.8, -20.0, Color.white.getRGB());
+        RenderUtilities.drawHorizontalLine(-6.0, 5.8, -20.0, renderColor);
 
         /*LEFT*/
-        RenderUtilities.drawVerticalLine(-6.0, 1.0, -21.0, Color.white.getRGB());
+        RenderUtilities.drawVerticalLine(-6.0, 1.0, -21.0, renderColor);
 
         /*RIGHT*/
-        RenderUtilities.drawVerticalLine(6.75, 1.0, -21.0, Color.white.getRGB());
+        RenderUtilities.drawVerticalLine(6.75, 1.0, -21.0, renderColor);
 
         double health = entity.getHealth() / 20;
         if (health > 1)

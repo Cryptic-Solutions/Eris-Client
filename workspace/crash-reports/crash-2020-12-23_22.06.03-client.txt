@@ -1,0 +1,102 @@
+---- Minecraft Crash Report ----
+// Why did you do that?
+
+Time: 12/23/20 10:06 PM
+Description: Unexpected error
+
+java.lang.StringIndexOutOfBoundsException: String index out of range: 1
+	at java.lang.String.substring(Unknown Source)
+	at me.spec.eris.module.Module.getFullModuleDisplayName(Module.java:148)
+	at me.spec.eris.module.modules.render.HUD.lambda$0(HUD.java:51)
+	at java.util.TimSort.countRunAndMakeAscending(Unknown Source)
+	at java.util.TimSort.sort(Unknown Source)
+	at java.util.Arrays.sort(Unknown Source)
+	at java.util.ArrayList.sort(Unknown Source)
+	at me.spec.eris.module.modules.render.HUD.onEvent(HUD.java:51)
+	at me.spec.eris.event.Event.call(Event.java:34)
+	at net.minecraft.client.gui.GuiIngame.renderGameOverlay(GuiIngame.java:332)
+	at net.minecraft.client.renderer.EntityRenderer.func_181560_a(EntityRenderer.java:1208)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1035)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:454)
+	at net.minecraft.client.main.Main.main(Main.java:103)
+	at Start.main(Start.java:7)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Stacktrace:
+	at java.lang.String.substring(Unknown Source)
+	at me.spec.eris.module.Module.getFullModuleDisplayName(Module.java:148)
+	at me.spec.eris.module.modules.render.HUD.lambda$0(HUD.java:51)
+	at java.util.TimSort.countRunAndMakeAscending(Unknown Source)
+	at java.util.TimSort.sort(Unknown Source)
+	at java.util.Arrays.sort(Unknown Source)
+	at java.util.ArrayList.sort(Unknown Source)
+	at me.spec.eris.module.modules.render.HUD.onEvent(HUD.java:51)
+	at me.spec.eris.event.Event.call(Event.java:34)
+	at net.minecraft.client.gui.GuiIngame.renderGameOverlay(GuiIngame.java:332)
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 9 total; [EntityPlayerSP['mwboss123'/467958, l='MpServer', x=-24.50, y=40.00, z=30.50], EntityOtherPlayerMP['KillCode808'/85, l='MpServer', x=25.18, y=41.67, z=-40.63], EntityOtherPlayerMP['YK_1064'/98, l='MpServer', x=25.12, y=42.10, z=-38.68], EntityOtherPlayerMP['Bioversity'/79, l='MpServer', x=-22.98, y=38.93, z=-26.89], EntityOtherPlayerMP['hcley'/134, l='MpServer', x=23.56, y=40.00, z=43.43], EntityOtherPlayerMP['ToxicChibi'/123, l='MpServer', x=2.48, y=39.57, z=-46.73], EntityOtherPlayerMP['Gourdd'/108, l='MpServer', x=-23.79, y=42.95, z=34.56], EntityOtherPlayerMP['Catabow'/109, l='MpServer', x=-6.41, y=39.91, z=58.50], EntityOtherPlayerMP['Xenthyck'/121, l='MpServer', x=25.03, y=36.00, z=27.31]]
+	Chunk stats: MultiplayerChunkCache: 441, 441
+	Level seed: 0
+	Level generator: ID 01 - flat, ver 0. Features enabled: false
+	Level generator options: 
+	Level spawn location: -25.00,43.00,38.00 - World: (-25,43,38), Chunk: (at 7,2,6 in -2,2; contains blocks -32,0,32 to -17,255,47), Region: (-1,0; contains chunks -32,0 to -1,31, blocks -512,0,0 to -1,255,511)
+	Level time: 9259432 game time, 54000 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+	Forced entities: 175 total; [EntityOtherPlayerMP['Bioversity'/79, l='MpServer', x=-24.50, y=49.00, z=-43.50], EntityOtherPlayerMP['Bioversity'/79, l='MpServer', x=-24.50, y=49.00, z=-43.50], EntityOtherPlayerMP['KillCode808'/85, l='MpServer', x=23.69, y=49.00, z=-29.31], EntityOtherPlayerMP['YK_1064'/98, l='MpServer', x=23.34, y=49.00, z=-43.66], EntityOtherPlayerMP['KillCode808'/85, l='MpServer', x=23.69, y=49.00, z=-29.31], EntityOtherPlayerMP['Gourdd'/108, l='MpServer', x=-24.56, y=49.00, z=44.28], EntityOtherPlayerMP['Senpa1'/100, l='MpServer', x=-8.69, y=49.00, z=-61.72], EntityOtherPlayerMP['Xenthyck'/121, l='MpServer', x=23.69, y=49.00, z=30.69], EntityItem['item.item.swordStone'/790, l='MpServer', x=-0.26, y=-48.45, z=-17.13], EntityOtherPlayerMP['Catabow'/109, l='MpServer', x=-7.38, y=49.00, z=61.44], EntityItem['item.item.potion'/791, l='MpServer', x=0.43, y=-47.95, z=-17.55], EntityOtherPlayerMP['i_have_a_tic_tac'/124, l='MpServer', x=6.41, y=49.41, z=61.69], EntityItem['item.item.bootsDiamond'/792, l='MpServer', x=-0.23, y=-48.48, z=-17.39], EntityOtherPlayerMP['ToxicChibi'/123, l='MpServer', x=6.69, y=49.00, z=-60.72], EntityItem['item.item.bucketLava'/793, l='MpServer', x=-0.73, y=-48.33, z=-17.13], EntityOtherPlayerMP['hcley'/134, l='MpServer', x=23.69, y=49.00, z=44.69], EntityItem['item.item.swordStone'/794, l='MpServer', x=-0.00, y=-48.39, z=-17.55], EntityOtherPlayerMP['Recatch'/133, l='MpServer', x=-24.72, y=49.00, z=-29.31], EntityItem['item.tile.wood.oak'/795, l='MpServer', x=0.36, y=-48.45, z=-17.06], EntityOtherPlayerMP['Senpa1'/100, l='MpServer', x=-8.69, y=49.00, z=-61.72], EntityItem['item.item.snowball'/796, l='MpServer', x=-0.83, y=-48.61, z=-17.17], EntityOtherPlayerMP['YK_1064'/98, l='MpServer', x=23.34, y=49.00, z=-43.66], EntityItem['item.item.bootsDiamond'/797, l='MpServer', x=-0.61, y=-48.14, z=-17.61], EntityOtherPlayerMP['Catabow'/109, l='MpServer', x=-7.38, y=49.00, z=61.44], EntityItem['item.item.leggingsDiamond'/798, l='MpServer', x=-0.04, y=-48.01, z=-16.61], EntityOtherPlayerMP['Gourdd'/108, l='MpServer', x=-24.56, y=49.00, z=44.28], EntityItem['item.item.helmetIron'/799, l='MpServer', x=0.23, y=-48.30, z=-16.74], EntityOtherPlayerMP['ToxicChibi'/123, l='MpServer', x=6.69, y=49.00, z=-60.72], EntityOtherPlayerMP['Xenthyck'/121, l='MpServer', x=23.69, y=49.00, z=30.69], EntityOtherPlayerMP['Recatch'/133, l='MpServer', x=-24.72, y=49.00, z=-29.31], EntityOtherPlayerMP['i_have_a_tic_tac'/124, l='MpServer', x=6.41, y=49.41, z=61.69], EntityOtherPlayerMP['KillCode808'/85, l='MpServer', x=25.18, y=41.67, z=-40.63], EntityOtherPlayerMP['hcley'/134, l='MpServer', x=23.69, y=49.00, z=44.69], EntityOtherPlayerMP['Senpa1'/100, l='MpServer', x=-0.59, y=-41.18, z=-17.63], EntityOtherPlayerMP['YK_1064'/98, l='MpServer', x=25.12, y=42.10, z=-38.68], EntityOtherPlayerMP['Bioversity'/79, l='MpServer', x=-22.98, y=38.93, z=-26.89], EntityOtherPlayerMP['Recatch'/133, l='MpServer', x=-27.69, y=35.16, z=-46.56], EntityOtherPlayerMP['hcley'/134, l='MpServer', x=23.56, y=40.00, z=43.43], EntityOtherPlayerMP['i_have_a_tic_tac'/124, l='MpServer', x=8.69, y=42.00, z=64.00], EntityOtherPlayerMP['Gourdd'/108, l='MpServer', x=-23.79, y=42.95, z=34.56], EntityOtherPlayerMP['ToxicChibi'/123, l='MpServer', x=2.48, y=39.57, z=-46.73], EntityOtherPlayerMP['Xenthyck'/121, l='MpServer', x=25.03, y=36.00, z=27.31], EntityOtherPlayerMP['Catabow'/109, l='MpServer', x=-6.41, y=39.91, z=58.50], EntityItemFrame['entity.ItemFrame.name'/561, l='MpServer', x=-22.50, y=40.50, z=27.03], EntityItemFrame['entity.ItemFrame.name'/562, l='MpServer', x=-22.50, y=40.50, z=47.97], EntityItemFrame['entity.ItemFrame.name'/563, l='MpServer', x=-10.97, y=41.50, z=59.50], EntityItemFrame['entity.ItemFrame.name'/564, l='MpServer', x=-22.50, y=40.50, z=27.03], EntityItemFrame['entity.ItemFrame.name'/565, l='MpServer', x=-22.50, y=40.50, z=47.97], EntityItemFrame['entity.ItemFrame.name'/566, l='MpServer', x=9.97, y=41.50, z=59.50], EntityItemFrame['entity.ItemFrame.name'/567, l='MpServer', x=21.50, y=40.50, z=47.97], EntityItemFrame['entity.ItemFrame.name'/568, l='MpServer', x=-10.97, y=41.50, z=59.50], EntityItemFrame['entity.ItemFrame.name'/569, l='MpServer', x=9.97, y=41.50, z=59.50], EntityItemFrame['entity.ItemFrame.name'/570, l='MpServer', x=21.50, y=40.50, z=27.03], EntityItemFrame['entity.ItemFrame.name'/571, l='MpServer', x=21.50, y=40.50, z=-26.03], EntityItemFrame['entity.ItemFrame.name'/572, l='MpServer', x=21.50, y=40.50, z=47.97], EntityItemFrame['entity.ItemFrame.name'/573, l='MpServer', x=21.50, y=40.50, z=27.03], EntityItemFrame['entity.ItemFrame.name'/574, l='MpServer', x=21.50, y=40.50, z=-46.97], EntityItemFrame['entity.ItemFrame.name'/575, l='MpServer', x=9.97, y=41.50, z=-58.50], EntityItemFrame['entity.ItemFrame.name'/576, l='MpServer', x=21.50, y=40.50, z=-26.03], EntityItemFrame['entity.ItemFrame.name'/577, l='MpServer', x=21.50, y=40.50, z=-46.97], EntityItemFrame['entity.ItemFrame.name'/578, l='MpServer', x=-10.97, y=41.50, z=-58.50], EntityItemFrame['entity.ItemFrame.name'/579, l='MpServer', x=9.97, y=41.50, z=-58.50], EntityItemFrame['entity.ItemFrame.name'/580, l='MpServer', x=-10.97, y=41.50, z=-58.50], EntityItemFrame['entity.ItemFrame.name'/581, l='MpServer', x=-22.50, y=40.50, z=-26.03], EntityItemFrame['entity.ItemFrame.name'/582, l='MpServer', x=-22.50, y=40.50, z=-46.97], EntityItemFrame['entity.ItemFrame.name'/583, l='MpServer', x=-22.50, y=40.50, z=-46.97], EntityItemFrame['entity.ItemFrame.name'/584, l='MpServer', x=-22.50, y=40.50, z=-26.03], EntityItemFrame['entity.ItemFrame.name'/585, l='MpServer', x=1.97, y=45.50, z=-22.50], EntityItemFrame['entity.ItemFrame.name'/586, l='MpServer', x=-2.97, y=45.50, z=23.50], EntityItemFrame['entity.ItemFrame.name'/587, l='MpServer', x=-10.97, y=43.50, z=-0.50], EntityArmorStand['Armor Stand'/589, l='MpServer', x=6.50, y=41.13, z=-64.50], EntityArmorStand['Armor Stand'/590, l='MpServer', x=-7.50, y=41.13, z=-64.50], EntityOtherPlayerMP['Bioversity'/79, l='MpServer', x=-22.98, y=38.93, z=-26.89], EntityArmorStand['Armor Stand'/591, l='MpServer', x=-7.50, y=41.13, z=65.50], EntityArmorStand['Armor Stand'/592, l='MpServer', x=-28.50, y=40.13, z=-29.50], EntityArmorStand['Armor Stand'/595, l='MpServer', x=27.50, y=40.13, z=-43.50], EntityArmorStand['Armor Stand'/596, l='MpServer', x=27.50, y=40.13, z=-29.50], EntityOtherPlayerMP['KillCode808'/85, l='MpServer', x=25.18, y=41.67, z=-40.63], EntityArmorStand['Armor Stand'/597, l='MpServer', x=27.50, y=40.13, z=30.50], EntityArmorStand['Armor Stand'/598, l='MpServer', x=-28.50, y=40.13, z=-43.50], EntityArmorStand['Armor Stand'/599, l='MpServer', x=6.50, y=41.13, z=65.50], EntityLeashKnot['entity.LeashKnot.name'/88, l='MpServer', x=-28.50, y=47.50, z=-47.50], EntityArmorStand['Armor Stand'/600, l='MpServer', x=-28.50, y=40.13, z=44.50], EntityGiantZombie['Giant'/89, l='MpServer', x=-29.81, y=51.28, z=-49.28], EntityBat['Bat'/90, l='MpServer', x=-28.03, y=59.28, z=-52.41], EntityOtherPlayerMP['YK_1064'/98, l='MpServer', x=25.12, y=42.10, z=-38.68], EntityLeashKnot['entity.LeashKnot.name'/102, l='MpServer', x=28.50, y=47.50, z=-25.50], EntityGiantZombie['Giant'/103, l='MpServer', x=28.94, y=51.53, z=-26.88], EntityBat['Bat'/104, l='MpServer', x=31.84, y=59.53, z=-24.88], EntityLeashKnot['entity.LeashKnot.name'/105, l='MpServer', x=27.50, y=47.50, z=-47.50], EntityGiantZombie['Giant'/106, l='MpServer', x=27.75, y=51.28, z=-49.34], EntityBat['Bat'/107, l='MpServer', x=29.50, y=59.28, z=-52.41], EntityOtherPlayerMP['Gourdd'/108, l='MpServer', x=-23.79, y=42.95, z=34.56], EntityOtherPlayerMP['Catabow'/109, l='MpServer', x=-6.41, y=39.91, z=58.50], EntityLeashKnot['entity.LeashKnot.name'/110, l='MpServer', x=-11.50, y=49.50, z=-65.50], EntityGiantZombie['Giant'/111, l='MpServer', x=-12.28, y=53.16, z=-67.56], EntityBat['Bat'/112, l='MpServer', x=-9.41, y=61.16, z=-65.56], EntityLeashKnot['entity.LeashKnot.name'/115, l='MpServer', x=-11.50, y=48.50, z=65.50], EntityGiantZombie['Giant'/116, l='MpServer', x=-12.28, y=52.16, z=66.56], EntityBat['Bat'/117, l='MpServer', x=-9.41, y=60.16, z=68.56], EntityLeashKnot['entity.LeashKnot.name'/118, l='MpServer', x=-28.50, y=47.50, z=48.50], EntityGiantZombie['Giant'/119, l='MpServer', x=-29.81, y=51.28, z=49.28], EntityBat['Bat'/120, l='MpServer', x=-32.69, y=59.28, z=47.31], EntityPlayerSP['mwboss123'/467958, l='MpServer', x=-24.50, y=40.00, z=30.50], EntityOtherPlayerMP['Xenthyck'/121, l='MpServer', x=25.03, y=36.00, z=27.31], EntityOtherPlayerMP['ToxicChibi'/123, l='MpServer', x=2.48, y=39.57, z=-46.73], EntityLeashKnot['entity.LeashKnot.name'/127, l='MpServer', x=28.50, y=47.50, z=26.50], EntityOtherPlayerMP['Senpa1'/100, l='MpServer', x=-8.45, y=49.00, z=-61.69], EntityGiantZombie['Giant'/128, l='MpServer', x=28.94, y=51.53, z=26.88], EntityOtherPlayerMP['YK_1064'/98, l='MpServer', x=23.38, y=49.00, z=-43.63], EntityBat['Bat'/129, l='MpServer', x=30.66, y=59.53, z=23.78], EntityArmorStand['Armor Stand'/641, l='MpServer', x=-28.50, y=35.13, z=-46.50], EntityLeashKnot['entity.LeashKnot.name'/130, l='MpServer', x=10.50, y=48.50, z=-64.50], EntityOtherPlayerMP['KillCode808'/85, l='MpServer', x=23.69, y=49.00, z=-29.38], EntityGiantZombie['Giant'/131, l='MpServer', x=10.22, y=52.16, z=-66.59], EntityBat['Bat'/132, l='MpServer', x=7.38, y=60.16, z=-68.59], EntityOtherPlayerMP['Gourdd'/108, l='MpServer', x=-24.31, y=49.00, z=44.31], EntityOtherPlayerMP['hcley'/134, l='MpServer', x=23.56, y=40.00, z=43.43], EntityOtherPlayerMP['isimp4jaydenx'/94, l='MpServer', x=-25.00, y=68.03, z=31.12], EntityOtherPlayerMP['Bioversity'/79, l='MpServer', x=-24.50, y=49.93, z=-43.50], EntityOtherPlayerMP['Catabow'/109, l='MpServer', x=-7.38, y=49.00, z=61.47], EntityLeashKnot['entity.LeashKnot.name'/137, l='MpServer', x=27.50, y=47.50, z=48.50], EntityGiantZombie['Giant'/138, l='MpServer', x=27.75, y=51.28, z=49.34], EntityBat['Bat'/139, l='MpServer', x=30.63, y=59.28, z=51.34], EntityLeashKnot['entity.LeashKnot.name'/140, l='MpServer', x=-29.50, y=47.50, z=-25.50], EntityGiantZombie['Giant'/141, l='MpServer', x=-31.00, y=51.50, z=-26.88], EntityBat['Bat'/142, l='MpServer', x=-33.91, y=59.50, z=-28.88], EntityOtherPlayerMP['Xenthyck'/121, l='MpServer', x=23.69, y=49.00, z=30.51], EntityOtherPlayerMP['i_have_a_tic_tac'/124, l='MpServer', x=6.44, y=49.40, z=61.69], EntityOtherPlayerMP['ToxicChibi'/123, l='MpServer', x=6.59, y=49.00, z=-60.69], EntityItem['item.tile.slime'/667, l='MpServer', x=5.81, y=42.00, z=63.69], EntityItem['item.tile.wood.oak'/668, l='MpServer', x=6.81, y=42.00, z=62.78], EntityItem['item.item.bootsDiamond'/669, l='MpServer', x=9.88, y=43.00, z=63.53], EntityArmorStand['Armor Stand'/673, l='MpServer', x=9.50, y=36.13, z=-64.50], EntityArmorStand['Armor Stand'/674, l='MpServer', x=-10.50, y=36.13, z=-64.50], EntityArmorStand['Armor Stand'/676, l='MpServer', x=27.50, y=35.13, z=-46.50], EntityArmorStand['Armor Stand'/677, l='MpServer', x=27.50, y=35.13, z=-26.50], EntityArmorStand['Armor Stand'/679, l='MpServer', x=-6.50, y=36.13, z=-62.50], EntityArmorStand['Armor Stand'/680, l='MpServer', x=27.50, y=40.13, z=44.50], EntityArmorStand['Armor Stand'/681, l='MpServer', x=-26.50, y=35.13, z=-42.50], EntityArmorStand['Armor Stand'/683, l='MpServer', x=25.50, y=35.31, z=-42.50], EntityArmorStand['Armor Stand'/685, l='MpServer', x=25.50, y=35.31, z=31.50], EntityArmorStand['Armor Stand'/686, l='MpServer', x=-28.50, y=35.13, z=47.50], EntityArmorStand['Armor Stand'/687, l='MpServer', x=25.50, y=34.94, z=-42.50], EntityArmorStand['Armor Stand'/693, l='MpServer', x=5.50, y=36.13, z=-62.50], EntityArmorStand['Armor Stand'/694, l='MpServer', x=-10.50, y=36.13, z=65.50], EntityArmorStand['Armor Stand'/702, l='MpServer', x=25.50, y=34.94, z=31.50], EntityArmorStand['Armor Stand'/703, l='MpServer', x=-26.50, y=35.13, z=43.50], EntityArmorStand['Armor Stand'/704, l='MpServer', x=27.50, y=35.13, z=47.50], EntityArmorStand['Armor Stand'/707, l='MpServer', x=25.50, y=35.31, z=-30.50], EntityArmorStand['Armor Stand'/708, l='MpServer', x=25.50, y=35.13, z=43.50], EntityItem['item.item.helmetDiamond'/709, l='MpServer', x=-23.13, y=37.00, z=47.25], EntityOtherPlayerMP['§cBaoiXAPnDqx'/381, l='MpServer', x=-5.88, y=51.50, z=38.72], EntityArmorStand['Armor Stand'/711, l='MpServer', x=-0.50, y=40.13, z=-35.50], EntityOtherPlayerMP['§ccd01jmYlTlZbP'/379, l='MpServer', x=-1.59, y=49.09, z=7.47], EntityOtherPlayerMP['§cyqeiIkQH4XT'/380, l='MpServer', x=-3.69, y=51.84, z=18.81], EntityArmorStand['Armor Stand'/713, l='MpServer', x=25.50, y=34.94, z=-30.50], EntityOtherPlayerMP['§ctBS6cSC6lZh'/375, l='MpServer', x=-17.47, y=49.38, z=13.72], EntityOtherPlayerMP['§cIGMk72Q6Q'/377, l='MpServer', x=-14.44, y=48.19, z=37.44], EntityArmorStand['Armor Stand'/715, l='MpServer', x=-6.50, y=36.13, z=63.50], EntityOtherPlayerMP['hcley'/134, l='MpServer', x=23.69, y=49.00, z=44.69], EntityOtherPlayerMP['§cWfSYFPke2B4'/372, l='MpServer', x=-31.97, y=39.91, z=19.69], EntityOtherPlayerMP['Recatch'/133, l='MpServer', x=-24.69, y=49.00, z=-29.31], EntityOtherPlayerMP['§c44TnudM'/373, l='MpServer', x=-34.38, y=47.19, z=41.44], EntityArmorStand['Armor Stand'/717, l='MpServer', x=27.50, y=35.13, z=27.50], EntityOtherPlayerMP['§cMfAfnxjyULeL'/369, l='MpServer', x=-42.25, y=52.56, z=40.13], EntityOtherPlayerMP['§cSe2mmEYRFWU'/371, l='MpServer', x=-33.09, y=49.75, z=10.38], EntityOtherPlayerMP['§cq4fWuvnKRrd'/368, l='MpServer', x=-44.94, y=38.38, z=18.88], EntityOtherPlayerMP['§cBN6i8h_9l'/376, l='MpServer', x=-17.78, y=49.75, z=19.31], EntityOtherPlayerMP['§cq1pPo0B'/378, l='MpServer', x=-15.06, y=54.78, z=53.50], EntityOtherPlayerMP['§c4JozlytGxBN'/370, l='MpServer', x=-41.78, y=49.84, z=52.16], EntityOtherPlayerMP['§cVX6CiZh'/374, l='MpServer', x=-34.50, y=55.06, z=52.34], EntityOtherPlayerMP['§c0OHYld'/382, l='MpServer', x=-1.59, y=55.22, z=47.94], EntityOtherPlayerMP['§crNCLq5TFv'/367, l='MpServer', x=-46.97, y=54.72, z=10.69], EntityItem['item.item.arrow'/746, l='MpServer', x=24.90, y=35.00, z=29.66]]
+	Retry entities: 0 total; []
+	Server brand: BungeeCord (Hypixel) <- vanilla
+	Server type: Non-integrated multiplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:345)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2325)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:473)
+	at net.minecraft.client.main.Main.main(Main.java:103)
+	at Start.main(Start.java:7)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.8.9
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_162, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 383216024 bytes (365 MB) / 1016070144 bytes (969 MB) up to 3562536960 bytes (3397 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	Launched Version: mcp
+	LWJGL: 2.9.4
+	OpenGL: GeForce GTX 1050 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 432.00, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Very likely; Jar signature invalidated
+	Type: Client (map_client.txt)
+	Resource Packs: !    §4DOOM.zip
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 4x AMD Ryzen 3 2200G with Radeon Vega Graphics 
+	OptiFine Version: OptiFine_1.8.9_HD_U_L5
+	OptiFine Build: ~~NULL~~
+	Render Distance Chunks: 10
+	Mipmaps: 4
+	Anisotropic Filtering: 1
+	Antialiasing: 4
+	Multitexture: true
+	Shaders: null
+	OpenGlVersion: 4.6.0 NVIDIA 432.00
+	OpenGlRenderer: GeForce GTX 1050 Ti/PCIe/SSE2
+	OpenGlVendor: NVIDIA Corporation
+	CpuCount: 4

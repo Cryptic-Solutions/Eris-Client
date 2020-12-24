@@ -10,7 +10,9 @@ import me.spec.eris.event.player.EventSafeWalk;
 import me.spec.eris.event.player.EventStep;
 import me.spec.eris.event.player.EventUpdate;
 import me.spec.eris.module.modules.movement.Scaffold;
+import me.spec.eris.utils.BlockUtils;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockLiquid;
@@ -18,6 +20,7 @@ import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.crash.CrashReport;
@@ -129,7 +132,7 @@ public abstract class Entity implements ICommandSender {
     /**
      * Axis aligned bounding box.
      */
-    private AxisAlignedBB boundingBox;
+    public AxisAlignedBB boundingBox;
     public boolean onGround;
 
     /**
@@ -603,8 +606,10 @@ public abstract class Entity implements ICommandSender {
             double d5 = z;
             EventSafeWalk esw = new EventSafeWalk();
             esw.call();
-            boolean flag = (this.onGround && ((this.isSneaking() && this instanceof EntityPlayer) && !Eris.instance.modules.isEnabled(Scaffold.class)) || esw.isCancelled());
-
+            boolean flag = this.onGround && this instanceof EntityPlayer && (isSneaking() || esw.isCancelled() || Eris.instance.modules.isEnabled(Scaffold.class) && BlockUtils.getBlockAtPos(new BlockPos(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY - .0001, Minecraft.getMinecraft().thePlayer.posZ)) instanceof BlockAir);
+            if (Eris.instance.modules.isEnabled(Scaffold.class) && Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown()) {
+                flag = false;
+            }
             if (flag) {
                 double d6;
 

@@ -126,10 +126,7 @@ public class Criticals extends Module {
                 if (mc.thePlayer == null)
                     return;
                 if (mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY < .626 && mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY > .4) {
-                    waitTicks = 4;
-                    if (airTime > 0) {
-                    	Eris.instance.tellUser("Didnt do it! 1"); 
-                    }
+                    waitTicks = 4; 
                     airTime = 0;
                 } 
         } else if (e instanceof EventPacket) {
@@ -187,17 +184,14 @@ public class Criticals extends Module {
                     }
                 } else {
                 	waitTicks = 2;
-                    Step.safe = true;
-                    Eris.instance.tellUser("Didnt do it!");
+                    Step.safe = true; 
                 }
             } else {
-                Step.safe = true;
-                eventPlayerUpdate.setY(mc.thePlayer.posY);
+                Step.safe = true; 
                 waitTicks = 3;
             }
         } else {
-            Step.safe = true;
-            eventPlayerUpdate.setY(mc.thePlayer.posY);
+            Step.safe = true; 
             waitTicks = 0;
         }
     }
