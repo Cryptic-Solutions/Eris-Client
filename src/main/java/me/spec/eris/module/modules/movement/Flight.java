@@ -11,6 +11,7 @@ import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
 import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.module.modules.player.AntiVoid;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.module.values.valuetypes.ModeValue;
 import me.spec.eris.module.values.valuetypes.NumberValue;
@@ -64,14 +65,14 @@ public class Flight extends Module {
 	            	mc.thePlayer.onGround = true; 
 	        		switch (counter) {
 	        		case 0:
-	        			if (damageTimer.hasReached(100)) {
+	        			if (damageTimer.hasReached(250)) {
 	        				for (int i = 0; i < 9; i++) {
 	        					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getMotionY(event.getLegitMotion()), mc.thePlayer.posZ, false));
 	        					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getMotionY(event.getLegitMotion()) % .0000625), mc.thePlayer.posZ, false));
 	        					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
 	        				}
 	        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
-                            speed = event.getMovementSpeed() * 1.3;
+                            speed = event.getMovementSpeed() * 1.45;
 	        				damageTimer.reset();
 	        				counter = 1;
 	        			} else {
@@ -82,7 +83,7 @@ public class Flight extends Module {
 	        			}
 	        			break;
 	        		case 1: 
-                        speed = event.getMovementSpeed() * 2.215;
+                        speed = event.getMovementSpeed() * 2.2;
 	        			event.setY(mc.thePlayer.motionY = event.getMotionY(event.getLegitMotion()));
 	        			counter = 2;
 	        			break;
@@ -90,7 +91,7 @@ public class Flight extends Module {
 	        			if (mc.thePlayer.isPotionActive(Potion.jump)) {
 	            			event.setY(mc.thePlayer.motionY = -(event.getMotionY(event.getLegitMotion()) - .01));
 	        			}
-                    	speed *= 1.9;
+                    	speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.5 : 2.315;
 	        			counter = 3;
 	        			break;
 	        		default: 
@@ -98,7 +99,8 @@ public class Flight extends Module {
 	        				mc.timer.timerSpeed = 1.0f;
 	        				damageFly = false;
 	        			}
-	        			speed -= speed / 160 - 3.99999e-9;
+        				mc.timer.timerSpeed = (1.5f - counter * .01f) > 1.0f ? 1.5f - counter * .01f : 1.0f;
+	        			speed -= speed / 159;
 	        			counter++;
 	        			break;
 	        		}
@@ -119,10 +121,11 @@ public class Flight extends Module {
                     break;
 			case WATCHDOG:
 				if (onGroundCheck) {
+					mc.thePlayer.fallDistance = 0;
 					mc.thePlayer.onGround = true;
 					mc.thePlayer.motionY = 0;
 					if (counter >= 6 && event.isPre()) {
-						event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? (2 / 64) : -(2 / 64))); 
+						event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0003 : 0)); 
 					} 
 	    			if (!mc.thePlayer.isMoving()) {
 	    				forceMove();
@@ -199,6 +202,12 @@ public class Flight extends Module {
 	
 	    	break;
 	    	case WATCHDOG:
+	    		mc.timer.timerSpeed = 1.0f;
+	    		if (AntiVoid.isBlockUnder()) {
+	    			mc.thePlayer.motionY = -.43f;
+	    		} else {
+	    			mc.thePlayer.motionY = -.21f;
+	    		}
 				if (blink.getValue()) {
 					flush();
 				}

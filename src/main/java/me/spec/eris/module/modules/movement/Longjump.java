@@ -67,18 +67,18 @@ public class Longjump extends Module {
 		                        }
 		                        break;
 		                    case 2:
-		                        speed = em.getMovementSpeed() * 2.1499;
+		                        speed = em.getMovementSpeed() * 2.2;
 		                        break;
 		                    case 3:
 		                    	speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.2 : 1.45;
 		                        break;
 		                    default:
-		                        if (mc.thePlayer.motionY < 0.0D) em.setY(mc.thePlayer.motionY *= .6345); 
+		                        if (mc.thePlayer.motionY < 0.0D) em.setY(mc.thePlayer.motionY *= .626); 
 		                        if (stage > 17) {
 		                        	stage = -5;
 		                        }
 
-		                        speed = getLastDistance() - getLastDistance() / 159;
+		                        speed = getLastDistance() - getLastDistance() / 160 - .0005;
 		                        break;
 		                }
 		                stage++;

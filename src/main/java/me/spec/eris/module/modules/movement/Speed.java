@@ -42,7 +42,7 @@ public class Speed extends Module {
             switch (mode.getValue()) {
 				case WATCHDOG:
 		            if (eu.isPre() && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && !Eris.instance.modules.isEnabled(Scaffold.class) ) {
-		                eu.setY(eu.getY() + 4.0e-8);
+		                eu.setY(eu.getY() + 3.99999e-9);
 		            }
 				break; 
             }
@@ -73,7 +73,10 @@ public class Speed extends Module {
 			                stage = 0;
 			                setLastDistance(0.0);
 			            }
-			            
+			            if (waitTicks > 0) {
+			                setLastDistance(0.0);
+			                stage = 0;
+			            }
 			            if (waitTicks > 0) waitTicks--; 
 				           	if (stage == 0) {
 				           		Step step = ((Step)Eris.getInstance().modules.getModuleByClass(Step.class));
@@ -92,7 +95,7 @@ public class Speed extends Module {
 				           		}
 				           		speed = getLastDistance() - getLastDistance() / 160 - 4.0e-9;
 				           	}   
-			            em.setMoveSpeed(speed); 
+			            em.setMoveSpeed(waitTicks > 0 ? .13 : speed); 
 			            stage++;
 				break; 
             }

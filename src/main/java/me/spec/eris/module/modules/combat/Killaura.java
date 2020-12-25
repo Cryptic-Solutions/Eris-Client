@@ -626,7 +626,7 @@ public class Killaura extends Module {
             return;
 
         if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
-            double value = autoBlock.getValue().equals(BlockMode.OFFSET) ? -(1 - 9.22222e-6) : -1;
+            double value = autoBlock.getValue().equals(BlockMode.OFFSET) ? -(.133769420) : -1;
             mc.getNetHandler().addToSendQueueNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(value, -1, value), 255, mc.thePlayer.inventory.getCurrentItem(), 0, 0, 0));
         }
         blocking = true;
