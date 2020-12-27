@@ -2,6 +2,7 @@ package me.spec.eris.event;
 
 import me.spec.eris.Eris;
 import me.spec.eris.module.Module;
+import net.minecraft.client.Minecraft;
 
 public class Event {
 
@@ -20,7 +21,7 @@ public class Event {
 
         if (antiCrash.isToggled()) {
             for (Module m : Eris.instance.modules.getModules()) {
-                if (m.isToggled()) {
+                if (m.isToggled() && Minecraft.getMinecraft().thePlayer != null) {
                     try {
                         m.onEvent(this);
                     } catch (Exception e) {
@@ -30,7 +31,7 @@ public class Event {
             }
         } else {
             for (Module m : Eris.instance.modules.getModules()) {
-                if (m.isToggled()) {
+                if (m.isToggled() && Minecraft.getMinecraft().thePlayer != null) {
                     m.onEvent(this);
                 }
             }

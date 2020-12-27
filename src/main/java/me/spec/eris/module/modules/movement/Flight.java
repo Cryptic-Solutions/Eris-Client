@@ -3,6 +3,7 @@ package me.spec.eris.module.modules.movement;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
 import me.spec.eris.event.client.EventPacket;
 import me.spec.eris.event.player.EventMove;
@@ -18,6 +19,8 @@ import me.spec.eris.module.values.valuetypes.NumberValue;
 import me.spec.eris.utils.TimerUtils;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.potion.Potion;
 
 public class Flight extends Module {
@@ -59,15 +62,16 @@ public class Flight extends Module {
                     event.setMoveSpeed(flySpeed.getValue());
                     break;
 			case WATCHDOG:
-	        	if (damageFly && onGroundCheck) {
+	        	if (onGroundCheck) {
 	        		mc.thePlayer.setSprinting(true);
 	        		mc.thePlayer.stepHeight = 0;
+	        		mc.thePlayer.cameraYaw = .1f;
 	            	mc.thePlayer.onGround = true; 
 	        		switch (counter) {
 	        		case 0:
-	        			if (damageTimer.hasReached(250)) {
+	        			if (damageTimer.hasReached(150)) {
 	        				for (int i = 0; i < 9; i++) {
-	        					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getMotionY(event.getLegitMotion()), mc.thePlayer.posZ, false));
+	        					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getMotionY(event.getLegitMotion()) , mc.thePlayer.posZ, false));
 	        					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getMotionY(event.getLegitMotion()) % .0000625), mc.thePlayer.posZ, false));
 	        					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
 	        				}
@@ -91,21 +95,23 @@ public class Flight extends Module {
 	        			if (mc.thePlayer.isPotionActive(Potion.jump)) {
 	            			event.setY(mc.thePlayer.motionY = -(event.getMotionY(event.getLegitMotion()) - .01));
 	        			}
-                    	speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.5 : 2.315;
+                    	speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.5 : 2.2;
 	        			counter = 3;
 	        			break;
 	        		default: 
+	        			speed -= speed / 159; 
+	        			counter++;
 	        			if (mc.thePlayer.isCollidedHorizontally || !mc.thePlayer.isMoving()) {
 	        				mc.timer.timerSpeed = 1.0f;
 	        				damageFly = false;
 	        			}
-        				mc.timer.timerSpeed = (1.5f - counter * .01f) > 1.0f ? 1.5f - counter * .01f : 1.0f;
-	        			speed -= speed / 159;
-	        			counter++;
 	        			break;
 	        		}
 	        		event.setMoveSpeed(speed == 0 ? 0 : Math.max(speed, event.getMovementSpeed()));
-	        	}
+	        	} else {
+    				event.setX(mc.thePlayer.motionX = 0);
+    				event.setZ(mc.thePlayer.motionZ = 0);
+    			}
 				break;
 			default:
 				break;
@@ -130,7 +136,9 @@ public class Flight extends Module {
 	    			if (!mc.thePlayer.isMoving()) {
 	    				forceMove();
 	    			}
-				} else if (mc.thePlayer.ticksExisted % 5 == 0){
+				} else if (mc.thePlayer.ticksExisted % 15 == 0){
+					mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
+					setLastDistance(0);
 					onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically;
 				}
 				break;
@@ -158,7 +166,7 @@ public class Flight extends Module {
 	            				if (packets.size() >= 30) {
 	            					flush();
 	            				}
-            				} else if (counter < 1) {
+            				} else if (counter < 1 && onGroundCheck) {
             					event.setCancelled();
             				}
             			}
@@ -185,6 +193,9 @@ public class Flight extends Module {
 
     @Override
     public void onEnable() {
+    	if (Eris.instance.modules.isEnabled(Speed.class)) {
+        	Eris.instance.modules.getModuleByClass(Speed.class).toggle(false);
+    	}
     	onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically;
     	damageFly = true;
     	damageTimer.reset();
@@ -202,12 +213,16 @@ public class Flight extends Module {
 	
 	    	break;
 	    	case WATCHDOG:
-	    		mc.timer.timerSpeed = 1.0f;
-	    		if (AntiVoid.isBlockUnder()) {
-	    			mc.thePlayer.motionY = -.43f;
-	    		} else {
-	    			mc.thePlayer.motionY = -.21f;
-	    		}
+	    		Speed sped = ((Speed)Eris.instance.modules.getModuleByClass(Speed.class));
+	    		sped.waitTicks = 5;
+	    		mc.thePlayer.onGround = false;
+	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem += 1));
+	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C0APacketAnimation()); 
+	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem -= 1));
+	        	mc.timer.timerSpeed = 1.0f;
+	    		double value = mc.thePlayer.ticksExisted % 2 == 0 ? -.00002 : .0;
+	    		mc.thePlayer.setPositionAndUpdate(mc.thePlayer.posX, mc.thePlayer.posY + value, mc.thePlayer.posZ);
+    			mc.thePlayer.motionY = -.41995f;
 				if (blink.getValue()) {
 					flush();
 				}

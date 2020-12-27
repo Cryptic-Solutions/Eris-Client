@@ -62,10 +62,11 @@ public class Phase extends Module {
 								mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX + x, mc.thePlayer.posY, mc.thePlayer.posZ + z, false));
 								
 								event.setYaw(event.getYaw() + MathUtils.getRandomInRange(-.2f, .2f));
-								multiplier = 0.45;
+								multiplier = 0.28;
 								mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, 0 - counter, mc.thePlayer.posZ, false));
 								mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX + x, mc.thePlayer.posY, mc.thePlayer.posZ + z, false));
-				     
+
+								multiplier = 0.27;
 								mc.thePlayer.setPosition(mc.thePlayer.posX + x, mc.thePlayer.posY, mc.thePlayer.posZ + z); 
 								counter += 1;
 								if (counter >= 1) {  
@@ -84,7 +85,7 @@ public class Phase extends Module {
     		switch (mode.getValue()) {
 				case WATCHDOG: 
 	            	if (mc.thePlayer.isSneaking()) {
-	            		event.setMoveSpeed(isInsideBlock() ? .29 : .25);
+	            		event.setMoveSpeed(isInsideBlock() ? .29 : .15);
 	            	}
 				break;
     		}

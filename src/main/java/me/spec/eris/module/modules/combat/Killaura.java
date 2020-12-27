@@ -192,18 +192,13 @@ public class Killaura extends Module {
                 if (eu.isPre()) {
                     if (Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled()) {
                         index = 3;
-                    }
-
-                    if (!Eris.getInstance().modules.getModuleByClass(Scaffold.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Flight.class).isToggled() && !Eris.getInstance().modules.getModuleByClass(Speed.class).isToggled() && clientRaper.hasReached(250) && ServerUtils.onServer("hypixel") && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && Math.abs(eu.getY() - mc.thePlayer.posY) > .07) {
-                    	sendPosition(0,(eu.getY() - mc.thePlayer.posY) - 9.5E-4D,0, false, false);
-                        clientRaper.reset();
-                    }
+                    } 
                     aim(eu);
                     unBlock();
+                    prepareAttack(eu, scaffoldCheck); 
                     if (crits.isToggled()) {
                         crits.doUpdate(eu);
-                    }
-                    prepareAttack(eu, scaffoldCheck); 
+                    }      
                 } else if (!eu.isPre()) {
                     if (!scaffoldCheck) {
                         block();
@@ -615,9 +610,11 @@ public class Killaura extends Module {
         if (!PlayerUtils.isHoldingSword() || !blocking || autoBlock.getValue().equals(BlockMode.FALCON) || autoBlock.getValue().equals(BlockMode.OFF))
             return;
 
-        if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET))
-            mc.getNetHandler().addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(-1, -1, -1), EnumFacing.DOWN));
+        if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
 
+            double value = autoBlock.getValue().equals(BlockMode.OFFSET) ? -(.133769420) : -1; 
+            mc.getNetHandler().addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, -1, value), EnumFacing.DOWN));
+        }
         blocking = false;
     }
 
@@ -626,7 +623,7 @@ public class Killaura extends Module {
             return;
 
         if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
-            double value = autoBlock.getValue().equals(BlockMode.OFFSET) ? -(.133769420) : -1;
+            double value = autoBlock.getValue().equals(BlockMode.OFFSET) ? -(.133769420) : -1; 
             mc.getNetHandler().addToSendQueueNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(value, -1, value), 255, mc.thePlayer.inventory.getCurrentItem(), 0, 0, 0));
         }
         blocking = true;

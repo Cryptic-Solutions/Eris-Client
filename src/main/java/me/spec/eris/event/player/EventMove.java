@@ -93,7 +93,7 @@ public class EventMove extends Event {
         //}
         double moveStrafe = /*targetStrafe ? TargetStrafe.direction : */movementInput.getStrafe() * 1.0;
         double yaw = /*targetStrafe ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] :*/ mc.thePlayer.rotationYaw;
-        double value = mc.thePlayer.hurtTime == 3 ? 1.0025 : 1;
+        double value = 1;
         if (moveStrafe > 0) {
         	moveStrafe = value;
         } else if (moveStrafe < 0) {
@@ -107,9 +107,9 @@ public class EventMove extends Event {
         	}
         	moveStrafe = 0.0D;
         	if (moveForward > 0.0D) {
-        		moveForward = 1;
+        		moveForward = value;
         	} else if (moveForward < 0.0D) {
-        		moveForward = -1;
+        		moveForward = -value;
         	}
             }
         setX(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw + 90)) + moveStrafe * moveSpeed * Math.sin(Math.toRadians(yaw + 90)));

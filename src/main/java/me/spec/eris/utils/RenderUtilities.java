@@ -28,7 +28,7 @@ public class RenderUtilities extends GuiScreen {
     public static final RenderUtilities INSTANCE = new RenderUtilities();
     public static DecimalFormat decimalFormat = new DecimalFormat("#.#");
     public static Minecraft mc = Minecraft.getMinecraft();
-
+ 
     public static void drawGradientRect(double left, double top, double right, double bottom, int startColor, int endColor) {
         float f = (float) (startColor >> 24 & 255) / 255.0F;
         float f1 = (float) (startColor >> 16 & 255) / 255.0F;
@@ -73,9 +73,49 @@ public class RenderUtilities extends GuiScreen {
     }
 
     public static void drawRoundedRect(float x, float y, float x1, float y1, int borderC, int insideC) {
-        Gui.drawRect(x + 0.5F, y, x1 - 0.5F, y + 0.5F, insideC);
-        Gui.drawRect(x + 0.5F, y1 - 0.5F, x1 - 0.5F, y1, insideC);
-        Gui.drawRect(x, y + 0.5F, x1, y1 - 0.5F, insideC);
+    	GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GL11.glScalef((float)0.5f, (float)0.5f, (float)0.5f);
+        drawVLine(x *= 2.0f, (y *= 2.0f) + 1.0f, (y1 *= 2.0f) - 2.0f, borderC);
+        drawVLine((x1 *= 2.0f) - 1.0f, y + 1.0f, y1 - 2.0f, borderC);
+        drawHLine(x + 2.0f, x1 - 3.0f, y, borderC);
+        drawHLine(x + 2.0f, x1 - 3.0f, y1 - 1.0f, borderC);
+        drawHLine(x + 1.0f, x + 1.0f, y + 1.0f, borderC);
+        drawHLine(x1 - 2.0f, x1 - 2.0f, y + 1.0f, borderC);
+        drawHLine(x1 - 2.0f, x1 - 2.0f, y1 - 2.0f, borderC);
+        drawHLine(x + 1.0f, x + 1.0f, y1 - 2.0f, borderC);
+        drawRect(x + 1.0f, y + 1.0f, x1 - 1.0f, y1 - 1.0f, insideC);
+        GL11.glScalef((float)2.0f, (float)2.0f, (float)2.0f);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+    
+    public static void drawHLine(float x, float y, float x1, int y1) {
+        if (y < x) {
+            float var5 = x;
+            x = y;
+            y = var5;
+        }
+        drawRect(x, x1, y + 1.0f, x1 + 1.0f, y1);
+    }
+
+    public static void drawVLine(float x, float y, float x1, int y1) {
+        if (x1 < y) {
+            float var5 = y;
+            y = x1;
+            x1 = var5;
+        }
+        drawRect(x, y + 1.0f, x + 1.0f, x1, y1);
+    }
+
+    public static void drawHLine(float x, float y, float x1, int y1, int y2) {
+        if (y < x) {
+            float var5 = x;
+            x = y;
+            y = var5;
+        }
+        drawGradientRect(x, x1, y + 1.0f, x1 + 1.0f, y1, y2);
     }
 
     public void drawBackground(ResourceLocation image) {

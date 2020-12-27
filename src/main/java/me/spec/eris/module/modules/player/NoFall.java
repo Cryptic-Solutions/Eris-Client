@@ -11,6 +11,8 @@ import me.spec.eris.module.modules.combat.Killaura;
 import me.spec.eris.module.modules.movement.Longjump;
 import me.spec.eris.module.values.valuetypes.ModeValue;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.play.client.C0APacketAnimation;
 
 public class NoFall extends Module {
 
@@ -31,6 +33,9 @@ public class NoFall extends Module {
 		            if(mc.thePlayer.fallDistance >= 2.75) {
 		    			if (fallen && mc.thePlayer.isCollidedVertically) {
 		    				mc.timer.timerSpeed = 1.0f;
+		    			 	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem += 1));
+		    	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C0APacketAnimation()); 
+		    	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem -= 1));
 		    				fallen = false;
 		    			}
 
@@ -53,6 +58,7 @@ public class NoFall extends Module {
 							} else {
 								mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
 							} 
+							mc.timer.timerSpeed =  .9f;
 							mc.thePlayer.fallDistance *= .1; 
 						}
 		        	}

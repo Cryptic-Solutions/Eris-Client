@@ -1,0 +1,114 @@
+---- Minecraft Crash Report ----
+// Hey, that tickles! Hehehe!
+
+Time: 12/27/20 3:54 PM
+Description: Ticking entity
+
+java.lang.ArrayIndexOutOfBoundsException: 3
+	at java.util.Arrays$ArrayList.get(Unknown Source)
+	at me.spec.eris.module.modules.combat.Criticals.doUpdate(Criticals.java:169)
+	at me.spec.eris.module.modules.combat.Killaura.onEvent(Killaura.java:204)
+	at me.spec.eris.event.Event.call(Event.java:35)
+	at me.spec.eris.event.player.EventUpdate.call(EventUpdate.java:33)
+	at net.minecraft.client.entity.EntityPlayerSP.onUpdateWalkingPlayer(EntityPlayerSP.java:198)
+	at net.minecraft.client.entity.EntityPlayerSP.onUpdate(EntityPlayerSP.java:188)
+	at net.minecraft.world.World.updateEntityWithOptionalForce(World.java:1562)
+	at net.minecraft.world.World.updateEntity(World.java:1537)
+	at net.minecraft.world.World.updateEntities(World.java:1416)
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:1877)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1011)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:454)
+	at net.minecraft.client.main.Main.main(Main.java:103)
+	at Start.main(Start.java:7)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Stacktrace:
+	at java.util.Arrays$ArrayList.get(Unknown Source)
+	at me.spec.eris.module.modules.combat.Criticals.doUpdate(Criticals.java:169)
+	at me.spec.eris.module.modules.combat.Killaura.onEvent(Killaura.java:204)
+	at me.spec.eris.event.Event.call(Event.java:35)
+	at me.spec.eris.event.player.EventUpdate.call(EventUpdate.java:33)
+	at net.minecraft.client.entity.EntityPlayerSP.onUpdateWalkingPlayer(EntityPlayerSP.java:198)
+	at net.minecraft.client.entity.EntityPlayerSP.onUpdate(EntityPlayerSP.java:188)
+	at net.minecraft.world.World.updateEntityWithOptionalForce(World.java:1562)
+	at net.minecraft.world.World.updateEntity(World.java:1537)
+
+-- Entity being ticked --
+Details:
+	Entity Type: null (net.minecraft.client.entity.EntityPlayerSP)
+	Entity ID: 3244535
+	Entity Name: Shmelvin64
+	Entity's Exact location: -307.32, 81.00, -318.43
+	Entity's Block location: -308.00,81.00,-319.00 - World: (-308,81,-319), Chunk: (at 12,5,1 in -20,-20; contains blocks -320,0,-320 to -305,255,-305), Region: (-1,-1; contains chunks -32,-32 to -1,-1, blocks -512,0,-512 to -1,255,-1)
+	Entity's Momentum: 0.13, -0.08, -0.03
+	Entity's Rider: ~~ERROR~~ NullPointerException: null
+	Entity's Vehicle: ~~ERROR~~ NullPointerException: null
+Stacktrace:
+	at net.minecraft.world.World.updateEntities(World.java:1416)
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityPlayerSP['Shmelvin64'/3244535, l='MpServer', x=-307.32, y=81.00, z=-318.43]]
+	Chunk stats: MultiplayerChunkCache: 257, 257
+	Level seed: 0
+	Level generator: ID 00 - default, ver 1. Features enabled: false
+	Level generator options: 
+	Level spawn location: -15.00,64.00,-75.00 - World: (-15,64,-75), Chunk: (at 1,4,5 in -1,-5; contains blocks -16,0,-80 to -1,255,-65), Region: (-1,-1; contains chunks -32,-32 to -1,-1, blocks -512,0,-512 to -1,255,-1)
+	Level time: 45518 game time, 45518 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Cheats: false
+	Forced entities: 52 total; [EntitySheep['Sheep'/3244593, l='MpServer', x=-330.50, y=90.00, z=-254.78], EntitySheep['Sheep'/3244592, l='MpServer', x=-332.50, y=90.00, z=-252.50], EntitySheep['Sheep'/3244607, l='MpServer', x=-273.19, y=83.00, z=-312.44], EntityZombie['Zombie'/3246372, l='MpServer', x=-313.53, y=78.00, z=-333.94], EntitySheep['Sheep'/3244583, l='MpServer', x=-315.31, y=81.00, z=-364.63], EntitySheep['Sheep'/3244582, l='MpServer', x=-326.19, y=82.00, z=-362.91], EntitySheep['Sheep'/3244585, l='MpServer', x=-320.19, y=82.00, z=-360.19], EntitySheep['Sheep'/3244584, l='MpServer', x=-324.28, y=82.00, z=-363.47], EntitySheep['Sheep'/3244587, l='MpServer', x=-329.34, y=90.00, z=-254.19], EntitySheep['Sheep'/3244586, l='MpServer', x=-320.50, y=91.00, z=-257.50], EntitySheep['Sheep'/3244589, l='MpServer', x=-325.00, y=90.00, z=-262.00], EntitySheep['Sheep'/3244588, l='MpServer', x=-323.47, y=91.00, z=-260.47], EntitySheep['Sheep'/3244591, l='MpServer', x=-331.50, y=90.00, z=-250.50], EntitySheep['Sheep'/3244590, l='MpServer', x=-332.66, y=90.00, z=-254.19], EntitySheep['Sheep'/3244561, l='MpServer', x=-369.50, y=76.00, z=-267.50], EntitySheep['Sheep'/3244560, l='MpServer', x=-370.22, y=76.00, z=-269.72], EntitySheep['Sheep'/3244563, l='MpServer', x=-362.84, y=77.00, z=-371.47], EntitySheep['Sheep'/3244562, l='MpServer', x=-368.63, y=77.00, z=-271.69], EntitySheep['Sheep'/3244565, l='MpServer', x=-355.28, y=77.00, z=-366.81], EntitySheep['Sheep'/3244564, l='MpServer', x=-355.56, y=76.00, z=-361.38], EntitySheep['Sheep'/3244567, l='MpServer', x=-360.50, y=77.00, z=-307.50], EntitySheep['Sheep'/3244566, l='MpServer', x=-352.06, y=77.00, z=-367.09], EntitySheep['Sheep'/3244569, l='MpServer', x=-362.56, y=81.00, z=-304.47], EntitySheep['Sheep'/3244568, l='MpServer', x=-361.47, y=80.00, z=-305.81], EntitySkeleton['Skeleton'/3249176, l='MpServer', x=-280.61, y=69.00, z=-397.27], EntitySheep['Sheep'/3244571, l='MpServer', x=-367.81, y=76.00, z=-267.50], EntitySheep['Sheep'/3244570, l='MpServer', x=-366.88, y=81.00, z=-307.31], EntitySheep['Sheep'/3244573, l='MpServer', x=-341.22, y=72.00, z=-362.22], EntitySheep['Sheep'/3244572, l='MpServer', x=-343.50, y=79.00, z=-362.50], EntitySheep['Sheep'/3244575, l='MpServer', x=-342.50, y=73.00, z=-365.00], EntitySheep['Sheep'/3244574, l='MpServer', x=-342.88, y=72.00, z=-363.47], EntityPlayerSP['Shmelvin64'/3244535, l='MpServer', x=-307.32, y=81.00, z=-318.43], EntityPigZombie['Zombie Pigman'/3248004, l='MpServer', x=-313.88, y=81.00, z=-343.88], EntitySheep['Sheep'/3244683, l='MpServer', x=-234.81, y=74.00, z=-251.94], EntitySheep['Sheep'/3244682, l='MpServer', x=-239.00, y=75.00, z=-257.06], EntitySheep['Sheep'/3244557, l='MpServer', x=-370.28, y=70.00, z=-325.75], EntitySheep['Sheep'/3244556, l='MpServer', x=-374.72, y=73.00, z=-322.41], EntitySheep['Sheep'/3244684, l='MpServer', x=-236.38, y=74.00, z=-248.47], EntitySheep['Sheep'/3244559, l='MpServer', x=-370.13, y=72.00, z=-328.22], EntitySheep['Sheep'/3244558, l='MpServer', x=-365.38, y=70.00, z=-325.47], EntitySheep['Sheep'/3244659, l='MpServer', x=-247.56, y=94.00, z=-354.34], EntitySheep['Sheep'/3244660, l='MpServer', x=-248.56, y=95.00, z=-355.56], EntitySheep['Sheep'/3244662, l='MpServer', x=-249.84, y=105.00, z=-363.44], EntitySheep['Sheep'/3244665, l='MpServer', x=-252.84, y=77.00, z=-250.22], EntitySheep['Sheep'/3244664, l='MpServer', x=-243.16, y=98.00, z=-342.75], EntityCreeper['Creeper'/3245542, l='MpServer', x=-309.41, y=90.00, z=-292.97], EntityPigZombie['Zombie Pigman'/3248219, l='MpServer', x=-306.31, y=82.01, z=-316.31], EntityCreeper['Creeper'/3249089, l='MpServer', x=-281.50, y=70.00, z=-396.50], EntityZombie['Zombie'/3249091, l='MpServer', x=-274.63, y=68.00, z=-397.84], EntitySpider['Spider'/3249090, l='MpServer', x=-367.50, y=75.00, z=-391.03], EntitySkeleton['Skeleton'/3249096, l='MpServer', x=-367.50, y=75.00, z=-392.91], EntitySheep['Sheep'/3244621, l='MpServer', x=-274.00, y=80.00, z=-302.00]]
+	Retry entities: 0 total; []
+	Server brand: vanilla
+	Server type: Integrated singleplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:345)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2325)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:467)
+	at net.minecraft.client.main.Main.main(Main.java:103)
+	at Start.main(Start.java:7)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.8.9
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_162, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 339478968 bytes (323 MB) / 1707606016 bytes (1628 MB) up to 3562536960 bytes (3397 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 12, tallocated: 94
+	Launched Version: mcp
+	LWJGL: 2.9.4
+	OpenGL: GeForce GTX 1050 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 432.00, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Very likely; Jar signature invalidated
+	Type: Client (map_client.txt)
+	Resource Packs: !    §4DOOM.zip
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 4x AMD Ryzen 3 2200G with Radeon Vega Graphics 
+	OptiFine Version: OptiFine_1.8.9_HD_U_L5
+	OptiFine Build: ~~NULL~~
+	Render Distance Chunks: 8
+	Mipmaps: 4
+	Anisotropic Filtering: 1
+	Antialiasing: 4
+	Multitexture: true
+	Shaders: null
+	OpenGlVersion: 4.6.0 NVIDIA 432.00
+	OpenGlRenderer: GeForce GTX 1050 Ti/PCIe/SSE2
+	OpenGlVendor: NVIDIA Corporation
+	CpuCount: 4

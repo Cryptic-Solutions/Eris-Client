@@ -70,6 +70,7 @@ public class Scaffold extends Module {
     
     @Override
     public void onDisable() {
+    	abusedTimer = false;
     	mc.timer.timerSpeed = 1.0f;
         super.onDisable();
     }
@@ -78,7 +79,9 @@ public class Scaffold extends Module {
     public void onEnable() {
     	timerCap.reset();
     	abusedTimer = false;
-    	if (!Eris.instance.modules.isEnabled(Speed.class)) abuseTimer = !abuseTimer;
+    	if (!Eris.instance.modules.isEnabled(Speed.class)) {
+    		abuseTimer = !abuseTimer;
+    	}
     	mc.timer.timerSpeed = 1.0f;
         if (!switcher.getValue() && mc.thePlayer != null) {
         }
@@ -115,8 +118,8 @@ public class Scaffold extends Module {
         }
         if (e instanceof EventUpdate) {
         	if (abuseTimer) {
-	        	if (!timerCap.hasReached(1500)) {
-	        		if (!abusedTimer && timerSpeedAbuse.getValue()) mc.timer.timerSpeed = 1.5f;
+	        	if (!timerCap.hasReached(500)) {
+	        		if (!abusedTimer && timerSpeedAbuse.getValue()) mc.timer.timerSpeed = 1.7f;
 	        	} else {
 	        		mc.timer.timerSpeed = 1.0f;
 	        		abusedTimer = true;

@@ -38,23 +38,24 @@ public class PlayerUtils {
         if (entity == Minecraft.getMinecraft().thePlayer)
             return false;
 
-        if (teams && entity != null && entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            return !isOnSameTeam(player);
-        }
+
         if (entity instanceof EntityArmorStand)
             return false;
         if (invisible && entity.isInvisible())
             return false;
         if (dead && (entity.isDead || entity.getHealth() <= 0))
             return false;
+        if (teams && entity != null && entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            if (isOnSameTeam(player)) return false; 
+        }
         return (entity != null) && entity != Minecraft.getMinecraft().thePlayer
                 && (entity instanceof EntityPlayer && players || entity instanceof EntityAnimal && animals
                 || entity instanceof EntityMob && monsters || entity instanceof EntityVillager && animals)
 
                 && entity.getDistanceToEntity(Minecraft.getMinecraft().thePlayer) <= range
                 && !entity.getDisplayName().getFormattedText().toLowerCase().contains("[npc]")
-                && !AntiBot.bots.contains(entity) /*Todo: friends :)*/;
+                && !AntiBot.bots.contains(entity);
     }
 
     public static int getHealthColor(final EntityLivingBase player) {

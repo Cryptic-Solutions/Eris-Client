@@ -35,14 +35,15 @@ public class ESP extends Module {
             EventEntityRender event = (EventEntityRender) espEvent;
             if (players.getValue()) {
                 for (Entity e : mc.theWorld.loadedEntityList) {
-                    if (e instanceof EntityPlayer && !(e.getEntityId() == mc.thePlayer.getEntityId())) {
+                    if (e instanceof EntityPlayer && (e.getEntityId() != mc.thePlayer.getEntityId() || mc.gameSettings.thirdPersonView != 0)) {
                         EntityPlayer player = (EntityPlayer) e;
-                        if (AntiBot.bots.contains(player)) return;
-                        double posX = (player.lastTickPosX + (player.posX - player.lastTickPosX) * event.getPartialTicks());
-                        double posY = (player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks());
-                        double posZ = (player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks());
-                        draw2D(player, posX - RenderManager.renderPosX, posY - RenderManager.renderPosY, posZ - RenderManager.renderPosZ, new Color(255, 255, 255, 255).getRGB());
-                        GL11.glColor4f(1f, 1f, 1f, 1f);
+                        if (!AntiBot.bots.contains(player)) {
+	                        double posX = (player.lastTickPosX + (player.posX - player.lastTickPosX) * event.getPartialTicks());
+	                        double posY = (player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks());
+	                        double posZ = (player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks());
+	                        draw2D(player, posX - RenderManager.renderPosX, posY - RenderManager.renderPosY, posZ - RenderManager.renderPosZ, new Color(255, 255, 255, 255).getRGB());
+	                        GL11.glColor4f(1f, 1f, 1f, 1f);
+                        }
                     }
                 }
             }

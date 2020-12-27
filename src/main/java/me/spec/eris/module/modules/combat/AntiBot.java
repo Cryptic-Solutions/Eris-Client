@@ -74,7 +74,7 @@ public class AntiBot extends Module {
 
         if (e instanceof EventUpdate) {
             EventUpdate event = (EventUpdate) e;
-
+            setMode(mode.getValue().toString());
             for (Entity entity : mc.theWorld.loadedEntityList) {
                 if ((entity instanceof EntityPlayer)) {
                     EntityPlayer player = (EntityPlayer) entity;

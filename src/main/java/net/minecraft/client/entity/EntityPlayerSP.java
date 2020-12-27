@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import me.spec.eris.event.client.EventPacket;
 import me.spec.eris.event.player.EventBlockPush;
 import me.spec.eris.event.player.EventMove;
 import me.spec.eris.event.player.EventUpdate;
@@ -194,6 +195,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
      * called every tick when the player is on foot. Performs all the things that normally happen during movement.
      */
     public void onUpdateWalkingPlayer() {
+ 
         EventUpdate euPre = new EventUpdate(this.rotationYaw, this.rotationPitch, this.posX, this.getEntityBoundingBox().minY, this.posZ, this.onGround, this.isSneaking(), true);
         euPre.call();
         EventUpdate.lastLastPitch = euPre.lastPitch;

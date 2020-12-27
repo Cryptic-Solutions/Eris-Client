@@ -1,5 +1,8 @@
 package me.spec.eris.module.modules.combat;
 
+import java.util.Arrays;
+import java.util.List;
+
 import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
 import me.spec.eris.event.client.EventPacket;
@@ -65,7 +68,9 @@ public class Criticals extends Module {
                 airTime = 0;
             }
         } else if (e instanceof EventUpdate) {
+        	this.setMode(modeValue.getValue().toString());
             EventUpdate eu = (EventUpdate) e;
+ 
             Killaura aura = ((Killaura) Eris.instance.modules.getModuleByClass(Killaura.class));
 
             if ((!aura.isToggled() || Killaura.target == null) && Step.needStep && !Step.safe) {
@@ -154,31 +159,32 @@ public class Criticals extends Module {
             if (interferanceFree()) {
 
                 if (Step.needStep || !Eris.instance.modules.isEnabled(Step.class)) {
-                    if (waitTicks == 0 && accumulatedFall <= 3) {
-                        if (!(modeValue.getValue() == Mode.WATCHDOG && mc.thePlayer.isMoving())) return;
+                    if (waitTicks == 0) {
+                        if (!(modeValue.getValue() == Mode.WATCHDOG)) return;
 
                         aura.critStopwatch.reset();
                         eventPlayerUpdate.setOnGround(false);
                         forceUpdate = true;
                         if (airTime >= 3) {
-                            posY = 9.0e-4d * 2;
+                            posY = .0626 * 3;
                             airTime = 0;
                         } else {
-                            posY = .1225 - 9.0e-4d;
+                            posY = .0626 * 2;
                             if (airTime == 2) {
-                                posY -= 9.0e-4d * 2;
+                                posY = .0001;
                             }
                         }
                         eventPlayerUpdate.setY(mc.thePlayer.posY + posY); 
+                        accumulatedFall += eventPlayerUpdate.getY() - mc.thePlayer.posY;
                         airTime++;
-                    } else {
+
                         if (accumulatedFall >= 3) {
-                            if (mc.thePlayer.onGround) {
-                                sendPosition(0, posY, 0, false, false);
+                            if (mc.thePlayer.onGround) { 
                                 sendPosition(0, 0, 0, true, false);
                                 accumulatedFall = 0;
                             }
                         }
+                    } else {
                         eventPlayerUpdate.setY(mc.thePlayer.posY);
                         waitTicks--;
                     }
@@ -195,6 +201,7 @@ public class Criticals extends Module {
             waitTicks = 0;
         }
     }
+
 
     public void forceUpdate() {
         if (!forceUpdate || airTime == 0) return;

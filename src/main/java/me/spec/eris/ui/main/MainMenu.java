@@ -77,6 +77,7 @@ public class MainMenu extends GuiMainMenu
         GlStateManager.scale(f, f, f);
         this.drawCenteredString(this.fontRendererObj, "IN DEVELOPMENT", 0, 0, -256);
         GlStateManager.popMatrix();
+        
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) (this.width / 2), this.height / 2 - 70, 0.0F);
         GlStateManager.rotate(0, 0.0F, 0.0F, 1.0F);

@@ -62,7 +62,7 @@ public class ClickGui extends GuiScreen {
         Minecraft.getMinecraft().fontRendererObj.drawString(toolTip, scalRes.getScaledWidth() / 2, scalRes.getScaledHeight() / 2 + 300, new Color(255, 255, 255).getRGB());
 
         Eris.getInstance();
-		drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, Eris.getClientColor().getRGB());
+		drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, new Color(0,0,0).getRGB());
 
         panels.sort((a, b) -> Double.compare(a.lastClickedMs, b.lastClickedMs));
         for (int i = 0; i < panels.size(); i++) {

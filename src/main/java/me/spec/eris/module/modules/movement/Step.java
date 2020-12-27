@@ -72,24 +72,26 @@ public class Step extends Module {
                 if (isInvalid || Eris.instance.modules.isEnabled(Speed.class)) return;
                 if (mc.thePlayer.isInWater() || mc.thePlayer.isInLava() || mc.thePlayer.isOnLadder() || ModulePrioritizer.flaggableMovementModules() || BlockUtils.isOnLiquid(mc.thePlayer)) {
                     stepDelay.reset();
-                }
+                } 
                 if (stepDelay.hasReached(250)) {
-                    needStep = true;
-                }
-                if ((needStep && safe) || needStep && !Eris.instance.modules.isEnabled(Criticals.class)) {
                     event.setStepHeight(mc.thePlayer.isPotionActive(Potion.jump) ? 1 : 2.0f);
+                } else {
+                	event.setStepHeight(.626f);
                 }
                 height = 0;
-            } else if (needStep) {
+            } else {
             	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
-                
-				Criticals crits = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));
-				crits.accumulatedFall = 0; 
-				if (crits.airTime > 0) {	
-					sendPosition(0,0,0,true,false);
-					crits.airTime = 0;
-					crits.waitTicks = 3;
-				}
+            	stepDelay.reset();
+                needStep = true; 
+                if (height > 0) {
+    				Criticals crits = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));
+    				crits.accumulatedFall = 0; 
+    				if (crits.airTime > 0) {	
+    					sendPosition(0,0,0,true,false);
+    					crits.airTime = 0;
+    					crits.waitTicks = 3;
+    				}
+                }
                 double posX = mc.thePlayer.posX;
                 double posY = mc.thePlayer.posY;
                 double posZ = mc.thePlayer.posZ;

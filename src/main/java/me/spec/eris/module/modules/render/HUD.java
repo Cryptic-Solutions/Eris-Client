@@ -15,12 +15,15 @@ import me.spec.eris.event.render.EventRender2D;
 import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
 import me.spec.eris.ui.fonts.TTFFontRenderer;
+import me.spec.eris.utils.RenderUtilities;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class HUD extends Module {
@@ -50,14 +53,18 @@ public class HUD extends Module {
 
             mods.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
             if (!mods.isEmpty()) {
+
+                GlStateManager.pushMatrix();   
+                GlStateManager.scale(1,1.05f,1);
                 y = 0;
                 mods.forEach(mod -> {
                     String name = mod.getFullModuleDisplayName();
+
+                    RenderUtilities.drawRectangle(scaledResolution.getScaledWidth() - (double)getFont().getStringWidth(name), y, (double)getFont().getStringWidth(name) + .35, (double)getFont().getHeight(name), new Color(0,0,0,145).getRGB());
                     getFont().drawStringWithShadow(name, scaledResolution.getScaledWidth() - getFont().getStringWidth(name), y, new Color(255, 0, 0).getRGB());
                     y += getFont().getHeight(name);
                 });
-
-
+                GlStateManager.popMatrix();
             }
             renderPotions();
         }
