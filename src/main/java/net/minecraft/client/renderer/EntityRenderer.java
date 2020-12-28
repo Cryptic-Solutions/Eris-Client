@@ -5,6 +5,8 @@ import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 
 import me.spec.eris.event.render.EventEntityRender;
+import me.spec.eris.event.render.EventRender3D;
+import me.spec.eris.event.render.EventRenderSR;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -1223,7 +1225,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                 GlStateManager.loadIdentity();
                 GlStateManager.matrixMode(5888);
                 GlStateManager.loadIdentity();
-                this.setupOverlayRendering();
+                this.setupOverlayRendering(new ScaledResolution(Minecraft.getMinecraft()));
                 this.renderEndNanoTime = System.nanoTime();
                 TileEntityRendererDispatcher.instance.renderEngine = this.mc.getTextureManager();
                 TileEntityRendererDispatcher.instance.fontRenderer = this.mc.fontRendererObj;
@@ -1270,8 +1272,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
         }
     }
 
-    public void renderStreamIndicator(float partialTicks) {
-        this.setupOverlayRendering();
+    public void renderStreamIndicator(float partialTicks) { 
         this.mc.ingameGUI.renderStreamIndicator(new ScaledResolution(this.mc));
     }
 
@@ -1663,6 +1664,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             this.mc.mcProfiler.endStartSection("forge_render_last");
             Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[]{renderglobal, Float.valueOf(partialTicks)});
         }
+        
+        new EventRender3D(new ScaledResolution(mc), partialTicks).call();
 
         this.mc.mcProfiler.endStartSection("hand");
 
@@ -1671,7 +1674,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                 ShadersRender.renderHand1(this, partialTicks, pass);
                 Shaders.renderCompositeFinal();
             }
-
+ 
             GlStateManager.clear(256);
 
             if (flag) {
@@ -1924,8 +1927,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
     /**
      * Setup orthogonal projection for rendering GUI screen overlays
      */
-    public void setupOverlayRendering() {
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+    public void setupOverlayRendering(ScaledResolution scaledresolution) {
         GlStateManager.clear(256);
         GlStateManager.matrixMode(5889);
         GlStateManager.loadIdentity();

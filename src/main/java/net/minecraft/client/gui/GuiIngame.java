@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import me.spec.eris.Eris;
 import me.spec.eris.Eris.Gamemode;
 import me.spec.eris.event.render.EventRender2D;
+import me.spec.eris.event.render.EventRenderSR;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -136,7 +137,7 @@ public class GuiIngame extends Gui {
         ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
-        this.mc.entityRenderer.setupOverlayRendering();
+        this.mc.entityRenderer.setupOverlayRendering(scaledresolution);
         GlStateManager.enableBlend();
 
         if (Config.isVignetteEnabled()) {
@@ -330,7 +331,7 @@ public class GuiIngame extends Gui {
         }
 
         new EventRender2D().call();
-
+        new EventRenderSR(scaledresolution, partialTicks, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight()).call(); 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();

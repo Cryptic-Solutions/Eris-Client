@@ -78,7 +78,7 @@ public class Step extends Module {
                 } 
                 height = 0;
             } else {
-            	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY; 
+            	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY; 	
                 needStep = true; 
                 if (height > 0) {
     				Criticals crits = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));

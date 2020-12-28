@@ -137,7 +137,7 @@ public class Gui {
      * Draws a rectangle with a vertical gradient between the specified colors (ARGB format). Args : x1, y1, x2, y2,
      * topColor, bottomColor
      */
-    protected void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
+    public static void drawGradientRect(double left, double top, double right, double bottom, int startColor, int endColor) {
         float f = (float) (startColor >> 24 & 255) / 255.0F;
         float f1 = (float) (startColor >> 16 & 255) / 255.0F;
         float f2 = (float) (startColor >> 8 & 255) / 255.0F;
@@ -154,10 +154,10 @@ public class Gui {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
-        worldrenderer.func_181662_b((double) right, (double) top, (double) this.zLevel).func_181666_a(f1, f2, f3, f).func_181675_d();
-        worldrenderer.func_181662_b((double) left, (double) top, (double) this.zLevel).func_181666_a(f1, f2, f3, f).func_181675_d();
-        worldrenderer.func_181662_b((double) left, (double) bottom, (double) this.zLevel).func_181666_a(f5, f6, f7, f4).func_181675_d();
-        worldrenderer.func_181662_b((double) right, (double) bottom, (double) this.zLevel).func_181666_a(f5, f6, f7, f4).func_181675_d();
+        worldrenderer.func_181662_b((double) right, (double) top, (double) 0).func_181666_a(f1, f2, f3, f).func_181675_d();
+        worldrenderer.func_181662_b((double) left, (double) top, (double)0).func_181666_a(f1, f2, f3, f).func_181675_d();
+        worldrenderer.func_181662_b((double) left, (double) bottom, (double) 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
+        worldrenderer.func_181662_b((double) right, (double) bottom, (double) 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
@@ -255,5 +255,5 @@ public class Gui {
         worldrenderer.func_181662_b((double) (x + width), (double) y, 0.0D).func_181673_a((double) ((u + (float) uWidth) * f), (double) (v * f1)).func_181675_d();
         worldrenderer.func_181662_b((double) x, (double) y, 0.0D).func_181673_a((double) (u * f), (double) (v * f1)).func_181675_d();
         tessellator.draw();
-    }
+    } 
 }
