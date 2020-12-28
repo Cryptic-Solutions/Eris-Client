@@ -1,4 +1,4 @@
-package me.spec.eris.module.modules.movement;
+package me.spec.eris.module.modules.movement; 
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +12,6 @@ import me.spec.eris.module.Category;
 import me.spec.eris.module.Module;
 import me.spec.eris.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.module.antiflag.prioritization.enums.ModuleType;
-import me.spec.eris.module.modules.player.AntiVoid;
 import me.spec.eris.module.values.valuetypes.BooleanValue;
 import me.spec.eris.module.values.valuetypes.ModeValue;
 import me.spec.eris.module.values.valuetypes.NumberValue;
@@ -21,7 +20,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
-import net.minecraft.potion.Potion;
 
 public class Flight extends Module {
 
@@ -41,7 +39,8 @@ public class Flight extends Module {
     private NumberValue<Float> timerDelay = new NumberValue<Float>("Timer Delay", 1.5F, .1F, 5F, this, () -> timerAbuse.getValue() && mode.getValue().equals(Mode.WATCHDOG), "How long in seconds to abuse timer for?");
     private NumberValue<Float> flySpeed = new NumberValue<Float>("Speed", 1F, 0.3F, 3F, this, "Speed");
     
-    private final TimerUtils stopwatch = new TimerUtils();
+    private final TimerUtils timerAbuseStopwatch = new TimerUtils();
+    private final TimerUtils damageStopwatch = new TimerUtils();
     private final List<Packet> packets = new LinkedList<>();
 
     private boolean onGroundCheck, damagePlayer;
@@ -69,7 +68,19 @@ public class Flight extends Module {
 			case WATCHDOG:
 	        	if (onGroundCheck) {
 	        		if (!damagePlayer) {
-
+	        			if (damageStopwatch.hasReached(250)) {
+		        			for (int i = 0; i < 9; i++) {
+		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getLegitMotion(), mc.thePlayer.posZ, false));
+		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getLegitMotion() % .0000625), mc.thePlayer.posZ, false));
+		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
+		        			}
+		        			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
+		        			damagePlayer = true;
+	        			} else {
+	        				event.setX(0);
+	        				event.setY(0);
+	        				event.setZ(0);
+	        			}
 	        		} else {
 		        		switch (counter) {
 		        		case 0:
@@ -80,7 +91,7 @@ public class Flight extends Module {
 		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42D));
 		        				mc.timer.timerSpeed = 3;
 		        			}
-		        			speed = 0.601;
+		        			speed = 0.615;
 		        			break;
 		        		case 2:
 		        			mc.timer.timerSpeed = 1;
@@ -111,17 +122,17 @@ public class Flight extends Module {
 
                     break;
 			case WATCHDOG:
-				if (onGroundCheck) { 
+				if (onGroundCheck) {  
 					mc.thePlayer.onGround = true;
 	        		if (timerAbuse.getValue() && counter >= 15 & damaged) {
-	                    if (!stopwatch.hasReached(timerDelay.getValue().longValue() * 1000)) {
+	                    if (!timerAbuseStopwatch.hasReached(timerDelay.getValue().longValue() * 1000)) {
 	                        mc.timer.timerSpeed = timerSpeedAbuse.getValue().floatValue();
 	                    } else {
 	                        mc.timer.timerSpeed = 1F;
 	                    }
 	                }
 	                if (counter < 15) {
-	                    stopwatch.reset();
+	                    timerAbuseStopwatch.reset();
 	                }
 	                if (!damaged && mc.thePlayer.hurtTime > 0) {
 	                    damaged = true; 
@@ -133,7 +144,7 @@ public class Flight extends Module {
     	               
                     	if (counter > 9) { 
                     		mc.thePlayer.motionY = 0;
-                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0006 : 0));
+                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0003 : -.0003));
                     	} else if (damaged) { 
                     	}
                     }
@@ -197,16 +208,11 @@ public class Flight extends Module {
     	if (Eris.instance.modules.isEnabled(Speed.class)) {
         	Eris.instance.modules.getModuleByClass(Speed.class).toggle(false);
     	}
-		for (int i = 0; i < 9; i++) {
-			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + .42f, mc.thePlayer.posZ, false));
-			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (.42f % .0000625), mc.thePlayer.posZ, false));
-			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
-		}
-		mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
-		damagePlayer = true; 
+    	damagePlayer = false;
     	damaged = false;
     	onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically; 
-    	stopwatch.reset();
+    	timerAbuseStopwatch.reset();
+    	damageStopwatch.reset();
         counter = 0;
         speed = 0;
         setLastDistance(0.0);
@@ -224,13 +230,12 @@ public class Flight extends Module {
 	    		Speed sped = ((Speed)Eris.instance.modules.getModuleByClass(Speed.class));
 	    		sped.waitTicks = 5;
 	    		mc.thePlayer.onGround = false;
-	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem += 1));
-	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C0APacketAnimation()); 
+	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem += 1)); 
 	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem -= 1));
 	        	mc.timer.timerSpeed = 1.0f;
-	    		double value = mc.thePlayer.ticksExisted % 2 == 0 ? -.0006 : .0;
+	    		double value = mc.thePlayer.ticksExisted % 2 == 0 ? -.0003 : .0003;
 	    		mc.thePlayer.setPositionAndUpdate(mc.thePlayer.posX, mc.thePlayer.posY + value, mc.thePlayer.posZ);
- 
+	    		
 				if (blink.getValue()) {
 					flush();
 				}

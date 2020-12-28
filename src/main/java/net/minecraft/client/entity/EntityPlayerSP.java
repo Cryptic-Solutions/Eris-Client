@@ -3,6 +3,7 @@ package net.minecraft.client.entity;
 import me.spec.eris.event.client.EventPacket;
 import me.spec.eris.event.player.EventBlockPush;
 import me.spec.eris.event.player.EventMove;
+import me.spec.eris.event.player.EventPlayerSlow;
 import me.spec.eris.event.player.EventUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -43,6 +44,7 @@ import net.minecraft.network.play.client.C0DPacketCloseWindow;
 import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.potion.Potion;
+import net.minecraft.src.Config;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntitySign;
@@ -711,8 +713,11 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         this.movementInput.updatePlayerMoveState();
 
         if (this.isUsingItem() && !this.isRiding()) {
-            this.movementInput.moveStrafe *= 0.2F;
-            this.movementInput.moveForward *= 0.2F;
+        	EventPlayerSlow event = new EventPlayerSlow(0.2f);
+        	event.call();
+        	if (event.isCancelled()) return;
+            this.movementInput.moveStrafe *= event.getSpeed();
+            this.movementInput.moveForward *= event.getSpeed();
             this.sprintToggleTimer = 0;
         }
 
@@ -822,5 +827,10 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             direction += 90.0F * forward;
         direction *= 0.017453292F;
         return direction;
+    }
+    
+    @Override
+    public float getFovModifier() {
+        return Config.zoomMode ? super.getFovModifier() / 4f : super.getFovModifier();
     }
 }

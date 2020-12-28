@@ -69,8 +69,9 @@ public class Speed extends Module {
             EventMove em = (EventMove) e;
             switch (mode.getValue()) {
 				case WATCHDOG:
-		    		if (Eris.instance.modules.isEnabled(Scaffold.class) || Eris.instance.modules.isEnabled(Flight.class)) hops = -2;
-					if (Eris.instance.modules.isEnabled(Flight.class)) return;
+					Step step = ((Step)Eris.instance.modules.getModuleByClass(Step.class));
+		    		if (Eris.instance.modules.isEnabled(Scaffold.class) || Eris.instance.modules.isEnabled(Flight.class) || step.cancelMorePackets) hops = -1;
+					if (Eris.instance.modules.isEnabled(Flight.class) || step.cancelMorePackets) return;
 					 if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS)) {
 			                if (!mc.thePlayer.onGround) {
 			                    if (Eris.getInstance().modules.getModuleByClass(Killaura.class).isToggled() && Killaura.target != null) {
@@ -80,6 +81,7 @@ public class Speed extends Module {
 			                    }
 			                }
 			            }
+					 	
 			            if (waitTicks > 0 && mc.thePlayer.onGround) waitTicks--; 
 			            if (waitTicks > 0 || !mc.thePlayer.isMoving() || mc.thePlayer.fallDistance > 2.25) {
 			                setLastDistance(0.0);
@@ -97,13 +99,13 @@ public class Speed extends Module {
 							if (mc.thePlayer.onGround) { 
 								mc.timer.timerSpeed = 1.2f;
 			                	em.setY(mc.thePlayer.motionY = (float)em.getMotionY(.4 + 1.0e-4));
-				            	speed = em.getMovementSpeed() * (Eris.instance.modules.isEnabled(Scaffold.class) || hops < 0 ? 1.4 : hops % 4 != 0 ? 2.255 : 2.1499);
+				            	speed = em.getMovementSpeed() * (Eris.instance.modules.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.4 : hops % 3 != 0 ? 2.16 : 2.1499);
 				            	hops++;
 							}
 			                setLastDistance(0.0);
 							stage = 0;
 						} else if (stage == 1) {  
-			            	speed = getLastDistance() - (hops % 4 != 0 && hops > 0 && !Eris.instance.modules.isEnabled(Scaffold.class) ? .655 : .66) * (getLastDistance() - em.getMovementSpeed());
+			            	speed = getLastDistance() - (hops % 3 != 0 && hops > 0 && !Eris.instance.modules.isEnabled(Scaffold.class) ? .658 : .66) * (getLastDistance() - em.getMovementSpeed());
 						} else {  
 								
 							if ((stage == 2 || stage == 4) && mc.timer.timerSpeed > 1.0f) mc.timer.timerSpeed -= .1f;

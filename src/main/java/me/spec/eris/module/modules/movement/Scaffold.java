@@ -145,7 +145,7 @@ public class Scaffold extends Module {
                     yaw = (yawMouseFilter.smooth(rotations[0] + MathUtils.getRandomInRange(-1f, 5f), speed));
                     pitch = (pitchMouseFilter.smooth(rotations[1] + MathUtils.getRandomInRange(-1.20f, 3.50f), speed));
                     event.setPitch(pitch);
-                    event.setYaw(yaw);
+                 //   event.setYaw(yaw);
                 }
                 if (find(new Vec3(0, 0, 0)) != null && mc.thePlayer.isMoving()) {
                     blockEntry = find(new Vec3(0, 0, 0));
@@ -157,7 +157,7 @@ public class Scaffold extends Module {
                 yaw = (yawMouseFilter.smooth(rotations[0] + MathUtils.getRandomInRange(-1f, 5f), speed));
                 pitch = (pitchMouseFilter.smooth(rotations[1] + MathUtils.getRandomInRange(-1.20f, 3.50f), speed));
                 event.setPitch(pitch);
-                event.setYaw(yaw);
+               // event.setYaw(yaw);
             } else {
                 int heldItem = mc.thePlayer.inventory.currentItem;
                 if (PlayerUtils.isHoldingSword() && blocking) {
@@ -198,7 +198,7 @@ public class Scaffold extends Module {
                     } else {
                     }
                 }
-                blockEntry.position.add(0, (mc.gameSettings.keyBindSneak.isKeyDown() ? (mc.thePlayer.onGround ? -1 : 0) : 0), 0);
+                blockEntry.position.add(0, (mc.gameSettings.keyBindSneak.isKeyDown() ? -1 : 0), 0);
                 if (hitVectorRandomization.getValue()) {
                     mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), blockEntry.position, blockEntry.face, new Vec3(blockEntry.position.getX() + Math.random(), blockEntry.position.getY() + Math.random(), blockEntry.position.getZ() + Math.random()));
                 } else {

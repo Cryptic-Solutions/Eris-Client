@@ -1127,7 +1127,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     }
 
     public int getLimitFramerate() {
-        return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
+        return this.theWorld == null && this.currentScreen != null ? 150 : this.gameSettings.limitFramerate;
     }
 
     public boolean isFramerateLimitBelowMax() {
@@ -2052,7 +2052,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
             this.thePlayer = null;
         }
 
-        System.gc();
+       // System.gc();
         this.systemTime = 0L;
     }
 

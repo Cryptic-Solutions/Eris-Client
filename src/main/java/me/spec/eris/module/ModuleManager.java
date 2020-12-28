@@ -38,7 +38,7 @@ public class ModuleManager {
         modules.add(new GuiMove());
         modules.add(new Scaffold());
         modules.add(new Longjump());
-
+        modules.add(new NoSlowDown());
         // Combat
         modules.add(new AntiBot());
         modules.add(new Killaura());

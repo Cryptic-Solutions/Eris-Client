@@ -597,7 +597,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                     this.mc.renderGlobal.displayListEntitiesDirty = true;
                 }
 
-                if (Config.zoomMode) {
+                if (Config.zoomMode && !Config.isDynamicFov()) {
                     f /= 4.0F;
                 }
             } else if (Config.zoomMode) {

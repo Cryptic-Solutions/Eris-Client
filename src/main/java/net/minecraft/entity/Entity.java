@@ -1,5 +1,6 @@
 package net.minecraft.entity;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -10,6 +11,8 @@ import me.spec.eris.event.player.EventSafeWalk;
 import me.spec.eris.event.player.EventStep;
 import me.spec.eris.event.player.EventUpdate;
 import me.spec.eris.module.modules.movement.Scaffold;
+import me.spec.eris.module.modules.movement.Speed;
+import me.spec.eris.module.modules.movement.Step;
 import me.spec.eris.utils.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -678,7 +681,7 @@ public abstract class Entity implements ICommandSender {
 
             EventStep step = new EventStep(this, stepHeight, true);
 
-            step.call();
+            step.call(); 
             if (this.stepHeight > 0.0F && flag1 && (d3 != x || d5 != z)) {
                 double d11 = x;
                 double d7 = y;
@@ -752,14 +755,25 @@ public abstract class Entity implements ICommandSender {
                 }
 
                 this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, y, 0.0D));
+                if (this == Minecraft.getMinecraft().thePlayer && y > -0.6 && (Step.isInvalid() || Eris.instance.modules.isEnabled(Speed.class))) {
+                    double blockHeight = 1.0 + y;
 
+                    List<Double> blockHeights = Arrays.asList(0.875, 0.625, 0.8125, 0.9375, 0.75, 0.6875);
+
+                    if ((blockHeight % 0.5 == 0 || blockHeights.contains(blockHeight))) {
+                    	Eris.instance.tellUser(String.valueOf(blockHeight));
+                        new EventStep(this, stepHeight, false, blockHeight).call();
+                    }
+                }
                 if (d11 * d11 + d8 * d8 >= x * x + z * z) {
                     x = d11;
                     y = d7;
                     z = d8;
                     this.setEntityBoundingBox(axisalignedbb3);
                 }
-                new EventStep(this, stepHeight, false).call();
+                if (!(Step.isInvalid() || Eris.instance.modules.isEnabled(Speed.class))) {
+                	new EventStep(this, stepHeight, false).call();
+                }
             }
 
             this.worldObj.theProfiler.endSection();

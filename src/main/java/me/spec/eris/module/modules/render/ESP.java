@@ -127,8 +127,7 @@ public class ESP extends Module {
     	        if (box.getValue() || healthbar.getValue() || nametags.getValue()) {
     	            int scaleFactor = event.scaledResolution.getScaleFactor();
     	            for (EntityPlayer player : mc.theWorld.playerEntities) {
-    	                if (player.getDistanceToEntity(mc.thePlayer) < 1.0F || AntiBot.bots.contains(player))
-    	                    continue;
+    	                if (AntiBot.bots.contains(player) || (player == mc.thePlayer && mc.gameSettings.thirdPersonView == 0)) continue;
 
     	                GL11.glPushMatrix();
     	                Vec3 vec3 = getVec3(player);
