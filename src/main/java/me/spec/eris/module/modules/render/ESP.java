@@ -6,6 +6,11 @@ import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityLockable;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -49,13 +54,14 @@ public class ESP extends Module {
     public BooleanValue<Boolean> healthbar = new BooleanValue<>("Health Bar", false, this, "");
     public BooleanValue<Boolean> nametags = new BooleanValue<>("Nametags", false, this, "");
     public BooleanValue<Boolean> skeletal = new BooleanValue<>("Skeletal", false, this, "");
+    public BooleanValue<Boolean> chests = new BooleanValue<>("Chests", false, this, "");
 
 
     @Override
-    public void onEvent(Event e) { 
-    	if (e instanceof EventRenderSR) {
-    		EventRenderSR event = (EventRenderSR)e; 
-    		for (EntityPlayer player : entityPosMap.keySet()) {
+    public void onEvent(Event e) {
+        if (e instanceof EventRenderSR) {
+            EventRenderSR event = (EventRenderSR) e;
+            for (EntityPlayer player : entityPosMap.keySet()) {
                 GL11.glPushMatrix();
                 mc.entityRenderer.setupOverlayRendering(event.sr);
                 float[] positions = entityPosMap.get(player);
@@ -115,65 +121,75 @@ public class ESP extends Module {
                 }
                 GL11.glPopMatrix();
             }
-    	}
-    	
-    	if (e instanceof EventRender3D) {
-    		EventRender3D event = (EventRender3D)e;
-    		  entities.keySet().removeIf(player -> !mc.theWorld.playerEntities.contains(player));
+        }
 
-    	        if (!entityPosMap.isEmpty())
-    	            entityPosMap.clear();
+        if (e instanceof EventRender3D) {
+            EventRender3D event = (EventRender3D) e;
+            entities.keySet().removeIf(player -> !mc.theWorld.playerEntities.contains(player));
 
-    	        if (box.getValue() || healthbar.getValue() || nametags.getValue()) {
-    	            int scaleFactor = event.scaledResolution.getScaleFactor();
-    	            for (EntityPlayer player : mc.theWorld.playerEntities) {
-    	                if (player.getDistanceToEntity(mc.thePlayer) < 1.0F || AntiBot.bots.contains(player))
-    	                    continue;
+            if (!entityPosMap.isEmpty())
+                entityPosMap.clear();
 
-    	                GL11.glPushMatrix();
-    	                Vec3 vec3 = getVec3(player);
-    	                float posX = (float) (vec3.xCoord - RenderManager.viewerPosX);
-    	                float posY = (float) (vec3.yCoord - RenderManager.viewerPosY);
-    	                float posZ = (float) (vec3.zCoord - RenderManager.viewerPosZ);
+            if (box.getValue() || healthbar.getValue() || nametags.getValue()) {
+                int scaleFactor = event.scaledResolution.getScaleFactor();
+                for (EntityPlayer player : mc.theWorld.playerEntities) {
+                    if (player.getDistanceToEntity(mc.thePlayer) < 1.0F || AntiBot.bots.contains(player))
+                        continue;
 
-    	                double halfWidth = player.width / 2.0D + 0.18F;
-    	                AxisAlignedBB bb = new AxisAlignedBB(posX - halfWidth, posY, posZ - halfWidth, posX + halfWidth,
-    	                        posY + player.height + 0.18D, posZ + halfWidth);
+                    GL11.glPushMatrix();
+                    Vec3 vec3 = getVec3(player);
+                    float posX = (float) (vec3.xCoord - RenderManager.viewerPosX);
+                    float posY = (float) (vec3.yCoord - RenderManager.viewerPosY);
+                    float posZ = (float) (vec3.zCoord - RenderManager.viewerPosZ);
 
-    	                double[][] vectors = {{bb.minX, bb.minY, bb.minZ}, {bb.minX, bb.maxY, bb.minZ},
-    	                        {bb.minX, bb.maxY, bb.maxZ}, {bb.minX, bb.minY, bb.maxZ}, {bb.maxX, bb.minY, bb.minZ},
-    	                        {bb.maxX, bb.maxY, bb.minZ}, {bb.maxX, bb.maxY, bb.maxZ}, {bb.maxX, bb.minY, bb.maxZ}};
+                    double halfWidth = player.width / 2.0D + 0.18F;
+                    AxisAlignedBB bb = new AxisAlignedBB(posX - halfWidth, posY, posZ - halfWidth, posX + halfWidth,
+                            posY + player.height + 0.18D, posZ + halfWidth);
 
-    	                Vector3f projection;
-    	                Vector4f position = new Vector4f(Float.MAX_VALUE, Float.MAX_VALUE, -1.0F, -1.0F);
+                    double[][] vectors = {{bb.minX, bb.minY, bb.minZ}, {bb.minX, bb.maxY, bb.minZ},
+                            {bb.minX, bb.maxY, bb.maxZ}, {bb.minX, bb.minY, bb.maxZ}, {bb.maxX, bb.minY, bb.minZ},
+                            {bb.maxX, bb.maxY, bb.minZ}, {bb.maxX, bb.maxY, bb.maxZ}, {bb.maxX, bb.minY, bb.maxZ}};
 
-    	                for (double[] vec : vectors) {
-    	                    projection = project2D((float) vec[0], (float) vec[1], (float) vec[2], scaleFactor);
-    	                    if (projection != null && projection.z >= 0.0F && projection.z < 1.0F) {
-    	                        position.x = Math.min(position.x, projection.x);
-    	                        position.y = Math.min(position.y, projection.y);
-    	                        position.z = Math.max(position.z, projection.x);
-    	                        position.w = Math.max(position.w, projection.y);
-    	                    }
-    	                }
+                    Vector3f projection;
+                    Vector4f position = new Vector4f(Float.MAX_VALUE, Float.MAX_VALUE, -1.0F, -1.0F);
 
-    	                entityPosMap.put(player, new float[]{position.x, position.z, position.y, position.w});
+                    for (double[] vec : vectors) {
+                        projection = project2D((float) vec[0], (float) vec[1], (float) vec[2], scaleFactor);
+                        if (projection != null && projection.z >= 0.0F && projection.z < 1.0F) {
+                            position.x = Math.min(position.x, projection.x);
+                            position.y = Math.min(position.y, projection.y);
+                            position.z = Math.max(position.z, projection.x);
+                            position.w = Math.max(position.w, projection.y);
+                        }
+                    }
 
-    	                GL11.glPopMatrix();
-    	            }
-    	        }
+                    entityPosMap.put(player, new float[]{position.x, position.z, position.y, position.w});
 
-    	        if (skeletal.getValue()) {
-    	            this.startEnd(true);
-    	            GL11.glEnable(2903);
-    	            GL11.glDisable(2848);
-    	            for (EntityPlayer ent : entities.keySet()) {
-    	                drawSkeleton((EventRender3D) e, ent);
-    	            }
-    	            this.startEnd(false);
-    	        }
-    	}
-    } 
+                    GL11.glPopMatrix();
+                }
+            }
+
+            if (skeletal.getValue()) {
+                this.startEnd(true);
+                GL11.glEnable(2903);
+                GL11.glDisable(2848);
+                for (EntityPlayer ent : entities.keySet()) {
+                    drawSkeleton((EventRender3D) e, ent);
+                }
+                this.startEnd(false);
+            }
+        }
+        if (e instanceof EventRender3D) {
+            for (final Object o : mc.theWorld.loadedTileEntityList) {
+                if (o instanceof TileEntityChest) {
+                    final TileEntityLockable storage = (TileEntityLockable) o;
+                    this.drawESPOnStorage(storage, storage.getPos().getX(), storage.getPos().getY(),
+                            storage.getPos().getZ());
+                }
+            }
+        }
+    }
+
     public static void startScissorBox(ScaledResolution sr, int x, int y, int width, int height) {
         int sf = sr.getScaleFactor();
 
@@ -192,7 +208,8 @@ public class ESP extends Module {
 
     public static void disableAlpha() {
         GL11.glDisable(GL11.GL_BLEND);
-    } 
+    }
+
     private Vector3f project2D(float x, float y, float z, int scaleFactor) {
         GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelMatrix);
         GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projectionMatrix);
@@ -386,6 +403,131 @@ public class ESP extends Module {
     public static int getColorFromPercentage(float current, float max) {
         float percentage = (current / max) / 3;
         return Color.HSBtoRGB(percentage, 1.0F, 1.0F);
+    }
+
+    public void drawESPOnStorage(final TileEntityLockable storage, final double x, final double y, final double z) {
+        if (chests.getValue()) {
+            assert !storage.isLocked();
+            final TileEntityChest chest = (TileEntityChest) storage;
+            Vec3 vec = new Vec3(0.0, 0.0, 0.0);
+            Vec3 vec2 = new Vec3(0.0, 0.0, 0.0);
+            if (chest.adjacentChestZNeg != null) {
+                vec = new Vec3(x + 0.0625, y, z - 0.9375);
+                vec2 = new Vec3(x + 0.9375, y + 0.875, z + 0.9375);
+            } else if (chest.adjacentChestXNeg != null) {
+                vec = new Vec3(x + 0.9375, y, z + 0.0625);
+                vec2 = new Vec3(x - 0.9375, y + 0.875, z + 0.9375);
+            } else {
+                if (chest.adjacentChestXPos != null || chest.adjacentChestZPos != null) {
+                    return;
+                }
+                vec = new Vec3(x + 0.0625, y, z + 0.0625);
+                vec2 = new Vec3(x + 0.9375, y + 0.875, z + 0.9375);
+            }
+            GL11.glPushMatrix();
+            pre3D();
+            GlStateManager.disableDepth();
+            mc.entityRenderer.setupCameraTransform(mc.timer.renderPartialTicks, 2);
+            GL11.glColor4f(255F,
+                    255F,
+                    255F, 0.3F);
+            drawFilledBoundingBox(
+                    new AxisAlignedBB(vec.xCoord - RenderManager.renderPosX, vec.yCoord - RenderManager.renderPosY,
+                            vec.zCoord - RenderManager.renderPosZ, vec2.xCoord - RenderManager.renderPosX,
+                            vec2.yCoord - RenderManager.renderPosY, vec2.zCoord - RenderManager.renderPosZ));
+            GL11.glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+            GlStateManager.enableDepth();
+            post3D();
+            GL11.glPopMatrix();
+        }
+    }
+
+    public static void pre3D() {
+        GL11.glPushMatrix();
+        GL11.glEnable(3042);
+        GL11.glBlendFunc(770, 771);
+        GL11.glShadeModel(7425);
+        GL11.glDisable(3553);
+        GL11.glEnable(2848);
+        GL11.glDisable(2929);
+        GL11.glDisable(2896);
+        GL11.glDepthMask(false);
+        GL11.glHint(3154, 4354);
+    }
+
+    public static void post3D() {
+        GL11.glDepthMask(true);
+        GL11.glEnable(2929);
+        GL11.glDisable(2848);
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glPopMatrix();
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    public static void drawFilledBoundingBox(final AxisAlignedBB box) {
+        final Tessellator tessellator = Tessellator.getInstance();
+        final WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+        worldRenderer.func_181668_a(7, DefaultVertexFormats.field_181703_c);
+        worldRenderer.func_181662_b(box.minX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.maxZ).func_181675_d();
+        tessellator.draw();
+        worldRenderer.func_181668_a(7, DefaultVertexFormats.field_181703_c);
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.maxZ).func_181675_d();
+        tessellator.draw();
+        worldRenderer.func_181668_a(7, DefaultVertexFormats.field_181703_c);
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.minZ).func_181675_d();
+        tessellator.draw();
+        worldRenderer.func_181668_a(7, DefaultVertexFormats.field_181703_c);
+        worldRenderer.func_181662_b(box.minX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.minZ).func_181675_d();
+        tessellator.draw();
+        worldRenderer.func_181668_a(7, DefaultVertexFormats.field_181703_c);
+        worldRenderer.func_181662_b(box.minX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.minZ).func_181675_d();
+        tessellator.draw();
+        worldRenderer.func_181668_a(7, DefaultVertexFormats.field_181703_c);
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.minX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.minZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.maxY, box.maxZ).func_181675_d();
+        worldRenderer.func_181662_b(box.maxX, box.minY, box.maxZ).func_181675_d();
+        tessellator.draw();
     }
 
     @Override
