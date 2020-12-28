@@ -75,13 +75,10 @@ public class Step extends Module {
                 } 
                 if (stepDelay.hasReached(250)) {
                     event.setStepHeight(mc.thePlayer.isPotionActive(Potion.jump) ? 1 : 2.0f);
-                } else {
-                	event.setStepHeight(.626f);
-                }
+                } 
                 height = 0;
             } else {
-            	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
-            	stepDelay.reset();
+            	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY; 
                 needStep = true; 
                 if (height > 0) {
     				Criticals crits = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));

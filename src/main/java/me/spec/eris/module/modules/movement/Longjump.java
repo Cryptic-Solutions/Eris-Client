@@ -72,10 +72,10 @@ public class Longjump extends Module {
 		                        speed = em.getMovementSpeed() * 2.2;
 		                        break;
 		                    case 4:
-		                    	speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.1 : 1.4;
+		                    	speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.2 : 1.42;
 		                        break;
 		                    default:
-		                        if (mc.thePlayer.motionY < 0.0D) em.setY(mc.thePlayer.motionY *= .62);  
+		                        if (mc.thePlayer.motionY < 0.0D) em.setY(mc.thePlayer.motionY *= .7);  
 		                        if (mc.thePlayer.fallDistance > 2.8 || stage > 14) {
 		    		            	Eris.instance.modules.getModuleByClass(Longjump.class).toggle(false);
 		                        }

@@ -78,10 +78,12 @@ public class Flight extends Module {
 		        			mc.timer.timerSpeed = 1;
 		        			if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
 		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42D));
+		        				mc.timer.timerSpeed = 3;
 		        			}
 		        			speed = 0.601;
 		        			break;
 		        		case 2:
+		        			mc.timer.timerSpeed = 1;
 		        			speed = 1.4;
 		        			break;
 		        		default:
@@ -112,7 +114,7 @@ public class Flight extends Module {
 				if (onGroundCheck) { 
 					mc.thePlayer.onGround = true;
 	        		if (timerAbuse.getValue() && counter >= 15 & damaged) {
-	                    if (!stopwatch.hasReached(timerDelay.getValue().longValue())) {
+	                    if (!stopwatch.hasReached(timerDelay.getValue().longValue() * 1000)) {
 	                        mc.timer.timerSpeed = timerSpeedAbuse.getValue().floatValue();
 	                    } else {
 	                        mc.timer.timerSpeed = 1F;
@@ -122,16 +124,17 @@ public class Flight extends Module {
 	                    stopwatch.reset();
 	                }
 	                if (!damaged && mc.thePlayer.hurtTime > 0) {
-	                    damaged = true;
+	                    damaged = true; 
 	                }
                     if (event.isPre()) {  
                         double xDif = mc.thePlayer.posX - mc.thePlayer.prevPosX;
                         double zDif = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
                         setLastDistance(Math.sqrt(xDif * xDif + zDif * zDif));
     	               
-                    	if (counter > 10) {
+                    	if (counter > 9) { 
                     		mc.thePlayer.motionY = 0;
                     		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0006 : 0));
+                    	} else if (damaged) { 
                     	}
                     }
 				} else if (mc.thePlayer.ticksExisted % 15 == 0){
@@ -225,9 +228,9 @@ public class Flight extends Module {
 	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C0APacketAnimation()); 
 	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem -= 1));
 	        	mc.timer.timerSpeed = 1.0f;
-	    		double value = mc.thePlayer.ticksExisted % 2 == 0 ? -.00002 : .0;
+	    		double value = mc.thePlayer.ticksExisted % 2 == 0 ? -.0006 : .0;
 	    		mc.thePlayer.setPositionAndUpdate(mc.thePlayer.posX, mc.thePlayer.posY + value, mc.thePlayer.posZ);
-    			mc.thePlayer.motionY = -.41995f;
+ 
 				if (blink.getValue()) {
 					flush();
 				}
