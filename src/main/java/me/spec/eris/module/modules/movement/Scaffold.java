@@ -157,7 +157,7 @@ public class Scaffold extends Module {
                 yaw = (yawMouseFilter.smooth(rotations[0] + MathUtils.getRandomInRange(-1f, 5f), speed));
                 pitch = (pitchMouseFilter.smooth(rotations[1] + MathUtils.getRandomInRange(-1.20f, 3.50f), speed));
                 event.setPitch(pitch);
-               // event.setYaw(yaw);
+                event.setYaw(yaw);
             } else {
                 int heldItem = mc.thePlayer.inventory.currentItem;
                 if (PlayerUtils.isHoldingSword() && blocking) {
