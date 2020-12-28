@@ -73,7 +73,7 @@ public class MainMenu extends GuiMainMenu
             GL11.glScalef(scale, scale, scale);
             this.drawString(this.fontRendererObj, EnumChatFormatting.DARK_RED + "Eris", this.width / 2 / (int) scale - (int) 12.0f, this.height / 2 / (int) scale - (int) 10.3f, 16777215);
             GL11.glScalef(1.0f / scale, 1.0f / scale, 1.0f / scale);
-            this.drawString(this.fontRendererObj, "Minecraft §c1.8", (int) 2.0f, (int)(this.height - 10), 16777215);
+            this.drawString(this.fontRendererObj, "Minecraft Â§c1.8", (int) 2.0f, (int)(this.height - 10), 16777215);
  
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
