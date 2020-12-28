@@ -37,6 +37,7 @@ public class MovementInputFromOptions extends MovementInput {
         if (sneak) {
         	double value = Eris.instance.modules.isEnabled(Scaffold.class) ? .8 : .3;
             moveStrafe = (float) ((double) moveStrafe * value);
+            moveForward = (float) ((double) moveForward * value);
         }
     }
 }
