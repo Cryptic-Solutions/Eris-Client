@@ -30,6 +30,12 @@ import net.minecraft.util.ResourceLocation;
 
 public class HUD extends Module {
 
+    private NumberValue<Integer> xPosition = new NumberValue<>("X-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the X-Axis");
+    private NumberValue<Integer> yPosition = new NumberValue<>("Y-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the Y-Axis");
+
+    private BooleanValue<Boolean> rainbow = new BooleanValue<>("Rainbow", true, this);
+    private NumberValue<Double> saturation = new NumberValue<>("Saturation", 1d, 0d, 1d, this, () -> rainbow.getValue(), "Rainbow Saturation");
+    private NumberValue<Double> brightness = new NumberValue<>("Brightness", 1d, 0d, 1d, this, () -> rainbow.getValue(), "Rainbow Brightness");
 
     public HUD() {
         super("HUD", Category.RENDER);
@@ -44,11 +50,13 @@ public class HUD extends Module {
         }
         return fontRender;
     }
+
     int yText = 3;
+
     @Override
     public void onEvent(Event e) {
         if (e instanceof EventRender2D) {
-            yText = 2;
+            yText = yPosition.getValue();
             ScaledResolution scaledResolution = new ScaledResolution(mc);
 
 			mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
@@ -61,13 +69,15 @@ public class HUD extends Module {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(1, 1f, 1);
 
-                y = 0;
+                y = yPosition.getValue();
 
                 modulesForRender.forEach(mod -> {
                     String name = mod.getFullModuleDisplayName();
 
-                    RenderUtilities.drawRectangle(scaledResolution.getScaledWidth() - (double) getFont().getStringWidth(name) - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, 145).getRGB());
-                    getFont().drawStringWithShadow(name, scaledResolution.getScaledWidth() - getFont().getStringWidth(name), y, getRainbow(6000, -15 * yText));
+                    double x = scaledResolution.getScaledWidth() - getFont().getStringWidth(name) - xPosition.getValue();
+
+                    RenderUtilities.drawRectangle(x - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, 145).getRGB());
+                    getFont().drawStringWithShadow(name, (float) x,  y, getRainbow(6000, -15 * yText));
                     y += getFont().getHeight(name) + 2;
                     yText += 12;
                 });
@@ -115,19 +125,19 @@ public class HUD extends Module {
         super.onEnable();
     }
 
-    public static Color fade(long offset, float fade) {
+    public Color fade(long offset, float fade) {
         float hue = (float) (System.nanoTime() + offset) / 1.0E10F % 1.0F;
-        long color = Long.parseLong(Integer.toHexString(Color.HSBtoRGB(hue, 1.0F, 1.0F)),
+        long color = Long.parseLong(Integer.toHexString(Color.HSBtoRGB(hue, 1.0f, 1.0F)),
                 16);
         Color c = new Color((int) color);
         return new Color(c.getRed() / 255.0F * fade, c.getGreen() / 255.0F * fade, c.getBlue() / 255.0F * fade,
                 c.getAlpha() / 155.0F);
     }
 
-    public static int getRainbow(int speed, int offset) {
+    public int getRainbow(int speed, int offset) {
         float hue = (float) ((System.currentTimeMillis() + offset / 2) % speed * 2);
         hue /= speed;
-        return Color.getHSBColor(hue, 1.0F, 1.0F).getRGB();
+        return Color.getHSBColor(hue, saturation.getValue().floatValue(), brightness.getValue().floatValue()).getRGB();
     }
 
 
