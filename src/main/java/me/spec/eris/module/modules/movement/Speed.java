@@ -29,7 +29,7 @@ public class Speed extends Module {
     public Speed() {
         super("Speed", Category.MOVEMENT);
         setModuleType(ModuleType.FLAGGABLE);
-        setModulePriority(ModulePriority.MODERATE);
+		setModulePriority(ModulePriority.MODERATE);
     }
 
     @Override
