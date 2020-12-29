@@ -88,14 +88,14 @@ public class Flight extends Module {
 		        		case 1:
 		        			mc.timer.timerSpeed = 1;
 		        			if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42D));
+		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42d));
 		        				mc.timer.timerSpeed = 3;
 		        			}
 		        			speed = 0.615;
 		        			break;
 		        		case 2:
 		        			mc.timer.timerSpeed = 1;
-		        			speed = 1.5;
+		        			speed = 1.4;
 		        			break;
 		        		default:
 		        			speed = getLastDistance() - getLastDistance() / 159;

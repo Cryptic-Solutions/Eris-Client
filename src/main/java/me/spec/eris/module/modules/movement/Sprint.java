@@ -14,7 +14,7 @@ public class Sprint extends Module {
     @Override
     public void onEvent(Event e) {
         if (e instanceof EventUpdate) {
-            mc.thePlayer.setSprinting(mc.thePlayer.isMoving());
+            mc.thePlayer.setSprinting(mc.thePlayer.isMoving() && !mc.thePlayer.isSneaking());
         }
     }
 

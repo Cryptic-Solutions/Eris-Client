@@ -11,7 +11,7 @@ public class AntiDesync extends Module {
     private int lastSlot;
 
     public AntiDesync() {
-        super("", Category.MISC);
+        super("AntiDesync", Category.MISC);
     }
 
     @Override
@@ -27,8 +27,10 @@ public class AntiDesync extends Module {
         if (e instanceof EventPacket) {
             EventPacket ep = (EventPacket) e;
 
-            C09PacketHeldItemChange packetHeldItemChange = (C09PacketHeldItemChange) ep.getPacket();
-            this.lastSlot = packetHeldItemChange.getSlotId();
+            if (ep.getPacket() instanceof C09PacketHeldItemChange) {
+                C09PacketHeldItemChange packetHeldItemChange = (C09PacketHeldItemChange) ep.getPacket();
+                this.lastSlot = packetHeldItemChange.getSlotId();
+            }
         }
     }
 }
