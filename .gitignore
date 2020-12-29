@@ -209,3 +209,14 @@ modules.xml
 hs_err_pid*
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,intellij+all,java,git
+
+workspace/assets/
+workspace/Eris/
+workspace/crash-reports/
+workspace/resourcepacks/
+workspace/saves/
+workspace/screenshots/
+workspace/shaderpacks/
+workspace/*.txt
+owrkspace/*.dat
+workspace/logs/

@@ -150,6 +150,7 @@ public class Killaura extends Module {
     @Override
     public void onEvent(Event e) {
         if (e instanceof EventUpdate) {
+            setMode(modeValue.getValue().name());
             EventUpdate eu = (EventUpdate) e;
             if (!PlayerUtils.isHoldingSword() && this.blocking) {
                 this.blocking = false;

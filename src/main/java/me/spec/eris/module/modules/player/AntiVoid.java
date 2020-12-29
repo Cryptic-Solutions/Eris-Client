@@ -35,20 +35,9 @@ public class AntiVoid extends Module {
             if (mc.thePlayer.onGround) {
             	lastGroundPosition = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
             }
-            if(!isBlockUnder()) {
-            	if(mc.thePlayer.fallDistance > 2.99f) {
-                	if (motion) {
-                        mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(lastGroundPosition.getX(), lastGroundPosition.getY() + 0.5, lastGroundPosition.getZ(), false));
-                		motion = false;
-                	} else { 
-                        mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(lastGroundPosition.getX(), lastGroundPosition.getY(), lastGroundPosition.getZ(), true));
-                        mc.thePlayer.fallDistance = 0;
-                	}
-                } else {
-                	motion = true;
-                }
-            } else {
-            	motion = true;
+
+            if (!isBlockUnder() && mc.thePlayer.fallDistance > 2.99f) {
+                ((EventUpdate) e).setY(((EventUpdate) e).getY() + 12);
             }
         }
     }

@@ -25,7 +25,7 @@ public class Disabler extends Module {
         	if (event.isReceiving()) {
         		switch (mode.getValue()) {
         			case WATCHDOG:
-	        		if (event.getPacket() instanceof S39PacketPlayerAbilities) event.setCancelled();
+//	        		if (event.getPacket() instanceof S39PacketPlayerAbilities) event.setCancelled();
 	        		
 	        		if (event.getPacket() instanceof S32PacketConfirmTransaction) {
 	        			S32PacketConfirmTransaction packet = (S32PacketConfirmTransaction) event.getPacket();

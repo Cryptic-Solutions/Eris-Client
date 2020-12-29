@@ -1,4 +1,4 @@
-ckage me.spec.eris.module.modules.render;
+package me.spec.eris.module.modules.render;
 
 import java.awt.Color;
 import java.nio.FloatBuffer;

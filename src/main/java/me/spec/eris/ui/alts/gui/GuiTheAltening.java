@@ -126,7 +126,7 @@ public class GuiTheAltening extends GuiScreen {
         this.token = new GuiTextField(var3, this.fontRendererObj, this.width / 2 - 98, 150, 195, 20);
         this.api.setFocused(true);
         Keyboard.enableRepeatEvents(true);
-        if (!Eris.instance.alteningAPI.equals("")) {
+        if (Eris.instance.alteningAPI != null && !Eris.instance.alteningAPI.equals("")) {
             api.setText(Eris.instance.alteningAPI);
         }
     }

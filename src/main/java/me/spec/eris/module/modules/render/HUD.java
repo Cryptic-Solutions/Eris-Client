@@ -50,27 +50,31 @@ public class HUD extends Module {
         if (e instanceof EventRender2D) {
             yText = 2;
             ScaledResolution scaledResolution = new ScaledResolution(mc);
-            Eris.getInstance();
+
 			mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
-			//
-            List<Module> mods = Eris.getInstance().modules.getModulesForRender();
 
-            mods.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
-            if (!mods.isEmpty()) {
+            List<Module> modulesForRender = Eris.getInstance().modules.getModulesForRender();
 
+            modulesForRender.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
+
+            if (!modulesForRender.isEmpty()) {
                 GlStateManager.pushMatrix();
-                GlStateManager.scale(1,1.05f,1);
+                GlStateManager.scale(1, 1f, 1);
+
                 y = 0;
-                mods.forEach(mod -> {
+
+                modulesForRender.forEach(mod -> {
                     String name = mod.getFullModuleDisplayName();
 
-                    RenderUtilities.drawRectangle(scaledResolution.getScaledWidth() - (double)getFont().getStringWidth(name), y, (double)getFont().getStringWidth(name) + .35, (double)getFont().getHeight(name), new Color(0,0,0,145).getRGB());
+                    RenderUtilities.drawRectangle(scaledResolution.getScaledWidth() - (double) getFont().getStringWidth(name) - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, 145).getRGB());
                     getFont().drawStringWithShadow(name, scaledResolution.getScaledWidth() - getFont().getStringWidth(name), y, getRainbow(6000, -15 * yText));
-                    y += getFont().getHeight(name);
+                    y += getFont().getHeight(name) + 2;
                     yText += 12;
                 });
+
                 GlStateManager.popMatrix();
             }
+
             renderPotions();
         }
     }
@@ -85,8 +89,7 @@ public class HUD extends Module {
         Collection<?> var4 = Module.mc.thePlayer.getActivePotionEffects();
         int i = 0;
         if (!var4.isEmpty()) {
-            for (Iterator<?> var6 = Module.mc.thePlayer.getActivePotionEffects().iterator(); var6.hasNext(); ) {
-                PotionEffect var7 = (PotionEffect) var6.next();
+            for (PotionEffect var7 : Module.mc.thePlayer.getActivePotionEffects()) {
                 Potion var8 = Potion.potionTypes[var7.getPotionID()];
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 mc.getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/inventory.png"));
@@ -94,8 +97,7 @@ public class HUD extends Module {
                     int var9 = var8.getStatusIconIndex();
                     Gui theGui = new Gui();
                     theGui.drawTexturedModalRect((int) x, (int) y - (18 * i), var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
-                    Eris.getInstance();
-					getFont().drawStringWithShadow("" + (var7.getDuration() <= 300 ? ChatFormatting.RED : ChatFormatting.WHITE) + Potion.getDurationString(var7), (int) x - Eris.getFontRenderer().getStringWidth("" + Potion.getDurationString(var7)) - 5, (int) y - (18 * i) + 6, -1);
+                    getFont().drawStringWithShadow("" + (var7.getDuration() <= 300 ? ChatFormatting.RED : ChatFormatting.WHITE) + Potion.getDurationString(var7), (int) x - Eris.getFontRenderer().getStringWidth("" + Potion.getDurationString(var7)) - 5, (int) y - (18 * i) + 6, -1);
                     i++;
                 }
             }
@@ -115,7 +117,7 @@ public class HUD extends Module {
 
     public static Color fade(long offset, float fade) {
         float hue = (float) (System.nanoTime() + offset) / 1.0E10F % 1.0F;
-        long color = Long.parseLong(Integer.toHexString(Integer.valueOf(Color.HSBtoRGB(hue, 1.0F, 1.0F)).intValue()),
+        long color = Long.parseLong(Integer.toHexString(Color.HSBtoRGB(hue, 1.0F, 1.0F)),
                 16);
         Color c = new Color((int) color);
         return new Color(c.getRed() / 255.0F * fade, c.getGreen() / 255.0F * fade, c.getBlue() / 255.0F * fade,
@@ -123,7 +125,7 @@ public class HUD extends Module {
     }
 
     public static int getRainbow(int speed, int offset) {
-        float hue = (float) ((System.currentTimeMillis() * 1 + offset / 2) % speed * 2);
+        float hue = (float) ((System.currentTimeMillis() + offset / 2) % speed * 2);
         hue /= speed;
         return Color.getHSBColor(hue, 1.0F, 1.0F).getRGB();
     }
