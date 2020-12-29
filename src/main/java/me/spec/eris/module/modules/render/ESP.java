@@ -6,11 +6,6 @@ import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityLockable;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -18,7 +13,6 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import me.spec.eris.Eris;
 import me.spec.eris.event.Event;
 import me.spec.eris.event.render.EventRender3D;
 import me.spec.eris.event.render.EventRenderSR;
@@ -31,8 +25,13 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
