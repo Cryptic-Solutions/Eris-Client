@@ -79,7 +79,9 @@ public class HUD extends Module {
                     double x = scaledResolution.getScaledWidth() - getFont().getStringWidth(name) - xPosition.getValue();
 
                     RenderUtilities.drawRectangle(x - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, 145).getRGB());
-                    getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));
+                    if(rainbow.getValue()){
+                        getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));
+                    } else getFont().drawStringWithShadow(name, (float) x, y, new Color(255, 0, 0).getRGB());
                     y += getFont().getHeight(name) + 2;
                     yText += 12;
                 });
