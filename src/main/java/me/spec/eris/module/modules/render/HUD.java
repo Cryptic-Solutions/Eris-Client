@@ -34,6 +34,8 @@ public class HUD extends Module {
     private NumberValue<Integer> yPosition = new NumberValue<>("Y-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the Y-Axis");
 
     private BooleanValue<Boolean> rainbow = new BooleanValue<>("Rainbow", true, this);
+    private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> rainbow.getValue(), "Rainbow Speed");
+    private NumberValue<Double> rainOffset = new NumberValue<>("Offset", 2d, 1d, 6d, this, () -> rainbow.getValue(), "Rainbow Offset");
     private NumberValue<Double> saturation = new NumberValue<>("Saturation", 1d, 0d, 1d, this, () -> rainbow.getValue(), "Rainbow Saturation");
     private NumberValue<Double> brightness = new NumberValue<>("Brightness", 1d, 0d, 1d, this, () -> rainbow.getValue(), "Rainbow Brightness");
 
@@ -59,7 +61,7 @@ public class HUD extends Module {
             yText = yPosition.getValue();
             ScaledResolution scaledResolution = new ScaledResolution(mc);
 
-			mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
+            mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
 
             List<Module> modulesForRender = Eris.getInstance().modules.getModulesForRender();
 
@@ -77,7 +79,7 @@ public class HUD extends Module {
                     double x = scaledResolution.getScaledWidth() - getFont().getStringWidth(name) - xPosition.getValue();
 
                     RenderUtilities.drawRectangle(x - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, 145).getRGB());
-                    getFont().drawStringWithShadow(name, (float) x,  y, getRainbow(6000, -15 * yText));
+                    getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));
                     y += getFont().getHeight(name) + 2;
                     yText += 12;
                 });
@@ -135,7 +137,7 @@ public class HUD extends Module {
     }
 
     public int getRainbow(int speed, int offset) {
-        float hue = (float) ((System.currentTimeMillis() + offset / 2) % speed * 2);
+        float hue = (float) ((System.currentTimeMillis() * rainSpeed.getValue() + offset / rainOffset.getValue()) % speed * 2);
         hue /= speed;
         return Color.getHSBColor(hue, saturation.getValue().floatValue(), brightness.getValue().floatValue()).getRGB();
     }
