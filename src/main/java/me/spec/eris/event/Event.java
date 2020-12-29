@@ -1,6 +1,7 @@
 package me.spec.eris.event;
 
 import me.spec.eris.Eris;
+import me.spec.eris.event.chat.ChatMessageEvent;
 import me.spec.eris.module.Module;
 import net.minecraft.client.Minecraft;
 
@@ -18,6 +19,10 @@ public class Event {
 
     public void call() {
         if (Eris.getInstance() == null) return;
+
+        if(this instanceof ChatMessageEvent) {
+            Eris.getInstance().commandManager.onEvent(this);
+        }
 
         if (antiCrash.isToggled()) {
             for (Module m : Eris.instance.modules.getModules()) {

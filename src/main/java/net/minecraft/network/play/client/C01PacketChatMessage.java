@@ -2,6 +2,7 @@ package net.minecraft.network.play.client;
 
 import java.io.IOException;
 
+import me.spec.eris.event.chat.ChatMessageEvent;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;

@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import me.spec.eris.event.chat.ChatMessageEvent;
 import me.spec.eris.event.client.EventPacket;
 import me.spec.eris.event.player.EventBlockPush;
 import me.spec.eris.event.player.EventMove;
@@ -297,6 +298,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
      * @param message used on EntityPlayerSP.sendChatMessage - as inbound message
      */
     public void sendChatMessage(String message) {
+        ChatMessageEvent chatMessageEvent = new ChatMessageEvent(message);
+        chatMessageEvent.call();
+        if (chatMessageEvent.isCancelled()) return;
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
     }
 
