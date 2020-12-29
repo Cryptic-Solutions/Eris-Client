@@ -19,18 +19,39 @@ public class Speed extends Module {
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);
 
     private enum Mode {WATCHDOG}
+	private int hops, waitTicks, stage;
+	private boolean reset;
+	private double speed;
 
-    private double speed;
-    private boolean reset;
-    private int stage;
-	int waitTicks;
-	private int hops;
-
-    public Speed() {
+	public Speed() {
         super("Speed", Category.MOVEMENT);
         setModuleType(ModuleType.FLAGGABLE);
 		setModulePriority(ModulePriority.MODERATE);
     }
+
+
+
+	@Override
+	public void onEnable() {
+		Criticals criticals = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));
+		criticals.accumulatedFall = 0;
+		if (criticals.airTime > 0) {
+			sendPosition(0,0,0,true,false);
+			criticals.airTime = 0;
+			criticals.waitTicks = 3;
+		}
+
+		hops = 0;
+		setLastDistance(0.0);
+		stage = 0;
+		super.onEnable();
+	}
+
+	@Override
+	public void onDisable() {
+		mc.timer.timerSpeed = 1.0f;
+		super.onDisable();
+	}
 
     @Override
     public void onEvent(Event e) {
@@ -128,26 +149,4 @@ public class Speed extends Module {
 			}
 		}
 	}
-
-    @Override
-    public void onEnable() {
-		Criticals criticals = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));
-		criticals.accumulatedFall = 0;
-		if (criticals.airTime > 0) {
-			sendPosition(0,0,0,true,false);
-			criticals.airTime = 0;
-			criticals.waitTicks = 3;
-		}
-
-    	hops = 0;
-        setLastDistance(0.0);
-        stage = 0;
-        super.onEnable();
-    }
-
-    @Override
-    public void onDisable() {
-      	 mc.timer.timerSpeed = 1.0f;
-        super.onDisable();
-    }
 }
