@@ -106,7 +106,7 @@ public class GuiTheAltening extends GuiScreen {
         this.api.drawTextBox();
         this.token.drawTextBox();
         mc.fontRendererObj.drawCenteredString("Alt Login", this.width / 2, 20, -1);
-        mc.fontRendererObj.drawCenteredString((this.thread == null) ? "�eWaiting..." : this.thread.getStatus(), this.width / 2, 29, -1);
+        mc.fontRendererObj.drawCenteredString((this.thread == null) ? "§eWaiting..." : this.thread.getStatus(), this.width / 2, 29, -1);
         if (this.api.getText().isEmpty()) {
             mc.fontRendererObj.drawStringWithShadow("API", (float) (this.width / 2 - 94), 106.0f, -7829368);
         }

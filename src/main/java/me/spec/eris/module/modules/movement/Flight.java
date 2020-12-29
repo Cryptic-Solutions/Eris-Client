@@ -95,7 +95,7 @@ public class Flight extends Module {
 		        			break;
 		        		case 2:
 		        			mc.timer.timerSpeed = 1;
-		        			speed = 1.4;
+		        			speed = 1.5;
 		        			break;
 		        		default:
 		        			speed = getLastDistance() - getLastDistance() / 159;

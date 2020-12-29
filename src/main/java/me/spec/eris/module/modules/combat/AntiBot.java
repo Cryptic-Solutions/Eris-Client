@@ -74,6 +74,7 @@ public class AntiBot extends Module {
 
         if (e instanceof EventUpdate) {
             EventUpdate event = (EventUpdate) e;
+
             setMode(mode.getValue().toString());
             for (Entity entity : mc.theWorld.loadedEntityList) {
                 if ((entity instanceof EntityPlayer)) {
@@ -85,11 +86,15 @@ public class AntiBot extends Module {
                         }
                     }
                     if (mode.getValue().equals(Mode.WATCHDOG)) {
-                        if (player.getName().startsWith("�c") && !isInTablist(player) && player.isInvisible()) {
+                        if ((entity.getName().contains("\247")
+                                || entity.getDisplayName().getFormattedText().startsWith("ยง")
+                                || entity.getDisplayName().getFormattedText().toLowerCase().contains("npc"))) {
                             if (!bots.contains(player)) {
                                 bots.add(player);
                             }
                         }
+//                        if (player.getName().startsWith("§c") && !isInTablist(player) && player.isInvisible()) {
+//                        }
                         if (player.isInvisible() && !bots.contains(player)) {
                             float xDist = (float) (mc.thePlayer.posX - player.posX);
                             float zDist = (float) (mc.thePlayer.posZ - player.posZ);
@@ -103,7 +108,11 @@ public class AntiBot extends Module {
                                 }
                             }
                         }
-                        if (bots.contains(player) && player.hurtTime > 0 || player.fallDistance > 0) {
+                        if (bots.contains(player) && player.ticksExisted % 20 == 0) {
+                            bots.remove(player);
+                        }
+
+                        if (bots.contains(player) && (player.hurtTime > 0 || player.fallDistance > 0)) {
                             bots.remove(player);
                         }
                     } else if (mode.getValue().equals(Mode.GWEN)) {
