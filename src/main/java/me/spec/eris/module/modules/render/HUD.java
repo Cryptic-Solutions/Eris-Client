@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import me.spec.eris.module.values.valuetypes.BooleanValue;
+import me.spec.eris.module.values.valuetypes.ModeValue;
 import me.spec.eris.module.values.valuetypes.NumberValue;
 import org.lwjgl.opengl.GL11;
 
@@ -29,15 +30,23 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class HUD extends Module {
-
     private NumberValue<Integer> xPosition = new NumberValue<>("X-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the X-Axis");
     private NumberValue<Integer> yPosition = new NumberValue<>("Y-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the Y-Axis");
 
-    private BooleanValue<Boolean> rainbow = new BooleanValue<>("Rainbow", true, this);
-    private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> rainbow.getValue(), "Rainbow Speed");
-    private NumberValue<Double> rainOffset = new NumberValue<>("Offset", 2d, 1d, 6d, this, () -> rainbow.getValue(), "Rainbow Offset");
-    private NumberValue<Double> saturation = new NumberValue<>("Saturation", 1d, 0d, 1d, this, () -> rainbow.getValue(), "Rainbow Saturation");
-    private NumberValue<Double> brightness = new NumberValue<>("Brightness", 1d, 0d, 1d, this, () -> rainbow.getValue(), "Rainbow Brightness");
+    private ModeValue<ColorMode> colorMode = new ModeValue<>("Color", ColorMode.STATIC, this);
+
+    private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Speed");
+    private NumberValue<Double> rainOffset = new NumberValue<>("Offset", 2d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Offset");
+    private NumberValue<Double> saturation = new NumberValue<>("Saturation", 1d, 0d, 1d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Saturation");
+    private NumberValue<Double> brightness = new NumberValue<>("Brightness", 1d, 0d, 1d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Brightness");
+
+    private NumberValue<Integer> red = new NumberValue<>("Red", 255, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "RED for Static ArrayList Color");
+    private NumberValue<Integer> green = new NumberValue<>("Green", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "GREEN for Static ArrayList Color");
+    private NumberValue<Integer> blue = new NumberValue<>("Blue", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "BLUE for Static ArrayList Color");
+
+    public enum ColorMode {
+        STATIC, RAINBOW
+    }
 
     public HUD() {
         super("HUD", Category.RENDER);
@@ -50,6 +59,7 @@ public class HUD extends Module {
         if (fontRender == null) {
             fontRender = Eris.instance.fontManager.getFont("SFUI 18");
         }
+
         return fontRender;
     }
 
@@ -79,9 +89,19 @@ public class HUD extends Module {
                     double x = scaledResolution.getScaledWidth() - getFont().getStringWidth(name) - xPosition.getValue();
 
                     RenderUtilities.drawRectangle(x - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, 145).getRGB());
-                    if(rainbow.getValue()){
-                        getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));
-                    } else getFont().drawStringWithShadow(name, (float) x, y, new Color(255, 0, 0).getRGB());
+
+                    switch (colorMode.getValue()) {
+                        case RAINBOW: {
+                            getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));
+                            break;
+                        }
+
+                        case STATIC: {
+                            getFont().drawStringWithShadow(name, (float) x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                            break;
+                        }
+                    }
+
                     y += getFont().getHeight(name) + 2;
                     yText += 12;
                 });
@@ -92,7 +112,6 @@ public class HUD extends Module {
             renderPotions();
         }
     }
-
 
     public void renderPotions() {
         ScaledResolution scaledResolution = new ScaledResolution(mc);

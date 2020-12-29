@@ -8,6 +8,7 @@ import me.spec.eris.module.modules.client.AntiCrash;
 import me.spec.eris.module.modules.client.ClickGUI;
 import me.spec.eris.module.modules.client.Disabler;
 import me.spec.eris.module.modules.combat.*;
+import me.spec.eris.module.modules.misc.AntiDesync;
 import me.spec.eris.module.modules.movement.*;
 import me.spec.eris.module.modules.persistance.FlagDetection;
 import me.spec.eris.module.modules.player.AntiVoid;
@@ -25,10 +26,11 @@ public class ModuleManager {
     private ArrayList<Module> modules = new ArrayList<Module>();
 
     public ModuleManager() {
-        // Client
-        modules.add(new ClickGUI());
-        modules.add(new AntiCrash());
-        modules.add(new Disabler());
+        // Combat
+        modules.add(new AntiBot());
+        modules.add(new Killaura());
+        modules.add(new Velocity());
+        modules.add(new Criticals());
 
         // Movement
         modules.add(new Step());
@@ -39,23 +41,28 @@ public class ModuleManager {
         modules.add(new Scaffold());
         modules.add(new Longjump());
         modules.add(new NoSlowDown());
-        // Combat
-        modules.add(new AntiBot());
-        modules.add(new Killaura());
-        modules.add(new Velocity());
-        modules.add(new Criticals());
-        //Misc bullshit
+
+        // Misc
+        modules.add(new Disabler());
+        modules.add(new ChestSteal());
+        modules.add(new InventoryManager());
+        modules.add(new AntiDesync());
+
+        // Player
         modules.add(new Phase());
         modules.add(new NoFall());
         modules.add(new AntiVoid());
         modules.add(new NoRotate());
-        modules.add(new ChestSteal());
-        modules.add(new InventoryManager());
+
         //Visual
         modules.add(new HUD());
         modules.add(new ESP());
-        //Persist
 
+        // Client
+        modules.add(new ClickGUI());
+        modules.add(new AntiCrash());
+
+        //Persist
         modules.add(new FlagDetection());
         modules.add(new Heartbeat());
     }

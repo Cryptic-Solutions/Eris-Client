@@ -12,7 +12,7 @@ import net.minecraft.network.play.server.S39PacketPlayerAbilities;
 public class Disabler extends Module {
 
     public Disabler() {
-        super("Disabler", Category.CLIENT);
+        super("Disabler", Category.MISC);
     }
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);
     private enum Mode {WATCHDOG}
