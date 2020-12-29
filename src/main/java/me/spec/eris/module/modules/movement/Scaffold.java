@@ -118,8 +118,8 @@ public class Scaffold extends Module {
         }
         if (e instanceof EventUpdate) {
         	if (abuseTimer) {
-	        	if (!timerCap.hasReached(500)) {
-	        		if (!abusedTimer && timerSpeedAbuse.getValue()) mc.timer.timerSpeed = 1.7f;
+	        	if (!timerCap.hasReached(500)) { 
+	        		if (!abusedTimer && timerSpeedAbuse.getValue() && !Eris.instance.modules.isEnabled(Speed.class))  mc.timer.timerSpeed = 1.7f;
 	        	} else {
 	        		mc.timer.timerSpeed = 1.0f;
 	        		abusedTimer = true;

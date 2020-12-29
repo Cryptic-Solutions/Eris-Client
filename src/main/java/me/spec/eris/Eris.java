@@ -2,6 +2,9 @@ package me.spec.eris;
 
 import java.awt.Color;
 
+import me.spec.eris.event.Event;
+import me.spec.eris.event.chat.ChatMessageEvent;
+import me.spec.eris.manager.impl.CommandManager;
 import org.lwjgl.opengl.Display;
 
 import libraries.thealtening.service.ServiceSwitcher;
@@ -37,6 +40,7 @@ public class Eris {
 	public FileManager fileManager;
 	public NotificationManager notifications;
 	public FontManager fontManager;
+	public CommandManager commandManager;
 	public ClickGui clickUI;
 	public ConfigManager configManager;
 	public ServiceSwitcher serviceSwitcher;
@@ -49,6 +53,7 @@ public class Eris {
 		this.notifications = new NotificationManager();
 		this.modules = new ModuleManager();
 		this.fileManager = new FileManager();
+		this.commandManager = new CommandManager();
 		this.configManager = new ConfigManager();
 		this.clickUI = new ClickGui();
 
@@ -125,6 +130,14 @@ public class Eris {
 			fontRender = Eris.instance.fontManager.getFont("SFUI 18");
 		}
 		return fontRender;
+	}
+
+	public void onEvent(Event e) {
+		if(e instanceof ChatMessageEvent) {
+			ChatMessageEvent event = (ChatMessageEvent) e;
+
+			System.out.println("omegalul");
+		}
 	}
 
 }
