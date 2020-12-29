@@ -71,17 +71,15 @@ public class Speed extends Module {
 			switch (mode.getValue()) {
 				case WATCHDOG: {
 					Step step = ((Step) Eris.instance.modules.getModuleByClass(Step.class));
-					if (Eris.instance.modules.isEnabled(Scaffold.class) || Eris.instance.modules.isEnabled(Flight.class) || step.cancelMorePackets)
+					if (Eris.instance.modules.isEnabled(Scaffold.class) || Eris.instance.modules.isEnabled(Flight.class) || step.cancelMorePackets) {
 						hops = -1;
-					if (Eris.instance.modules.isEnabled(Flight.class) || step.cancelMorePackets) return;
-<<<<<<< Updated upstream
+						return;
+					}
+
 					if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS)) {
 						if (!mc.thePlayer.onGround) {
-							if (Eris.getInstance().modules.getModuleByClass(Killaura.class).isToggled() && Killaura.target != null) {
-								mc.timer.timerSpeed = 1.15f;
-							} else {
-								mc.timer.timerSpeed = 1.00f;
-							}
+							boolean timer = Eris.getInstance().modules.getModuleByClass(Killaura.class).isToggled() && Killaura.target != null;
+							mc.timer.timerSpeed = timer ? 1.15f : 1.0f;
 						}
 					}
 
@@ -91,80 +89,38 @@ public class Speed extends Module {
 						stage = 0;
 						return;
 					}
-
-					boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
-
 					if (reset) stage = 0;
-
 					switch (stage) {
-						case 0: {
+						case 0:
+							if (reset) {
+								if (stage < 1 && stage > 0) {
+									stage = -1;
+								} else {
+									stage = 0;
+								}
+							}
 							setLastDistance(0.0);
 							if (mc.thePlayer.onGround) {
-								mc.timer.timerSpeed = 1.2f;
-
-//								mc.thePlayer.triggerAchievement(StatList.jumpStat);
+								if (!Eris.instance.modules.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.2f;
+								mc.thePlayer.isAirBorne = true;
+								mc.thePlayer.triggerAchievement(StatList.jumpStat);
 								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.4 + 1.0e-4));
-//								mc.thePlayer.isAirBorne = true;
 
 								speed = em.getMovementSpeed() * (Eris.instance.modules.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.4 : hops % 3 != 0 ? 2.16 : 2.1499);
 								hops++;
 							}
 							setLastDistance(0.0);
-							break;
-						}
-
-						case 1: {
+						break;
+						case 1:
 							speed = getLastDistance() - (hops % 3 != 0 && hops > 0 && !Eris.instance.modules.isEnabled(Scaffold.class) ? .658 : .66) * (getLastDistance() - em.getMovementSpeed());
-							break;
-						}
-						default: {
-							if ((stage == 2 || stage == 4) && mc.timer.timerSpeed > 1.0f)
-								mc.timer.timerSpeed -= .1f;
-=======
-					 if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS)) {
-			                if (!mc.thePlayer.onGround) {
-			                    if (Eris.getInstance().modules.getModuleByClass(Killaura.class).isToggled() && Killaura.target != null) {
-			                        mc.timer.timerSpeed = 1.15f;
-			                    } else {
-			                        mc.timer.timerSpeed = 1.00f;
-			                    }
-			                }
-			            }
-					 	
-			            if (waitTicks > 0 && mc.thePlayer.onGround) waitTicks--; 
-			            if (waitTicks > 0 || !mc.thePlayer.isMoving() || mc.thePlayer.fallDistance > 2.25) {
-			                setLastDistance(0.0);
-			                stage = 0;
-			                return;
-			            } 
-			    		boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
-						if (stage == 0 || reset) {
-			            	if (stage < 1 && stage > 0) {
-			            		stage = -1;
-			            	} else {
-				                stage = 0;
-			            	}
-			                setLastDistance(0.0);
-							if (mc.thePlayer.onGround) { 
-								if (!Eris.instance.modules.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.2f;
-			                	em.setY(mc.thePlayer.motionY = (float)em.getMotionY(.4 + 1.0e-4));
-				            	speed = em.getMovementSpeed() * (Eris.instance.modules.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.4 : hops % 3 != 0 ? 2.16 : 2.1499);
-				            	hops++;
-							}
-			                setLastDistance(0.0);
-							stage = 0;
-						} else if (stage == 1) {  
-			            	speed = getLastDistance() - (hops % 3 != 0 && hops > 0 && !Eris.instance.modules.isEnabled(Scaffold.class) ? .658 : .66) * (getLastDistance() - em.getMovementSpeed());
-						} else {
+						break;
+						default:
+							if ((stage == 2 || stage == 4) && mc.timer.timerSpeed > 1.0f) mc.timer.timerSpeed -= .1f;
 							if (!Eris.instance.modules.isEnabled(Scaffold.class)) {
 								if ((stage == 2 || stage == 4) && mc.timer.timerSpeed > 1.0f) mc.timer.timerSpeed -= .1f;
 							}
->>>>>>> Stashed changes
 							speed = getLastDistance() - getLastDistance() / 159;
-							break;
-						}
 					}
-
 					em.setMoveSpeed(waitTicks > 0 ? .2 : speed);
 					stage++;
 					break;
@@ -176,7 +132,6 @@ public class Speed extends Module {
     @Override
     public void onEnable() {
 		Criticals criticals = ((Criticals)Eris.getInstance().modules.getModuleByClass(Criticals.class));
-
 		criticals.accumulatedFall = 0;
 		if (criticals.airTime > 0) {
 			sendPosition(0,0,0,true,false);
