@@ -52,8 +52,8 @@ public class Checkbox extends Component {
             float renderPosX = (this.x + ClickGui.getFont().getStringWidth(name) * 1.45f);
             float renderPosY = (y + (ClickGui.getFont().getHeight(set.getDescription()) / 2) + 0.5F) * .99f;
         //    RenderUtilities.drawRectangle(renderPosX, renderPosY, (double)ClickGui.getFont().getStringWidth(set.getDescription()) + .35, (double)ClickGui.getFont().getHeight(name), new Color(0,0,0).getRGB());
-           RenderUtilities.drawRoundedRect(renderPosX - 1, renderPosY - 1, (renderPosX + 1) + ClickGui.getFont().getStringWidth(set.getDescription()), (renderPosY + 1) + ClickGui.getFont().getHeight(set.getDescription()), new Color(255,0,0, 100).getRGB(), new Color(0,0,0, 180).getRGB());
-            ClickGui.getFont().drawString(set.getDescription(), (this.x + ClickGui.getFont().getStringWidth(name) * 1.45f), (y + (ClickGui.getFont().getHeight(name) / 2) + 0.5F) * .99f, ClickGui.getPrimaryColor().getRGB());
+           RenderUtilities.drawRoundedRect(renderPosX - 1, renderPosY - 1, (renderPosX + 1) + ClickGui.getFont().getStringWidth(set.getDescription()), (renderPosY + 1) + ClickGui.getFont().getHeight(set.getDescription()), new Color(0, 0, 0, 181).getRGB(), new Color(0,0,0, 180).getRGB());
+            ClickGui.getFont().drawString(set.getDescription(), (this.x + ClickGui.getFont().getStringWidth(name) * 1.45f), (y + (ClickGui.getFont().getHeight(name) / 2) + 0.5F) * .99f, new Color(175, 175, 175).getRGB());
         } else {
             ClickGui.toolTip = "no information to display";
         }

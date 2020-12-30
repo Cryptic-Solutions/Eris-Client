@@ -29,7 +29,7 @@ public class ModeButton extends Component {
         this.y = y;
 
         Gui.drawRect(this.x, this.y, this.x + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
-        String name = this.set.getValueName() + ": " + EnumChatFormatting.GRAY + String.valueOf(set.getValue()).substring(0, 1).substring(0, 1).toUpperCase() + String.valueOf(set.getValue()).substring(1).toLowerCase();
+        String name = this.set.getValueName() + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.GRAY + String.valueOf(set.getValue()).substring(0, 1).substring(0, 1).toUpperCase() + String.valueOf(set.getValue()).substring(1).toLowerCase();
         ClickGui.getFont().drawString(name, (this.x + 2), (y + (ClickGui.getFont().getHeight(name) / 2) - 1), ClickGui.getPrimaryColor().getRGB());
         return this.height;
     }

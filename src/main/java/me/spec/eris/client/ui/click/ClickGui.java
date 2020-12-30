@@ -93,7 +93,7 @@ public class ClickGui extends GuiScreen {
     }
 
     public static Color getSecondaryColor(boolean setting) {
-        return setting ? new Color(0, 0, 0, 200) : new Color(25, 25, 25, 200);
+        return setting ? new Color(0, 0, 0, 160) : new Color(25, 25, 25, 200);
     }
 
     private static TTFFontRenderer fontRender;

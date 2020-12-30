@@ -56,10 +56,10 @@ public class Panel {
         }
         GL11.glPushMatrix();
         Gui.drawRect(x - 1, y, x + width + 1, y + height, ClickGui.getPrimaryColor().getRGB());
-        ClickGui.getFont().drawString(moduleCategory.getName(), x + 5, y + (height / 2) - (ClickGui.getFont().getHeight(moduleCategory.getName()) / 2), -1);
+        ClickGui.getFont().drawString(moduleCategory.getName(), x + 1, y + (height / 2) - (ClickGui.getFont().getHeight(moduleCategory.getName()) / 2), -1);
         GL11.glPopMatrix();
         width = 115;
-        height = 20;
+        height = 15;
         int offset = height;
         buttons.sort((a, b) -> Double.compare(b.lastInteract, a.lastInteract));
         if (open) {

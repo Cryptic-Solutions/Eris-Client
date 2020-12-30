@@ -7,6 +7,7 @@ import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.client.ui.click.ClickGui;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.EnumChatFormatting;
 
 public class Slider extends Component {
 
@@ -68,7 +69,7 @@ public class Slider extends Component {
         }
         float distance = (float) ((val - min) / (max - min));
         Gui.drawRect(this.x, this.y, this.x + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
-        String name = this.set.getValueName() + ": " + new DecimalFormat("#.##").format(this.set.getValue());
+        String name = this.set.getValueName() + EnumChatFormatting.GRAY + ": " + new DecimalFormat("#.##").format(this.set.getValue());
         Gui.drawRect(this.x, this.y + ClickGui.getFont().getHeight(name) + 6, (int) (this.x + (this.parent.getWidth() * distance)), this.y + this.height - 3, ClickGui.getPrimaryColor().getRGB());
         Gui.drawRect((int) (this.x + (this.parent.getWidth() * distance)), this.y + ClickGui.getFont().getHeight(name) + 6, (int) (this.x + (this.parent.getWidth() * distance)) + 5 > parent.getWidth() ? (int) (this.x + (this.parent.getWidth() * distance)) : (int) (this.x + (this.parent.getWidth() * distance)) + 5, this.y + this.height - 3, new Color(255, 255, 255).getRGB());
         GlStateManager.pushMatrix();

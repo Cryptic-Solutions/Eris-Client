@@ -30,7 +30,7 @@ public class Mode extends SetComp {
 
         Gui.drawRect(this.x, this.y, this.x + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
         String name = this.set.getValueName() + EnumChatFormatting.GRAY + ": " + this.set.getValue();
-        ClickGui.getFont().drawString(name, (this.x + 2), (y + (ClickGui.getFont().getHeight(name) / 2) - 1), ClickGui.getPrimaryColor().getRGB());
+        ClickGui.getFont().drawString(name, (this.x + 2), (y + (ClickGui.getFont().getHeight(name) / 2) - 1), -1);
         return this.height;
     }
 

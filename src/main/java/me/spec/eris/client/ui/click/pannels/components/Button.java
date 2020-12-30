@@ -105,7 +105,7 @@ public class Button {
 
         Gui.drawRect(x, y, x + width, y + height, new Color(lastRed, lastGreen, lastBlue, (float) ClickGui.getSecondaryColor(false).getAlpha() / 255F).getRGB());
         ;
-        ClickGui.getFont().drawString(this.mod.getDynamicName() + getKey(), this.x + 5, this.y + (this.height / 2) - (ClickGui.getFont().getHeight(this.mod.getName() + ": " + getKey()) / 2), this.mod.isToggled() ? ClickGui.getPrimaryColor().getRGB() : new Color(175, 175, 175).getRGB());
+        ClickGui.getFont().drawString(this.mod.getDynamicName() + getKey(), this.x + 1, this.y + (this.height / 2) - (ClickGui.getFont().getHeight(this.mod.getName() + ": " + getKey()) / 2), this.mod.isToggled() ? ClickGui.getPrimaryColor().getRGB() : new Color(175, 175, 175).getRGB());
         int addVal = 0;
         if (!settings.isEmpty()) {
             GL11.glPushMatrix();
