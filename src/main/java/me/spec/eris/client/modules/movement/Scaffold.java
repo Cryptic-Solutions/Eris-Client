@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.spec.eris.api.module.ModuleCategory;
+import me.spec.eris.client.events.player.EventJump;
+import me.spec.eris.client.events.player.EventStep;
+import me.spec.eris.client.modules.combat.Killaura;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import org.lwjgl.opengl.Display;
 
 import me.spec.eris.Eris;
@@ -47,6 +51,7 @@ import net.minecraft.util.Vec3;
 
 public class Scaffold extends Module {
 
+
     public Scaffold() {
         super("Scaffold", ModuleCategory.MOVEMENT);
         setModuleType(ModuleType.FLAGGABLE);
@@ -64,7 +69,8 @@ public class Scaffold extends Module {
     private final MouseFilter pitchMouseFilter = new MouseFilter();
     private final MouseFilter yawMouseFilter = new MouseFilter();
 
-    private boolean blocking, abusedTimer, abuseTimer;
+    private int flags;
+    public boolean blocking, motionBoost, abusedTimer, abuseTimer;
     private BlockData lastBlockData;
     private List<Block> invalid;
     
@@ -72,19 +78,18 @@ public class Scaffold extends Module {
     public void onDisable() {
     	abusedTimer = false;
     	mc.timer.timerSpeed = 1.0f;
+        Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
+        aura.fuckCheckVLs = true;
         super.onDisable();
     }
 
     @Override
     public void onEnable() {
     	timerCap.reset();
-    	abusedTimer = false;
-    	if (!Eris.instance.moduleManager.isEnabled(Speed.class)) {
-    		abuseTimer = !abuseTimer;
-    	}
+    	flags = 0;
+    	abuseTimer = !Eris.instance.moduleManager.isEnabled(Speed.class);
+    	motionBoost = !Eris.instance.moduleManager.isEnabled(Speed.class);
     	mc.timer.timerSpeed = 1.0f;
-        if (!switcher.getValue() && mc.thePlayer != null) {
-        }
         super.onEnable();
     }
 
@@ -93,7 +98,13 @@ public class Scaffold extends Module {
     	if (e instanceof EventRender2D) {
     		mc.fontRendererObj.drawCenteredString(String.valueOf(this.getBlockCount()), Display.getWidth() / 2, Display.getHeight() / 2, this.getBlockColor(getBlockCount()));
     	}
-
+        if (e instanceof EventJump) {
+            if (motionBoost) {
+                e.setCancelled();
+                sendPosition(0,0,0,true,false);
+                mc.thePlayer.motionY = .42f;
+            }
+        }
         if (e instanceof EventSafeWalk) {
         	e.setCancelled();
         }
@@ -115,17 +126,22 @@ public class Scaffold extends Module {
 	            	}
             	}
             }
+
+            if (event.isReceiving()) {
+                if (event.getPacket() instanceof S08PacketPlayerPosLook) {
+                    mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
+                   if (motionBoost) motionBoost = false;
+                   if (flags++ > 1) abusedTimer = false;
+                }
+            }
+        }
+        if (e instanceof EventStep) {
+            if (mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY < .626
+                    && mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY > .4) {
+                motionBoost = false;
+            }
         }
         if (e instanceof EventUpdate) {
-        	if (abuseTimer) {
-	        	if (!timerCap.hasReached(500)) { 
-	        		if (!abusedTimer && timerSpeedAbuse.getValue() && !Eris.instance.moduleManager.isEnabled(Speed.class))  mc.timer.timerSpeed = 1.7f;
-	        	} else {
-	        		mc.timer.timerSpeed = 1.0f;
-	        		abusedTimer = true;
-	        		timerCap.reset();
-	        	}
-        	}
             EventUpdate event = (EventUpdate) e;
             double addition = mc.thePlayer.isCollidedHorizontally ? 0 : 0.1;
             final double x2 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw + 90.0f));
@@ -139,9 +155,10 @@ public class Scaffold extends Module {
             float speed = 0.4f;
             float yaw = 0;
             float pitch = 0;
+
             if (blockEntry == null) {
                 if (lastBlockData != null) {
-                    float[] rotations = getFacingRotations(lastBlockData.position.getX(), lastBlockData.position.getY(), lastBlockData.position.getZ());
+                    float[] rotations = getFacingRotations(lastBlockData.position.getX(), lastBlockData.position.getY(), lastBlockData.position.getZ(), event.getY());
                     yaw = (yawMouseFilter.smooth(rotations[0] + MathUtils.getRandomInRange(-1f, 5f), speed));
                     pitch = (pitchMouseFilter.smooth(rotations[1] + MathUtils.getRandomInRange(-1.20f, 3.50f), speed));
                     event.setPitch(pitch);
@@ -153,11 +170,31 @@ public class Scaffold extends Module {
             }
             if (blockEntry == null) return;
             if (event.isPre()) {
-                float[] rotations = getFacingRotations(blockEntry.position.getX(), blockEntry.position.getY(), blockEntry.position.getZ());
+                if (abuseTimer) {
+                    if (!timerCap.hasReached(1500)) {
+                        if (Eris.instance.moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving()) motionBoost = false;
+                        if (motionBoost) {
+                            if (mc.thePlayer.ticksExisted % 2 != 0 ) {
+                                event.setY(mc.thePlayer.posY + 0.34);
+                                event.setOnGround(false);
+                            } else {
+                                event.setOnGround(true);
+                                event.setY(mc.thePlayer.posY);
+                            }
+
+                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .31F : .12F;
+                            mc.thePlayer.motionX = -(Math.sin(mc.thePlayer.getDirection()) * moveSpeed);
+                            mc.thePlayer.motionZ = Math.cos(mc.thePlayer.getDirection()) * moveSpeed;
+                        }
+                        mc.timer.timerSpeed = !timerCap.hasReached(150) ? 2.3f : 1.4f;
+                    }
+                }
+                float[] rotations = getFacingRotations(blockEntry.position.getX(), blockEntry.position.getY(), blockEntry.position.getZ(), event.getY());
                 yaw = (yawMouseFilter.smooth(rotations[0] + MathUtils.getRandomInRange(-1f, 5f), speed));
                 pitch = (pitchMouseFilter.smooth(rotations[1] + MathUtils.getRandomInRange(-1.20f, 3.50f), speed));
                 event.setPitch(pitch);
-                event.setYaw(yaw);
+             //   event.setYaw(yaw);
+
             } else {
                 int heldItem = mc.thePlayer.inventory.currentItem;
                 if (PlayerUtils.isHoldingSword() && blocking) {
@@ -322,21 +359,21 @@ public class Scaffold extends Module {
         return Color.HSBtoRGB(f2 / 3.0F, 1.0F, 1.0F) | 0xFF000000;
     }
 
-    public static float[] getFacingRotations(final int paramInt1, final double d, final int paramInt3) {
+    public static float[] getFacingRotations(final int paramInt1, final double d, final int paramInt3, double posY) {
         final EntityPig localEntityPig = new EntityPig(Minecraft.getMinecraft().theWorld);
         localEntityPig.posX = paramInt1 + 0.5;
         localEntityPig.posY = d + 0.5;
         localEntityPig.posZ = paramInt3 + 0.5;
-        return getRotationsNeeded(localEntityPig);
+        return getRotationsNeeded(localEntityPig, posY);
     }
 
-    public static float[] getRotationsNeeded(final Entity entity) {
+    public static float[] getRotationsNeeded(final Entity entity, double playerPos) {
         if (entity == null) {
             return null;
         }
         Minecraft mc = Minecraft.getMinecraft();
         final double xSize = entity.posX - mc.thePlayer.posX;
-        final double ySize = entity.posY + entity.getEyeHeight() / 2 - (mc.thePlayer.posY + mc.thePlayer.getEyeHeight());
+        final double ySize = entity.posY + entity.getEyeHeight() / 2 - (playerPos + mc.thePlayer.getEyeHeight());
         final double zSize = entity.posZ - mc.thePlayer.posZ;
         final double theta = MathHelper.sqrt_double(xSize * xSize + zSize * zSize);
         final float yaw = (float) (Math.atan2(zSize, xSize) * 180 / Math.PI) - 90;

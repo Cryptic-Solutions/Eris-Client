@@ -18,8 +18,8 @@ public class Speed extends Module {
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);
 
     private enum Mode {WATCHDOG}
-	private int hops, stage;
-    public int waitTicks;
+	private int stage;
+    public int waitTicks, hops;
 	private double speed;
 
 	public Speed() {
@@ -39,10 +39,11 @@ public class Speed extends Module {
 			criticals.airTime = 0;
 			criticals.waitTicks = 3;
 		}
-
-		hops = 0;
-		setLastDistance(0.0);
-		stage = 0;
+		if (!Eris.instance.moduleManager.isEnabled(Flight.class)) {
+			hops = 0;
+			setLastDistance(0.0);
+			stage = 0;
+		}
 		super.onEnable();
 	}
 
@@ -54,7 +55,6 @@ public class Speed extends Module {
 
     @Override
     public void onEvent(Event e) {
-		boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
 
 		switch (mode.getValue()) {
 			case WATCHDOG:
@@ -67,25 +67,26 @@ public class Speed extends Module {
 					double zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
 					setLastDistance(Math.sqrt(xDist * xDist + zDist * zDist));
 					if (eu.isPre() && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && !Eris.instance.moduleManager.isEnabled(Scaffold.class)) {
-						eu.setY(eu.getY() + 3.99999e-9);
+						eu.setY(eu.getY() + 9.0E-4D);
 					}
 				}
 				if (e instanceof EventStep) {
 					EventStep event = (EventStep) e;
 					if (!event.isPre()) {
 						double height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
-						if (height <= .5 && height > 0) {
-							hops = -1;
+						if (height <= .6 && height >= -.5 && height != 0.0) {
+							hops = -2;
 							setLastDistance(0.0);
 						}
 					}
 				}
 				if (e instanceof EventMove) {
+					boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
 					EventMove em = (EventMove) e;
 					Step step = ((Step) Eris.instance.moduleManager.getModuleByClass(Step.class));
 					if (Eris.instance.moduleManager.isEnabled(Scaffold.class) || Eris.instance.moduleManager.isEnabled(Flight.class) || step.cancelMorePackets) {
 						hops = -1;
-						return;
+						if (!Eris.instance.moduleManager.isEnabled(Scaffold.class)) return;
 					}
 					if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS) && !mc.thePlayer.onGround) {
 						boolean timer = Eris.getInstance().moduleManager.getModuleByClass(Killaura.class).isToggled() && Killaura.target != null;
@@ -111,23 +112,21 @@ public class Speed extends Module {
 							}
 							setLastDistance(0.0);
 							if (mc.thePlayer.onGround) {
-								if (!Eris.instance.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.2f;
+								if (!Eris.instance.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.4f;
 								mc.thePlayer.isAirBorne = true;
 								mc.thePlayer.triggerAchievement(StatList.jumpStat);
-								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.4 + 1.0e-4));
-								speed = em.getMovementSpeed() * (Eris.instance.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.4 : hops % 3 != 0 ? 2.16 : 2.1499);
+								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 9.0E-4D * 2));
+								speed = em.getMovementSpeed() * (Eris.instance.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 != 0 ? 2.2 : 2.1499);
 								hops++;
 							}
 							setLastDistance(0.0);
 						break;
 						case 1:
-							speed = getLastDistance() - (hops % 3 != 0 && hops > 0 && !Eris.instance.moduleManager.isEnabled(Scaffold.class) ? .658 : .66) * (getLastDistance() - em.getMovementSpeed());
+							speed = getLastDistance() - .66 * (getLastDistance() - em.getMovementSpeed());
 							break;
 						default:
-							if ((stage == 2 || stage == 4) && mc.timer.timerSpeed > 1.0f) mc.timer.timerSpeed -= .1f;
-							if (!Eris.instance.moduleManager.isEnabled(Scaffold.class)) {
-								if ((stage == 2 || stage == 4) && mc.timer.timerSpeed > 1.0f)
-									mc.timer.timerSpeed -= .1f;
+							if ((stage == 2 || stage == 3) && mc.timer.timerSpeed > 1.0f) {
+								mc.timer.timerSpeed -= .4f / 2;
 							}
 							speed = getLastDistance() - getLastDistance() / 159;
 						break;

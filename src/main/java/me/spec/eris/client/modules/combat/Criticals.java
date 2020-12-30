@@ -24,7 +24,7 @@ public class Criticals extends Module {
 	public ModeValue<Mode> modeValue = new ModeValue<>("Mode", Mode.SPOOF, this);
 	public double accumulatedFall, posY;
 
-	private static final double[] OFFSETS1 = new double[] {0.051, 0.011511, 0.001, 0.001};
+	private static final double[] OFFSETS1 = new double[] {0.05115 + 9.0e-4 * 2, 9.0e-4 * 2, 0.0115, 9.0e-4 * 2};
 	private static final double[] OFFSETS2 = new double[] { 0.05D, 0.0D, 0.012511D, 0.0D };
 
 	public Criticals() {
@@ -161,7 +161,7 @@ public class Criticals extends Module {
 						posY = 9.0e-4d * 2;
 						airTime = 0;
 					} else {
-						posY = .1225 - 9.0e-4d;
+						posY = .1226 - 9.0e-4d;
 						if (airTime == 2) {
 							posY -= 9.0e-4d * 2;
 						}
@@ -171,7 +171,6 @@ public class Criticals extends Module {
 				} else {
 					if (accumulatedFall >= 3) {
 						if (mc.thePlayer.onGround) {
-							sendPosition(0, posY, 0, false, false);
 							sendPosition(0, 0, 0, true, false);
 							accumulatedFall = 0;
 							airTime = 0;

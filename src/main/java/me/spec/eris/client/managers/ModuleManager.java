@@ -86,8 +86,10 @@ public class ModuleManager extends Manager<Module> {
 
     public void onKey(int key) {
         for (Module m : getManagerArraylist()) {
-            if (m.getKey() == key) {
-                m.toggle(true);
+            if (m != null) {
+                if (m.getKey() == key) {
+                    m.toggle(true);
+                }
             }
         }
     }

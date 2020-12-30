@@ -15,10 +15,13 @@ import me.spec.eris.api.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.client.modules.combat.Criticals;
 import me.spec.eris.api.value.types.ModeValue;
+import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.utils.world.BlockUtils;
 import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.block.BlockAir;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 
@@ -76,44 +79,48 @@ public class Step extends Module {
                     if (mc.thePlayer.isInWater() || mc.thePlayer.isInLava() || mc.thePlayer.isOnLadder() || ModulePrioritizer.flaggableMovementModules() || BlockUtils.isOnLiquid(mc.thePlayer)) {
                         stepDelay.reset();
                     } 
-                    if (stepDelay.hasReached(250)) {
+                    if (stepDelay.hasReached(250) && mc.thePlayer.isCollidedVertically && mc.thePlayer.isCollidedHorizontally) {
                         event.setStepHeight(mc.thePlayer.isPotionActive(Potion.jump) ? 1 : 2.0f);
                     } 
                     height = 0;
                 }
             } else {
+                Scaffold scaffold = ((Scaffold)Eris.getInstance().moduleManager.getModuleByClass(Scaffold.class));
+                Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
+                double posX = mc.thePlayer.posX;
+                double posY = mc.thePlayer.posY;
+                double posZ = mc.thePlayer.posZ;
             	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY; 
                 if (isInvalid() || Eris.instance.moduleManager.isEnabled(Speed.class)) {
                     if (event.getHeightStepped() > 0.626) { 
                         if (event.getHeightStepped() > 0) {
-            				Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
-            				crits.accumulatedFall = 0; 
-            				if (crits.airTime > 0) {	
-            					sendPosition(0,0,0,true,false);
-            					crits.airTime = 0;
-            					crits.waitTicks = 3;
+            				if (crits.airTime > 0 || scaffold.motionBoost) {
+            					sendPosition(0,0,0,mc.thePlayer.onGround,false);
+            					scaffold.motionBoost = false;
+                                crits.accumulatedFall = 0;
+                                crits.waitTicks = 2;
+                                crits.airTime = 0;
             				}
             				
                         }
                         for (double offset : offsets) {
-                        	sendPosition(0,offset * event.getHeightStepped(),0, false, true);
-                        } 
+                        	sendPosition(0,offset * event.getHeightStepped(),0, !(BlockUtils.getBlockAtPos(new BlockPos(posX, posY + offset * event.getHeightStepped(), posZ)) instanceof BlockAir), false);
+                        }
+                        Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
+                        aura.fuckCheckVLs = true;
                         cancelMorePackets = true;
                     }
                 } else {
                 	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY; 	 
                     if (height > 0) {
-        				Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
-        				crits.accumulatedFall = 0; 
-        				if (crits.airTime > 0) {	
-        					sendPosition(0,0,0,true,false);
-        					crits.airTime = 0;
-        					crits.waitTicks = 3;
-        				}
+                        if (crits.airTime > 0 || scaffold.motionBoost) {
+                            sendPosition(0,0,0,mc.thePlayer.onGround,false);
+                            scaffold.motionBoost = false;
+                            crits.accumulatedFall = 0;
+                            crits.waitTicks = 2;
+                            crits.airTime = 0;
+                        }
                     }
-                    double posX = mc.thePlayer.posX;
-                    double posY = mc.thePlayer.posY;
-                    double posZ = mc.thePlayer.posZ;
                     double y = 0;
                     if (height <= 1.) {
                         float first = .42f - 4.0e-9f;
@@ -135,7 +142,10 @@ public class Step extends Module {
                         for (int i = 0; i < heights.size(); i++) {
                             sendPosition(0, y + heights.get(i), 0, !(BlockUtils.getBlockAtPos(new BlockPos(posX, y + heights.get(i), posZ)) instanceof BlockAir), false);
                         }
-                    } 
+                    }
+                    Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
+                    aura.fuckCheckVLs = true;
+                    cancelMorePackets = true;
                     stepDelay.reset();
                 }
             	

@@ -38,10 +38,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -62,15 +59,17 @@ public class Killaura extends Module {
     /*Attack settings*/
     public ModeValue<BlockMode> autoBlock = new ModeValue<>("Autoblock", BlockMode.OFF, this, () -> attackSettings.getValue(), "Autoblock modes");
     public NumberValue<Integer> clicksPerSecond = new NumberValue<Integer>("CPS", 15, 1, 20, this, () -> attackSettings.getValue(), "Clicks per second");
+
+    public NumberValue<Double> rayCastDist = new NumberValue<Double>("Walls Distance", 1.0, 0.0, 3.0, this, () -> attackSettings.getValue(), "If the entity is farther than this distance behind a wall, they wont be attacked");
     public NumberValue<Integer> clicksPerSecondRandom = new NumberValue<Integer>("CPS Randomization", 0, 0, 5, this, () -> attackSettings.getValue(), "Dynamic randomization range");
-    public NumberValue<Double> targetingDist = new NumberValue<Double>("Targeting Distance", 4.25, 2.0, 10.0, this, () -> attackSettings.getValue(), "Range at which the killaura aims and blocks");
-    public NumberValue<Double> range = new NumberValue<Double>("Max Reach", 4.25, 2.0, 6.0, this, () -> attackSettings.getValue(), "Maximum range at which the killaura attacks");
-    public NumberValue<Double> minrange = new NumberValue<Double>("Min Reach", 4.25, 2.0, 6.0, this, () -> attackSettings.getValue(), "Minimum range at which the killaura attacks");
+    public NumberValue<Double> targetingDist = new NumberValue<Double>("Blocking Distance", 4.25, 2.0, 10.0, this, () -> attackSettings.getValue(), "Range at which the killaura aims and blocks");
+    public NumberValue<Double> range = new NumberValue<Double>("Attack distance", 4.25, 2.0, 6.0, this, () -> attackSettings.getValue(), "Maximum range at which the killaura attacks");
     public NumberValue<Integer> abusiveAura = new NumberValue<Integer>("Reach VL", 0, 0, 6, this, () -> attackSettings.getValue(), "Advanced setting to exploit VL in reach checks, keep at 0 if unknown");
     public BooleanValue<Boolean> attackTarget = new BooleanValue<>("Attack Target", true, this, () -> attackSettings.getValue(), "Should the killaura attack, or just aim and block?");
     public BooleanValue<Boolean> dynamicAttack = new BooleanValue<>("Dynamic Attacks", true, this, () -> attackSettings.getValue(), "Optimize the speed at which the killaura attacks, great for hvh and hypixel");
     public BooleanValue<Boolean> armorBreak = new BooleanValue<>("Armor Breaker", false, this, () -> attackSettings.getValue(), "Send change item packets to increase the amount of armor broken, flags Nc+");
     public BooleanValue<Boolean> hitbox = new BooleanValue<>("Hitbox Checks", false, this, () -> attackSettings.getValue(), "Properly check if the killaura is aiming at the target before actually attacking");
+    public BooleanValue<Boolean> noYeetPlus = new BooleanValue<>("Hit Glitch", false, this, () -> attackSettings.getValue(), "Abuses a flaw in hypixel's (and some other's) anticheat to bypass the hitglitch you retreive post flaging a check");
 
     /*Aim settings*/
     public ModeValue<AimMode> aimMode = new ModeValue<>("Aim Mode", AimMode.BASIC, this, () -> aimingSettings.getValue(), "The mode it aims at - basic for NC+, assist is literal aim assist");
@@ -93,9 +92,8 @@ public class Killaura extends Module {
     public BooleanValue<Boolean> syncOpacityValue = new BooleanValue<>("TargetHUD Opacity", true, this, () -> targetHUDSettings.getValue(), "How clear is targethud background");
     public BooleanValue<Boolean> targetHUDValue = new BooleanValue<>("TargetHUD", false, this, () -> targetHUDSettings.getValue(), "Display hud information on your target");
 
-    public boolean shouldCritical;
     public double targetedarea;
-    public boolean changingArea, blocking, reverse;
+    public boolean changingArea, blocking, reverse, shouldCritical, fuckCheckVLs;
     public int delay, index, maxYaw, reachVL, hitCounter, maxPitch, targetIndex, rotationSwap, timesAttacked, offset, waitTicks;
     public float currentYaw, currentPitch, pitchincrease, animated = 20F, blockPosValue;
     public static Entity lastAimedTarget;
@@ -181,7 +179,7 @@ public class Killaura extends Module {
                     reset(0, eu);
                     return;
                 }
-                if (!PlayerUtils.isValid(targetList.get(targetIndex), targetingDist.getValue(), invisibles.getValue(), teams.getValue(), dead.getValue(), players.getValue(), animals.getValue(), mobs.getValue())) {
+                if (!PlayerUtils.isValid(targetList.get(targetIndex), targetingDist.getValue(), invisibles.getValue(), teams.getValue(), dead.getValue(), players.getValue(), animals.getValue(), mobs.getValue(), rayCastDist.getValue())) {
                     reset(-1, eu);
                     return;
                 }
@@ -396,6 +394,7 @@ public class Killaura extends Module {
         float destinationYaw = 0;
         if (lastAimedTarget != target) {
             index = 3;
+            fuckCheckVLs = true;
             changingArea = false;
             targetedarea = rotationSwap = 0;
         }
@@ -435,7 +434,7 @@ public class Killaura extends Module {
             float f2 = (float) maxYaw * f1;
             float f3 = (float) maxPitch * f1;
             if (Math.abs(playerYaw - destinationYaw) > 2) {
-                if (RotationUtils.rayCast(playerYaw, playerPitch, range.getValue()) == null) {
+                if (RotationUtils.rayTrace(playerYaw, playerPitch, range.getValue()) == null) {
                     if (playerYaw > destinationYaw) {
                         maxYaw -= MathUtils.getRandomInRange(5, 7);
                     } else {
@@ -448,7 +447,7 @@ public class Killaura extends Module {
                 maxYaw *= .5;
             }
             if (Math.abs(playerPitch - AngleUtility.getRotations(target)[1]) > 2) {
-                if (RotationUtils.rayCast(playerYaw, playerPitch, range.getValue()) == null) {
+                if (RotationUtils.rayTrace(playerYaw, playerPitch, range.getValue()) == null) {
                     if (playerPitch > AngleUtility.getRotations(target)[1]) {
                         maxPitch += MathUtils.getRandomInRange(1, 3);
                     } else {
@@ -518,10 +517,10 @@ public class Killaura extends Module {
         if (autoBlock.getValue().equals(BlockMode.FALCON) && PlayerUtils.isHoldingSword()) {
             if (mc.thePlayer.ticksExisted % 6 == 0) {
                 if (blocking) {
-                    mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
                     blocking = false;
                 } else {
-                    mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(blockPosValue, -1, blockPosValue), 255, mc.thePlayer.getHeldItem(), 0, 0, 0));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(blockPosValue, -1, blockPosValue), 255, mc.thePlayer.getHeldItem(), 0, 0, 0));
                     blocking = true;
                 }
             }
@@ -561,8 +560,8 @@ public class Killaura extends Module {
         if (armorBreaker) PlayerUtils.swapToItem();
 
         if (hitbox.getValue() || index > 0) {
-            if (RotationUtils.rayCast(e.getYaw(), e.getPitch(), range.getValue()) != null) {
-                attackExecutre(e, RotationUtils.rayCast(e.getYaw(), e.getPitch(), range.getValue()), reachVL > 0 ? range.getValue() + 1 : range.getValue() + 1, targetingDist.getValue(), !attackTarget.getValue());
+            if (RotationUtils.rayTrace(e.getYaw(), e.getPitch(), range.getValue()) != null) {
+                attackExecutre(e, RotationUtils.rayTrace(e.getYaw(), e.getPitch(), range.getValue()), reachVL > 0 ? range.getValue() + 1 : range.getValue() + 1, targetingDist.getValue(), !attackTarget.getValue());
             } else {
                 mc.thePlayer.swingItem();
             }
@@ -601,8 +600,15 @@ public class Killaura extends Module {
             if (f1 > 0.0F) {
                 mc.thePlayer.onEnchantmentCritical(target);
             }
+            if ((noYeetPlus.getValue() && target.timesAttacked < 1) || fuckCheckVLs) {
+                int beforeHeldItem = mc.thePlayer.inventory.currentItem;
+                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = 8));
+                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = beforeHeldItem));
+                fuckCheckVLs = false;
+            }
             mc.thePlayer.swingItem();
-            mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+            mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+            target.timesAttacked++;//Times attacked will be very useful for bypassing future anticheats on jah
         }
 
         timesAttacked += 1;
@@ -615,7 +621,7 @@ public class Killaura extends Module {
         if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
 
             double value = autoBlock.getValue().equals(BlockMode.OFFSET) && mc.thePlayer.hurtTime > 2 ?  -.8f : -1; 
-            mc.getNetHandler().addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, value, value), EnumFacing.DOWN));
+            mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, value, value), EnumFacing.DOWN));
         }
         blocking = false;
     }
@@ -626,7 +632,7 @@ public class Killaura extends Module {
 
         if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
             double value = autoBlock.getValue().equals(BlockMode.OFFSET) ? -1 : -1; 
-            mc.getNetHandler().addToSendQueueNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(value, -1, value), 255, mc.thePlayer.inventory.getCurrentItem(), 0, 0, 0));
+            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(value, -1, value), 255, mc.thePlayer.inventory.getCurrentItem(), 0, 0, 0));
         }
         blocking = true;
     }
@@ -643,7 +649,7 @@ public class Killaura extends Module {
         targetList.clear();
         mc.theWorld.getLoadedEntityList().forEach(entity -> {
             if (entity != null && entity instanceof EntityLivingBase) {
-                if (PlayerUtils.isValid((EntityLivingBase) entity, targetingDist.getValue(), invisibles.getValue(), teams.getValue(), dead.getValue(), players.getValue(), animals.getValue(), mobs.getValue())) {
+                if (PlayerUtils.isValid((EntityLivingBase) entity, targetingDist.getValue(), invisibles.getValue(), teams.getValue(), dead.getValue(), players.getValue(), animals.getValue(), mobs.getValue(), rayCastDist.getValue())) {
                     targetList.add((EntityLivingBase) entity);
                 } else if (targetList.contains(entity)) {
                     targetList.remove(entity);

@@ -10,13 +10,19 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class RotationUtils {
-
-    public static EntityLivingBase rayCast(float yaw, float pitch, double range) {
+    /*
+    * Raytracing
+    *
+    * Checking if the casted ray (yaw & pitch) hits an entity
+    *
+    * Args: yaw, pitch, ray distance
+    * */
+    public static EntityLivingBase rayTrace(float yaw, float pitch, double distance) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.theWorld != null && mc.thePlayer != null) {
             Vec3 position = mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks);
             Vec3 lookVector = mc.thePlayer.getVectorForRotation(pitch, yaw);
-            double reachDistance = range;
+            double reachDistance = distance;
             Entity pointedEntity = null;
             List<Entity> var5 = mc.theWorld.getEntitiesWithinAABBExcludingEntity(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().addCoord(lookVector.xCoord * mc.playerController.getBlockReachDistance(), lookVector.yCoord * mc.playerController.getBlockReachDistance(), lookVector.zCoord * mc.playerController.getBlockReachDistance()).expand(reachDistance, reachDistance, reachDistance));
             for (int var6 = 0; var6 < var5.size(); ++var6) {
@@ -24,13 +30,13 @@ public class RotationUtils {
                 if (currentEntity.canBeCollidedWith()) {
                     MovingObjectPosition objPosition = currentEntity.getEntityBoundingBox().expand((double) currentEntity.getCollisionBorderSize(), (double) currentEntity.getCollisionBorderSize(), (double) currentEntity.getCollisionBorderSize()).contract(0.1, 0.1, 0.1).calculateIntercept(position, position.addVector(lookVector.xCoord * reachDistance, lookVector.yCoord * reachDistance, lookVector.zCoord * reachDistance));
                     if (objPosition != null) {
-                        double distance = position.distanceTo(objPosition.hitVec);
-                        if (distance < reachDistance) {
+                        double range = position.distanceTo(objPosition.hitVec);
+                        if (range < reachDistance) {
                             if (currentEntity == mc.thePlayer.ridingEntity && reachDistance == 0.0D) {
                                 pointedEntity = currentEntity;
                             } else {
                                 pointedEntity = currentEntity;
-                                reachDistance = distance;
+                                reachDistance = range;
                             }
                         }
                     }
@@ -40,6 +46,20 @@ public class RotationUtils {
                 return (EntityLivingBase) pointedEntity;
         }
         return null;
+    }
+
+    /*
+    * Raycasting is a method of casting a ray to see
+    * if it hits an object between you and the target
+    *
+    * Args: Target entity
+    */
+    public static boolean rayCast(Entity targetEntity) {
+        Minecraft mc = Minecraft.getMinecraft();
+        Vec3 playerPos = new Vec3(mc.thePlayer.posZ, mc.thePlayer.getEntityBoundingBox().minY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
+        Vec3 targetPos = new Vec3(targetEntity.posZ, targetEntity.getEntityBoundingBox().minY + targetEntity.getEyeHeight(), targetEntity.posZ);
+
+        return mc.theWorld.rayTraceBlocks(playerPos, targetPos) == null;
     }
 
     public static float constrainAngle(float angle) {
