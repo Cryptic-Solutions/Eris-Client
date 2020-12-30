@@ -3,7 +3,7 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 
-import me.spec.eris.event.player.EventBoundingBox;
+import me.spec.eris.client.events.player.EventBoundingBox;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;

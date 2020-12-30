@@ -27,7 +27,7 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import me.spec.eris.event.client.EventPacket;
+import me.spec.eris.client.events.client.EventPacket;
 
 import java.net.InetAddress;
 import java.net.SocketAddress;

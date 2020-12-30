@@ -57,7 +57,7 @@ import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import me.spec.eris.Eris;
-import me.spec.eris.event.client.EventClientTick;
+import me.spec.eris.client.events.client.EventClientTick;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -1669,7 +1669,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                     if (this.currentScreen != null) {
                         this.currentScreen.handleKeyboardInput();
                     } else {
-                        Eris.instance.modules.onKey(k);
+                        Eris.instance.moduleManager.onKey(k);
                         if (k == 1) {
                             this.displayInGameMenu();
                         }

@@ -1,11 +1,10 @@
 package net.minecraft.client.entity;
 
-import me.spec.eris.event.chat.ChatMessageEvent;
-import me.spec.eris.event.client.EventPacket;
-import me.spec.eris.event.player.EventBlockPush;
-import me.spec.eris.event.player.EventMove;
-import me.spec.eris.event.player.EventPlayerSlow;
-import me.spec.eris.event.player.EventUpdate;
+import me.spec.eris.client.events.chat.ChatMessageEvent;
+import me.spec.eris.client.events.player.EventBlockPush;
+import me.spec.eris.client.events.player.EventMove;
+import me.spec.eris.client.events.player.EventPlayerSlow;
+import me.spec.eris.client.events.player.EventUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;

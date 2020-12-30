@@ -2,16 +2,14 @@ package me.spec.eris.ui.click.pannels;
 
 import java.util.ArrayList;
 
+import me.spec.eris.api.module.ModuleCategory;
 import org.lwjgl.opengl.GL11;
 
 import me.spec.eris.Eris;
-import me.spec.eris.config.ClientConfig;
-import me.spec.eris.module.Category;
-import me.spec.eris.module.Module;
+import me.spec.eris.api.module.Module;
 import me.spec.eris.ui.click.ClickGui;
 import me.spec.eris.ui.click.pannels.components.Button;
-import me.spec.eris.ui.click.pannels.components.ConfigButton;
-import me.spec.eris.utils.TimerUtils;
+import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.client.gui.Gui;
 
 public class Panel {
@@ -23,7 +21,7 @@ public class Panel {
     private int height = 15;
     private int animation = 0;
     public double lastClickedMs = 0.0;
-    private Category category;
+    private ModuleCategory moduleCategory;
     private boolean open;
     public boolean onTop;
     private boolean dragging;
@@ -31,12 +29,12 @@ public class Panel {
     private int xOffset;
     private int yOffset;
 
-    public Panel(int x, int y, Category cat) {
+    public Panel(int x, int y, ModuleCategory cat) {
         this.x = x;
         this.y = y;
-        category = cat;
+        moduleCategory = cat;
 
-        for (Module m : Eris.instance.modules.getModulesInCategory(category)) {
+        for (Module m : Eris.instance.moduleManager.getModulesInCategory(moduleCategory)) {
             buttons.add(new Button(m));
         }
         upTimer = new TimerUtils();
@@ -46,7 +44,7 @@ public class Panel {
     public void reload() {
         buttons.clear();
 
-        for (Module m : Eris.instance.modules.getModulesInCategory(category)) {
+        for (Module m : Eris.instance.moduleManager.getModulesInCategory(moduleCategory)) {
             buttons.add(new Button(m));
         }
     }
@@ -58,7 +56,7 @@ public class Panel {
         }
         GL11.glPushMatrix();
         Gui.drawRect(x - 1, y, x + width + 1, y + height, ClickGui.getPrimaryColor().getRGB());
-        ClickGui.getFont().drawString(category.getName(), x + 5, y + (height / 2) - (ClickGui.getFont().getHeight(category.getName()) / 2), -1);
+        ClickGui.getFont().drawString(moduleCategory.getName(), x + 5, y + (height / 2) - (ClickGui.getFont().getHeight(moduleCategory.getName()) / 2), -1);
         GL11.glPopMatrix();
         width = 115;
         height = 20;

@@ -1,6 +1,6 @@
 {
   "ambient.cave.cave": {
-    "category": "ambient",
+    "moduleCategory": "ambient",
     "sounds": [
       "ambient/cave/cave1",
       "ambient/cave/cave10",
@@ -18,7 +18,7 @@
     ]
   },
   "ambient.weather.rain": {
-    "category": "weather",
+    "moduleCategory": "weather",
     "sounds": [
       "ambient/weather/rain1",
       "ambient/weather/rain2",
@@ -27,7 +27,7 @@
     ]
   },
   "ambient.weather.thunder": {
-    "category": "weather",
+    "moduleCategory": "weather",
     "sounds": [
       "ambient/weather/thunder1",
       "ambient/weather/thunder2",
@@ -35,43 +35,43 @@
     ]
   },
   "game.player.hurt.fall.big": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "damage/fallbig"
     ]
   },
   "game.player.hurt.fall.small": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "damage/fallsmall"
     ]
   },
   "game.neutral.hurt.fall.big": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "damage/fallbig"
     ]
   },
   "game.neutral.hurt.fall.small": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "damage/fallsmall"
     ]
   },
   "game.hostile.hurt.fall.big": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "damage/fallbig"
     ]
   },
   "game.hostile.hurt.fall.small": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "damage/fallsmall"
     ]
   },
   "game.player.hurt": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "damage/hit1",
       "damage/hit2",
@@ -79,7 +79,7 @@
     ]
   },
   "game.neutral.hurt": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "damage/hit1",
       "damage/hit2",
@@ -87,7 +87,7 @@
     ]
   },
   "game.hostile.hurt": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "damage/hit1",
       "damage/hit2",
@@ -95,7 +95,7 @@
     ]
   },
   "game.player.die": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "damage/hit1",
       "damage/hit2",
@@ -103,7 +103,7 @@
     ]
   },
   "game.neutral.die": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "damage/hit1",
       "damage/hit2",
@@ -111,7 +111,7 @@
     ]
   },
   "game.hostile.die": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "damage/hit1",
       "damage/hit2",
@@ -119,7 +119,7 @@
     ]
   },
   "dig.cloth": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "dig/cloth1",
       "dig/cloth2",
@@ -128,7 +128,7 @@
     ]
   },
   "dig.grass": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "dig/grass1",
       "dig/grass2",
@@ -137,7 +137,7 @@
     ]
   },
   "dig.gravel": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "dig/gravel1",
       "dig/gravel2",
@@ -146,7 +146,7 @@
     ]
   },
   "dig.sand": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "dig/sand1",
       "dig/sand2",
@@ -155,7 +155,7 @@
     ]
   },
   "dig.snow": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "dig/snow1",
       "dig/snow2",
@@ -164,7 +164,7 @@
     ]
   },
   "dig.stone": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "dig/stone1",
       "dig/stone2",
@@ -173,7 +173,7 @@
     ]
   },
   "dig.wood": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "dig/wood1",
       "dig/wood2",
@@ -182,100 +182,100 @@
     ]
   },
   "fire.fire": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "fire/fire"
     ]
   },
   "fire.ignite": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "fire/ignite"
     ]
   },
   "item.fireCharge.use": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "mob/ghast/fireball4"
     ]
   },
   "fireworks.blast": {
-    "category": "ambient",
+    "moduleCategory": "ambient",
     "sounds": [
       "fireworks/blast1"
     ]
   },
   "fireworks.blast_far": {
-    "category": "ambient",
+    "moduleCategory": "ambient",
     "sounds": [
       "fireworks/blast_far1"
     ]
   },
   "fireworks.largeBlast": {
-    "category": "ambient",
+    "moduleCategory": "ambient",
     "sounds": [
       "fireworks/largeBlast1"
     ]
   },
   "fireworks.largeBlast_far": {
-    "category": "ambient",
+    "moduleCategory": "ambient",
     "sounds": [
       "fireworks/largeBlast_far1"
     ]
   },
   "fireworks.launch": {
-    "category": "ambient",
+    "moduleCategory": "ambient",
     "sounds": [
       "fireworks/launch1"
     ]
   },
   "fireworks.twinkle": {
-    "category": "ambient",
+    "moduleCategory": "ambient",
     "sounds": [
       "fireworks/twinkle1"
     ]
   },
   "fireworks.twinkle_far": {
-    "category": "ambient",
+    "moduleCategory": "ambient",
     "sounds": [
       "fireworks/twinkle_far1"
     ]
   },
   "liquid.lava": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "liquid/lava"
     ]
   },
   "liquid.lavapop": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "liquid/lavapop"
     ]
   },
   "game.neutral.swim.splash": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "liquid/splash",
       "liquid/splash2"
     ]
   },
   "game.player.swim.splash": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "liquid/splash",
       "liquid/splash2"
     ]
   },
   "game.hostile.swim.splash": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "liquid/splash",
       "liquid/splash2"
     ]
   },
   "game.player.swim": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "liquid/swim1",
       "liquid/swim2",
@@ -284,7 +284,7 @@
     ]
   },
   "game.neutral.swim": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "liquid/swim1",
       "liquid/swim2",
@@ -293,7 +293,7 @@
     ]
   },
   "game.hostile.swim": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "liquid/swim1",
       "liquid/swim2",
@@ -302,31 +302,31 @@
     ]
   },
   "liquid.water": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "liquid/water"
     ]
   },
   "minecart.base": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "minecart/base"
     ]
   },
   "minecart.inside": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "minecart/inside"
     ]
   },
   "mob.bat.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/bat/death"
     ]
   },
   "mob.bat.hurt": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/bat/hurt1",
       "mob/bat/hurt2",
@@ -335,7 +335,7 @@
     ]
   },
   "mob.bat.idle": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/bat/idle1",
       "mob/bat/idle2",
@@ -344,19 +344,19 @@
     ]
   },
   "mob.bat.loop": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/bat/loop"
     ]
   },
   "mob.bat.takeoff": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/bat/takeoff"
     ]
   },
   "mob.blaze.breathe": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/blaze/breathe1",
       "mob/blaze/breathe2",
@@ -365,13 +365,13 @@
     ]
   },
   "mob.blaze.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/blaze/death"
     ]
   },
   "mob.blaze.hit": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/blaze/hit1",
       "mob/blaze/hit2",
@@ -380,7 +380,7 @@
     ]
   },
   "mob.guardian.hit": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/guardian_hit1",
       "mob/guardian/guardian_hit2",
@@ -389,7 +389,7 @@
     ]
   },
   "mob.guardian.idle": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       {
         "name": "mob/guardian/guardian_idle1",
@@ -410,13 +410,13 @@
     ]
   },
   "mob.guardian.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/guardian_death"
     ]
   },
   "mob.guardian.elder.hit": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/elder_hit1",
       "mob/guardian/elder_hit2",
@@ -425,7 +425,7 @@
     ]
   },
   "mob.guardian.elder.idle": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/elder_idle1",
       "mob/guardian/elder_idle2",
@@ -434,13 +434,13 @@
     ]
   },
   "mob.guardian.elder.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/elder_death"
     ]
   },
   "mob.guardian.land.hit": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/land_hit1",
       "mob/guardian/land_hit2",
@@ -449,7 +449,7 @@
     ]
   },
   "mob.guardian.land.idle": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/land_idle1",
       "mob/guardian/land_idle2",
@@ -458,25 +458,25 @@
     ]
   },
   "mob.guardian.land.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/land_death"
     ]
   },
   "mob.guardian.curse": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/curse"
     ]
   },
   "mob.guardian.attack": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/attack_loop"
     ]
   },
   "mob.guardian.flop": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/guardian/flop1",
       "mob/guardian/flop2",
@@ -485,7 +485,7 @@
     ]
   },
   "mob.cat.hiss": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/cat/hiss1",
       "mob/cat/hiss2",
@@ -493,7 +493,7 @@
     ]
   },
   "mob.cat.hitt": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/cat/hitt1",
       "mob/cat/hitt2",
@@ -501,7 +501,7 @@
     ]
   },
   "mob.cat.meow": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/cat/meow1",
       "mob/cat/meow2",
@@ -510,7 +510,7 @@
     ]
   },
   "mob.cat.purr": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/cat/purr1",
       "mob/cat/purr2",
@@ -518,27 +518,27 @@
     ]
   },
   "mob.cat.purreow": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/cat/purreow1",
       "mob/cat/purreow2"
     ]
   },
   "mob.chicken.hurt": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/chicken/hurt1",
       "mob/chicken/hurt2"
     ]
   },
   "mob.chicken.plop": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/chicken/plop"
     ]
   },
   "mob.chicken.say": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/chicken/say1",
       "mob/chicken/say2",
@@ -546,14 +546,14 @@
     ]
   },
   "mob.chicken.step": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/chicken/step1",
       "mob/chicken/step2"
     ]
   },
   "mob.cow.hurt": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/cow/hurt1",
       "mob/cow/hurt2",
@@ -561,7 +561,7 @@
     ]
   },
   "mob.cow.say": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/cow/say1",
       "mob/cow/say2",
@@ -570,7 +570,7 @@
     ]
   },
   "mob.cow.step": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/cow/step1",
       "mob/cow/step2",
@@ -579,13 +579,13 @@
     ]
   },
   "mob.creeper.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/creeper/death"
     ]
   },
   "mob.creeper.say": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/creeper/say1",
       "mob/creeper/say2",
@@ -594,13 +594,13 @@
     ]
   },
   "mob.enderdragon.end": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/enderdragon/end"
     ]
   },
   "mob.enderdragon.growl": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/enderdragon/growl1",
       "mob/enderdragon/growl2",
@@ -609,7 +609,7 @@
     ]
   },
   "mob.enderdragon.hit": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/enderdragon/hit1",
       "mob/enderdragon/hit2",
@@ -618,7 +618,7 @@
     ]
   },
   "mob.enderdragon.wings": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/enderdragon/wings1",
       "mob/enderdragon/wings2",
@@ -629,13 +629,13 @@
     ]
   },
   "mob.endermen.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/endermen/death"
     ]
   },
   "mob.endermen.hit": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/endermen/hit1",
       "mob/endermen/hit2",
@@ -644,7 +644,7 @@
     ]
   },
   "mob.endermen.idle": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/endermen/idle1",
       "mob/endermen/idle2",
@@ -654,14 +654,14 @@
     ]
   },
   "mob.endermen.portal": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/endermen/portal",
       "mob/endermen/portal2"
     ]
   },
   "mob.endermen.scream": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/endermen/scream1",
       "mob/endermen/scream2",
@@ -670,37 +670,37 @@
     ]
   },
   "mob.endermen.stare": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/endermen/stare"
     ]
   },
   "mob.ghast.affectionate_scream": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/ghast/affectionate_scream"
     ]
   },
   "mob.ghast.charge": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/ghast/charge"
     ]
   },
   "mob.ghast.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/ghast/death"
     ]
   },
   "mob.ghast.fireball": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/ghast/fireball4"
     ]
   },
   "mob.ghast.moan": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/ghast/moan1",
       "mob/ghast/moan2",
@@ -712,7 +712,7 @@
     ]
   },
   "mob.ghast.scream": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/ghast/scream1",
       "mob/ghast/scream2",
@@ -722,19 +722,19 @@
     ]
   },
   "mob.horse.angry": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/angry1"
     ]
   },
   "mob.horse.armor": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/armor"
     ]
   },
   "mob.horse.breathe": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/breathe1",
       "mob/horse/breathe2",
@@ -742,26 +742,26 @@
     ]
   },
   "mob.horse.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/death"
     ]
   },
   "mob.horse.donkey.angry": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/donkey/angry1",
       "mob/horse/donkey/angry2"
     ]
   },
   "mob.horse.donkey.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/donkey/death"
     ]
   },
   "mob.horse.donkey.hit": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/donkey/hit1",
       "mob/horse/donkey/hit2",
@@ -769,7 +769,7 @@
     ]
   },
   "mob.horse.donkey.idle": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/donkey/idle1",
       "mob/horse/donkey/idle2",
@@ -777,7 +777,7 @@
     ]
   },
   "mob.horse.gallop": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/gallop1",
       "mob/horse/gallop2",
@@ -786,7 +786,7 @@
     ]
   },
   "mob.horse.hit": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/hit1",
       "mob/horse/hit2",
@@ -795,7 +795,7 @@
     ]
   },
   "mob.horse.idle": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/idle1",
       "mob/horse/idle2",
@@ -803,31 +803,31 @@
     ]
   },
   "mob.horse.jump": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/jump"
     ]
   },
   "mob.horse.land": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/land"
     ]
   },
   "mob.horse.leather": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/leather"
     ]
   },
   "mob.horse.skeleton.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/skeleton/death"
     ]
   },
   "mob.horse.skeleton.hit": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/skeleton/hit1",
       "mob/horse/skeleton/hit2",
@@ -836,7 +836,7 @@
     ]
   },
   "mob.horse.skeleton.idle": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/skeleton/idle1",
       "mob/horse/skeleton/idle2",
@@ -844,7 +844,7 @@
     ]
   },
   "mob.horse.soft": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/soft1",
       "mob/horse/soft2",
@@ -855,7 +855,7 @@
     ]
   },
   "mob.horse.wood": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/wood1",
       "mob/horse/wood2",
@@ -866,13 +866,13 @@
     ]
   },
   "mob.horse.zombie.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/zombie/death"
     ]
   },
   "mob.horse.zombie.hit": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/zombie/hit1",
       "mob/horse/zombie/hit2",
@@ -881,7 +881,7 @@
     ]
   },
   "mob.horse.zombie.idle": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/horse/zombie/idle1",
       "mob/horse/zombie/idle2",
@@ -889,13 +889,13 @@
     ]
   },
   "mob.irongolem.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/irongolem/death"
     ]
   },
   "mob.irongolem.hit": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/irongolem/hit1",
       "mob/irongolem/hit2",
@@ -904,13 +904,13 @@
     ]
   },
   "mob.irongolem.throw": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/irongolem/throw"
     ]
   },
   "mob.irongolem.walk": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/irongolem/walk1",
       "mob/irongolem/walk2",
@@ -919,7 +919,7 @@
     ]
   },
   "mob.magmacube.big": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/magmacube/big1",
       "mob/magmacube/big2",
@@ -928,7 +928,7 @@
     ]
   },
   "mob.magmacube.jump": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/magmacube/jump1",
       "mob/magmacube/jump2",
@@ -937,7 +937,7 @@
     ]
   },
   "mob.magmacube.small": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/magmacube/small1",
       "mob/magmacube/small2",
@@ -947,13 +947,13 @@
     ]
   },
   "mob.pig.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/pig/death"
     ]
   },
   "mob.pig.say": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/pig/say1",
       "mob/pig/say2",
@@ -961,7 +961,7 @@
     ]
   },
   "mob.pig.step": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/pig/step1",
       "mob/pig/step2",
@@ -971,7 +971,7 @@
     ]
   },
   "mob.rabbit.hurt": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       {
         "name": "mob/rabbit/hurt1",
@@ -992,7 +992,7 @@
     ]
   },
   "mob.rabbit.idle": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       {
         "name": "mob/rabbit/idle1",
@@ -1013,7 +1013,7 @@
     ]
   },
   "mob.rabbit.hop": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       {
         "name": "mob/rabbit/hop1",
@@ -1034,7 +1034,7 @@
     ]
   },
   "mob.rabbit.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       {
         "name": "mob/rabbit/bunnymurder",
@@ -1043,7 +1043,7 @@
     ]
   },
   "mob.sheep.say": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/sheep/say1",
       "mob/sheep/say2",
@@ -1051,13 +1051,13 @@
     ]
   },
   "mob.sheep.shear": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/sheep/shear"
     ]
   },
   "mob.sheep.step": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/sheep/step1",
       "mob/sheep/step2",
@@ -1067,7 +1067,7 @@
     ]
   },
   "mob.silverfish.hit": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/silverfish/hit1",
       "mob/silverfish/hit2",
@@ -1075,13 +1075,13 @@
     ]
   },
   "mob.silverfish.kill": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/silverfish/kill"
     ]
   },
   "mob.silverfish.say": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/silverfish/say1",
       "mob/silverfish/say2",
@@ -1090,7 +1090,7 @@
     ]
   },
   "mob.silverfish.step": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/silverfish/step1",
       "mob/silverfish/step2",
@@ -1099,13 +1099,13 @@
     ]
   },
   "mob.skeleton.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/skeleton/death"
     ]
   },
   "mob.skeleton.hurt": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/skeleton/hurt1",
       "mob/skeleton/hurt2",
@@ -1114,7 +1114,7 @@
     ]
   },
   "mob.skeleton.say": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/skeleton/say1",
       "mob/skeleton/say2",
@@ -1122,7 +1122,7 @@
     ]
   },
   "mob.skeleton.step": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/skeleton/step1",
       "mob/skeleton/step2",
@@ -1131,14 +1131,14 @@
     ]
   },
   "mob.slime.attack": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/slime/attack1",
       "mob/slime/attack2"
     ]
   },
   "mob.slime.big": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/slime/big1",
       "mob/slime/big2",
@@ -1147,7 +1147,7 @@
     ]
   },
   "mob.slime.small": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/slime/small1",
       "mob/slime/small2",
@@ -1157,13 +1157,13 @@
     ]
   },
   "mob.spider.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/spider/death"
     ]
   },
   "mob.spider.say": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/spider/say1",
       "mob/spider/say2",
@@ -1172,7 +1172,7 @@
     ]
   },
   "mob.spider.step": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/spider/step1",
       "mob/spider/step2",
@@ -1181,13 +1181,13 @@
     ]
   },
   "mob.villager.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/villager/death"
     ]
   },
   "mob.villager.haggle": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/villager/haggle1",
       "mob/villager/haggle2",
@@ -1195,7 +1195,7 @@
     ]
   },
   "mob.villager.hit": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/villager/hit1",
       "mob/villager/hit2",
@@ -1204,7 +1204,7 @@
     ]
   },
   "mob.villager.idle": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/villager/idle1",
       "mob/villager/idle2",
@@ -1212,7 +1212,7 @@
     ]
   },
   "mob.villager.no": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/villager/no1",
       "mob/villager/no2",
@@ -1220,7 +1220,7 @@
     ]
   },
   "mob.villager.yes": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/villager/yes1",
       "mob/villager/yes2",
@@ -1228,13 +1228,13 @@
     ]
   },
   "mob.wither.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/wither/death"
     ]
   },
   "mob.wither.hurt": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/wither/hurt1",
       "mob/wither/hurt2",
@@ -1243,7 +1243,7 @@
     ]
   },
   "mob.wither.idle": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/wither/idle1",
       "mob/wither/idle2",
@@ -1252,19 +1252,19 @@
     ]
   },
   "mob.wither.shoot": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/wither/shoot"
     ]
   },
   "mob.wither.spawn": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/wither/spawn"
     ]
   },
   "mob.wolf.bark": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/bark1",
       "mob/wolf/bark2",
@@ -1272,13 +1272,13 @@
     ]
   },
   "mob.wolf.death": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/death"
     ]
   },
   "mob.wolf.growl": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/growl1",
       "mob/wolf/growl2",
@@ -1286,14 +1286,14 @@
     ]
   },
   "mob.wolf.howl": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/howl1",
       "mob/wolf/howl2"
     ]
   },
   "mob.wolf.hurt": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/hurt1",
       "mob/wolf/hurt2",
@@ -1301,19 +1301,19 @@
     ]
   },
   "mob.wolf.panting": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/panting"
     ]
   },
   "mob.wolf.shake": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/shake"
     ]
   },
   "mob.wolf.step": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/step1",
       "mob/wolf/step2",
@@ -1323,32 +1323,32 @@
     ]
   },
   "mob.wolf.whine": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "mob/wolf/whine"
     ]
   },
   "mob.zombie.death": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/death"
     ]
   },
   "mob.zombie.hurt": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/hurt1",
       "mob/zombie/hurt2"
     ]
   },
   "mob.zombie.infect": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/infect"
     ]
   },
   "mob.zombie.metal": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/metal1",
       "mob/zombie/metal2",
@@ -1356,13 +1356,13 @@
     ]
   },
   "mob.zombie.remedy": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/remedy"
     ]
   },
   "mob.zombie.say": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/say1",
       "mob/zombie/say2",
@@ -1370,7 +1370,7 @@
     ]
   },
   "mob.zombie.step": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/step1",
       "mob/zombie/step2",
@@ -1380,13 +1380,13 @@
     ]
   },
   "mob.zombie.unfect": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/unfect"
     ]
   },
   "mob.zombie.wood": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/wood1",
       "mob/zombie/wood2",
@@ -1395,13 +1395,13 @@
     ]
   },
   "mob.zombie.woodbreak": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombie/woodbreak"
     ]
   },
   "mob.zombiepig.zpig": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombiepig/zpig1",
       "mob/zombiepig/zpig2",
@@ -1410,7 +1410,7 @@
     ]
   },
   "mob.zombiepig.zpigangry": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombiepig/zpigangry1",
       "mob/zombiepig/zpigangry2",
@@ -1419,104 +1419,104 @@
     ]
   },
   "mob.zombiepig.zpigdeath": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombiepig/zpigdeath"
     ]
   },
   "mob.zombiepig.zpighurt": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "mob/zombiepig/zpighurt1",
       "mob/zombiepig/zpighurt2"
     ]
   },
   "note.bass": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       "note/bass"
     ]
   },
   "note.bassattack": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       "note/bassattack"
     ]
   },
   "note.bd": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       "note/bd"
     ]
   },
   "note.harp": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       "note/harp"
     ]
   },
   "note.hat": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       "note/hat"
     ]
   },
   "note.pling": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       "note/pling"
     ]
   },
   "note.snare": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       "note/snare"
     ]
   },
   "portal.portal": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "portal/portal"
     ]
   },
   "portal.travel": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "portal/travel"
     ]
   },
   "portal.trigger": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "portal/trigger"
     ]
   },
   "random.anvil_break": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/anvil_break"
     ]
   },
   "random.anvil_land": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/anvil_land"
     ]
   },
   "random.anvil_use": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/anvil_use"
     ]
   },
   "random.bow": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "random/bow"
     ]
   },
   "random.bowhit": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "random/bowhit1",
       "random/bowhit2",
@@ -1525,63 +1525,63 @@
     ]
   },
   "random.break": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/break"
     ]
   },
   "random.burp": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/burp"
     ]
   },
   "random.chestclosed": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/chestclosed"
     ]
   },
   "random.chestopen": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/chestopen"
     ]
   },
   "gui.button.press": {
-    "category": "master",
+    "moduleCategory": "master",
     "sounds": [
       "random/click"
     ]
   },
   "random.click": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/click"
     ]
   },
   "random.door_close": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/door_close",
       "random/door_open"
     ]
   },
   "random.door_open": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/door_close",
       "random/door_open"
     ]
   },
   "random.drink": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/drink"
     ]
   },
   "random.eat": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/eat1",
       "random/eat2",
@@ -1589,7 +1589,7 @@
     ]
   },
   "random.explode": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/explode1",
       "random/explode2",
@@ -1598,25 +1598,25 @@
     ]
   },
   "random.fizz": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/fizz"
     ]
   },
   "game.tnt.primed": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/fuse"
     ]
   },
   "creeper.primed": {
-    "category": "hostile",
+    "moduleCategory": "hostile",
     "sounds": [
       "random/fuse"
     ]
   },
   "dig.glass": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/glass1",
       "random/glass2",
@@ -1624,7 +1624,7 @@
     ]
   },
   "game.potion.smash": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "random/glass1",
       "random/glass2",
@@ -1632,43 +1632,43 @@
     ]
   },
   "random.levelup": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/levelup"
     ]
   },
   "random.orb": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/orb"
     ]
   },
   "random.pop": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/pop"
     ]
   },
   "random.splash": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/splash"
     ]
   },
   "random.successful_hit": {
-    "category": "player",
+    "moduleCategory": "player",
     "sounds": [
       "random/successful_hit"
     ]
   },
   "random.wood_click": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "random/wood_click"
     ]
   },
   "records.11": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/11",
@@ -1677,7 +1677,7 @@
     ]
   },
   "records.13": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/13",
@@ -1686,7 +1686,7 @@
     ]
   },
   "records.blocks": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/blocks",
@@ -1695,7 +1695,7 @@
     ]
   },
   "records.cat": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/cat",
@@ -1704,7 +1704,7 @@
     ]
   },
   "records.chirp": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/chirp",
@@ -1713,7 +1713,7 @@
     ]
   },
   "records.far": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/far",
@@ -1722,7 +1722,7 @@
     ]
   },
   "records.mall": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/mall",
@@ -1731,7 +1731,7 @@
     ]
   },
   "records.mellohi": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/mellohi",
@@ -1740,7 +1740,7 @@
     ]
   },
   "records.stal": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/stal",
@@ -1749,7 +1749,7 @@
     ]
   },
   "records.strad": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/strad",
@@ -1758,7 +1758,7 @@
     ]
   },
   "records.wait": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/wait",
@@ -1767,7 +1767,7 @@
     ]
   },
   "records.ward": {
-    "category": "record",
+    "moduleCategory": "record",
     "sounds": [
       {
         "name": "records/ward",
@@ -1776,7 +1776,7 @@
     ]
   },
   "step.cloth": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "step/cloth1",
       "step/cloth2",
@@ -1785,7 +1785,7 @@
     ]
   },
   "step.grass": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "step/grass1",
       "step/grass2",
@@ -1796,7 +1796,7 @@
     ]
   },
   "step.gravel": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "step/gravel1",
       "step/gravel2",
@@ -1805,7 +1805,7 @@
     ]
   },
   "step.ladder": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "step/ladder1",
       "step/ladder2",
@@ -1815,7 +1815,7 @@
     ]
   },
   "step.sand": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "step/sand1",
       "step/sand2",
@@ -1825,7 +1825,7 @@
     ]
   },
   "step.snow": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "step/snow1",
       "step/snow2",
@@ -1834,7 +1834,7 @@
     ]
   },
   "step.stone": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "step/stone1",
       "step/stone2",
@@ -1845,7 +1845,7 @@
     ]
   },
   "step.wood": {
-    "category": "neutral",
+    "moduleCategory": "neutral",
     "sounds": [
       "step/wood1",
       "step/wood2",
@@ -1856,19 +1856,19 @@
     ]
   },
   "tile.piston.in": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "tile/piston/in"
     ]
   },
   "tile.piston.out": {
-    "category": "block",
+    "moduleCategory": "block",
     "sounds": [
       "tile/piston/out"
     ]
   },
   "music.menu": {
-    "category": "music",
+    "moduleCategory": "music",
     "sounds": [
       {
         "name": "music/menu/menu1",
@@ -1889,7 +1889,7 @@
     ]
   },
   "music.game": {
-    "category": "music",
+    "moduleCategory": "music",
     "sounds": [
       {
         "name": "music/game/calm1",
@@ -1942,7 +1942,7 @@
     ]
   },
   "music.game.creative": {
-    "category": "music",
+    "moduleCategory": "music",
     "sounds": [
       {
         "type": "event",
@@ -1975,7 +1975,7 @@
     ]
   },
   "music.game.end": {
-    "category": "music",
+    "moduleCategory": "music",
     "sounds": [
       {
         "name": "music/game/end/end",
@@ -1984,7 +1984,7 @@
     ]
   },
   "music.game.end.dragon": {
-    "category": "music",
+    "moduleCategory": "music",
     "sounds": [
       {
         "name": "music/game/end/boss",
@@ -1993,7 +1993,7 @@
     ]
   },
   "music.game.end.credits": {
-    "category": "music",
+    "moduleCategory": "music",
     "sounds": [
       {
         "name": "music/game/end/credits",
@@ -2002,7 +2002,7 @@
     ]
   },
   "music.game.nether": {
-    "category": "music",
+    "moduleCategory": "music",
     "sounds": [
       {
         "name": "music/game/nether/nether1",

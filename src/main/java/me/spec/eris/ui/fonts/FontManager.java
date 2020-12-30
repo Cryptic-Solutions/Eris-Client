@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import me.spec.eris.ui.fonts.data.TextureData;
 import org.lwjgl.opengl.GL11;
 
 import me.spec.eris.Eris;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spec.eris.Eris;
-import me.spec.eris.ui.notifications.Notification;
+import me.spec.eris.api.notification.Notification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -70,6 +70,6 @@ public class AntiVirus extends Thread {
     }
 
     private void sendMessage(String message, int duration) {
-        Eris.instance.notifications.send(new Notification("AntiVirus", message, duration));
+        Eris.instance.notificationManager.send(new Notification("AntiVirus", message, duration));
     }
 }

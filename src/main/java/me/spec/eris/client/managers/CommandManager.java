@@ -1,0 +1,40 @@
+package me.spec.eris.client.managers;
+
+import me.spec.eris.api.command.Command;
+import me.spec.eris.client.commands.BindCommand;
+import me.spec.eris.client.commands.ConfigCommand;
+import me.spec.eris.client.commands.HelpCommand;
+import me.spec.eris.client.commands.ToggleCommand;
+import me.spec.eris.api.event.Event;
+import me.spec.eris.client.events.chat.ChatMessageEvent;
+import me.spec.eris.api.manager.Manager;
+
+public class CommandManager extends Manager<Command> {
+
+
+    @Override
+    public void loadManager() {
+    addToManagerArraylist(new HelpCommand());
+    addToManagerArraylist(new ToggleCommand());
+    addToManagerArraylist(new BindCommand());
+    addToManagerArraylist(new ConfigCommand());
+    }
+
+    public void onEvent(Event e) {
+        ChatMessageEvent event = (ChatMessageEvent) e;
+        String chatMessage = event.getChatMessage();
+
+        if(chatMessage.startsWith(".")) {
+            e.setCancelled();
+            String noPrefixChatMessage = chatMessage.replace(".", "");
+            String[] commandArguments = noPrefixChatMessage.split(" ");
+            for(Command command : getManagerArraylist()) {
+                if(commandArguments[0].equalsIgnoreCase(command.getCommandName())) {
+                    command.execute(commandArguments);
+                }
+            }
+
+        }
+
+    }
+}

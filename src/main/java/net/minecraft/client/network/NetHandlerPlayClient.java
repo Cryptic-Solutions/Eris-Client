@@ -18,7 +18,7 @@ import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
 
 import io.netty.buffer.Unpooled;
-import me.spec.eris.event.client.EventPacket;
+import me.spec.eris.client.events.client.EventPacket;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;

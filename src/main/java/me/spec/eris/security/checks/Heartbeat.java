@@ -1,9 +1,9 @@
 package me.spec.eris.security.checks;
 
 import me.spec.eris.Eris;
-import me.spec.eris.event.Event;
-import me.spec.eris.event.player.EventUpdate;
-import me.spec.eris.module.Module;
+import me.spec.eris.api.event.Event;
+import me.spec.eris.client.events.player.EventUpdate;
+import me.spec.eris.api.module.Module;
 
 public class Heartbeat extends Module {
 

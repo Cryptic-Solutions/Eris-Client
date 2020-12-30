@@ -109,7 +109,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
         }
 
         if (Eris.instance != null) {
-            Eris.instance.notifications.render();
+            Eris.instance.notificationManager.render();
         }
     }
 

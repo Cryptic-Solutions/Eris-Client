@@ -10,8 +10,8 @@ import com.google.common.collect.Lists;
 
 import me.spec.eris.Eris;
 import me.spec.eris.Eris.Gamemode;
-import me.spec.eris.event.render.EventRender2D;
-import me.spec.eris.event.render.EventRenderSR;
+import me.spec.eris.client.events.render.EventRender2D;
+import me.spec.eris.client.events.render.EventRenderSR;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

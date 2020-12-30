@@ -7,15 +7,14 @@ import java.util.Collections;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import me.spec.eris.Eris;
-import me.spec.eris.module.Module;
-import me.spec.eris.module.values.Value;
-import me.spec.eris.module.values.valuetypes.BooleanValue;
-import me.spec.eris.module.values.valuetypes.ModeValue;
-import me.spec.eris.module.values.valuetypes.NumberValue;
+import me.spec.eris.api.module.Module;
+import me.spec.eris.api.value.Value;
+import me.spec.eris.api.value.types.BooleanValue;
+import me.spec.eris.api.value.types.ModeValue;
+import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.ui.click.ClickGui;
-import me.spec.eris.utils.Helper;
-import me.spec.eris.utils.TimerUtils;
+import me.spec.eris.utils.misc.Helper;
+import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 

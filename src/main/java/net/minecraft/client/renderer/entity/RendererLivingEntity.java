@@ -10,8 +10,8 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 
 import me.spec.eris.Eris;
-import me.spec.eris.event.player.EventUpdate;
-import me.spec.eris.module.modules.render.ESP;
+import me.spec.eris.client.events.player.EventUpdate;
+import me.spec.eris.client.modules.render.ESP;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -614,7 +614,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
     protected boolean canRenderName(T entity) {
         EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-        ESP esp = ((ESP)Eris.instance.modules.getModuleByClass(ESP.class));
+        ESP esp = ((ESP)Eris.instance.moduleManager.getModuleByClass(ESP.class));
         if (esp.isToggled() && esp.nametags.getValue()) return false;
         if (entity instanceof EntityPlayer && entity != entityplayersp) {
             Team team = entity.getTeam();

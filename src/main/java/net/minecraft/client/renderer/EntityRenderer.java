@@ -4,9 +4,8 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 
-import me.spec.eris.event.render.EventEntityRender;
-import me.spec.eris.event.render.EventRender3D;
-import me.spec.eris.event.render.EventRenderSR;
+import me.spec.eris.client.events.render.EventEntityRender;
+import me.spec.eris.client.events.render.EventRender3D;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;

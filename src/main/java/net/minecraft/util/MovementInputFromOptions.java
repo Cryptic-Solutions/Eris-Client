@@ -1,7 +1,7 @@
 package net.minecraft.util;
 
 import me.spec.eris.Eris;
-import me.spec.eris.module.modules.movement.Scaffold;
+import me.spec.eris.client.modules.movement.Scaffold;
 import net.minecraft.client.settings.GameSettings;
 
 public class MovementInputFromOptions extends MovementInput {
@@ -35,7 +35,7 @@ public class MovementInputFromOptions extends MovementInput {
         sneak = gameSettings.keyBindSneak.isKeyDown();
 
         if (sneak) {
-        	double value = Eris.instance.modules.isEnabled(Scaffold.class) ? .8 : .3;
+        	double value = Eris.instance.moduleManager.isEnabled(Scaffold.class) ? .8 : .3;
             moveStrafe = (float) ((double) moveStrafe * value);
             moveForward = (float) ((double) moveForward * value);
         }

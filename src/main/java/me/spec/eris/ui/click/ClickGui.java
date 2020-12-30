@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import me.spec.eris.Eris;
-import me.spec.eris.module.Category;
+import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.ui.click.pannels.Panel;
 import me.spec.eris.ui.click.pannels.components.Mode;
 import me.spec.eris.ui.fonts.TTFFontRenderer;
@@ -40,8 +40,8 @@ public class ClickGui extends GuiScreen {
         int x = 3;
         int y = 5;
         int count = 0;
-        if (!createdPanels && panels.size() != Category.values().length) {
-            for (Category c : Category.values()) {
+        if (!createdPanels && panels.size() != ModuleCategory.values().length) {
+            for (ModuleCategory c : ModuleCategory.values()) {
                 Panel p = new Panel(x, y, c);
                 panels.add(p);
                 x += p.getWidth() + 5;
@@ -50,7 +50,7 @@ public class ClickGui extends GuiScreen {
                     y += 50;
                     x = 3;
                 }
-                createdPanels = (panels.size() == Category.values().length);
+                createdPanels = (panels.size() == ModuleCategory.values().length);
             }
         }
     }

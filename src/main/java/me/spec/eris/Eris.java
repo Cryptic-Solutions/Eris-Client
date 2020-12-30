@@ -2,20 +2,20 @@ package me.spec.eris;
 
 import java.awt.Color;
 
-import me.spec.eris.event.Event;
-import me.spec.eris.event.chat.ChatMessageEvent;
-import me.spec.eris.manager.impl.CommandManager;
+import me.spec.eris.api.event.Event;
+import me.spec.eris.client.events.chat.ChatMessageEvent;
+import me.spec.eris.client.managers.CommandManager;
 import org.lwjgl.opengl.Display;
 
 import libraries.thealtening.service.ServiceSwitcher;
-import me.spec.eris.config.ConfigManager;
-import me.spec.eris.config.files.FileManager;
-import me.spec.eris.module.ModuleManager;
+import me.spec.eris.client.managers.ConfigManager;
+import me.spec.eris.api.config.file.FileManager;
+import me.spec.eris.client.managers.ModuleManager;
 import me.spec.eris.ui.click.ClickGui;
 import me.spec.eris.ui.fonts.FontManager;
 import me.spec.eris.ui.fonts.TTFFontRenderer;
-import me.spec.eris.ui.notifications.Notification;
-import me.spec.eris.ui.notifications.NotificationManager;
+import me.spec.eris.api.notification.Notification;
+import me.spec.eris.client.managers.NotificationManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -26,19 +26,25 @@ public class Eris {
 
 	public static Eris instance;
 
-	// Variables
+	/*
+	Variables
+	 */
 	private long startTime;
 	public double hoursPlayed;
 	public String alteningAPI;
 
-	// Server integration
+	/*
+	Server Integration
+	 */
 	public Gamemode gamemode = Gamemode.UNSPECIFIED;
 	public Server server = Server.IRRELLEVANT;
 
-	// Managers
-	public ModuleManager modules;
+	/*
+	Managers
+	 */
+	public ModuleManager moduleManager;
 	public FileManager fileManager;
-	public NotificationManager notifications;
+	public NotificationManager notificationManager;
 	public FontManager fontManager;
 	public CommandManager commandManager;
 	public ClickGui clickUI;
@@ -50,8 +56,8 @@ public class Eris {
 		this.startTime = System.currentTimeMillis();
 		this.serviceSwitcher = new ServiceSwitcher();
 		this.fontManager = new FontManager();
-		this.notifications = new NotificationManager();
-		this.modules = new ModuleManager();
+		this.notificationManager = new NotificationManager();
+		this.moduleManager = new ModuleManager();
 		this.fileManager = new FileManager();
 		this.commandManager = new CommandManager();
 		this.configManager = new ConfigManager();
@@ -106,7 +112,7 @@ public class Eris {
 	}
 
 	private void sendNotification(String type, String message, int duration) {
-		notifications.send(new Notification(type, message, duration));
+		notificationManager.send(new Notification(type, message, duration));
 	}
 
 	public void tellUser(String message) {

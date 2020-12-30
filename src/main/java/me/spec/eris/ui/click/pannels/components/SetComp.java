@@ -1,6 +1,6 @@
 package me.spec.eris.ui.click.pannels.components;
 
-import me.spec.eris.module.values.Value;
+import me.spec.eris.api.value.Value;
 
 public class SetComp {
 

@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.io.IOException;
 
 import me.spec.eris.Eris;
-import me.spec.eris.config.ClientConfig;
+import me.spec.eris.api.config.ClientConfig;
 import me.spec.eris.ui.click.ClickGui;
-import me.spec.eris.utils.Helper;
+import me.spec.eris.utils.misc.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
