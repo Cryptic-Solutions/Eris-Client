@@ -3,6 +3,7 @@ package me.spec.eris.client.ui.click.pannels.components;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.client.ui.click.ClickGui;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.EnumChatFormatting;
 
 public class Mode extends SetComp {
 
@@ -24,11 +25,11 @@ public class Mode extends SetComp {
     public int drawScreen(int mouseX, int mouseY, int x, int y) {
         this.hovered = this.isHovered(mouseX, mouseY);
         this.height = 15;
-        this.x = x;
+        this.x = x + 12;
         this.y = y;
 
         Gui.drawRect(this.x, this.y, this.x + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
-        String name = this.set.getValueName() + ": " + this.set.getValue();
+        String name = this.set.getValueName() + EnumChatFormatting.GRAY + ": " + this.set.getValue();
         ClickGui.getFont().drawString(name, (this.x + 2), (y + (ClickGui.getFont().getHeight(name) / 2) - 1), ClickGui.getPrimaryColor().getRGB());
         return this.height;
     }

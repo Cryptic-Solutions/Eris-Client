@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import me.spec.eris.api.module.ModuleCategory;
+import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
 import org.lwjgl.opengl.GL11;
@@ -26,9 +27,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class HUD extends Module {
+
+    public BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, "Backdrop on arraylist");
+    private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, "Background Opacity");
     private NumberValue<Integer> xPosition = new NumberValue<>("X-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the X-Axis");
     private NumberValue<Integer> yPosition = new NumberValue<>("Y-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the Y-Axis");
-
     private ModeValue<ColorMode> colorMode = new ModeValue<>("Color", ColorMode.STATIC, this);
 
     private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Speed");
@@ -67,8 +70,7 @@ public class HUD extends Module {
             yText = yPosition.getValue();
             ScaledResolution scaledResolution = new ScaledResolution(mc);
 
-            mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
-
+            getFont().drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
             List<Module> modulesForRender = Eris.getInstance().moduleManager.getModulesForRender();
 
             modulesForRender.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
@@ -84,8 +86,9 @@ public class HUD extends Module {
 
                     double x = scaledResolution.getScaledWidth() - getFont().getStringWidth(name) - xPosition.getValue();
 
-                    RenderUtilities.drawRectangle(x - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, 145).getRGB());
-
+                    if(arraylistBackground.getValue()) {
+                        RenderUtilities.drawRectangle(x - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, arraylistBackgroundOpacity.getValue().intValue()).getRGB());
+                    }
                     switch (colorMode.getValue()) {
                         case RAINBOW: {
                             getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));

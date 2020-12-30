@@ -33,8 +33,8 @@ public class Checkbox extends Component {
 
         Gui.drawRect(this.x, this.y, this.x + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
         String name = this.set.getValueName();
-        ClickGui.getFont().drawString(name, (this.x + 16), (y + (ClickGui.getFont().getHeight(name) / 2) + 0.5F), ClickGui.getPrimaryColor().getRGB());
-        RenderUtilities.drawRoundedRect(this.x + 3, this.y + 5, this.x + 14, this.y + 14, new Color(0, 0, 0, 0).getRGB(), (boolean) this.set.getValue() ? new Color(180, 180, 180, 190).getRGB() : new Color(180, 180, 180, 190).getRGB());
+        ClickGui.getFont().drawString(name, (this.x + 16), (y + (ClickGui.getFont().getHeight(name) / 2) + 0.5F), new Color(175, 175, 175).getRGB());
+        RenderUtilities.drawRoundedRect(this.x + 3, this.y + 5, this.x + 14, this.y + 14, new Color(0, 0, 0, 0).getRGB(), (boolean) this.set.getValue() ? new Color(29, 29, 29, 191).getRGB() : new Color(29, 29, 29, 190).getRGB());
         GlStateManager.color(1, 1, 1);
         float x1 = (boolean) this.set.getValue() ? 5 : 1.5F;
         float x2 = (boolean) this.set.getValue() ? 3 : 0F;
@@ -43,7 +43,8 @@ public class Checkbox extends Component {
         float x2Diff = x2 - this.lastX2;
         this.lastX1 += x1Diff / 4;
         this.lastX2 += x2Diff / 4;
-        RenderUtilities.drawRoundedRect(this.x + lastX1 + 2, this.y + 6, this.x + 10 + lastX2, this.y + 13, new Color((boolean) this.set.getValue() ? 0 : 255, (boolean) this.set.getValue() ? 255 : 0, 0, 180).getRGB(), new Color(0, 0, 0, 190).getRGB());
+        //        RenderUtilities.drawRoundedRect(this.x + lastX1 + 2, this.y + 6, this.x + 10 + lastX2, this.y + 13, new Color((boolean) this.set.getValue() ? 0 : 255, (boolean) this.set.getValue() ? 255 : 0, 0, 180).getRGB(), new Color(0, 0, 0, 190).getRGB());
+        RenderUtilities.drawRoundedRect(this.x + lastX1 + 2, this.y + 6, this.x + 10 + lastX2, this.y + 13, new Color((boolean) this.set.getValue() ? 0 : 255, (boolean) this.set.getValue() ? 255 : 0, 0, 180).getRGB(), (boolean)this.set.getValue() ? new Color(20, 190, 68).getRGB() : new Color(227, 0, 0).getRGB());
 
         if (hovered && set.getDescription().length() > 1) {
             new ScaledResolution(Minecraft.getMinecraft());
@@ -51,7 +52,7 @@ public class Checkbox extends Component {
             float renderPosX = (this.x + ClickGui.getFont().getStringWidth(name) * 1.45f);
             float renderPosY = (y + (ClickGui.getFont().getHeight(set.getDescription()) / 2) + 0.5F) * .99f;
         //    RenderUtilities.drawRectangle(renderPosX, renderPosY, (double)ClickGui.getFont().getStringWidth(set.getDescription()) + .35, (double)ClickGui.getFont().getHeight(name), new Color(0,0,0).getRGB());
-            RenderUtilities.drawRoundedRect(renderPosX - 1, renderPosY - 1, (renderPosX + 1) + ClickGui.getFont().getStringWidth(set.getDescription()), (renderPosY + 1) + ClickGui.getFont().getHeight(set.getDescription()), new Color(255,0,0, 100).getRGB(), new Color(0,0,0, 180).getRGB());
+           RenderUtilities.drawRoundedRect(renderPosX - 1, renderPosY - 1, (renderPosX + 1) + ClickGui.getFont().getStringWidth(set.getDescription()), (renderPosY + 1) + ClickGui.getFont().getHeight(set.getDescription()), new Color(255,0,0, 100).getRGB(), new Color(0,0,0, 180).getRGB());
             ClickGui.getFont().drawString(set.getDescription(), (this.x + ClickGui.getFont().getStringWidth(name) * 1.45f), (y + (ClickGui.getFont().getHeight(name) / 2) + 0.5F) * .99f, ClickGui.getPrimaryColor().getRGB());
         } else {
             ClickGui.toolTip = "no information to display";
