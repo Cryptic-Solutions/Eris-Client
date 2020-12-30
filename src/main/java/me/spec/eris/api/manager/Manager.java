@@ -1,10 +1,11 @@
 package me.spec.eris.api.manager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Manager<T> {
 
-    private ArrayList<T> managerArraylist = new ArrayList<>();
+    protected final List<T> managerArraylist = new ArrayList<>();
 
     public Manager() {
         loadManager();
@@ -12,7 +13,7 @@ public abstract class Manager<T> {
 
     public abstract void loadManager();
 
-    public ArrayList<T> getManagerArraylist() {
+    public List<T> getManagerArraylist() {
         return managerArraylist;
     }
 
