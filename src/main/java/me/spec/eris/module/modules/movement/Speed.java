@@ -19,7 +19,8 @@ public class Speed extends Module {
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);
 
     private enum Mode {WATCHDOG}
-	private int hops, waitTicks, stage;
+	private int hops, stage;
+    public int waitTicks;
 	private double speed;
 
 	public Speed() {
