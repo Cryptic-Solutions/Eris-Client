@@ -54,7 +54,6 @@ public class Speed extends Module {
 
     @Override
     public void onEvent(Event e) {
-		boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
 
 		switch (mode.getValue()) {
 			case WATCHDOG:
@@ -81,11 +80,12 @@ public class Speed extends Module {
 					}
 				}
 				if (e instanceof EventMove) {
+					boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
 					EventMove em = (EventMove) e;
 					Step step = ((Step) Eris.instance.moduleManager.getModuleByClass(Step.class));
 					if (Eris.instance.moduleManager.isEnabled(Scaffold.class) || Eris.instance.moduleManager.isEnabled(Flight.class) || step.cancelMorePackets) {
 						hops = -1;
-						return;
+						if (!Eris.instance.modules.isEnabled(Scaffold.class)) return;
 					}
 					if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS) && !mc.thePlayer.onGround) {
 						boolean timer = Eris.getInstance().moduleManager.getModuleByClass(Killaura.class).isToggled() && Killaura.target != null;

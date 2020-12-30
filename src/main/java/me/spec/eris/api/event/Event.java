@@ -4,6 +4,10 @@ import me.spec.eris.Eris;
 import me.spec.eris.client.events.chat.ChatMessageEvent;
 import me.spec.eris.api.module.Module;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import me.spec.eris.module.modules.combat.AntiBot;
+
+import java.util.ArrayList;
 
 public class Event {
 

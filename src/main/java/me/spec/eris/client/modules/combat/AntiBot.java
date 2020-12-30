@@ -1,5 +1,4 @@
 package me.spec.eris.client.modules.combat;
-
 import java.util.ArrayList;
 
 import me.spec.eris.api.event.Event;
