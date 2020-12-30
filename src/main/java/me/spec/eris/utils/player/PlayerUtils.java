@@ -2,6 +2,8 @@ package me.spec.eris.utils.player;
 
 import java.awt.Color;
 
+import me.spec.eris.Eris;
+import me.spec.eris.api.friend.Friend;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.client.modules.combat.AntiBot;
 import net.minecraft.client.Minecraft;
@@ -38,6 +40,11 @@ public class PlayerUtils {
         if (entity == Minecraft.getMinecraft().thePlayer)
             return false;
 
+        for(Friend friend : Eris.getInstance().friendManager.getManagerArraylist()) {
+            if(friend.getFriendName().equalsIgnoreCase(entity.getName())) {
+                return false;
+            }
+        }
 
         if (entity instanceof EntityArmorStand)
             return false;
