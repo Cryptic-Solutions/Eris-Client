@@ -97,33 +97,6 @@ public class ModuleManager extends Manager<Module> {
     public List<Module> getModules() {
         return getManagerArraylist();
     }
- 
-    public ArrayList<Module> getModulesInCategory(ModuleCategory moduleCategory) {
-        ArrayList<Module> mods = new ArrayList<Module>();
-        for (Module m : getManagerArraylist()) {
-            if (m.getCategory() == moduleCategory)  mods.add(m);
-        }
-        return mods;
-    }
-
-    public boolean isEnabled(Class<?> class1) {
-        return getModuleByClass(class1).isToggled();
-    }
-
-    public Module getModuleByClass(Class<?> class1) {
-        for (int i = 0; i < getManagerArraylist().size(); i++) {
-            if (getManagerArraylist().get(i).getClass() == class1)  return getManagerArraylist().get(i);
-        }
-        return null;
-    }
-
-    public ArrayList<Module> getModulesForRender() {
-        ArrayList<Module> modulesForRender = new ArrayList<>();
-        for (Module module : getModules()) {
-            if (module.isToggled() && checkVisibility(module)) modulesForRender.add(module);
-        }
-        return modulesForRender;
-	}
 	
     public List<Module> getModulesInCategory(ModuleCategory moduleCategory) {
         return managerArraylist.stream().filter(module -> module.getCategory() == moduleCategory).collect(Collectors.toList());

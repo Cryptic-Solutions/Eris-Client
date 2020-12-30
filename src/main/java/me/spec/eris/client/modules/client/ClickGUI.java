@@ -9,7 +9,7 @@ import me.spec.eris.api.module.Module;
 public class ClickGUI extends Module {
 
     public ClickGUI() {
-        super("ClickGUI", ModuleCategory.CLIENT);
+        super("ClickGUI", ModuleCategory.CLIENT, "ClickGui");
         this.setKey(Keyboard.KEY_RSHIFT, false);
     }
 

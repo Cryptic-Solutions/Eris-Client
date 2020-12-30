@@ -6,7 +6,7 @@ import me.spec.eris.api.module.Module;
 public class AntiCrash extends Module {
 
     public AntiCrash() {
-        super("AntiCrash", ModuleCategory.CLIENT);
+        super("AntiCrash", ModuleCategory.CLIENT, "AntiCrash");
     }
 
 }

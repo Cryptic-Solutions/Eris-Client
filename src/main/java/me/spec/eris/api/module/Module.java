@@ -8,6 +8,7 @@ import me.spec.eris.client.events.player.EventMove;
 import me.spec.eris.api.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.api.value.Value;
+import me.spec.eris.client.modules.render.Racist;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.EnumChatFormatting;
@@ -113,10 +114,8 @@ public class Module {
 
     protected void onDisable() {
     }
+    public String getName() { return name; }
 
-    public String getName() {
-        return this.name;
-    }
 
     public String getMode() {
         return mode;
@@ -138,6 +137,8 @@ public class Module {
         EventMove.lastDistance = lastDist;
     }
 
+    public String getDynamicName() { return (Eris.instance.moduleManager.isEnabled(Racist.class) ? racistName : name); }
+
     public void sendPosition(double x, double y, double z, boolean ground, boolean movement) {
         if (movement) {
             mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX + x, mc.thePlayer.posY + y, mc.thePlayer.posZ + z, mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, ground));
@@ -147,6 +148,6 @@ public class Module {
     }
 
     public String getFullModuleDisplayName() {
-        return name + EnumChatFormatting.GRAY + (mode.length() > 1 ? " " + mode.substring(0, 1) + mode.replace(mode.substring(0, 1), "").toLowerCase() : "");
+        return getDynamicName() + EnumChatFormatting.GRAY + (mode.length() > 1 ? " " + mode.substring(0, 1) + mode.replace(mode.substring(0, 1), "").toLowerCase() : "");
     }
 }
