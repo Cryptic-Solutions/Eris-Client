@@ -21,7 +21,7 @@ public class Velocity extends Module {
     }
 
     public Velocity(String racism) {
-        super("Velocity", ModuleCategory.COMBAT, racism);;
+        super("Velocity", ModuleCategory.COMBAT, racism);
     }
 
     @Override

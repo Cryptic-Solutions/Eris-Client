@@ -87,9 +87,10 @@ public class Criticals extends Module {
 						waitTicks--;
 						return;
 					}
-					List<Double> values = Arrays.asList(.0,0.1040803780930446,0.48071087633169896,0.7850277037892397,1.015555072702199,
-							1.1707870772188045,1.2491870787446828,1.24918707874468281, .1661092609382138,1.0013359791121417,0.7531999805212024,0.41999998688697815);
-					eu.setY(mc.thePlayer.posY + (airTime == 0 ? 0 : values.get(airTime)));
+					double[] values = new double[] {.0,0.1040803780930446,0.48071087633169896,0.7850277037892397,1.015555072702199,
+							1.1707870772188045,1.2491870787446828,1.24918707874468281, .1661092609382138,1.0013359791121417,0.7531999805212024,0.41999998688697815};
+					//spec sir this might throw an exception
+					eu.setY(mc.thePlayer.posY + (airTime == 0 ? 0 : values[airTime]));
 					eu.setOnGround(eu.getY() == mc.thePlayer.posY);
 					if (airTime > 0) airTime--;
 				} else {
