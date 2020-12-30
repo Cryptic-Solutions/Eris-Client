@@ -4,18 +4,15 @@ import java.awt.Color;
 
 import me.spec.eris.api.event.Event;
 import me.spec.eris.client.events.chat.ChatMessageEvent;
-import me.spec.eris.client.managers.CommandManager;
+import me.spec.eris.client.managers.*;
 import org.lwjgl.opengl.Display;
 
 import libraries.thealtening.service.ServiceSwitcher;
-import me.spec.eris.client.managers.ConfigManager;
 import me.spec.eris.api.config.file.FileManager;
-import me.spec.eris.client.managers.ModuleManager;
 import me.spec.eris.ui.click.ClickGui;
 import me.spec.eris.ui.fonts.FontManager;
 import me.spec.eris.ui.fonts.TTFFontRenderer;
 import me.spec.eris.api.notification.Notification;
-import me.spec.eris.client.managers.NotificationManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -47,6 +44,7 @@ public class Eris {
 	public NotificationManager notificationManager;
 	public FontManager fontManager;
 	public CommandManager commandManager;
+	public FriendManager friendManager;
 	public ClickGui clickUI;
 	public ConfigManager configManager;
 	public ServiceSwitcher serviceSwitcher;
@@ -59,6 +57,7 @@ public class Eris {
 		this.notificationManager = new NotificationManager();
 		this.moduleManager = new ModuleManager();
 		this.fileManager = new FileManager();
+		this.friendManager = new FriendManager();
 		this.commandManager = new CommandManager();
 		this.configManager = new ConfigManager();
 		this.clickUI = new ClickGui();

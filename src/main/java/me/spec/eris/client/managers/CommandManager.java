@@ -1,10 +1,7 @@
 package me.spec.eris.client.managers;
 
 import me.spec.eris.api.command.Command;
-import me.spec.eris.client.commands.BindCommand;
-import me.spec.eris.client.commands.ConfigCommand;
-import me.spec.eris.client.commands.HelpCommand;
-import me.spec.eris.client.commands.ToggleCommand;
+import me.spec.eris.client.commands.*;
 import me.spec.eris.api.event.Event;
 import me.spec.eris.client.events.chat.ChatMessageEvent;
 import me.spec.eris.api.manager.Manager;
@@ -18,6 +15,7 @@ public class CommandManager extends Manager<Command> {
     addToManagerArraylist(new ToggleCommand());
     addToManagerArraylist(new BindCommand());
     addToManagerArraylist(new ConfigCommand());
+    addToManagerArraylist(new FriendCommand());
     }
 
     public void onEvent(Event e) {
