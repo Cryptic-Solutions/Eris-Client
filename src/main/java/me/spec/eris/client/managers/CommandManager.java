@@ -16,6 +16,9 @@ public class CommandManager extends Manager<Command> {
     addToManagerArraylist(new BindCommand());
     addToManagerArraylist(new ConfigCommand());
     addToManagerArraylist(new FriendCommand());
+    addToManagerArraylist(new InfoCommand());
+    addToManagerArraylist(new NameCommand());
+    addToManagerArraylist(new IPCommand());
     }
 
     public void onEvent(Event e) {
