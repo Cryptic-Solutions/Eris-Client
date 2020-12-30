@@ -23,7 +23,7 @@ import me.spec.eris.client.modules.player.NoRotate;
 import me.spec.eris.client.modules.player.Phase;
 import me.spec.eris.client.modules.render.ESP;
 import me.spec.eris.client.modules.render.HUD;
-import me.spec.eris.security.checks.Heartbeat;
+import me.spec.eris.client.security.checks.Heartbeat;
 
 public class ModuleManager extends Manager<Module> {
 

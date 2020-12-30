@@ -17,12 +17,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import me.spec.eris.Eris;
-import me.spec.eris.ui.login.GuiLogin;
-import me.spec.eris.ui.main.MainMenu;
+import me.spec.eris.client.ui.login.GuiLogin;
+import me.spec.eris.client.ui.main.MainMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;

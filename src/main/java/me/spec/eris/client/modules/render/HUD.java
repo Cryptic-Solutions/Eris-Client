@@ -15,7 +15,7 @@ import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
 import me.spec.eris.client.events.render.EventRender2D;
 import me.spec.eris.api.module.Module;
-import me.spec.eris.ui.fonts.TTFFontRenderer;
+import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.utils.visual.RenderUtilities;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;

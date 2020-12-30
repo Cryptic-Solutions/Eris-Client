@@ -2,7 +2,7 @@ package me.spec.eris.client.managers;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.manager.Manager;
-import me.spec.eris.ui.fonts.TTFFontRenderer;
+import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.api.notification.Notification;
 import me.spec.eris.utils.misc.Helper;
 import net.minecraft.client.Minecraft;
