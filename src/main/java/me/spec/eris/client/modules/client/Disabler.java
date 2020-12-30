@@ -10,8 +10,8 @@ import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 
 public class Disabler extends Module {
 
-    public Disabler() {
-        super("Disabler", ModuleCategory.MISC);
+    public Disabler(String racism) {
+        super("Disabler", ModuleCategory.MISC, racism);
     }
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);
     private enum Mode {WATCHDOG}

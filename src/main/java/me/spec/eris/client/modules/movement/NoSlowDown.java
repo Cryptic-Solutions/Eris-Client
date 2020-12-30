@@ -17,8 +17,8 @@ import net.minecraft.util.EnumFacing;
 
 public class NoSlowDown extends Module {
 
-    public NoSlowDown() {
-        super("NoSlowDown", ModuleCategory.MOVEMENT);
+    public NoSlowDown(String racism) {
+        super("NoSlowDown", ModuleCategory.MOVEMENT, racism);
     }
 
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);

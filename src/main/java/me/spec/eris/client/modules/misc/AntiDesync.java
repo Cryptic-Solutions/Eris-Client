@@ -10,8 +10,8 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 public class AntiDesync extends Module {
     private int lastSlot;
 
-    public AntiDesync() {
-        super("AntiDesync", ModuleCategory.MISC);
+    public AntiDesync(String racism) {
+        super("AntiDesync", ModuleCategory.MISC, racism);;
     }
 
     @Override

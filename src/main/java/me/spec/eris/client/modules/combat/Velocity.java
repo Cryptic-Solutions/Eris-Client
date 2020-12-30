@@ -20,8 +20,8 @@ public class Velocity extends Module {
         VELT, PACKET, AGCTEST, DISLOCATE, SPOOF
     }
 
-    public Velocity() {
-        super("Velocity", ModuleCategory.COMBAT);
+    public Velocity(String racism) {
+        super("Velocity", ModuleCategory.COMBAT, racism);;
     }
 
     @Override

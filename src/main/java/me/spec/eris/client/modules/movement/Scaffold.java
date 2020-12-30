@@ -52,8 +52,8 @@ import net.minecraft.util.Vec3;
 public class Scaffold extends Module {
 
 
-    public Scaffold() {
-        super("Scaffold", ModuleCategory.MOVEMENT);
+    public Scaffold(String racism) {
+        super("Scaffold", ModuleCategory.MOVEMENT, racism);
         setModuleType(ModuleType.FLAGGABLE);
         invalid = Arrays.asList(Blocks.anvil, Blocks.wooden_pressure_plate, Blocks.stone_slab, Blocks.wooden_slab, Blocks.stone_slab2, Blocks.stone_pressure_plate, Blocks.light_weighted_pressure_plate, Blocks.heavy_weighted_pressure_plate, Blocks.sapling,
                 Blocks.air, Blocks.water, Blocks.fire, Blocks.flowing_water, Blocks.stone_button, Blocks.wooden_button, Blocks.lava, Blocks.flowing_lava, Blocks.chest, Blocks.anvil, Blocks.enchanting_table, Blocks.chest, Blocks.ender_chest, Blocks.gravel);
@@ -175,7 +175,7 @@ public class Scaffold extends Module {
                         if (Eris.instance.moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving()) motionBoost = false;
                         if (motionBoost) {
                             if (mc.thePlayer.ticksExisted % 2 != 0 ) {
-                                event.setY(mc.thePlayer.posY + 0.34);
+                                event.setY(mc.thePlayer.posY + 0.36);
                                 event.setOnGround(false);
                             } else {
                                 event.setOnGround(true);

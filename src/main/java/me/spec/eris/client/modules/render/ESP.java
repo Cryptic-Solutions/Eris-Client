@@ -45,8 +45,8 @@ public class ESP extends Module {
     private final FloatBuffer modelMatrix = GLAllocation.createDirectFloatBuffer(16);
     private final FloatBuffer projectionMatrix = GLAllocation.createDirectFloatBuffer(16);
 
-    public ESP() {
-        super("ESP", ModuleCategory.RENDER);
+    public ESP(String racism) {
+        super("ESP", ModuleCategory.RENDER, racism);
     }
 
     public BooleanValue<Boolean> box = new BooleanValue<>("2D Box", false, this, "");

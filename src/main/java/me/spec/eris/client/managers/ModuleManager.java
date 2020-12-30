@@ -32,44 +32,44 @@ public class ModuleManager extends Manager<Module> {
         /*
         Combat
          */
-        addToManagerArraylist(new AntiBot());
-        addToManagerArraylist(new Killaura());
-        addToManagerArraylist(new Velocity());
-        addToManagerArraylist(new Criticals());
+        addToManagerArraylist(new AntiBot ("GhostNiggers"));
+        addToManagerArraylist(new Killaura("BeanerBeater"));
+        addToManagerArraylist(new Velocity("FatRomanian"));
+        addToManagerArraylist(new Criticals("BalkinHardHitter"));
 
         /*
         Movement
          */
-        addToManagerArraylist(new Step());
-        addToManagerArraylist(new Speed());
-        addToManagerArraylist(new Flight());
-        addToManagerArraylist(new Sprint());
-        addToManagerArraylist(new GuiMove());
-        addToManagerArraylist(new Scaffold());
-        addToManagerArraylist(new Longjump());
-        addToManagerArraylist(new NoSlowDown());
+        addToManagerArraylist(new Step("WhitesCantJump"));
+        addToManagerArraylist(new Speed("ChasedByCops"));
+        addToManagerArraylist(new Flight("SpiritAirlines"));
+        addToManagerArraylist(new Sprint("AirforceOnes"));
+        addToManagerArraylist(new GuiMove("T-Mobile"));
+        addToManagerArraylist(new Scaffold("StevePlaceBlockForYou"));
+        addToManagerArraylist(new Longjump("NiggerJump"));
+        addToManagerArraylist(new NoSlowDown("Tredmill"));
 
         /*
         Misc
          */
-        addToManagerArraylist(new Disabler());
-        addToManagerArraylist(new ChestSteal());
-        addToManagerArraylist(new InventoryManager());
-        addToManagerArraylist(new AntiDesync());
+        addToManagerArraylist(new Disabler("AnticheatAutism"));
+        addToManagerArraylist(new ChestSteal("AutoNigger"));
+        addToManagerArraylist(new InventoryManager("HomelessShoppingkart"));
+        addToManagerArraylist(new AntiDesync("StopStealingBlocks"));
 
         /*
         Player
          */
-        addToManagerArraylist(new Phase());
-        addToManagerArraylist(new NoFall());
-        addToManagerArraylist(new AntiVoid());
-        addToManagerArraylist(new NoRotate());
+        addToManagerArraylist(new Phase("GoThroughBlocks"));
+        addToManagerArraylist(new NoFall("AirforceActivity"));
+        addToManagerArraylist(new AntiVoid("ConsutrctionWorker"));
+        addToManagerArraylist(new NoRotate("AntiBackhand"));
 
         /*
         Visual
          */
-        addToManagerArraylist(new HUD());
-        addToManagerArraylist(new ESP());
+        addToManagerArraylist(new HUD("SeeShitAppear"));
+        addToManagerArraylist(new ESP("NiggerFinder"));
 
         /*
         Client
@@ -86,11 +86,7 @@ public class ModuleManager extends Manager<Module> {
 
     public void onKey(int key) {
         for (Module m : getManagerArraylist()) {
-            if (m != null) {
-                if (m.getKey() == key) {
-                    m.toggle(true);
-                }
-            }
+            if (m.getKey() == key) m.toggle(true);
         }
     }
 
@@ -111,26 +107,18 @@ public class ModuleManager extends Manager<Module> {
     public ArrayList<Module> getModulesInCategory(ModuleCategory moduleCategory) {
         ArrayList<Module> mods = new ArrayList<Module>();
         for (Module m : getManagerArraylist()) {
-            if (m.getCategory() == moduleCategory) {
-                mods.add(m);
-            }
+            if (m.getCategory() == moduleCategory)  mods.add(m);
         }
         return mods;
     }
 
     public boolean isEnabled(Class<?> class1) {
-        Module m = this.getModuleByClass(class1);
-        if (m != null) {
-            return m.isToggled();
-        }
-        return false;
+        return getModuleByClass(class1).isToggled();
     }
 
     public Module getModuleByClass(Class<?> class1) {
         for (int i = 0; i < getManagerArraylist().size(); i++) {
-            if (getManagerArraylist().get(i).getClass() == class1) {
-                return getManagerArraylist().get(i);
-            }
+            if (getManagerArraylist().get(i).getClass() == class1)  return getManagerArraylist().get(i);
         }
         return null;
     }
@@ -138,9 +126,7 @@ public class ModuleManager extends Manager<Module> {
     public ArrayList<Module> getModulesForRender() {
         ArrayList<Module> modulesForRender = new ArrayList<>();
         for (Module module : getModules()) {
-            if (module.isToggled() && checkVisibility(module)) {
-                modulesForRender.add(module);
-            }
+            if (module.isToggled() && checkVisibility(module)) modulesForRender.add(module);
         }
         return modulesForRender;
     }

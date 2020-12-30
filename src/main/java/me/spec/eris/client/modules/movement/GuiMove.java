@@ -10,8 +10,8 @@ import net.minecraft.client.gui.GuiChat;
 
 public class GuiMove extends Module {
 
-    public GuiMove() {
-        super("GuiMove", ModuleCategory.MOVEMENT);
+    public GuiMove(String racism) {
+        super("GuiMove", ModuleCategory.MOVEMENT, racism);;
     }
 
     @Override

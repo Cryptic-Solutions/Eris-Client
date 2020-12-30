@@ -17,6 +17,10 @@ import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Criticals extends Module {
 	private double groundSpoofDist = 0.001;
 	private boolean forceUpdate;
@@ -27,8 +31,8 @@ public class Criticals extends Module {
 	private static final double[] OFFSETS1 = new double[] {0.05115 + 9.0e-4 * 2, 9.0e-4 * 2, 0.0115, 9.0e-4 * 2};
 	private static final double[] OFFSETS2 = new double[] { 0.05D, 0.0D, 0.012511D, 0.0D };
 
-	public Criticals() {
-		super("Criticals", ModuleCategory.COMBAT);
+	public Criticals(String racism) {
+		super("Criticals", ModuleCategory.COMBAT, racism);
 		setModuleType(ModuleType.FLAGGABLE);
 		setModulePriority(ModulePriority.LOW);
 	}
@@ -79,44 +83,17 @@ public class Criticals extends Module {
 
 			if (modeValue.getValue() == Mode.SJUMP && eu.isPre()) {
 				if (interferanceFree() && mc.thePlayer.hurtTime == 0) {
-					if (waitTicks > 0)
+					if (waitTicks > 0) {
 						waitTicks--;
-					if (waitTicks > 0)
 						return;
-
-					if (airTime == 13) {
-						groundSpoofDist = 0.41999998688697815;
 					}
-					if (airTime == 12) {
-						groundSpoofDist = 0.7531999805212024;
-					} else if (airTime == 11) {
-						groundSpoofDist = 1.0013359791121417;
-					} else if (waitTicks == 10) {
-						groundSpoofDist = 1.1661092609382138;
-					} else if (airTime == 9) {
-						groundSpoofDist = 1.2491870787446828;
-					} else if (airTime == 8) {
-						groundSpoofDist = 1.2491870787446828;
-					} else if (airTime == 7) {
-						groundSpoofDist = 1.1707870772188045;
-					} else if (airTime == 6) {
-						groundSpoofDist = 1.015555072702199;
-					} else if (airTime == 5) {
-						groundSpoofDist = 0.7850277037892397;
-					} else if (airTime == 4) {
-						groundSpoofDist = 0.48071087633169896;
-					} else if (airTime == 3) {
-						groundSpoofDist = 0.1040803780930446;
-					} else if (airTime == 2) {
-						groundSpoofDist = 0;
-					}
-					eu.setY(mc.thePlayer.posY + (airTime == 0 ? 0 : groundSpoofDist));
+					List<Double> values = Arrays.asList(.0,0.1040803780930446,0.48071087633169896,0.7850277037892397,1.015555072702199,
+							1.1707870772188045,1.2491870787446828,1.24918707874468281, .1661092609382138,1.0013359791121417,0.7531999805212024,0.41999998688697815);
+					eu.setY(mc.thePlayer.posY + (airTime == 0 ? 0 : values.get(airTime)));
 					eu.setOnGround(eu.getY() == mc.thePlayer.posY);
-					if (airTime > 0)
-						airTime--;
+					if (airTime > 0) airTime--;
 				} else {
-					groundSpoofDist = 0;
-					airTime = 0;
+					groundSpoofDist = airTime = 0;
 					waitTicks = 6;
 				}
 			}

@@ -23,8 +23,8 @@ import net.minecraft.potion.Potion;
 
 public class Flight extends Module {
 
-    public Flight() {
-        super("Flight", ModuleCategory.MOVEMENT);
+	public Flight(String racism) {
+		super("Flight", ModuleCategory.MOVEMENT, racism);;
         setModuleType(ModuleType.FLAGGABLE);
         setModulePriority(ModulePriority.HIGHEST);
     }

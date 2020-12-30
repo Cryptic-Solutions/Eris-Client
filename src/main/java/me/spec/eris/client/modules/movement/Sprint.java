@@ -7,8 +7,8 @@ import me.spec.eris.api.module.Module;
 
 public class Sprint extends Module {
 
-    public Sprint() {
-        super("Sprint", ModuleCategory.MOVEMENT);
+    public Sprint(String racism) {
+        super("Sprint", ModuleCategory.MOVEMENT, racism);
     }
 
     @Override

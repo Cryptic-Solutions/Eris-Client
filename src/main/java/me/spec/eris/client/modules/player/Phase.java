@@ -22,8 +22,8 @@ import net.minecraft.util.MovementInput;
 
 public class Phase extends Module {
 
-    public Phase() {
-        super("Phase", ModuleCategory.PLAYER);
+	public Phase(String racism) {
+		super("Phase", ModuleCategory.PLAYER, racism);
     } 
     
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);

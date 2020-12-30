@@ -17,8 +17,8 @@ import net.minecraft.item.ItemStack;
 
 public class ChestSteal extends Module {
 
-    public ChestSteal() {
-        super("ChestSteal", ModuleCategory.MOVEMENT);
+    public ChestSteal(String racism) {
+        super("ChestSteal", ModuleCategory.MISC, racism);;
     }
 
     private final TimerUtils timer = new TimerUtils();

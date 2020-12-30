@@ -16,8 +16,8 @@ import net.minecraft.potion.Potion;
 
 public class Longjump extends Module {
 
-    public Longjump() {
-        super("LongJump", ModuleCategory.MOVEMENT);
+	public Longjump(String racism) {
+		super("LongJump", ModuleCategory.MOVEMENT, racism);;
         setModuleType(ModuleType.FLAGGABLE);
         setModulePriority(ModulePriority.HIGH);
     }

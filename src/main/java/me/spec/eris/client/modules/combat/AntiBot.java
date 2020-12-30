@@ -21,8 +21,8 @@ public class AntiBot extends Module {
     private ModeValue<Mode> mode = new ModeValue<>("Mode", Mode.WATCHDOG, this);
     public BooleanValue<Boolean> removeValue = new BooleanValue<>("Remove World", true, this, "Remove bots from the world");
 
-    public AntiBot() {
-        super("Antibot", ModuleCategory.COMBAT);
+    public AntiBot(String racism) {
+        super("Antibot", ModuleCategory.COMBAT, racism);
     }
 
     public enum Mode {

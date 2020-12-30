@@ -16,6 +16,7 @@ public class Module {
 
     private String name;
     private String mode = "";
+    private String racistName;
     private ModuleCategory moduleCategory;
     private boolean isToggled;
     private int key;
@@ -27,8 +28,9 @@ public class Module {
 
     protected static final Minecraft mc = Minecraft.getMinecraft();
 
-    public Module(String name, ModuleCategory moduleCategory) {
+    public Module(String name, ModuleCategory moduleCategory, String racistName) {
         this.name = name;
+        this.racistName = racistName;
         this.moduleCategory = moduleCategory;
     }
 

@@ -31,8 +31,8 @@ import net.minecraft.network.play.client.C16PacketClientStatus.EnumState;
 
 public class InventoryManager extends Module {
 
-    public InventoryManager() {
-        super("InventoryManager", ModuleCategory.PLAYER);
+    public InventoryManager(String racism) {
+        super("InventoryManager", ModuleCategory.PLAYER, racism);
     }
 
     public BooleanValue<Boolean> clean = new BooleanValue<>("Clean", true, this);

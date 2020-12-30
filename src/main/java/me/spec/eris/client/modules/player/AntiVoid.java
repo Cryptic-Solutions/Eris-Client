@@ -10,8 +10,8 @@ import net.minecraft.util.BlockPos;
 
 public class AntiVoid extends Module {
 
-    public AntiVoid() {
-        super("AntiVoid", ModuleCategory.PLAYER);
+    public AntiVoid(String racism) {
+        super("AntiVoid", ModuleCategory.PLAYER, racism);
     }
 
 	private boolean motion;

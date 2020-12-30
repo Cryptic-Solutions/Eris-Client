@@ -7,8 +7,8 @@ import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 
 public class NoRotate extends Module {
 
-    public NoRotate() {
-        super("NoRotate", ModuleCategory.PLAYER);
+    public NoRotate(String racism) {
+        super("NoRotate", ModuleCategory.PLAYER, racism);
     } 
      
     @Override

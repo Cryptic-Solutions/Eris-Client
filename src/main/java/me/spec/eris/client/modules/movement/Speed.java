@@ -22,8 +22,8 @@ public class Speed extends Module {
     public int waitTicks, hops;
 	private double speed;
 
-	public Speed() {
-        super("Speed", ModuleCategory.MOVEMENT);
+	public Speed(String racism) {
+        super("Speed", ModuleCategory.MOVEMENT, racism);
         setModuleType(ModuleType.FLAGGABLE);
 		setModulePriority(ModulePriority.MODERATE);
     }
@@ -67,7 +67,7 @@ public class Speed extends Module {
 					double zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
 					setLastDistance(Math.sqrt(xDist * xDist + zDist * zDist));
 					if (eu.isPre() && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && !Eris.instance.moduleManager.isEnabled(Scaffold.class)) {
-						eu.setY(eu.getY() + 9.0E-4D);
+						eu.setY(eu.getY() + 9.0E-4D / 2);
 					}
 				}
 				if (e instanceof EventStep) {
@@ -116,7 +116,7 @@ public class Speed extends Module {
 								mc.thePlayer.isAirBorne = true;
 								mc.thePlayer.triggerAchievement(StatList.jumpStat);
 								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 9.0E-4D * 2));
-								speed = em.getMovementSpeed() * (Eris.instance.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 != 0 ? 2.2 : 2.1499);
+								speed = em.getMovementSpeed() * (Eris.instance.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 != 0 ? 2.16 : 2.1499);
 								hops++;
 							}
 							setLastDistance(0.0);

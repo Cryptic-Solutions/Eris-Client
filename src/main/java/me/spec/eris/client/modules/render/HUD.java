@@ -44,8 +44,8 @@ public class HUD extends Module {
         STATIC, RAINBOW
     }
 
-    public HUD() {
-        super("HUD", ModuleCategory.RENDER);
+    public HUD(String racism) {
+        super("HUD", ModuleCategory.RENDER, racism);
     }
 
     private int y;

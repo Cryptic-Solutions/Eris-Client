@@ -27,8 +27,8 @@ import net.minecraft.util.BlockPos;
 
 public class Step extends Module {
 
-    public Step() {
-        super("Step", ModuleCategory.MOVEMENT);
+    public Step(String racism) {
+        super("Step", ModuleCategory.MOVEMENT, racism);
         setModuleType(ModuleType.FLAGGABLE);
         setModulePriority(ModulePriority.HIGH);
     }

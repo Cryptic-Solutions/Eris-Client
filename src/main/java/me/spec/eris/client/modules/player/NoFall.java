@@ -17,8 +17,8 @@ import net.minecraft.network.play.client.C0APacketAnimation;
 
 public class NoFall extends Module {
 
-    public NoFall() {
-        super("NoFall", ModuleCategory.PLAYER);
+	public NoFall(String racism) {
+		super("NoFall", ModuleCategory.PLAYER, racism);
     } 
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);
     private enum Mode {WATCHDOG}

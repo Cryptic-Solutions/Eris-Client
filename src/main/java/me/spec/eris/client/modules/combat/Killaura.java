@@ -117,8 +117,8 @@ public class Killaura extends Module {
 
     public enum BlockMode {OFF, NCP, OFFSET, FALCON, FAKE}
 
-    public Killaura() {
-        super("Killaura", ModuleCategory.COMBAT);
+    public Killaura(String racism) {
+        super("Killaura", ModuleCategory.COMBAT, racism);
         angleUtility = new AngleUtility(70, 250, 70, 200);
         clickStopwatch = new TimerUtils();
         clientRaper = new TimerUtils();
