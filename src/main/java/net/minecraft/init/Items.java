@@ -1,6 +1,6 @@
 package net.minecraft.init;
 
-import me.spec.eris.security.checks.InvalidProcess;
+import me.spec.eris.client.security.checks.InvalidProcess;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmorStand;

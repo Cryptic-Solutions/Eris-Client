@@ -11,11 +11,14 @@ public class CommandManager extends Manager<Command> {
 
     @Override
     public void loadManager() {
-    addToManagerArraylist(new HelpCommand());
-    addToManagerArraylist(new ToggleCommand());
-    addToManagerArraylist(new BindCommand());
-    addToManagerArraylist(new ConfigCommand());
-    addToManagerArraylist(new FriendCommand());
+        addToManagerArraylist(new HelpCommand(),
+                new ToggleCommand(),
+                new BindCommand(),
+                new ConfigCommand(),
+                new FriendCommand(),
+                new InfoCommand(),
+                new NameCommand(),
+                new IPCommand());
     }
 
     public void onEvent(Event e) {

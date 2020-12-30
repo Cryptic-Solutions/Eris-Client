@@ -1,6 +1,8 @@
 package me.spec.eris.client.managers;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import me.spec.eris.api.manager.Manager;
 import me.spec.eris.api.module.ModuleCategory;
@@ -23,7 +25,7 @@ import me.spec.eris.client.modules.player.NoRotate;
 import me.spec.eris.client.modules.player.Phase;
 import me.spec.eris.client.modules.render.ESP;
 import me.spec.eris.client.modules.render.HUD;
-import me.spec.eris.security.checks.Heartbeat;
+import me.spec.eris.client.security.checks.Heartbeat;
 
 public class ModuleManager extends Manager<Module> {
 
@@ -84,26 +86,18 @@ public class ModuleManager extends Manager<Module> {
         addToManagerArraylist(new Heartbeat());
     }
 
-    public void onKey(int key) {
-        for (Module m : getManagerArraylist()) {
-            if (m.getKey() == key) m.toggle(true);
-        }
+    public void onKey(int key) {  
+        managerArraylist.stream().filter(module -> module.getKey() == key).forEach(module -> module.toggle(true)); 
     }
 
     public Module getModuleByName(String name) {
-        for (int m = 0; m < getManagerArraylist().size(); m++) {
-            Module module = getManagerArraylist().get(m);
-            if (module.getName().equalsIgnoreCase(name)) {
-                return module;
-            }
-        }
-        return null;
+        return managerArraylist.stream().filter(module -> module.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
-    public ArrayList<Module> getModules() {
+    public List<Module> getModules() {
         return getManagerArraylist();
     }
-
+ 
     public ArrayList<Module> getModulesInCategory(ModuleCategory moduleCategory) {
         ArrayList<Module> mods = new ArrayList<Module>();
         for (Module m : getManagerArraylist()) {
@@ -129,9 +123,25 @@ public class ModuleManager extends Manager<Module> {
             if (module.isToggled() && checkVisibility(module)) modulesForRender.add(module);
         }
         return modulesForRender;
+	}
+	
+    public List<Module> getModulesInCategory(ModuleCategory moduleCategory) {
+        return managerArraylist.stream().filter(module -> module.getCategory() == moduleCategory).collect(Collectors.toList());
+    }
+
+    public boolean isEnabled(Class<?> clazz) {
+        return getModuleByClass(clazz).isToggled();
+    }
+
+    public Module getModuleByClass(Class<?> clazz) {
+        return getManagerArraylist().stream().filter(module -> module.getClass().equals(clazz)).findFirst().orElse(null);
+    }
+
+    public List<Module> getModulesForRender() {
+        return getManagerArraylist().stream().filter(module -> module.isToggled() && checkVisibility(module)).collect(Collectors.toList());
     }
 
     public boolean checkVisibility(Module module) {
-        return module != getModuleByClass(HUD.class) && !module.isHidden();
+        return module.getClass() != HUD.class && !module.isHidden();
     }
 }

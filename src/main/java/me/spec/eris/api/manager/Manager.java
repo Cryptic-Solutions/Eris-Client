@@ -1,23 +1,29 @@
 package me.spec.eris.api.manager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class Manager<T> {
 
-    private ArrayList<T> managerArraylist = new ArrayList<>();
+    protected final List<T> managerArraylist = new ArrayList<>();
 
     public Manager() {
         loadManager();
     }
 
-    public abstract void loadManager();
+    public void loadManager() {}
 
-    public ArrayList<T> getManagerArraylist() {
+    public List<T> getManagerArraylist() {
         return managerArraylist;
     }
 
     public void addToManagerArraylist(T object) {
         managerArraylist.add(object);
+    }
+
+    public void addToManagerArraylist(T...elements) {
+        managerArraylist.addAll(Arrays.asList(elements));
     }
 
     public void removeFromManagerArraylist(T object) {

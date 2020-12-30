@@ -9,9 +9,9 @@ import org.lwjgl.opengl.Display;
 
 import libraries.thealtening.service.ServiceSwitcher;
 import me.spec.eris.api.config.file.FileManager;
-import me.spec.eris.ui.click.ClickGui;
-import me.spec.eris.ui.fonts.FontManager;
-import me.spec.eris.ui.fonts.TTFFontRenderer;
+import me.spec.eris.client.ui.click.ClickGui;
+import me.spec.eris.client.ui.fonts.FontManager;
+import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.api.notification.Notification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;

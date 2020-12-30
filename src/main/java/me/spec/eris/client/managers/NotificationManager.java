@@ -2,7 +2,7 @@ package me.spec.eris.client.managers;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.manager.Manager;
-import me.spec.eris.ui.fonts.TTFFontRenderer;
+import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.api.notification.Notification;
 import me.spec.eris.utils.misc.Helper;
 import net.minecraft.client.Minecraft;
@@ -11,14 +11,8 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class NotificationManager extends Manager<Notification> {
-
-    @Override
-    public void loadManager() {
-
-    }
 
     public void send(Notification notif) {
         addToManagerArraylist(notif);
@@ -30,7 +24,7 @@ public class NotificationManager extends Manager<Notification> {
 
     public void render() {
         boolean notifications = true;
-        ArrayList<Notification> notifs = Eris.instance.notificationManager.getNotifications();
+        java.util.List<Notification> notifs = Eris.instance.notificationManager.getNotifications();
         if (notifs == null || notifs.isEmpty()) {
             return;
         }
@@ -43,7 +37,7 @@ public class NotificationManager extends Manager<Notification> {
                     Helper.sendMessage(n.getDescription());
                 }
             } else {
-                float duration = (float) ((float) n.getLifeTime() / (float) n.getDuration());
+                float duration = ((float) n.getLifeTime() / (float) n.getDuration());
                 float fadeIn = 0.1f;
                 float fadeOut = 0.85f;
 
@@ -71,7 +65,7 @@ public class NotificationManager extends Manager<Notification> {
         }
     }
 
-    public ArrayList<Notification> getNotifications() {
+    public java.util.List<Notification> getNotifications() {
         return getManagerArraylist();
     }
 }

@@ -41,12 +41,8 @@ public class PlayerUtils {
         if (entity == Minecraft.getMinecraft().thePlayer)
             return false;
 
-        for(Friend friend : Eris.getInstance().friendManager.getManagerArraylist()) {
-            if(friend.getFriendName().equalsIgnoreCase(entity.getName())) {
-                return false;
-            }
-        }
-
+        if(Eris.getInstance().friendManager.isFriend(entity))
+            return false;
 
         if (!RotationUtils.rayCast(entity) && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity) > rayCastDist && !entity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer)) return false;
         if (entity instanceof EntityArmorStand)   return false;

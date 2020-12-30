@@ -3,8 +3,8 @@ package me.spec.eris.api.config.file.filetypes;
 import java.util.ArrayList;
 
 import me.spec.eris.api.config.file.DataFile;
-import me.spec.eris.ui.alts.Alt;
-import me.spec.eris.ui.alts.AltManager;
+import me.spec.eris.client.ui.alts.Alt;
+import me.spec.eris.client.ui.alts.AltManager;
 import me.spec.eris.utils.file.FileUtils;
 
 public class AltsFile extends DataFile {

@@ -12,6 +12,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public class AngleUtility {
+
     private float minYawSmoothing, maxYawSmoothing, minPitchSmoothing, maxPitchSmoothing;
     private Vector.Vector3<Float> delta;
     private Angle smoothedAngle;

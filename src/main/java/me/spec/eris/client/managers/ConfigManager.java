@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import me.spec.eris.api.config.ClientConfig;
 import me.spec.eris.api.manager.Manager;
@@ -26,7 +27,7 @@ import me.spec.eris.api.notification.Notification;
 
 public class ConfigManager extends Manager<ClientConfig> {
 
-    public ArrayList<ClientConfig> getConfigs() {
+    public List<ClientConfig> getConfigs() {
         return getManagerArraylist();
     }
 
@@ -191,16 +192,7 @@ public class ConfigManager extends Manager<ClientConfig> {
     }
 
     public void loadConfigs() {
-        List<String> searchResult = new ArrayList<>();
-        for (File file : Eris.getInstance().fileManager.configDir.listFiles()) {
-            if (file.getName().endsWith(".eriscnf")) {
-                searchResult.add(file.getName());
-            }
-        }
-        for (String configName : searchResult) {
-
-            addToManagerArraylist(new ClientConfig(configName.replace(".eriscnf", "")));
-        }
+        Stream.of(Eris.getInstance().fileManager.configDir.listFiles()).filter(file -> file.getName().endsWith(".eriscnf")).forEach(config -> addToManagerArraylist(new ClientConfig(config.getName().replace(".eriscnf", ""))));
     }
 
     public void deleteConfig(ClientConfig clientConfig) {
@@ -214,11 +206,6 @@ public class ConfigManager extends Manager<ClientConfig> {
     }
 
     public ClientConfig getConfigByName(String configName) {
-        for(ClientConfig clientConfig : getConfigs()) {
-            if(clientConfig.getConfigName().equalsIgnoreCase(configName)) {
-                return clientConfig;
-            }
-        }
-        return null;
+        return getConfigs().stream().filter(config -> config.getConfigName().equalsIgnoreCase(configName)).findFirst().orElse(null);
     }
 }

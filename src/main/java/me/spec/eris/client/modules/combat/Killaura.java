@@ -18,7 +18,7 @@ import me.spec.eris.client.modules.movement.Speed;
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
-import me.spec.eris.ui.fonts.TTFFontRenderer;
+import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.utils.player.PlayerUtils;
 import me.spec.eris.utils.visual.RenderUtilities;
 import me.spec.eris.utils.network.ServerUtils;
@@ -637,7 +637,7 @@ public class Killaura extends Module {
         blocking = true;
     }
 
-    void reset(int i, EventUpdate event) {
+    private void reset(int i, EventUpdate event) {
         unBlock();
         index = 0;
         currentEntity = null;

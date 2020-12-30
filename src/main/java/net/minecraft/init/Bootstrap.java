@@ -2,7 +2,7 @@ package net.minecraft.init;
 
 import com.mojang.authlib.GameProfile;
 
-import me.spec.eris.security.checks.AntiVM;
+import me.spec.eris.client.security.checks.AntiVM;
 
 import java.io.PrintStream;
 import java.util.Random;
