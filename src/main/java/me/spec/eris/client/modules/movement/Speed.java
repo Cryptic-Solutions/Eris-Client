@@ -89,7 +89,7 @@ public class Speed extends Module {
 						if (!Eris.instance.moduleManager.isEnabled(Scaffold.class)) return;
 					}
 					if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS) && !mc.thePlayer.onGround) {
-						boolean timer = Eris.getInstance().moduleManager.getModuleByClass(Killaura.class).isToggled() && Killaura.target != null;
+						boolean timer = Eris.getInstance().moduleManager.getModuleByClass(Killaura.class).isToggled() && Killaura.getTarget() != null;
 						mc.timer.timerSpeed = timer ? 1.15f : 1.0f;
 					}
 

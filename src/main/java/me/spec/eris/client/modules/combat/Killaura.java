@@ -97,7 +97,7 @@ public class Killaura extends Module {
     public int delay, index, maxYaw, reachVL, hitCounter, maxPitch, targetIndex, rotationSwap, timesAttacked, offset, waitTicks;
     public float currentYaw, currentPitch, pitchincrease, animated = 20F, blockPosValue;
     public static Entity lastAimedTarget;
-    private EntityLivingBase target;
+    private static EntityLivingBase target;
     public static EntityLivingBase currentEntity;
     public TimerUtils clientRaper;
     public TimerUtils clickStopwatch;
