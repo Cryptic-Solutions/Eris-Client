@@ -130,7 +130,7 @@ public class Criticals extends Module {
 		Killaura aura = ((Killaura) Eris.instance.moduleManager.getModuleByClass(Killaura.class));
 
 		if (modeValue.getValue() != Mode.WATCHDOG || !mc.thePlayer.isMoving())  return;
-		if (!(!aura.isToggled() || Killaura.target == null)) {
+		if (!(!aura.isToggled() || Killaura.getTarget() == null)) {
 			if (interferanceFree()) {
 				if (waitTicks == 0 && accumulatedFall < 3) {
 					eventPlayerUpdate.setOnGround(false);

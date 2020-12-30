@@ -97,7 +97,7 @@ public class Killaura extends Module {
     public int delay, index, maxYaw, reachVL, hitCounter, maxPitch, targetIndex, rotationSwap, timesAttacked, offset, waitTicks;
     public float currentYaw, currentPitch, pitchincrease, animated = 20F, blockPosValue;
     public static Entity lastAimedTarget;
-    public static EntityLivingBase target;
+    private EntityLivingBase target;
     public static EntityLivingBase currentEntity;
     public TimerUtils clientRaper;
     public TimerUtils clickStopwatch;
@@ -117,6 +117,8 @@ public class Killaura extends Module {
     public enum TargetUIMode {OLD, ICE, NOVOLINE;}
 
     public enum BlockMode {OFF, NCP, OFFSET, FALCON, FAKE}
+
+
 
     public Killaura(String racism) {
         super("Killaura", ModuleCategory.COMBAT, racism);
@@ -663,7 +665,7 @@ public class Killaura extends Module {
         }
     }
 
-    public Entity getTarget() {
+    public static Entity getTarget() {
         return target;
     }
 
