@@ -61,6 +61,7 @@ import net.minecraft.world.WorldServer;
 public abstract class Entity implements ICommandSender {
     private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
     private static int nextEntityID;
+    public int timesAttacked;
     private int entityId;
     public double renderDistanceWeight;
 
@@ -759,7 +760,7 @@ public abstract class Entity implements ICommandSender {
 
                     List<Double> blockHeights = Arrays.asList(0.875, 0.625, 0.8125, 0.9375, 0.75, 0.6875);
 
-                    if ((blockHeight % 0.5 == 0 || blockHeights.contains(blockHeight))) { 
+                    if ((blockHeight % 0.5 == 0 || blockHeights.contains(blockHeight))) {
                         new EventStep(this, stepHeight, false, blockHeight).call();
                     }
                 }

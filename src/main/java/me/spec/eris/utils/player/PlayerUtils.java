@@ -6,6 +6,7 @@ import me.spec.eris.Eris;
 import me.spec.eris.api.friend.Friend;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.client.modules.combat.AntiBot;
+import me.spec.eris.utils.math.rotation.RotationUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -36,7 +37,7 @@ public class PlayerUtils {
         }
     }
 
-    public static boolean isValid(EntityLivingBase entity, double range, boolean invisible, boolean teams, boolean dead, boolean players, boolean animals, boolean monsters) {
+    public static boolean isValid(EntityLivingBase entity, double range, boolean invisible, boolean teams, boolean dead, boolean players, boolean animals, boolean monsters, double rayCastDist) {
         if (entity == Minecraft.getMinecraft().thePlayer)
             return false;
 
@@ -46,12 +47,11 @@ public class PlayerUtils {
             }
         }
 
-        if (entity instanceof EntityArmorStand)
-            return false;
-        if (invisible && entity.isInvisible())
-            return false;
-        if (dead && (entity.isDead || entity.getHealth() <= 0))
-            return false;
+
+        if (!RotationUtils.rayCast(entity) && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity) > rayCastDist && !entity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer)) return false;
+        if (entity instanceof EntityArmorStand)   return false;
+        if (!invisible && entity.isInvisible()) return false;
+        if (!dead && (entity.isDead || entity.getHealth() <= 0)) return false;
         if (teams && entity != null && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             if (isOnSameTeam(player)) return false; 

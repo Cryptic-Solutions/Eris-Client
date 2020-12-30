@@ -130,7 +130,7 @@ public class AntiBot extends Module {
                 if (removeValue.getValue()) {
                     for (Entity entity : mc.theWorld.loadedEntityList) {
                         if ((entity instanceof EntityPlayer)) {
-                            if (!entity.getName().equalsIgnoreCase(mc.thePlayer.getName()) && bots.contains(entity))
+                            if (!entity.getName().equalsIgnoreCase(mc.thePlayer.getName()) && bots.contains(entity) && !entity.getDisplayName().getFormattedText().toLowerCase().contains("npc"))
                                 mc.theWorld.removeEntity(entity);
                         }
                     }

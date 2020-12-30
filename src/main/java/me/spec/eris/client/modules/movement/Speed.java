@@ -18,8 +18,8 @@ public class Speed extends Module {
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);
 
     private enum Mode {WATCHDOG}
-	private int hops, stage;
-    public int waitTicks;
+	private int stage;
+    public int waitTicks, hops;
 	private double speed;
 
 	public Speed() {
@@ -39,10 +39,11 @@ public class Speed extends Module {
 			criticals.airTime = 0;
 			criticals.waitTicks = 3;
 		}
-
-		hops = 0;
-		setLastDistance(0.0);
-		stage = 0;
+		if (!Eris.instance.moduleManager.isEnabled(Flight.class)) {
+			hops = 0;
+			setLastDistance(0.0);
+			stage = 0;
+		}
 		super.onEnable();
 	}
 
@@ -73,8 +74,8 @@ public class Speed extends Module {
 					EventStep event = (EventStep) e;
 					if (!event.isPre()) {
 						double height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
-						if (height <= .5 && height > 0) {
-							hops = -1;
+						if (height <= .6 && height >= -.5 && height != 0.0) {
+							hops = -2;
 							setLastDistance(0.0);
 						}
 					}
@@ -111,18 +112,22 @@ public class Speed extends Module {
 							}
 							setLastDistance(0.0);
 							if (mc.thePlayer.onGround) {
+								if (!Eris.instance.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.4f;
 								mc.thePlayer.isAirBorne = true;
-								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 9.0E-4D * 2));
 								mc.thePlayer.triggerAchievement(StatList.jumpStat);
-								speed = em.getMovementSpeed() * (Eris.instance.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.4 : hops % 3 != 0 ? 2.16 : 2.1499);
+								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 9.0E-4D * 2));
+								speed = em.getMovementSpeed() * (Eris.instance.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 != 0 ? 2.2 : 2.1499);
 								hops++;
 							}
 							setLastDistance(0.0);
 						break;
 						case 1:
-							speed = getLastDistance() - (hops % 3 != 0 && hops > 0 && !Eris.instance.moduleManager.isEnabled(Scaffold.class) ? .658 : .66) * (getLastDistance() - em.getMovementSpeed());
+							speed = getLastDistance() - .66 * (getLastDistance() - em.getMovementSpeed());
 							break;
 						default:
+							if ((stage == 2 || stage == 3) && mc.timer.timerSpeed > 1.0f) {
+								mc.timer.timerSpeed -= .4f / 2;
+							}
 							speed = getLastDistance() - getLastDistance() / 159;
 						break;
 				}

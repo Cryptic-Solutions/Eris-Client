@@ -108,7 +108,6 @@ public class Longjump extends Module {
     	speed = 0;
     	stage = 0;
     	collisionTime = 1;
-        setLastDistance(0.0);
         super.onEnable();
     }
 
