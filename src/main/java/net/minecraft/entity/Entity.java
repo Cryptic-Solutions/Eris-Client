@@ -759,8 +759,7 @@ public abstract class Entity implements ICommandSender {
 
                     List<Double> blockHeights = Arrays.asList(0.875, 0.625, 0.8125, 0.9375, 0.75, 0.6875);
 
-                    if ((blockHeight % 0.5 == 0 || blockHeights.contains(blockHeight))) {
-                    	Eris.instance.tellUser(String.valueOf(blockHeight));
+                    if ((blockHeight % 0.5 == 0 || blockHeights.contains(blockHeight))) { 
                         new EventStep(this, stepHeight, false, blockHeight).call();
                     }
                 }

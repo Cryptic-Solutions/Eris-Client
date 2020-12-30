@@ -82,6 +82,9 @@ public class Step extends Module {
                     height = 0;
                 }
             } else {
+                double posX = mc.thePlayer.posX;
+                double posY = mc.thePlayer.posY;
+                double posZ = mc.thePlayer.posZ;
             	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY; 
                 if (isInvalid() || Eris.instance.moduleManager.isEnabled(Speed.class)) {
                     if (event.getHeightStepped() > 0.626) { 
@@ -89,14 +92,14 @@ public class Step extends Module {
             				Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
             				crits.accumulatedFall = 0; 
             				if (crits.airTime > 0) {	
-            					sendPosition(0,0,0,true,false);
+            					sendPosition(0,0,0,mc.thePlayer.onGround,false);
             					crits.airTime = 0;
             					crits.waitTicks = 3;
             				}
             				
                         }
                         for (double offset : offsets) {
-                        	sendPosition(0,offset * event.getHeightStepped(),0, false, true);
+                        	sendPosition(0,offset * event.getHeightStepped(),0, !(BlockUtils.getBlockAtPos(new BlockPos(posX, posY + offset * event.getHeightStepped(), posZ)) instanceof BlockAir), false);
                         } 
                         cancelMorePackets = true;
                     }
@@ -111,9 +114,6 @@ public class Step extends Module {
         					crits.waitTicks = 3;
         				}
                     }
-                    double posX = mc.thePlayer.posX;
-                    double posY = mc.thePlayer.posY;
-                    double posZ = mc.thePlayer.posZ;
                     double y = 0;
                     if (height <= 1.) {
                         float first = .42f - 4.0e-9f;

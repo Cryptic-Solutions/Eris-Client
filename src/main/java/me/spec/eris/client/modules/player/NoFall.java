@@ -33,9 +33,6 @@ public class NoFall extends Module {
 		            if(mc.thePlayer.fallDistance >= 2.75) {
 		    			if (fallen && mc.thePlayer.isCollidedVertically) {
 		    				mc.timer.timerSpeed = 1.0f;
-		    			 	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem += 1));
-		    	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C0APacketAnimation()); 
-		    	        	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem -= 1));
 		    				fallen = false;
 		    			}
 
@@ -51,13 +48,8 @@ public class NoFall extends Module {
 							Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
 							crits.accumulatedFall = 0; 
 							Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
-							fallen = true;  
-							aura.clientRaper.reset();
-							if (mc.thePlayer.ticksExisted % 3 == 0 && aura.target == null) {
-								sendPosition(0,0,0,true,true);
-							} else {
-								mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
-							} 
+							fallen = true;
+							mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
 							mc.timer.timerSpeed =  .9f;
 							mc.thePlayer.fallDistance *= .1; 
 						}
