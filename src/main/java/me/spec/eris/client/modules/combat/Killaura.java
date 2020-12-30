@@ -97,7 +97,8 @@ public class Killaura extends Module {
     public int delay, index, maxYaw, reachVL, hitCounter, maxPitch, targetIndex, rotationSwap, timesAttacked, offset, waitTicks;
     public float currentYaw, currentPitch, pitchincrease, animated = 20F, blockPosValue;
     public static Entity lastAimedTarget;
-    public static EntityLivingBase target, currentEntity;
+    private EntityLivingBase target;
+    public static EntityLivingBase currentEntity;
     public TimerUtils clientRaper;
     public TimerUtils clickStopwatch;
     public ArrayList<EntityLivingBase> targetList;
@@ -660,6 +661,10 @@ public class Killaura extends Module {
             targetList.sort(Comparator.comparingDouble(mc.thePlayer::getDistanceToEntity));
             targetList.sort((e1, e2) -> Boolean.compare(e2 instanceof EntityPlayer, e1 instanceof EntityPlayer));
         }
+    }
+
+    public Entity getTarget() {
+        return target;
     }
 
 }

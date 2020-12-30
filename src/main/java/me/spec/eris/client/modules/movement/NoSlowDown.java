@@ -39,8 +39,8 @@ public class NoSlowDown extends Module {
         	switch (mode.getValue()) {
         		case WATCHDOG:
                 	EventUpdate event = (EventUpdate)e;
-                	Killaura aura = ((Killaura)Eris.instance.moduleManager.getModuleByClass(Killaura.class));
-                	if (aura.target != null || !PlayerUtils.isHoldingSword()) return;
+                	Killaura aura = (Killaura) Eris.getInstance().moduleManager.getModuleByClass(Killaura.class);
+                	if (aura.getTarget() != null || !PlayerUtils.isHoldingSword()) return;
                 	if (!mc.thePlayer.isUsingItem()) {
                         if (blocking) mc.getNetHandler().addToSendQueueNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(-.8f, -.8f, -.8f), EnumFacing.DOWN));
                         
