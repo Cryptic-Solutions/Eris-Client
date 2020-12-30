@@ -7,27 +7,11 @@ import net.minecraft.entity.EntityLivingBase;
 
 public class FriendManager extends Manager<Friend> {
 
-
-    @Override
-    public void loadManager() {
-
-    }
-
     public Friend getFriendByName(String friendName) {
-        for(Friend friend : getManagerArraylist()) {
-            if(friend.getFriendName().equalsIgnoreCase(friendName)) {
-                return friend;
-            }
-        }
-        return null;
+        return getManagerArraylist().stream().filter(friend -> friend.getFriendName().equalsIgnoreCase(friendName)).findFirst().orElse(null);
     }
 
     public boolean isFriend(EntityLivingBase elb) {
-        for(Friend friend : Eris.getInstance().friendManager.getManagerArraylist()) {
-            if(friend.getFriendName().equalsIgnoreCase(elb.getName())) {
-                return true;
-            }
-        }
-        return false;
+        return Eris.getInstance().friendManager.getManagerArraylist().stream().anyMatch(friend -> friend.getFriendName().equalsIgnoreCase(elb.getName()));
     }
 }

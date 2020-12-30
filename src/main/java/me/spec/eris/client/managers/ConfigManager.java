@@ -26,7 +26,7 @@ import me.spec.eris.api.notification.Notification;
 
 public class ConfigManager extends Manager<ClientConfig> {
 
-    public ArrayList<ClientConfig> getConfigs() {
+    public List<ClientConfig> getConfigs() {
         return getManagerArraylist();
     }
 

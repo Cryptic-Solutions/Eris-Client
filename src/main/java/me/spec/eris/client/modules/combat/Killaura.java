@@ -637,7 +637,7 @@ public class Killaura extends Module {
         blocking = true;
     }
 
-    void reset(int i, EventUpdate event) {
+    private void reset(int i, EventUpdate event) {
         unBlock();
         index = 0;
         currentEntity = null;
