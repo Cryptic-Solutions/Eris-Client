@@ -540,7 +540,7 @@ public class Killaura extends Module {
                 }
             }
         } else {
-            if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || shouldCritical || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 2 != 0 || target.timesAttacked < 1) ? 50  : timesAttacked % 20 == 0 ? 52 :  50 : delay)) {
+            if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || shouldCritical || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 2 != 0 || target.timesAttacked < 1) ? 50  : timesAttacked % 25 == 0 ? 51 :  50 : delay)) {
                 attackPrepare(e);
                 clickStopwatch.reset();
                 delay = Math.max(50, (1000 / clicksPerSecond.getValue()) + offset);
@@ -620,7 +620,7 @@ public class Killaura extends Module {
         if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
 
             double value = autoBlock.getValue().equals(BlockMode.OFFSET) && mc.thePlayer.hurtTime > 2 ?  -.8f : -1;
-            if (Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS)) value = RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
+            if (Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS) || !mc.thePlayer.isMoving()) value = RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
             mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, value, value), EnumFacing.DOWN));
         }
         blocking = false;

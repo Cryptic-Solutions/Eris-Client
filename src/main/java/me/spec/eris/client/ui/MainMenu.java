@@ -63,9 +63,9 @@ public class MainMenu extends GuiMainMenu
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
             GL11.glPushMatrix();
             GL11.glTranslatef((float)(this.width / 2), (float)(this.height - 50), 0.0f);
-            float var8 = 1.8f - MathHelper.abs(MathHelper.sin(Minecraft.getSystemTime() % 1000L / 1000.0f * 3.1415927f * 2.0f) * 0.1f);
-            var8 = var8 * 100.0f / (this.fontRendererObj.getStringWidth(this.splashText) + 32);
-            GL11.glScalef(var8 + 1.0f, var8 + 1.0f, var8 + 1.0f);
+            float f = 1.8f - MathHelper.abs(MathHelper.sin((float) (Minecraft.getSystemTime() % 1000L / 1000.0f * Math.PI * 2.0f)) * 0.1f);
+            f = f * 100.0f / (this.fontRendererObj.getStringWidth(this.splashText) + 32);
+            GL11.glScalef(f + 1.0f, f + 1.0f, f + 1.0f);
             GL11.glPopMatrix();
             drawRect(this.width / 2 - 104, this.height / 2 - 79, this.width / 2 + 104, this.height / 2 + 79, 1073741824);
             final float scale = 7.0f;

@@ -175,14 +175,10 @@ public class Scaffold extends Module {
                         if (Eris.getInstance().moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving()) motionBoost = false;
                         if (motionBoost && mc.thePlayer.fallDistance <= 0.0) {
                             if (mc.thePlayer.ticksExisted % 2 != 0 ) {
-                                event.setY(mc.thePlayer.posY + 0.4);
-                                event.setOnGround(false);
-                            } else {
-                                event.setOnGround(true);
-                                event.setY(mc.thePlayer.posY);
+                                event.setY(event.getY() + .0626 * 2);
                             }
 
-                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .24F : .15F;
+                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .3F : .2F;
                             mc.thePlayer.motionX = -(Math.sin(mc.thePlayer.getDirection()) * moveSpeed);
                             mc.thePlayer.motionZ = Math.cos(mc.thePlayer.getDirection()) * moveSpeed;
                         }

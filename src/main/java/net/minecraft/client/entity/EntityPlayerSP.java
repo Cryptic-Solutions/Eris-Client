@@ -236,7 +236,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             double d2 = euPre.getZ() - this.lastReportedPosZ;
             double d3 = (double) (euPre.getYaw() - this.lastReportedYaw);
             double d4 = (double) (euPre.getPitch() - this.lastReportedPitch);
-            boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
+            boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > (9.0E-4D / 2) || this.positionUpdateTicks >= 15;
             boolean flag3 = d3 != 0.0D || d4 != 0.0D;
 
             if (this.ridingEntity == null) {

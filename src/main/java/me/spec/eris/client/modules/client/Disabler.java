@@ -7,6 +7,7 @@ import me.spec.eris.api.module.Module;
 import me.spec.eris.api.value.types.ModeValue;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;
+import net.minecraft.network.play.server.S39PacketPlayerAbilities;
 
 public class Disabler extends Module {
 
@@ -24,7 +25,7 @@ public class Disabler extends Module {
         	if (event.isReceiving()) {
         		switch (mode.getValue()) {
         			case WATCHDOG:
-//	        		if (event.getPacket() instanceof S39PacketPlayerAbilities) event.setCancelled();
+	        		if (event.getPacket() instanceof S39PacketPlayerAbilities) event.setCancelled();
 	        		
 	        		if (event.getPacket() instanceof S32PacketConfirmTransaction) {
 	        			S32PacketConfirmTransaction packet = (S32PacketConfirmTransaction) event.getPacket();
