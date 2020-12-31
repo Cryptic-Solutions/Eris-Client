@@ -116,7 +116,7 @@ public class Button {
         if (this.opened && !settings.isEmpty()) {
             addVal = this.height;
             if (this.animation > 0) {
-                if (this.downTimer.hasReached(25)) {
+                if (this.downTimer.hasReached(30)) {
                     this.animation--;
                     this.downTimer.reset();
                 }

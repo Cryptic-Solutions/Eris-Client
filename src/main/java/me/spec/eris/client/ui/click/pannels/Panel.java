@@ -63,7 +63,7 @@ public class Panel {
         int offset = height;
         if (open) {
             if (animation > 0) {
-                if (downTimer.hasReached(15)) {
+                if (downTimer.hasReached(35)) {
                     animation--;
                     downTimer.reset();
                 }
@@ -75,7 +75,7 @@ public class Panel {
         } else {
             if (animation < 0) {
 
-                if (upTimer.hasReached(10)) {
+                if (upTimer.hasReached(25)) {
                     animation++;
                     upTimer.reset();
                 }
