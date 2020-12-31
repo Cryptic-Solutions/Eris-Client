@@ -3,6 +3,7 @@ package me.spec.eris.client.ui.click.pannels;
 import java.util.ArrayList;
 
 import me.spec.eris.api.module.ModuleCategory;
+import me.spec.eris.utils.visual.RenderUtilities;
 import org.lwjgl.opengl.GL11;
 
 import me.spec.eris.Eris;
@@ -55,7 +56,7 @@ public class Panel {
             y = mouseY - (height / 2) + yOffset;
         }
         GL11.glPushMatrix();
-        Gui.drawRect(x - 1, y, x + width + 1, y + height, ClickGui.getPrimaryColor().getRGB());
+        RenderUtilities.drawRoundedRect(x - 1, y, x + width + 1, y + height, ClickGui.getPrimaryColor().getRGB(), ClickGui.getPrimaryColor().getRGB()); 
         ClickGui.getFont().drawString(moduleCategory.getName(), x + 1, y + (height / 2) - (ClickGui.getFont().getHeight(moduleCategory.getName()) / 2), -1);
         GL11.glPopMatrix();
         width = 115;
