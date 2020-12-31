@@ -8,6 +8,7 @@ import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
+import net.optifine.util.MathUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -29,10 +30,10 @@ import net.minecraft.util.ResourceLocation;
 public class HUD extends Module {
 
     private BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, "Backdrop on arraylist");
-    private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, "Background Opacity");
-    private NumberValue<Integer> xPosition = new NumberValue<>("X-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the X-Axis");
-    private NumberValue<Integer> yPosition = new NumberValue<>("Y-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the Y-Axis");
-    private ModeValue<ColorMode> colorMode = new ModeValue<>("Color", ColorMode.STATIC, this);
+    private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, () -> arraylistBackground.getValue(), "Background Opacity");
+    private NumberValue<Integer> xPosition = new NumberValue<>("Arraylist X", 3, 0, 10, this, null, "Where the arraylist will begin on the X-Axis");
+    private NumberValue<Integer> yPosition = new NumberValue<>("Arraylist Y", 3, 0, 10, this, null, "Where the arraylist will begin on the Y-Axis");
+    private ModeValue<ColorMode> colorMode = new ModeValue<>("Arraylist Color", ColorMode.STATIC, this);
 
     private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Speed");
     private NumberValue<Double> rainOffset = new NumberValue<>("Offset", 2d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Offset");
@@ -42,6 +43,9 @@ public class HUD extends Module {
     private NumberValue<Integer> red = new NumberValue<>("Red", 255, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "RED for Static ArrayList Color");
     private NumberValue<Integer> green = new NumberValue<>("Green", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "GREEN for Static ArrayList Color");
     private NumberValue<Integer> blue = new NumberValue<>("Blue", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "BLUE for Static ArrayList Color");
+
+    private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows coords");
+
 
     public enum ColorMode {
         STATIC, RAINBOW
@@ -71,6 +75,12 @@ public class HUD extends Module {
             ScaledResolution scaledResolution = new ScaledResolution(mc);
 
             getFont().drawStringWithShadow(Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
+
+            if(coordinates.getValue()) {
+                String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
+                getFont().drawStringWithShadow(coords, 2, (mc.ingameGUI.getChatGUI().getChatOpen() ? 483 : 497), Eris.getClientColor().getRGB());
+            }
+
             List<Module> modulesForRender = Eris.getInstance().moduleManager.getModulesForRender();
 
             modulesForRender.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
