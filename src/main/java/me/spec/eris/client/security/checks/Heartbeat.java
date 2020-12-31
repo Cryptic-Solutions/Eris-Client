@@ -2,6 +2,7 @@ package me.spec.eris.client.security.checks;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
+import me.spec.eris.api.notification.Notification;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.api.module.Module;
 
@@ -39,6 +40,7 @@ public class Heartbeat extends Module {
                             check.getInputStream().close();
                         } catch (java.net.MalformedURLException e) {
                             Eris.getInstance().sendNotification("Protection", "Failed to connect to one or more webserver(s), 30 seconds until shutdown");
+                            Eris.getInstance().getNotificationManager().send(new Notification("Protection", "Failed to connect to one or more webserver(s), 30 seconds until shutdown"));
                             checked = true;
                             checkTime = System.currentTimeMillis();
                         } catch (java.io.IOException e) {

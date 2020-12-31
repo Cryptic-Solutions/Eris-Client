@@ -108,8 +108,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
             ((GuiLabel) this.labelList.get(j)).drawLabel(this.mc, mouseX, mouseY);
         }
 
-        if (Eris.instance != null) {
-            Eris.instance.notificationManager.render();
+        if (Eris.INSTANCE != null) {
+            Eris.INSTANCE.notificationManager.render();
         }
     }
 

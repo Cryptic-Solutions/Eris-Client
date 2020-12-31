@@ -2,6 +2,9 @@ package me.spec.eris.client.ui.login;
 
 import java.io.IOException;
 
+import me.spec.eris.client.ui.main.buttons.ExpandButton;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
@@ -64,8 +67,8 @@ public class GuiLogin extends GuiScreen {
 	        				return;
 	        			}
 	        		}*/
-                    Eris.instance = new Eris();
-                    Eris.instance.onStart();
+                    Eris.INSTANCE = new Eris();
+                    Eris.INSTANCE.onStart();
                     mc.displayGuiScreen(this.previousScreen);
                 } catch (Exception e) {}
                 break;
@@ -74,25 +77,25 @@ public class GuiLogin extends GuiScreen {
     }
 
     @Override
-    public void drawScreen(final int x, final int y, final float z) { 
+    public void drawScreen(final int x, final int y, final float z) {
         this.password.drawTextBox();
         this.name.drawTextBox();
         this.uid.drawTextBox();
         if (this.password.getText().isEmpty()) {
-            mc.fontRendererObj.drawStringWithShadow("Password", (float) (this.width / 2 - 94), height / 2 - 10, -7829368);
+          mc.fontRendererObj.drawStringWithShadow("Password", (float) (this.width / 2 - 94), height / 2 - 14, -7829368);
         }
         if (this.uid.getText().isEmpty()) {
-            mc.fontRendererObj.drawStringWithShadow("UID", (float) (this.width / 2 - 94), height / 2 - 65, -7829368);
+            mc.fontRendererObj.drawStringWithShadow("UID", (float) (this.width / 2 - 94), height / 2 - 68, -7829368);
         }
         if (this.name.getText().isEmpty()) {
-            mc.fontRendererObj.drawStringWithShadow("Name", (float) (this.width / 2 - 94), height / 2 - 35, -7829368);
+            mc.fontRendererObj.drawStringWithShadow("Name", (float) (this.width / 2 - 94), height / 2 - 39, -7829368);
         }
         super.drawScreen(x, y, z);
     }
 
     @Override
     public void initGui() {
-
+        this.drawDefaultBackground();
         Display.setTitle("You need to login to Eris - Just press login, login disabled until release is ready");
         final int var3 = this.height / 4 + 24;
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, height / 2 + 10, "Login"));

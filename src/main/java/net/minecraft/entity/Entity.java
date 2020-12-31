@@ -609,8 +609,8 @@ public abstract class Entity implements ICommandSender {
             double d5 = z;
             EventSafeWalk esw = new EventSafeWalk();
             esw.call();
-            boolean flag = this.onGround && this instanceof EntityPlayer && (isSneaking() || esw.isCancelled() || Eris.instance.moduleManager.isEnabled(Scaffold.class) && BlockUtils.getBlockAtPos(new BlockPos(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY - .0001, Minecraft.getMinecraft().thePlayer.posZ)) instanceof BlockAir);
-            if (Eris.instance.moduleManager.isEnabled(Scaffold.class) && Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown()) {
+            boolean flag = this.onGround && this instanceof EntityPlayer && (isSneaking() || esw.isCancelled() || Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) && BlockUtils.getBlockAtPos(new BlockPos(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY - .0001, Minecraft.getMinecraft().thePlayer.posZ)) instanceof BlockAir);
+            if (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) && Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown()) {
                 flag = false;
             }
             if (flag) {
@@ -755,7 +755,7 @@ public abstract class Entity implements ICommandSender {
                 }
 
                 this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, y, 0.0D));
-                if (this == Minecraft.getMinecraft().thePlayer && y > -0.6 && (Step.isInvalid() || Eris.instance.moduleManager.isEnabled(Speed.class))) {
+                if (this == Minecraft.getMinecraft().thePlayer && y > -0.6 && (Step.isInvalid() || Eris.INSTANCE.moduleManager.isEnabled(Speed.class))) {
                     double blockHeight = 1.0 + y;
 
                     List<Double> blockHeights = Arrays.asList(0.875, 0.625, 0.8125, 0.9375, 0.75, 0.6875);
@@ -770,7 +770,7 @@ public abstract class Entity implements ICommandSender {
                     z = d8;
                     this.setEntityBoundingBox(axisalignedbb3);
                 }
-                if (!(Step.isInvalid() || Eris.instance.moduleManager.isEnabled(Speed.class))) {
+                if (!(Step.isInvalid() || Eris.INSTANCE.moduleManager.isEnabled(Speed.class))) {
                 	new EventStep(this, stepHeight, false).call();
                 }
             }

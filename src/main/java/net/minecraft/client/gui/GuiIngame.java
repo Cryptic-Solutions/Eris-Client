@@ -9,9 +9,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import me.spec.eris.Eris;
-import me.spec.eris.Eris.Gamemode;
 import me.spec.eris.client.events.render.EventRender2D;
 import me.spec.eris.client.events.render.EventRenderSR;
+import me.spec.eris.client.integration.server.interfaces.Gamemode;
+import me.spec.eris.client.integration.server.interfaces.Server;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -501,13 +502,13 @@ public class GuiIngame extends Gui {
         if (mc.getCurrentServerData() != null && !mc.isSingleplayer()) {
             switch (mc.getCurrentServerData().serverIP.toLowerCase()) {
                 case "hypixel":
-                    Eris.getInstance().setServer(Eris.Server.HYPIXEL);
+                    Eris.getInstance().getServerIntegration().setServer(Server.HYPIXEL);
                     break;
                 case "mineplex":
-                    Eris.getInstance().setServer(Eris.Server.MINEPLEX);
+                    Eris.getInstance().getServerIntegration().setServer(Server.MINEPLEX);
                     break;
                 case "cubecraft":
-                    Eris.getInstance().setServer(Eris.Server.CUBECRAFT);
+                    Eris.getInstance().getServerIntegration().setServer(Server.CUBECRAFT);
                     break;
             }
         }
@@ -554,21 +555,21 @@ public class GuiIngame extends Gui {
                 String s3 = p_180475_1_.getDisplayName();
                 if (mc.getCurrentServerData().serverIP.toLowerCase().contains("hypixel")) {
                     if (s3.contains("DUELS")) {
-                        Eris.getInstance().setGameMode(Gamemode.DUELS);
+                        Eris.getInstance().getServerIntegration().setGameMode(Gamemode.DUELS);
 
                     } else if (s3.contains("BEDWARS")) {
-                        Eris.getInstance().setGameMode(Gamemode.BEDWARS);
+                        Eris.getInstance().getServerIntegration().setGameMode(Gamemode.BEDWARS);
 
                     } else if (s3.contains("SKYWARS")) {
 
-                        Eris.getInstance().setGameMode(Gamemode.SKYWARS);
+                        Eris.getInstance().getServerIntegration().setGameMode(Gamemode.SKYWARS);
 
                     } else if (s3.contains("PIT")) {
 
-                        Eris.getInstance().setGameMode(Gamemode.PIT);
+                        Eris.getInstance().getServerIntegration().setGameMode(Gamemode.PIT);
 
                     } else {
-                        Eris.getInstance().setGameMode(Gamemode.UNSPECIFIED);
+                        Eris.getInstance().getServerIntegration().setGameMode(Gamemode.UNSPECIFIED);
                     }
 
 

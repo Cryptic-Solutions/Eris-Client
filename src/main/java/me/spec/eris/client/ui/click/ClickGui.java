@@ -100,7 +100,7 @@ public class ClickGui extends GuiScreen {
 
     public static TTFFontRenderer getFont() {
         if (fontRender == null) {
-            fontRender = Eris.instance.fontManager.getFont("SFUI 18");
+            fontRender = Eris.INSTANCE.fontManager.getFont("SFUI 18");
         }
         return fontRender;
     }

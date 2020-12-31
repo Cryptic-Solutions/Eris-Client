@@ -31,9 +31,9 @@ public final class AltLoginThread
 
     private Session createSession(String username, String password) {
         if (Mojang) {
-            Eris.instance.serviceSwitcher.switchToService(AlteningServiceType.MOJANG);
+            Eris.INSTANCE.serviceSwitcher.switchToService(AlteningServiceType.MOJANG);
         } else {
-            Eris.instance.serviceSwitcher.switchToService(AlteningServiceType.THEALTENING);
+            Eris.INSTANCE.serviceSwitcher.switchToService(AlteningServiceType.THEALTENING);
         }
         YggdrasilAuthenticationService service = new YggdrasilAuthenticationService(Proxy.NO_PROXY, "");
         YggdrasilUserAuthentication auth = (YggdrasilUserAuthentication) service.createUserAuthentication(Agent.MINECRAFT);

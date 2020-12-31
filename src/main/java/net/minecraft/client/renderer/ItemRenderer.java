@@ -319,7 +319,7 @@ public class ItemRenderer {
             this.func_178110_a((EntityPlayerSP) abstractclientplayer, partialTicks);
             GlStateManager.enableRescaleNormal();
             GlStateManager.pushMatrix();
-            Killaura aura = (Killaura) Eris.instance.moduleManager.getModuleByClass(Killaura.class);
+            Killaura aura = (Killaura) Eris.INSTANCE.moduleManager.getModuleByClass(Killaura.class);
 
             if (this.itemToRender != null) {
                 if (this.itemToRender.getItem() instanceof ItemMap) {

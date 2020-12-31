@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
 import me.spec.eris.client.events.player.EventMove;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModulePriority;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.client.antiflag.prioritization.enums.ModulePriority;
+import me.spec.eris.client.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.api.value.Value;
 import me.spec.eris.client.modules.render.Racist;
 import net.minecraft.client.Minecraft;
@@ -70,7 +70,7 @@ public class Module {
             this.onDisable();
         }
         if (save) {
-            Eris.instance.configManager.saveDefaultFile();
+            Eris.INSTANCE.configManager.saveDefaultFile();
         }
     }
 
@@ -97,7 +97,7 @@ public class Module {
     public void setKey(int key, boolean save) {
         this.key = key;
         if (save) {
-            Eris.instance.fileManager.getBindsFile().save();
+            Eris.INSTANCE.fileManager.getBindsFile().save();
         }
     }
 
@@ -137,7 +137,7 @@ public class Module {
         EventMove.lastDistance = lastDist;
     }
 
-    public String getDynamicName() { return (Eris.instance.moduleManager.isEnabled(Racist.class) ? racistName : name); }
+    public String getDynamicName() { return (Eris.INSTANCE.moduleManager.isEnabled(Racist.class) ? racistName : name); }
 
     public void sendPosition(double x, double y, double z, boolean ground, boolean movement) {
         if (movement) {

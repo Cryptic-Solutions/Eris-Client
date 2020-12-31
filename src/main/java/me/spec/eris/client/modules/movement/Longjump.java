@@ -6,8 +6,8 @@ import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.client.events.player.EventMove;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.api.module.Module;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModulePriority;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.client.antiflag.prioritization.enums.ModulePriority;
+import me.spec.eris.client.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.client.modules.combat.Criticals;
 import me.spec.eris.api.value.types.ModeValue;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
@@ -30,7 +30,6 @@ public class Longjump extends Module {
 
     @Override
     public void onEvent(Event e) {
-     //   if (ModulePrioritizer.isModuleUsable(this)) return;
 
         if (e instanceof EventUpdate) {
             setMode(mode.getValue().toString());
@@ -48,7 +47,7 @@ public class Longjump extends Module {
 	                	collisionTime++;
 	                }
 		            if (collisionTime > 1) {
-		            	Eris.instance.moduleManager.getModuleByClass(Longjump.class).toggle(false);
+		            	Eris.INSTANCE.moduleManager.getModuleByClass(Longjump.class).toggle(false);
 		            }
 		            
 				break;
@@ -80,6 +79,9 @@ public class Longjump extends Module {
 									if (mc.thePlayer.motionY < 0) em.setY(mc.thePlayer.motionY *= .646);
 									speed = getLastDistance() - getLastDistance() / 159;
 								}
+		    		            	Eris.INSTANCE.moduleManager.getModuleByClass(Longjump.class).toggle(false);
+		                        }
+		                        speed = getLastDistance() - getLastDistance() / 159;
 		                        break;
 		                }
 		                stage++;

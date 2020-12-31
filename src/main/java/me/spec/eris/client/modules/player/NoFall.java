@@ -12,8 +12,6 @@ import me.spec.eris.client.modules.movement.Longjump;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.client.modules.movement.Speed;
 import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
-import net.minecraft.network.play.client.C0APacketAnimation;
 
 public class NoFall extends Module {
 

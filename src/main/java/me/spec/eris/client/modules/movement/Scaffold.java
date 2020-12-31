@@ -18,7 +18,7 @@ import me.spec.eris.client.events.player.EventSafeWalk;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.client.events.render.EventRender2D;
 import me.spec.eris.api.module.Module;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.client.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.utils.player.PlayerUtils;
 import me.spec.eris.utils.world.TimerUtils;
@@ -87,8 +87,8 @@ public class Scaffold extends Module {
     public void onEnable() {
     	timerCap.reset();
     	flags = 0;
-    	abuseTimer = !Eris.instance.moduleManager.isEnabled(Speed.class);
-    	motionBoost = !Eris.instance.moduleManager.isEnabled(Speed.class);
+    	abuseTimer = !Eris.INSTANCE.moduleManager.isEnabled(Speed.class);
+    	motionBoost = !Eris.INSTANCE.moduleManager.isEnabled(Speed.class);
     	mc.timer.timerSpeed = 1.0f;
         super.onEnable();
     }

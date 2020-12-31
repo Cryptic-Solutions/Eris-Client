@@ -19,7 +19,7 @@ public class BindFile extends DataFile {
     @Override
     public void save() {
         ArrayList<String> toWrite = new ArrayList<String>();
-        for (Module m : Eris.instance.moduleManager.getModules()) {
+        for (Module m : Eris.INSTANCE.moduleManager.getModules()) {
             if (m.getKey() != Keyboard.KEY_NONE && !toWrite.contains(m.getName() + ":" + m.getKey())) {
                 toWrite.add(m.getName() + ":" + m.getKey());
             }
@@ -34,8 +34,8 @@ public class BindFile extends DataFile {
             if (lines.get(k).contains(":")) {
                 String[] args = lines.get(k).split(":");
                 if (args[0] != null && args != null) {
-                    if (Eris.instance.moduleManager.getModuleByName(args[0]) != null) {
-                        Module m = Eris.instance.moduleManager.getModuleByName(args[0]);
+                    if (Eris.INSTANCE.moduleManager.getModuleByName(args[0]) != null) {
+                        Module m = Eris.INSTANCE.moduleManager.getModuleByName(args[0]);
                         if (m != null && args.length > 1) {
                             try {
                                 m.setKey(Integer.parseInt(args[1]), false);

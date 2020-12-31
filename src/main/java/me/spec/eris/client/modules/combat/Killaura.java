@@ -135,7 +135,7 @@ public class Killaura extends Module {
         blockPosValue = 1;
         waitTicks = 0;
         delay = 73;
-        crits = (Criticals) Eris.instance.moduleManager.getModuleByClass(Criticals.class);
+        crits = (Criticals) Eris.INSTANCE.moduleManager.getModuleByClass(Criticals.class);
         unBlock();
         critStopwatch.reset();
         super.onEnable();

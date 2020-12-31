@@ -2,6 +2,7 @@ package me.spec.eris.client.commands;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.command.Command;
+import me.spec.eris.utils.player.PlayerUtils;
 
 public class HelpCommand extends Command {
 
@@ -16,7 +17,7 @@ public class HelpCommand extends Command {
 
     private void getCommandNameAndDescription(Command command) {
         if(!command.getCommandName().equalsIgnoreCase("help")) {
-            Eris.getInstance().tellUser(" " + command.getCommandName() + " - " + command.getCommandDescription());
+            PlayerUtils.tellUser(" " + command.getCommandName() + " - " + command.getCommandDescription());
         }
     }
 }

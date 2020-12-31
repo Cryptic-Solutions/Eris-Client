@@ -113,7 +113,7 @@ public class GuiAltManager extends GuiScreen {
 
             @Override
             public void run() {
-                Eris.instance.serviceSwitcher.switchToService(AlteningServiceType.MOJANG);
+                Eris.INSTANCE.serviceSwitcher.switchToService(AlteningServiceType.MOJANG);
                 status = EnumChatFormatting.YELLOW + "Logging in...";
                 YggdrasilAuthenticationService service = new YggdrasilAuthenticationService(Proxy.NO_PROXY, "");
                 YggdrasilUserAuthentication auth = (YggdrasilUserAuthentication) service.createUserAuthentication(Agent.MINECRAFT);
@@ -200,7 +200,7 @@ public class GuiAltManager extends GuiScreen {
                 String email = this.email.getText();
                 String pass = this.pass.getText();
                 AltManager.addAlt(new Alt(email, pass));
-                Eris.instance.fileManager.saveAltsFile();
+                Eris.INSTANCE.fileManager.saveAltsFile();
                 this.refresh();
             } catch (Exception e) {
             }
@@ -245,7 +245,7 @@ public class GuiAltManager extends GuiScreen {
         } else if (button.id == 3) {
             AltManager.getAlts().clear();
             this.refresh();
-            Eris.instance.fileManager.saveDataFile();
+            Eris.INSTANCE.fileManager.saveDataFile();
         } else if (button.id == 69696969) {
             try {
                 if (Utils.getLatestPaste() != null) {
@@ -269,6 +269,6 @@ public class GuiAltManager extends GuiScreen {
             } catch (URISyntaxException e) {
             }
         }
-        Eris.instance.fileManager.saveAltsFile();
+        Eris.INSTANCE.fileManager.saveAltsFile();
     }
 }

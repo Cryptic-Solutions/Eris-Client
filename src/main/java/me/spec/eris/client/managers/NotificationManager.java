@@ -24,7 +24,7 @@ public class NotificationManager extends Manager<Notification> {
 
     public void render() {
         boolean notifications = true;
-        java.util.List<Notification> notifs = Eris.instance.notificationManager.getNotifications();
+        java.util.List<Notification> notifs = Eris.INSTANCE.notificationManager.getNotifications();
         if (notifs == null || notifs.isEmpty()) {
             return;
         }
@@ -32,7 +32,7 @@ public class NotificationManager extends Manager<Notification> {
         for (int k = 0; k < notifs.size(); k++) {
             Notification n = notifs.get(k);
             if (n.isFinished() || !notifications) {
-                Eris.instance.notificationManager.delete(notifs.indexOf(n));
+                Eris.INSTANCE.notificationManager.delete(notifs.indexOf(n));
                 if (!notifications) {
                     Helper.sendMessage(n.getDescription());
                 }
@@ -43,7 +43,7 @@ public class NotificationManager extends Manager<Notification> {
 
                 ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
                 float drawX = 0;
-                TTFFontRenderer font = Eris.instance.fontManager.getFont("SFUI 18");
+                TTFFontRenderer font = Eris.INSTANCE.fontManager.getFont("SFUI 18");
                 float width = Math.max(Math.max(font.getStringWidth(n.getTitle()), font.getStringWidth(n.getDescription())), 70);
 
                 if (duration < fadeIn) {

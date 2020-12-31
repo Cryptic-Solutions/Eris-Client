@@ -25,6 +25,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public class PlayerUtils {
@@ -108,5 +109,15 @@ public class PlayerUtils {
             }
         }
         return false;
+    }
+
+    public static void tellUser(String message) {
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null
+                && Minecraft.getMinecraft().theWorld != null) {
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.WHITE
+                    + "[" + EnumChatFormatting.RED + Eris.getInstance().getClientName() + EnumChatFormatting.WHITE + "]" + message));
+        } else {
+            System.out.println("[" + Eris.getInstance().getClientName() + "]>>" + message);
+        }
     }
 }

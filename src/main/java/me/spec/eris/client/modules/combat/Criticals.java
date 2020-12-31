@@ -8,18 +8,14 @@ import me.spec.eris.client.events.player.EventStep;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.module.Module;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModulePriority;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.client.antiflag.prioritization.enums.ModulePriority;
+import me.spec.eris.client.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.client.modules.movement.Flight;
 import me.spec.eris.client.modules.movement.Scaffold;
 import me.spec.eris.client.modules.movement.Speed;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.network.play.client.C02PacketUseEntity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Criticals extends Module {
 	private double groundSpoofDist = 0.001;
@@ -127,7 +123,7 @@ public class Criticals extends Module {
 	}
 
 	public void doUpdate(EventUpdate eventPlayerUpdate) {
-		Killaura aura = ((Killaura) Eris.instance.moduleManager.getModuleByClass(Killaura.class));
+		Killaura aura = ((Killaura) Eris.INSTANCE.moduleManager.getModuleByClass(Killaura.class));
 
 		if (modeValue.getValue() != Mode.WATCHDOG || !mc.thePlayer.isMoving())  return;
 		if (!(!aura.isToggled() || Killaura.getTarget() == null)) {
@@ -177,11 +173,11 @@ public class Criticals extends Module {
 	}
 
 	public boolean interferanceFree() {
-		if (Eris.instance.moduleManager.isEnabled(Speed.class))
+		if (Eris.INSTANCE.moduleManager.isEnabled(Speed.class))
 			return false;
-		if (Eris.instance.moduleManager.isEnabled(Flight.class))
+		if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class))
 			return false;
-		if (Eris.instance.moduleManager.isEnabled(Scaffold.class))
+		if (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class))
 			return false;
 		if (mc.gameSettings.keyBindJump.isKeyDown() || mc.thePlayer.isInWater() || mc.thePlayer.isInLava()
 				|| mc.thePlayer.isOnLadder())

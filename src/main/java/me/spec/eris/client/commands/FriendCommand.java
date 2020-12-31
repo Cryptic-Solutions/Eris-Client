@@ -4,6 +4,7 @@ import me.spec.eris.Eris;
 import me.spec.eris.api.command.Command;
 import me.spec.eris.api.config.ClientConfig;
 import me.spec.eris.api.friend.Friend;
+import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,26 +27,26 @@ public class FriendCommand extends Command {
                     EntityPlayer entityPlayer = (EntityPlayer) entity;
                     if(entityPlayer.getName().equalsIgnoreCase(commandArguments[2])) {
                         Eris.getInstance().friendManager.addToManagerArraylist(new Friend(entityPlayer.getName(), entityPlayer));
-                        Eris.getInstance().tellUser("Added friend " + entityPlayer.getName());
+                        PlayerUtils.tellUser("Added friend " + entityPlayer.getName());
                     } else {
-                        Eris.getInstance().tellUser("That player doesnt exist!");
+                        PlayerUtils.tellUser("That player doesnt exist!");
                     }
                 }
             }
             } else if(commandArguments[1].equalsIgnoreCase("remove")) {
               if(Eris.getInstance().friendManager.getFriendByName(commandArguments[2]) != null) {
                   Eris.getInstance().friendManager.removeFromManagerArraylist(Eris.getInstance().friendManager.getFriendByName(commandArguments[2]));
-                  Eris.getInstance().tellUser("Removed friend " + Eris.getInstance().friendManager.getFriendByName(commandArguments[2]).getFriendName());
+                  PlayerUtils.tellUser("Removed friend " + Eris.getInstance().friendManager.getFriendByName(commandArguments[2]).getFriendName());
               } else {
-                  Eris.getInstance().tellUser("That friend doesnt exist!");
+                  PlayerUtils.tellUser("That friend doesnt exist!");
               }
             }
         } else if(commandArguments.length == 2) {
             if(commandArguments[1].equalsIgnoreCase("list")) {
-                Eris.getInstance().friendManager.getManagerArraylist().forEach(friend -> Eris.getInstance().tellUser("Friend: " + friend.getFriendName()));
+                Eris.getInstance().friendManager.getManagerArraylist().forEach(friend -> PlayerUtils.tellUser("Friend: " + friend.getFriendName()));
             }
         } else {
-            Eris.getInstance().tellUser("Invalid command arguments!");
+            PlayerUtils.tellUser("Invalid command arguments!");
         }
     }
 }

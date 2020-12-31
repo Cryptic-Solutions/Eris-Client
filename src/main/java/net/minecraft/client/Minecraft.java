@@ -977,7 +977,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
      * Called repeatedly from run()
      */
     private void runGameLoop() throws IOException {
-        if (Eris.instance != null) {
+        if (Eris.INSTANCE != null) {
             new EventClientTick().call();
         }
         long i = System.nanoTime();
@@ -1669,7 +1669,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                     if (this.currentScreen != null) {
                         this.currentScreen.handleKeyboardInput();
                     } else {
-                        Eris.instance.moduleManager.onKey(k);
+                        Eris.INSTANCE.moduleManager.onKey(k);
                         if (k == 1) {
                             this.displayInGameMenu();
                         }

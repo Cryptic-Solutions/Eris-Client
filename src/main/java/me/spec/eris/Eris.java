@@ -2,9 +2,10 @@ package me.spec.eris;
 
 import java.awt.Color;
 
-import me.spec.eris.api.event.Event;
-import me.spec.eris.client.events.chat.ChatMessageEvent;
+import me.spec.eris.client.integration.playtime.PlaytimeTracker;
+import me.spec.eris.client.integration.server.ServerIntegration;
 import me.spec.eris.client.managers.*;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
 
 import libraries.thealtening.service.ServiceSwitcher;
@@ -12,29 +13,21 @@ import me.spec.eris.api.config.file.FileManager;
 import me.spec.eris.client.ui.click.ClickGui;
 import me.spec.eris.client.ui.fonts.FontManager;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.api.notification.Notification;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 
 public class Eris {
 
-	public final String clientName = "Eris";
-
-	public static Eris instance;
+	public static Eris INSTANCE;
 
 	/*
 	Variables
 	 */
-	private long startTime;
-	public double hoursPlayed;
 	public String alteningAPI;
 
 	/*
-	Server Integration
+	Server integration
 	 */
-	public Gamemode gamemode = Gamemode.UNSPECIFIED;
-	public Server server = Server.IRRELLEVANT;
+	private ServerIntegration serverIntegration;
+	private PlaytimeTracker playtimeTracker;
 
 	/*
 	Managers
@@ -50,8 +43,9 @@ public class Eris {
 	public ServiceSwitcher serviceSwitcher;
 
 	public void onStart() {
-		Display.setTitle("Eris v0.1b | INDEV");
-		this.startTime = System.currentTimeMillis();
+		Display.setTitle(getFormattedClientName());
+		this.serverIntegration = new ServerIntegration();
+		this.playtimeTracker = new PlaytimeTracker();
 		this.serviceSwitcher = new ServiceSwitcher();
 		this.fontManager = new FontManager();
 		this.notificationManager = new NotificationManager();
@@ -61,88 +55,79 @@ public class Eris {
 		this.commandManager = new CommandManager();
 		this.configManager = new ConfigManager();
 		this.clickUI = new ClickGui();
-
-//		new AntiVirus().start();
-		// new Connection().start();
+		//new AntiVirus().start();
+		//new Connection().start();
 	}
 
 	public static Eris getInstance() {
-		return instance;
+		return INSTANCE;
 	}
 
-	public enum Server {
-		HYPIXEL, CUBECRAFT, MINEPLEX, IRRELLEVANT
+	public String getClientName() {
+		return "Eris";
 	}
 
-	public void setServer(Server server) {
-		this.server = server;
+	public double getClientBuild() {
+		return 0.1;
 	}
 
-	public Server getServer() {
-		return server;
+	public String getClientRelease() {
+		return "DEV";
 	}
 
-	public enum Gamemode {
-		BLITZ, SKYWARS, BEDWARS, PIT, DUELS, UNSPECIFIED
-	}
-
-	public void setGameMode(Gamemode gamemode) {
-		this.gamemode = gamemode;
-	}
-
-	public Gamemode getGameMode() {
-		return gamemode;
+	public String getFormattedClientName() {
+		return getClientName() + " v" + getClientBuild() + "b" + " | " + getClientRelease();
 	}
 
 	public static Color getClientColor() {
 		return new Color(255, 0, 0);
 	}
 
-	public long getStartTime() {
-		return this.startTime;
+	public ServerIntegration getServerIntegration() {
+		return serverIntegration;
 	}
 
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
+	public PlaytimeTracker getPlaytimeTracker() {
+		return playtimeTracker;
 	}
 
-	public void sendNotification(String type, String message) {
-		sendNotification(type, message, 10000);
+	public ModuleManager getModuleManager() {
+		return moduleManager;
 	}
 
-	private void sendNotification(String type, String message, int duration) {
-		notificationManager.send(new Notification(type, message, duration));
+	public FileManager getFileManager() {
+		return fileManager;
 	}
 
-	public void tellUser(String message) {
-		if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null
-				&& Minecraft.getMinecraft().theWorld != null) {
-			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.WHITE
-					+ "[" + EnumChatFormatting.RED + clientName + EnumChatFormatting.WHITE + "]" + message));
-		} else {
-			System.out.println("[Eris]>> " + message);
-		}
+	public NotificationManager getNotificationManager() {
+		return notificationManager;
 	}
 
-	public boolean onServer(String server) {
-		return false;
+	public FontManager getFontManager() {
+		return fontManager;
 	}
 
-	private static TTFFontRenderer fontRender;
-
-	public static TTFFontRenderer getFontRenderer() {
-		if (fontRender == null) {
-			fontRender = Eris.instance.fontManager.getFont("SFUI 18");
-		}
-		return fontRender;
+	public CommandManager getCommandManager() {
+		return commandManager;
 	}
 
-	public void onEvent(Event e) {
-		if(e instanceof ChatMessageEvent) {
-			ChatMessageEvent event = (ChatMessageEvent) e;
-
-			System.out.println("omegalul");
-		}
+	public FriendManager getFriendManager() {
+		return friendManager;
 	}
 
+	public ClickGui getClickUI() {
+		return clickUI;
+	}
+
+	public ConfigManager getConfigManager() {
+		return configManager;
+	}
+
+	public ServiceSwitcher getServiceSwitcher() {
+		return serviceSwitcher;
+	}
+
+	public TTFFontRenderer getFontRenderer() {
+		return Eris.INSTANCE.fontManager.getFont("SFUI 18");
+	}
 }

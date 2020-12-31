@@ -35,7 +35,7 @@ public class MovementInputFromOptions extends MovementInput {
         sneak = gameSettings.keyBindSneak.isKeyDown();
 
         if (sneak) {
-        	double value = Eris.instance.moduleManager.isEnabled(Scaffold.class) ? .8 : .3;
+        	double value = Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) ? .8 : .3;
             moveStrafe = (float) ((double) moveStrafe * value);
             moveForward = (float) ((double) moveForward * value);
         }

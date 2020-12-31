@@ -1,4 +1,4 @@
-package me.spec.eris.api.module.antiflag.detection.events;
+package me.spec.eris.client.antiflag.detection.events;
 
 import me.spec.eris.api.module.Module;
 
