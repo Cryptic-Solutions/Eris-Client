@@ -18,7 +18,7 @@ import me.spec.eris.client.events.player.EventSafeWalk;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.client.events.render.EventRender2D;
 import me.spec.eris.api.module.Module;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.client.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.utils.player.PlayerUtils;
 import me.spec.eris.utils.world.TimerUtils;

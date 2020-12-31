@@ -1,11 +1,11 @@
-package me.spec.eris.api.module.antiflag.prioritization;
+package me.spec.eris.client.antiflag.prioritization;
 
 import java.util.ArrayList;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.module.Module;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModulePriority;
-import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.client.antiflag.prioritization.enums.ModulePriority;
+import me.spec.eris.client.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.client.modules.movement.Flight;
 import me.spec.eris.client.modules.movement.Longjump;
 import me.spec.eris.client.modules.movement.Speed;
