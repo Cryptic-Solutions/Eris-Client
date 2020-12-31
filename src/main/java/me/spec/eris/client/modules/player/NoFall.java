@@ -31,8 +31,9 @@ public class NoFall extends Module {
     		switch (mode.getValue()) {
 				case WATCHDOG:
 					if (fallen && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround) {
-						mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
+						Speed speed = ((Speed)Eris.getInstance().moduleManager.getModuleByClass(Speed.class));
 						mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
+						speed.hops = -1;
 						fallen = false;
 					}
 				break;

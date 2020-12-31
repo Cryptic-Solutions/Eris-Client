@@ -87,13 +87,13 @@ public class Flight extends Module {
 		        		case 1:
 		        			mc.timer.timerSpeed = 1;
 		        			if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42d));
+		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42F));
 								speed =  .6;
 		        			}
 		        			break;
 		        		case 2:
 		        			mc.timer.timerSpeed = 1;
-		        			speed = 1.33;
+		        			speed = 1.4;
 		        			break;
 		        		default:
 		        			speed = getLastDistance() - getLastDistance() / 159;
@@ -142,7 +142,7 @@ public class Flight extends Module {
     	               
                     	if (counter > 2) {
                     		mc.thePlayer.motionY = 0;
-                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .001125 : -.001125));
+                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0005 : 0));
                     	}
                     }
 				} else if (mc.thePlayer.ticksExisted % 12 == 0){

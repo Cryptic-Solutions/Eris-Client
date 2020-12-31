@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -107,12 +108,6 @@ public class Button {
         ;
         ClickGui.getFont().drawString(this.mod.getDynamicName() + getKey(), this.x + 1, this.y + (this.height / 2) - (ClickGui.getFont().getHeight(this.mod.getName() + ": " + getKey()) / 2), this.mod.isToggled() ? ClickGui.getPrimaryColor().getRGB() : new Color(175, 175, 175).getRGB());
         int addVal = 0;
-        if (!settings.isEmpty()) {
-            GL11.glPushMatrix();
-            ClickGui.getFont().drawString(opened ? "+" : "-", x + width - 10, this.y + (this.height / 2) - (ClickGui.getFont().getHeight("+") / 2), new Color(175, 175, 175).getRGB());
-            GL11.glPopMatrix();
-        }
-
         if (this.opened && !settings.isEmpty()) {
             addVal = this.height;
             if (this.animation > 0) {
@@ -138,6 +133,14 @@ public class Button {
                 }
                 addVal -= height;
             }
+        }
+        if (!settings.isEmpty()) {
+            GL11.glPushMatrix();
+            float f =  MathHelper.abs(MathHelper.sin((float) (Minecraft.getSystemTime() % 1000L / 1000.0f * 0)) * 0.1f);
+            GL11.glScalef(f + 1.0f, f + 1.0f, f + 1.0f);
+            GL11.glScalef(1, 1, 1);
+            ClickGui.getFont().drawString(">", x + width - 10, this.y + (this.height / 2) - (ClickGui.getFont().getHeight("+") / 2), new Color(175, 175, 175).getRGB());
+            GL11.glPopMatrix();
         }
 
         return this.height + addVal;

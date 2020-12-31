@@ -59,11 +59,10 @@ public class Speed extends Module {
 
 		switch (mode.getValue()) {
 			case WATCHDOG:
-				if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class)) return;
+				if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || Eris.INSTANCE.moduleManager.isEnabled(Longjump.class)) return;
 				if (e instanceof EventUpdate) {
 					setMode(mode.getValue().toString());
 					EventUpdate eu = (EventUpdate) e;
-					if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class)) return;
 					double xDist = mc.thePlayer.posX - mc.thePlayer.prevPosX;
 					double zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
 					setLastDistance(Math.sqrt(xDist * xDist + zDist * zDist));
@@ -86,6 +85,7 @@ public class Speed extends Module {
 					EventMove em = (EventMove) e;
 					Step step = ((Step) Eris.getInstance().moduleManager.getModuleByClass(Step.class));
 					if (Eris.getInstance().moduleManager.isEnabled(Scaffold.class) || Eris.getInstance().moduleManager.isEnabled(Flight.class) || Eris.getInstance().moduleManager.isEnabled(Longjump.class) || step.cancelMorePackets) {
+						mc.timer.timerSpeed = 1.0f;
 						hops = -1;
 						if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) return;
 					}
@@ -112,7 +112,7 @@ public class Speed extends Module {
 								mc.thePlayer.isAirBorne = true;
 								mc.thePlayer.triggerAchievement(StatList.jumpStat);
 								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 9.0E-4D * 2));
-								speed = em.getMovementSpeed() * (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 != 0 ? 2.16 : 2.1499);
+								speed = em.getMovementSpeed() * (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 == 0 ? 2.16 : 2.1499);
 								hops++;
 							}
 							setLastDistance(0.0);
@@ -121,7 +121,7 @@ public class Speed extends Module {
 							speed = getLastDistance() - .66 * (getLastDistance() - em.getMovementSpeed());
 							break;
 						default:
-							if ((stage == 2 || stage == 5) && mc.timer.timerSpeed > 1.0f) {
+							if ((stage == 2 || stage == 6) && mc.timer.timerSpeed > 1.0f) {
 								mc.timer.timerSpeed -= stage == 2 ? .25f : .15f;
 							}
 							speed = getLastDistance() - getLastDistance() / 159;
