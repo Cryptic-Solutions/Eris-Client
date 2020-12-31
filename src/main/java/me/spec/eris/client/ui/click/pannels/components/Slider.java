@@ -5,8 +5,10 @@ import java.text.DecimalFormat;
 
 import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.client.ui.click.ClickGui;
+import me.spec.eris.utils.visual.RenderUtilities;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.util.EnumChatFormatting;
 
 public class Slider extends Component {
@@ -28,9 +30,9 @@ public class Slider extends Component {
     public int drawScreen(int mouseX, int mouseY, int x, int y) {
         this.hovered = this.isHovered(mouseX, mouseY);
         this.height = 15;
-        this.x = x;
+        this.x = x + 5;
         this.y = y;
-
+        double maxX = this.parent.getWidth() - 15;
 
         float val = 0;
         double min = 0;
@@ -50,7 +52,7 @@ public class Slider extends Component {
             max = (float) this.set.getMaximumValue();
         }
         if (this.dragging) {
-            float toSet = (float) ((float) mouseX - (float) this.x) / (float) this.parent.getWidth();
+            float toSet = (float) ((float) mouseX - (float) this.x) / (float) maxX;
             if (toSet > 1) {
                 toSet = 1;
             }
@@ -68,10 +70,14 @@ public class Slider extends Component {
 
         }
         float distance = (float) ((val - min) / (max - min));
-        Gui.drawRect(this.x, this.y, this.x + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
+        Gui.drawRect(this.x - 5, this.y, this.x - 5 + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
         String name = this.set.getValueName() + EnumChatFormatting.GRAY + ": " + new DecimalFormat("#.##").format(this.set.getValue());
-        Gui.drawRect(this.x, this.y + ClickGui.getFont().getHeight(name) + 6, (int) (this.x + (this.parent.getWidth() * distance)), this.y + this.height - 3, ClickGui.getPrimaryColor().getRGB());
-        Gui.drawRect((int) (this.x + (this.parent.getWidth() * distance)), this.y + ClickGui.getFont().getHeight(name) + 6, (int) (this.x + (this.parent.getWidth() * distance)) + 5 > parent.getWidth() ? (int) (this.x + (this.parent.getWidth() * distance)) : (int) (this.x + (this.parent.getWidth() * distance)) + 5, this.y + this.height - 3, new Color(255, 255, 255).getRGB());
+        Gui.drawRect(this.x, this.y + ClickGui.getFont().getHeight(name) + 6, (int) (this.x + (maxX * distance)), this.y + this.height - 3, ClickGui.getPrimaryColor().getRGB());
+
+        boolean flag = ((int) (this.x + (maxX * distance)) + 3) > x + maxX;
+        int location =  ((int) (this.x + (maxX * distance)) + 3);
+
+        RenderUtilities.drawRoundedRect((int) (this.x + (maxX * distance)), this.y + ClickGui.getFont().getHeight(name) + 7, location,this.y + this.height - 4, new Color(255,255,255, 200).getRGB(), new Color(255,255,255, 200).getRGB() );
         GlStateManager.pushMatrix();
         float scale = 1;
         GlStateManager.scale(scale, scale, scale);
@@ -95,6 +101,10 @@ public class Slider extends Component {
     }
 
     private boolean isHovered(int mouseX, int mouseY) {
-        return mouseX >= x && mouseX <= x + this.parent.getWidth() && mouseY >= y && mouseY <= y + height;
+        double xPos = x + 5;
+        double maxX = x + parent.getWidth() - 15;
+        double yPosMin = y + height - 3;
+        double yPosMax = y + height + 3;
+        return mouseX >= xPos && mouseX <= maxX && mouseY >= yPosMin && mouseY <= yPosMax;
     }
 }

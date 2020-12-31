@@ -62,10 +62,11 @@ public class Killaura extends Module {
     public ModeValue<BlockMode> autoBlock = new ModeValue<>("Autoblock", BlockMode.OFF, this, () -> attackSettings.getValue(), "Autoblock modes");
     public NumberValue<Integer> clicksPerSecond = new NumberValue<Integer>("CPS", 15, 1, 20, this, () -> attackSettings.getValue(), "Clicks per second");
 
-    public NumberValue<Double> rayCastDist = new NumberValue<Double>("Walls Distance", 1.0, 0.0, 3.0, this, () -> attackSettings.getValue(), "If the entity is farther than this distance behind a wall, they wont be attacked");
-    public NumberValue<Integer> clicksPerSecondRandom = new NumberValue<Integer>("CPS Randomization", 0, 0, 5, this, () -> attackSettings.getValue(), "Dynamic randomization range");
+   public NumberValue<Integer> clicksPerSecondRandom = new NumberValue<Integer>("CPS Randomization", 0, 0, 5, this, () -> attackSettings.getValue(), "Dynamic randomization range");
+
     public NumberValue<Double> targetingDist = new NumberValue<Double>("Blocking Distance", 4.25, 2.0, 10.0, this, () -> attackSettings.getValue(), "Range at which the killaura aims and blocks");
     public NumberValue<Double> range = new NumberValue<Double>("Attack distance", 4.25, 2.0, 6.0, this, () -> attackSettings.getValue(), "Maximum range at which the killaura attacks");
+    public NumberValue<Double> rayCastDist = new NumberValue<Double>("Walls Distance", 1.0, 0.0, 3.0, this, () -> attackSettings.getValue(), "If the entity is farther than this distance behind a wall, they wont be attacked");
     public NumberValue<Integer> abusiveAura = new NumberValue<Integer>("Reach VL", 0, 0, 6, this, () -> attackSettings.getValue(), "Advanced setting to exploit VL in reach checks, keep at 0 if unknown");
     public BooleanValue<Boolean> attackTarget = new BooleanValue<>("Attack Target", true, this, () -> attackSettings.getValue(), "Should the killaura attack, or just aim and block?");
     public BooleanValue<Boolean> dynamicAttack = new BooleanValue<>("Dynamic Attacks", true, this, () -> attackSettings.getValue(), "Optimize the speed at which the killaura attacks, great for hvh and hypixel");
