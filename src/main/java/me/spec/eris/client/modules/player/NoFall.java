@@ -31,12 +31,9 @@ public class NoFall extends Module {
     		switch (mode.getValue()) {
 				case WATCHDOG:
 					if (fallen && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround) {
-						if (event.isPre()) {
-							mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
-							mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
-							fallen = false;
-						} else {
-						}
+						mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
+						mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
+						fallen = false;
 					}
 				break;
     		}
@@ -45,7 +42,7 @@ public class NoFall extends Module {
     		switch (mode.getValue()) {
 				case WATCHDOG: 
 		        	if (AntiVoid.isBlockUnder()) {
-						if (mc.thePlayer.fallDistance > 2.1) {
+						if (mc.thePlayer.fallDistance > 2.0) {
 							mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
 							Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
 							Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));

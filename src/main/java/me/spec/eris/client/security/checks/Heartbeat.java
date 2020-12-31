@@ -39,7 +39,6 @@ public class Heartbeat extends Module {
                             check.connect();
                             check.getInputStream().close();
                         } catch (java.net.MalformedURLException e) {
-                            Eris.getInstance().sendNotification("Protection", "Failed to connect to one or more webserver(s), 30 seconds until shutdown");
                             Eris.getInstance().getNotificationManager().send(new Notification("Protection", "Failed to connect to one or more webserver(s), 30 seconds until shutdown"));
                             checked = true;
                             checkTime = System.currentTimeMillis();

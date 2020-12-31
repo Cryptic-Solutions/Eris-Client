@@ -11,6 +11,7 @@ import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.client.events.render.EventRender2D;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.module.Module;
+import me.spec.eris.client.integration.server.interfaces.Gamemode;
 import me.spec.eris.client.modules.movement.Flight;
 import me.spec.eris.client.modules.movement.Longjump;
 import me.spec.eris.client.modules.movement.Scaffold;
@@ -191,13 +192,17 @@ public class Killaura extends Module {
                         index = 3;
                     } 
                     aim(eu);
+                    if (scaffoldCheck) {
+                        unBlock();
+                        return;
+                    }
                     if (crits.isToggled()) {
                         crits.doUpdate(eu);
                     }
                     unBlock();
                     prepareAttack(eu, false);
                 } else if (!eu.isPre()) {
-                    if (!scaffoldCheck  ) {
+                    if (!scaffoldCheck ) {
                         block();
                     }
                 }
@@ -589,7 +594,7 @@ public class Killaura extends Module {
             if (f1 > 0.0F) {
                 mc.thePlayer.onEnchantmentCritical(target);
             }
-            if (((noYeetPlus.getValue() && target.timesAttacked < 1) || fuckCheckVLs) && !Eris.instance.gamemode.equals(Eris.Gamemode.DUELS)) {
+            if (((noYeetPlus.getValue() && target.timesAttacked < 1) || fuckCheckVLs) && !Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS)) {
                 int beforeHeldItem = mc.thePlayer.inventory.currentItem;
                 mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = 8));
                 mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = beforeHeldItem));
@@ -616,7 +621,7 @@ public class Killaura extends Module {
         if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
 
             double value = autoBlock.getValue().equals(BlockMode.OFFSET) && mc.thePlayer.hurtTime > 2 ?  -.8f : -1;
-            if (Eris.instance.gamemode.equals(Eris.Gamemode.DUELS)) value = RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
+            if (Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS)) value = RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
             mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, value, value), EnumFacing.DOWN));
         }
         blocking = false;

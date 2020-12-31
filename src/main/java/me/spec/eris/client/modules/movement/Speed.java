@@ -84,8 +84,8 @@ public class Speed extends Module {
 				if (e instanceof EventMove) {
 					boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
 					EventMove em = (EventMove) e;
-					Step step = ((Step) Eris.instance.moduleManager.getModuleByClass(Step.class));
-					if (Eris.instance.moduleManager.isEnabled(Scaffold.class) || Eris.instance.moduleManager.isEnabled(Flight.class) || Eris.instance.moduleManager.isEnabled(Longjump.class) || step.cancelMorePackets) {
+					Step step = ((Step) Eris.getInstance().moduleManager.getModuleByClass(Step.class));
+					if (Eris.getInstance().moduleManager.isEnabled(Scaffold.class) || Eris.getInstance().moduleManager.isEnabled(Flight.class) || Eris.getInstance().moduleManager.isEnabled(Longjump.class) || step.cancelMorePackets) {
 						hops = -1;
 						if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) return;
 					}
@@ -121,8 +121,8 @@ public class Speed extends Module {
 							speed = getLastDistance() - .66 * (getLastDistance() - em.getMovementSpeed());
 							break;
 						default:
-							if ((stage == 3 || stage == 5) && mc.timer.timerSpeed > 1.0f) {
-								mc.timer.timerSpeed -= .4f / 2;
+							if ((stage == 2 || stage == 5) && mc.timer.timerSpeed > 1.0f) {
+								mc.timer.timerSpeed -= stage == 2 ? .25f : .15f;
 							}
 							speed = getLastDistance() - getLastDistance() / 159;
 						break;
