@@ -12,7 +12,7 @@ public class Event {
     private boolean debugSecurity;
 
     static {
-        antiCrash = Eris.instance.moduleManager.getModuleByName("AntiCrash");
+        antiCrash = Eris.INSTANCE.moduleManager.getModuleByName("AntiCrash");
     }
 
     private Stage stage;
@@ -25,7 +25,7 @@ public class Event {
         }
 
         if (antiCrash.isToggled()) {
-            for (Module m : Eris.instance.moduleManager.getModules()) {
+            for (Module m : Eris.INSTANCE.moduleManager.getModules()) {
                 if (m.isToggled() && Minecraft.getMinecraft().thePlayer != null) {
                     try {
                         m.onEvent(this);
@@ -35,7 +35,7 @@ public class Event {
                 }
             }
         } else {
-            for (Module m : Eris.instance.moduleManager.getModules()) {
+            for (Module m : Eris.INSTANCE.moduleManager.getModules()) {
                 if (m.isToggled() && Minecraft.getMinecraft().thePlayer != null) {
                     m.onEvent(this);
                 }

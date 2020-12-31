@@ -614,7 +614,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
     protected boolean canRenderName(T entity) {
         EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-        ESP esp = ((ESP)Eris.instance.moduleManager.getModuleByClass(ESP.class));
+        ESP esp = ((ESP)Eris.INSTANCE.moduleManager.getModuleByClass(ESP.class));
         if (esp.isToggled() && esp.nametags.getValue()) return false;
         if (entity instanceof EntityPlayer && entity != entityplayersp) {
             Team team = entity.getTeam();

@@ -11,7 +11,7 @@ public class Helper {
     public static void onTick() {
         if (timer.hasReached(5000)) {
             if (System.currentTimeMillis() - lastSend > 5500) {
-                Eris.instance.setStartTime(Eris.instance.getStartTime() + (System.currentTimeMillis() - lastSend) + 5500);
+                Eris.INSTANCE.getPlaytimeTracker().setStartTime(Eris.INSTANCE.getPlaytimeTracker().getStartTime() + (System.currentTimeMillis() - lastSend) + 5500);
             }
             lastSend = System.currentTimeMillis();
             timer.reset();

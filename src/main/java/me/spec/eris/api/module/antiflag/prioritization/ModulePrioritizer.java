@@ -65,6 +65,6 @@ public class ModulePrioritizer {
     }
 
     public static boolean flaggableMovementModules() {
-        return Eris.instance.moduleManager.isEnabled(Speed.class) || Eris.instance.moduleManager.isEnabled(Flight.class) || Eris.instance.moduleManager.isEnabled(Longjump.class);
+        return Eris.INSTANCE.moduleManager.isEnabled(Speed.class) || Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || Eris.INSTANCE.moduleManager.isEnabled(Longjump.class);
     }
 }

@@ -9,6 +9,7 @@ import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.api.module.Module;
 import me.spec.eris.api.module.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.api.module.antiflag.prioritization.enums.ModuleType;
+import me.spec.eris.client.integration.server.interfaces.Gamemode;
 import me.spec.eris.client.modules.combat.Criticals;
 import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.api.value.types.ModeValue;
@@ -39,7 +40,7 @@ public class Speed extends Module {
 			criticals.airTime = 0;
 			criticals.waitTicks = 3;
 		}
-		if (!Eris.instance.moduleManager.isEnabled(Flight.class)) {
+		if (!Eris.INSTANCE.moduleManager.isEnabled(Flight.class)) {
 			hops = 0;
 			setLastDistance(0.0);
 			stage = 0;
@@ -58,15 +59,15 @@ public class Speed extends Module {
 
 		switch (mode.getValue()) {
 			case WATCHDOG:
-				if (Eris.instance.moduleManager.isEnabled(Flight.class)) return;
+				if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class)) return;
 				if (e instanceof EventUpdate) {
 					setMode(mode.getValue().toString());
 					EventUpdate eu = (EventUpdate) e;
-					if (Eris.instance.moduleManager.isEnabled(Flight.class)) return;
+					if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class)) return;
 					double xDist = mc.thePlayer.posX - mc.thePlayer.prevPosX;
 					double zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
 					setLastDistance(Math.sqrt(xDist * xDist + zDist * zDist));
-					if (eu.isPre() && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && !Eris.instance.moduleManager.isEnabled(Scaffold.class)) {
+					if (eu.isPre() && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && !Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) {
 						eu.setY(eu.getY() + 9.0E-4D / 2);
 					}
 				}
@@ -83,12 +84,12 @@ public class Speed extends Module {
 				if (e instanceof EventMove) {
 					boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
 					EventMove em = (EventMove) e;
-					Step step = ((Step) Eris.instance.moduleManager.getModuleByClass(Step.class));
-					if (Eris.instance.moduleManager.isEnabled(Scaffold.class) || Eris.instance.moduleManager.isEnabled(Flight.class) || step.cancelMorePackets) {
+					Step step = ((Step) Eris.INSTANCE.moduleManager.getModuleByClass(Step.class));
+					if (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) || Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || step.cancelMorePackets) {
 						hops = -1;
-						if (!Eris.instance.moduleManager.isEnabled(Scaffold.class)) return;
+						if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) return;
 					}
-					if (Eris.getInstance().getGameMode().equals(Eris.Gamemode.DUELS) && !mc.thePlayer.onGround) {
+					if (Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS) && !mc.thePlayer.onGround) {
 						boolean timer = Eris.getInstance().moduleManager.getModuleByClass(Killaura.class).isToggled() && Killaura.getTarget() != null;
 						mc.timer.timerSpeed = timer ? 1.15f : 1.0f;
 					}
@@ -112,11 +113,11 @@ public class Speed extends Module {
 							}
 							setLastDistance(0.0);
 							if (mc.thePlayer.onGround) {
-								if (!Eris.instance.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.4f;
+								if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.4f;
 								mc.thePlayer.isAirBorne = true;
 								mc.thePlayer.triggerAchievement(StatList.jumpStat);
 								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 9.0E-4D * 2));
-								speed = em.getMovementSpeed() * (Eris.instance.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 != 0 ? 2.16 : 2.1499);
+								speed = em.getMovementSpeed() * (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 != 0 ? 2.16 : 2.1499);
 								hops++;
 							}
 							setLastDistance(0.0);

@@ -48,7 +48,7 @@ public class Longjump extends Module {
 	                	collisionTime++;
 	                }
 		            if (collisionTime > 1) {
-		            	Eris.instance.moduleManager.getModuleByClass(Longjump.class).toggle(false);
+		            	Eris.INSTANCE.moduleManager.getModuleByClass(Longjump.class).toggle(false);
 		            }
 		            
 				break;
@@ -76,7 +76,7 @@ public class Longjump extends Module {
 		                    default:
 		                        if (mc.thePlayer.motionY < 0.0D) em.setY(mc.thePlayer.motionY *= .7);  
 		                        if (mc.thePlayer.fallDistance > 2.8 || stage > 14) {
-		    		            	Eris.instance.moduleManager.getModuleByClass(Longjump.class).toggle(false);
+		    		            	Eris.INSTANCE.moduleManager.getModuleByClass(Longjump.class).toggle(false);
 		                        }
 		                        speed = getLastDistance() - getLastDistance() / 159;
 		                        break;

@@ -15,7 +15,7 @@ public class ClickGUI extends Module {
 
     @Override
     public void onEnable() {
-    	Eris.instance.moduleManager.getModuleByClass(this.getClass()).setToggled(false, false);
-        mc.displayGuiScreen(Eris.instance.clickUI);
+    	Eris.INSTANCE.moduleManager.getModuleByClass(this.getClass()).setToggled(false, false);
+        mc.displayGuiScreen(Eris.INSTANCE.clickUI);
     }
 }

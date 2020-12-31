@@ -20,8 +20,6 @@ import me.spec.eris.utils.world.BlockUtils;
 import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.block.BlockAir;
 import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
-import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 
@@ -73,7 +71,7 @@ public class Step extends Module {
 
             if (event.isPre()) {
 
-                if (isInvalid() || Eris.instance.moduleManager.isEnabled(Speed.class)) {
+                if (isInvalid() || Eris.INSTANCE.moduleManager.isEnabled(Speed.class)) {
                     event.setStepHeight(cancelStep || !mc.thePlayer.isCollidedHorizontally || !mc.thePlayer.isCollidedVertically ? 0.626f : 1.0f);
                 } else {  
                     if (mc.thePlayer.isInWater() || mc.thePlayer.isInLava() || mc.thePlayer.isOnLadder() || ModulePrioritizer.flaggableMovementModules() || BlockUtils.isOnLiquid(mc.thePlayer)) {
@@ -91,7 +89,7 @@ public class Step extends Module {
                 double posY = mc.thePlayer.posY;
                 double posZ = mc.thePlayer.posZ;
             	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY; 
-                if (isInvalid() || Eris.instance.moduleManager.isEnabled(Speed.class)) {
+                if (isInvalid() || Eris.INSTANCE.moduleManager.isEnabled(Speed.class)) {
                     if (event.getHeightStepped() > 0.626) { 
                         if (event.getHeightStepped() > 0) {
             				if (crits.airTime > 0 || scaffold.motionBoost) {

@@ -28,7 +28,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class HUD extends Module {
 
-    public BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, "Backdrop on arraylist");
+    private BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, "Backdrop on arraylist");
     private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, "Background Opacity");
     private NumberValue<Integer> xPosition = new NumberValue<>("X-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the X-Axis");
     private NumberValue<Integer> yPosition = new NumberValue<>("Y-Position", 3, 0, 10, this, null, "Where the arraylist will begin on the Y-Axis");
@@ -56,7 +56,7 @@ public class HUD extends Module {
 
     public static TTFFontRenderer getFont() {
         if (fontRender == null) {
-            fontRender = Eris.instance.fontManager.getFont("SFUI 18");
+            fontRender = Eris.INSTANCE.fontManager.getFont("SFUI 18");
         }
 
         return fontRender;
@@ -70,7 +70,7 @@ public class HUD extends Module {
             yText = yPosition.getValue();
             ScaledResolution scaledResolution = new ScaledResolution(mc);
 
-            getFont().drawStringWithShadow(Eris.getInstance().clientName.substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().clientName.replace(Eris.getInstance().clientName.substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
+            getFont().drawStringWithShadow(Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
             List<Module> modulesForRender = Eris.getInstance().moduleManager.getModulesForRender();
 
             modulesForRender.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
@@ -129,7 +129,7 @@ public class HUD extends Module {
                     int var9 = var8.getStatusIconIndex();
                     Gui theGui = new Gui();
                     theGui.drawTexturedModalRect((int) x, (int) y - (18 * i), var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
-                    getFont().drawStringWithShadow("" + (var7.getDuration() <= 300 ? ChatFormatting.RED : ChatFormatting.WHITE) + Potion.getDurationString(var7), (int) x - Eris.getFontRenderer().getStringWidth("" + Potion.getDurationString(var7)) - 5, (int) y - (18 * i) + 6, -1);
+                    getFont().drawStringWithShadow("" + (var7.getDuration() <= 300 ? ChatFormatting.RED : ChatFormatting.WHITE) + Potion.getDurationString(var7), (int) x - Eris.getInstance().getFontRenderer().getStringWidth("" + Potion.getDurationString(var7)) - 5, (int) y - (18 * i) + 6, -1);
                     i++;
                 }
             }

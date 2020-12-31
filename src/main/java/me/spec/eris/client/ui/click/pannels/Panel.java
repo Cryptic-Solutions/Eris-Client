@@ -34,7 +34,7 @@ public class Panel {
         this.y = y;
         moduleCategory = cat;
 
-        for (Module m : Eris.instance.moduleManager.getModulesInCategory(moduleCategory)) {
+        for (Module m : Eris.INSTANCE.moduleManager.getModulesInCategory(moduleCategory)) {
             buttons.add(new Button(m));
         }
         upTimer = new TimerUtils();
@@ -44,7 +44,7 @@ public class Panel {
     public void reload() {
         buttons.clear();
 
-        for (Module m : Eris.instance.moduleManager.getModulesInCategory(moduleCategory)) {
+        for (Module m : Eris.INSTANCE.moduleManager.getModulesInCategory(moduleCategory)) {
             buttons.add(new Button(m));
         }
     }

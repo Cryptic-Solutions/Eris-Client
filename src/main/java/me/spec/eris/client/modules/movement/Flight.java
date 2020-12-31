@@ -19,7 +19,6 @@ import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
-import net.minecraft.potion.Potion;
 
 public class Flight extends Module {
 
@@ -211,8 +210,8 @@ public class Flight extends Module {
 
     @Override
     public void onEnable() {
-    	if (Eris.instance.moduleManager.isEnabled(Speed.class)) {
-        	Eris.instance.moduleManager.getModuleByClass(Speed.class).toggle(false);
+    	if (Eris.INSTANCE.moduleManager.isEnabled(Speed.class)) {
+        	Eris.INSTANCE.moduleManager.getModuleByClass(Speed.class).toggle(false);
     	}
     	damagePlayer = false;
     	damaged = false;
@@ -235,7 +234,7 @@ public class Flight extends Module {
 	    	case WATCHDOG:
 				Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
 				aura.fuckCheckVLs = true;
-	    		Speed sped = ((Speed)Eris.instance.moduleManager.getModuleByClass(Speed.class));
+	    		Speed sped = ((Speed)Eris.INSTANCE.moduleManager.getModuleByClass(Speed.class));
 	    		sped.waitTicks = 5;
 	    		mc.thePlayer.onGround = false;
 	        	mc.timer.timerSpeed = 1.0f;

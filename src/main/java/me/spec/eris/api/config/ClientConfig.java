@@ -16,7 +16,7 @@ public class ClientConfig {
 
     public ClientConfig(String configName) {
         this.configName = configName;
-        this.configFile = new File(Eris.instance.fileManager.configDir, this.getConfigName() + ".eriscnf");
+        this.configFile = new File(Eris.INSTANCE.fileManager.configDir, this.getConfigName() + ".eriscnf");
     }
 
     public String getConfigName() {

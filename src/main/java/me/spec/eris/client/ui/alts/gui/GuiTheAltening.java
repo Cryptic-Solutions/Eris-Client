@@ -47,11 +47,11 @@ public class GuiTheAltening extends GuiScreen {
                 break;
             }
             case 2: {
-                Eris.instance.alteningAPI = api.getText();
+                Eris.INSTANCE.alteningAPI = api.getText();
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Eris.instance.fileManager.saveDataFile();
+                        Eris.INSTANCE.fileManager.saveDataFile();
                     }
                 });
                 t.start();
@@ -70,8 +70,8 @@ public class GuiTheAltening extends GuiScreen {
 
     public String getToken() throws IOException {
         String text;
-        if (Eris.instance.alteningAPI != null && Eris.instance.alteningAPI != "" && (api == null || api.getText() == null || api.getText() == "")) {
-            text = Eris.instance.alteningAPI;
+        if (Eris.INSTANCE.alteningAPI != null && Eris.INSTANCE.alteningAPI != "" && (api == null || api.getText() == null || api.getText() == "")) {
+            text = Eris.INSTANCE.alteningAPI;
         } else {
             text = api.getText();
         }
@@ -126,8 +126,8 @@ public class GuiTheAltening extends GuiScreen {
         this.token = new GuiTextField(var3, this.fontRendererObj, this.width / 2 - 98, 150, 195, 20);
         this.api.setFocused(true);
         Keyboard.enableRepeatEvents(true);
-        if (Eris.instance.alteningAPI != null && !Eris.instance.alteningAPI.equals("")) {
-            api.setText(Eris.instance.alteningAPI);
+        if (Eris.INSTANCE.alteningAPI != null && !Eris.INSTANCE.alteningAPI.equals("")) {
+            api.setText(Eris.INSTANCE.alteningAPI);
         }
     }
 

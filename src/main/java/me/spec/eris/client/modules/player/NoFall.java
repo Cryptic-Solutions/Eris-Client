@@ -12,8 +12,6 @@ import me.spec.eris.client.modules.movement.Longjump;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.client.modules.movement.Speed;
 import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
-import net.minecraft.network.play.client.C0APacketAnimation;
 
 public class NoFall extends Module {
 
@@ -48,7 +46,7 @@ public class NoFall extends Module {
         if (e instanceof EventMove) {
     		switch (mode.getValue()) {
 				case WATCHDOG: 
-		        	if (AntiVoid.isBlockUnder() && !Eris.instance.moduleManager.isEnabled(Longjump.class)) {
+		        	if (AntiVoid.isBlockUnder() && !Eris.INSTANCE.moduleManager.isEnabled(Longjump.class)) {
 						if (mc.thePlayer.fallDistance > 2.1) {
 							Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
 							crits.accumulatedFall = 0;

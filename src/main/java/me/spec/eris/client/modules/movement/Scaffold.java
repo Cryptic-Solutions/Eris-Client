@@ -87,8 +87,8 @@ public class Scaffold extends Module {
     public void onEnable() {
     	timerCap.reset();
     	flags = 0;
-    	abuseTimer = !Eris.instance.moduleManager.isEnabled(Speed.class);
-    	motionBoost = !Eris.instance.moduleManager.isEnabled(Speed.class);
+    	abuseTimer = !Eris.INSTANCE.moduleManager.isEnabled(Speed.class);
+    	motionBoost = !Eris.INSTANCE.moduleManager.isEnabled(Speed.class);
     	mc.timer.timerSpeed = 1.0f;
         super.onEnable();
     }
@@ -172,7 +172,7 @@ public class Scaffold extends Module {
             if (event.isPre()) {
                 if (abuseTimer) {
                     if (!timerCap.hasReached(1500)) {
-                        if (Eris.instance.moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving()) motionBoost = false;
+                        if (Eris.INSTANCE.moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving()) motionBoost = false;
                         if (motionBoost) {
                             if (mc.thePlayer.ticksExisted % 2 != 0 ) {
                                 event.setY(mc.thePlayer.posY + 0.36);

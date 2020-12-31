@@ -64,8 +64,8 @@ public class GuiLogin extends GuiScreen {
 	        				return;
 	        			}
 	        		}*/
-                    Eris.instance = new Eris();
-                    Eris.instance.onStart();
+                    Eris.INSTANCE = new Eris();
+                    Eris.INSTANCE.onStart();
                     mc.displayGuiScreen(this.previousScreen);
                 } catch (Exception e) {}
                 break;

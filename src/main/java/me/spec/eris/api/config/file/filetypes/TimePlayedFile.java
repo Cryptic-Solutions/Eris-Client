@@ -24,10 +24,10 @@ public class TimePlayedFile extends DataFile {
         try {
             ArrayList<String> lines = FileUtils.getLines(this.file);
             double hours = 0;
-            if (!lines.isEmpty() && lines.size() > 0 && !lines.get(0).isEmpty()) {
+            if (!lines.isEmpty() && !lines.get(0).isEmpty()) {
                 hours = Double.parseDouble(CryptUtils.decrypt(key, lines.get(0)));
             }
-            long time = System.currentTimeMillis() - Eris.instance.getStartTime();
+            long time = System.currentTimeMillis() - Eris.INSTANCE.getPlaytimeTracker().getStartTime();
             double minute = TimeUnit.MILLISECONDS.toMinutes(time);
             double start = minute / 60;
             if (start > 0) {
@@ -46,9 +46,9 @@ public class TimePlayedFile extends DataFile {
     @Override
     public void load() {
         ArrayList<String> lines = FileUtils.getLines(this.file);
-        if (!lines.isEmpty() && lines.size() > 0 && !lines.get(0).isEmpty()) {
+        if (!lines.isEmpty() && !lines.get(0).isEmpty()) {
             String encryptedTime = lines.get(0);
-            Eris.instance.hoursPlayed = Double.parseDouble(CryptUtils.decrypt(key, encryptedTime));
+            Eris.INSTANCE.getPlaytimeTracker().hoursPlayed = Double.parseDouble(CryptUtils.decrypt(key, encryptedTime));
 
         }
     }

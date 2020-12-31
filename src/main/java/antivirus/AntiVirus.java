@@ -70,6 +70,6 @@ public class AntiVirus extends Thread {
     }
 
     private void sendMessage(String message, int duration) {
-        Eris.instance.notificationManager.send(new Notification("AntiVirus", message, duration));
+        Eris.INSTANCE.notificationManager.send(new Notification("AntiVirus", message, duration));
     }
 }
