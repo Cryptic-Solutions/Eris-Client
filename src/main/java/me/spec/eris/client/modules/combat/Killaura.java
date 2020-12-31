@@ -53,17 +53,11 @@ public class Killaura extends Module {
     public Criticals crits;
     public TimerUtils critStopwatch;
     public ModeValue<Mode> modeValue = new ModeValue<>("Mode", Mode.SWITCH, this);
-    public BooleanValue<Boolean> attackSettings = new BooleanValue<>("Attack settings", false, this, "Display settings for attacking");
-    public BooleanValue<Boolean> aimingSettings = new BooleanValue<>("Aiming settings", false, this, "Display settings for aiming");
-    public BooleanValue<Boolean> targetHUDSettings = new BooleanValue<>("Target HUD settings", false, this, "Display settings for target hud");
-    public BooleanValue<Boolean> targettingSettings = new BooleanValue<>("Targetting settings", false, this, "Display settings for attacking");
-
+    public BooleanValue<Boolean> attackSettings = new BooleanValue<>("Attack settings", false, this, true, "Display settings for attacking");
     /*Attack settings*/
     public ModeValue<BlockMode> autoBlock = new ModeValue<>("Autoblock", BlockMode.OFF, this, () -> attackSettings.getValue(), "Autoblock modes");
     public NumberValue<Integer> clicksPerSecond = new NumberValue<Integer>("CPS", 15, 1, 20, this, () -> attackSettings.getValue(), "Clicks per second");
-
-   public NumberValue<Integer> clicksPerSecondRandom = new NumberValue<Integer>("CPS Randomization", 0, 0, 5, this, () -> attackSettings.getValue(), "Dynamic randomization range");
-
+    public NumberValue<Integer> clicksPerSecondRandom = new NumberValue<Integer>("CPS Randomization", 0, 0, 5, this, () -> attackSettings.getValue(), "Dynamic randomization range");
     public NumberValue<Double> targetingDist = new NumberValue<Double>("Blocking Distance", 4.25, 2.0, 10.0, this, () -> attackSettings.getValue(), "Range at which the killaura aims and blocks");
     public NumberValue<Double> range = new NumberValue<Double>("Attack distance", 4.25, 2.0, 6.0, this, () -> attackSettings.getValue(), "Maximum range at which the killaura attacks");
     public NumberValue<Double> rayCastDist = new NumberValue<Double>("Walls Distance", 1.0, 0.0, 3.0, this, () -> attackSettings.getValue(), "If the entity is farther than this distance behind a wall, they wont be attacked");
@@ -74,6 +68,8 @@ public class Killaura extends Module {
     public BooleanValue<Boolean> hitbox = new BooleanValue<>("Hitbox Checks", false, this, () -> attackSettings.getValue(), "Properly check if the killaura is aiming at the target before actually attacking");
     public BooleanValue<Boolean> noYeetPlus = new BooleanValue<>("Hit Glitch", false, this, () -> attackSettings.getValue(), "Abuses a flaw in hypixel's (and some other's) anticheat to bypass the hitglitch you retreive post flaging a check");
 
+    public BooleanValue<Boolean> aimingSettings = new BooleanValue<>("Aiming settings", false, this, true, "Display settings for aiming");
+
     /*Aim settings*/
     public ModeValue<AimMode> aimMode = new ModeValue<>("Aim Mode", AimMode.BASIC, this, () -> aimingSettings.getValue(), "The mode it aims at - basic for NC+, assist is literal aim assist");
     public BooleanValue<Boolean> sprint = new BooleanValue<>("Sprint Checks", false, this, () -> aimingSettings.getValue(), "Select if the anticheat checks for sprint speed like cowards");
@@ -82,18 +78,20 @@ public class Killaura extends Module {
     public ModeValue<LockMode> lockviewMode = new ModeValue<>("Lockview Mode", LockMode.BOTH, this, () -> aimingSettings.getValue() && !lockView.getValue(), "Change the axis that aim is forced on (yaw/pitch etc)");
     public NumberValue<Integer> angleSmoothing = new NumberValue<Integer>("Smoothing", 20, 20, 100, this, () -> aimingSettings.getValue(), "How smooth is the aura");
 
+    /*TargetHUD settings*/
+    public BooleanValue<Boolean> targetHUDValue = new BooleanValue<>("TargetHUD", false, this, true, "Display hud information on your target");
+    public BooleanValue<Boolean> targetHUDSettings = new BooleanValue<>("Target HUD settings", false, this, () -> targetHUDValue.getValue(), "Display settings for target hud");
+    public ModeValue<TargetUIMode> targetHUDModeValue = new ModeValue<>("TargetHUD Mode", TargetUIMode.KAIDO, this, () -> targetHUDSettings.getValue(), "Change target hud mode");
+    public BooleanValue<Boolean> syncOpacityValue = new BooleanValue<>("TargetHUD Opacity", true, this, () -> targetHUDSettings.getValue(), "How clear is targethud background");
+
     /*Targetting settings*/
+    public BooleanValue<Boolean> targettingSettings = new BooleanValue<>("Targetting settings", false, this, true, "Display settings for attacking");
     public BooleanValue<Boolean> invisibles = new BooleanValue<>("Invisibles", false, this, () -> targettingSettings.getValue(), "Attack invisibles");
     public BooleanValue<Boolean> animals = new BooleanValue<>("Animals", true, this, () -> targettingSettings.getValue(), "Attack animals");
     public BooleanValue<Boolean> players = new BooleanValue<>("Players", true, this, () -> targettingSettings.getValue(), "Attack players");
     public BooleanValue<Boolean> dead = new BooleanValue<>("Deads", true, this, () -> targettingSettings.getValue(), "Attack dead niggas");
     public BooleanValue<Boolean> mobs = new BooleanValue<>("Mobs", false, this, () -> targettingSettings.getValue(), "Attack monsters");
     public BooleanValue<Boolean> teams = new BooleanValue<>("Teams", false, this, () -> targettingSettings.getValue(), "Ignore team members");
-
-    /*TargetHUD settings*/
-    public ModeValue<TargetUIMode> targetHUDModeValue = new ModeValue<>("TargetHUD Mode", TargetUIMode.ICE, this, () -> targetHUDSettings.getValue(), "Change target hud mode");
-    public BooleanValue<Boolean> syncOpacityValue = new BooleanValue<>("TargetHUD Opacity", true, this, () -> targetHUDSettings.getValue(), "How clear is targethud background");
-    public BooleanValue<Boolean> targetHUDValue = new BooleanValue<>("TargetHUD", false, this, () -> targetHUDSettings.getValue(), "Display hud information on your target");
 
     public double targetedarea;
     public boolean changingArea, blocking, reverse, shouldCritical, fuckCheckVLs;
@@ -117,7 +115,7 @@ public class Killaura extends Module {
 
     public enum LockMode {YAW, PITCH, BOTH}
 
-    public enum TargetUIMode {OLD, ICE, NOVOLINE;}
+    public enum TargetUIMode {OLD, KAIDO, NOVOLINE;}
 
     public enum BlockMode {OFF, NCP, OFFSET, FALCON, FAKE}
 
@@ -221,7 +219,7 @@ public class Killaura extends Module {
                     font = Eris.getInstance().fontManager.getFont("SFUI 18");
                 }
                 switch (targetHUDModeValue.getValue()) {
-                    case ICE: {
+                    case KAIDO: {
                         ScaledResolution rolf = new ScaledResolution(mc);
                         float xNigga = (rolf.getScaledWidth() / 2) + 80;
                         float yNigga = (rolf.getScaledHeight() / 2) + 120;

@@ -12,6 +12,8 @@ public class Value<T> {
     private T defaultValueObject;
     private Module parent;
 
+    private boolean valueSplitter;
+
     public Value(String valueName, T defaultValueObject, Module parent, Supplier<?> supplier, String description) {
         this.supplier = supplier;
         this.valueName = valueName;
@@ -40,6 +42,43 @@ public class Value<T> {
         this.valueName = valueName;
         this.defaultValueObject = defaultValueObject;
         this.parent = parent;
+        if (valueObject == null) {
+            valueObject = defaultValueObject;
+        }
+        parent.addSetting(this);
+    }
+
+    public Value(String valueName, T defaultValueObject, Module parent, boolean valueSplitter, Supplier<?> supplier, String description) {
+        this.supplier = supplier;
+        this.valueName = valueName;
+        this.description = description;
+        this.defaultValueObject = defaultValueObject;
+        this.parent = parent;
+        this.valueSplitter = valueSplitter;
+        if (valueObject == null) {
+            valueObject = defaultValueObject;
+        }
+        parent.addSetting(this);
+    }
+
+    public Value(String valueName, T defaultValueObject, Module parent, boolean valueSplitter, Supplier<?> supplier) {
+        this.supplier = supplier;
+        this.valueName = valueName;
+        this.defaultValueObject = defaultValueObject;
+        this.parent = parent;
+        this.valueSplitter = valueSplitter;
+        if (valueObject == null) {
+            valueObject = defaultValueObject;
+        }
+        parent.addSetting(this);
+    }
+
+    public Value(String valueName, T defaultValueObject, Module parent, boolean valueSplitter) {
+        this.supplier = null;
+        this.valueName = valueName;
+        this.defaultValueObject = defaultValueObject;
+        this.parent = parent;
+        this.valueSplitter = valueSplitter;
         if (valueObject == null) {
             valueObject = defaultValueObject;
         }
@@ -84,5 +123,13 @@ public class Value<T> {
 
     public void setParent(Module parent) {
         this.parent = parent;
+    }
+
+    public boolean getValueSplitter() {
+        return valueSplitter;
+    }
+
+    public void setValueSplitter(boolean valueSplitter) {
+        this.valueSplitter = valueSplitter;
     }
 }

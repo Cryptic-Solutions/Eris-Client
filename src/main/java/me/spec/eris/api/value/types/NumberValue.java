@@ -27,6 +27,24 @@ public class NumberValue<T> extends Value<T> {
         this.maximumValue = maximumValue;
     }
 
+    public NumberValue(String valueName, T defaultValueObject, T minimumValue, T maximumValue, Module parent, boolean valueSplitter, Supplier<?> supplier, String description) {
+        super(valueName, defaultValueObject, parent, valueSplitter, supplier, description);
+        this.minimumValue = minimumValue;
+        this.maximumValue = maximumValue;
+    }
+
+    public NumberValue(String valueName, T defaultValueObject, T minimumValue, T maximumValue, Module parent, boolean valueSplitter, String description) {
+        super(valueName, defaultValueObject, parent, valueSplitter, null, description);
+        this.minimumValue = minimumValue;
+        this.maximumValue = maximumValue;
+    }
+
+    public NumberValue(String valueName, T defaultValueObject, T minimumValue, T maximumValue, Module parent, boolean valueSplitter) {
+        super(valueName, defaultValueObject, parent, valueSplitter, null, "");
+        this.minimumValue = minimumValue;
+        this.maximumValue = maximumValue;
+    }
+
     public T getMinimumValue() {
         return minimumValue;
     }
@@ -43,4 +61,7 @@ public class NumberValue<T> extends Value<T> {
         this.maximumValue = maximumValue;
     }
 
+    public boolean isValueSplitter() {
+        return this.getValueSplitter();
+    }
 }

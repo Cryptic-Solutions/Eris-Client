@@ -19,6 +19,17 @@ public class ModeValue<T extends Enum<T>> extends Value<T> {
         modes = readModes(getValue());
     }
 
+    public ModeValue(String valueName, T defaultValueObject, Module parent, boolean valueSplitter) {
+        super(valueName, defaultValueObject, parent, valueSplitter);
+        modes = readModes(getValue());
+    }
+
+    public ModeValue(String valueName, T defaultValueObject, Module parent, boolean valueSplitter, Supplier<?> supplier, String description) {
+        super(valueName, defaultValueObject, parent, valueSplitter, supplier, description);
+        modes = readModes(getValue());
+    }
+
+
     public String getFixedValue() {
         return getValue().toString();
     }
@@ -73,6 +84,10 @@ public class ModeValue<T extends Enum<T>> extends Value<T> {
             setValueObject(newValue);
             return;
         }
+    }
+
+    public boolean isValueSplitter() {
+        return this.getValueSplitter();
     }
 }
 
