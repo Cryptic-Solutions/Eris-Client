@@ -61,7 +61,6 @@ public class Panel {
         width = 115;
         height = 15;
         int offset = height;
-        buttons.sort((a, b) -> Double.compare(b.lastInteract, a.lastInteract));
         if (open) {
             if (animation > 0) {
                 if (downTimer.hasReached(15)) {
@@ -102,7 +101,6 @@ public class Panel {
     public void mouseClicked(int x, int y, int button) {
         if (isHovered(x, y)) {
             if (button == 1) {
-                lastClickedMs = (double) System.currentTimeMillis();
                 open = !open;
                 if (open) {
                     animation = buttons.size();
@@ -116,7 +114,6 @@ public class Panel {
                 int yPos = this.y + (height / 2);
                 this.xOffset = xPos - x;
                 this.yOffset = yPos - y;
-                lastClickedMs = (double) System.currentTimeMillis();
             }
         } else {
             for (int i = 0; i < buttons.size(); i++) {
@@ -133,16 +130,11 @@ public class Panel {
         if (dragging && state == 0) {
             dragging = false;
             ClickGui.dragging = false;
-            lastClickedMs = (double) System.currentTimeMillis();
         }
 
         for (Button b : buttons) {
             b.mouseReleased(mouseX, mouseY, state);
         }
-    }
-
-    public double getLastClickedMs() {
-        return lastClickedMs;
     }
 
     private boolean isHovered(int mouseX, int mouseY) {

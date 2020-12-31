@@ -62,7 +62,7 @@ public class ClickGui extends GuiScreen {
         Minecraft.getMinecraft().fontRendererObj.drawString(toolTip, scalRes.getScaledWidth() / 2, scalRes.getScaledHeight() / 2 + 300, new Color(255, 255, 255).getRGB());
 		drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, new Color(0,0,0).getRGB());
         for (int i = 0; i < panels.size(); i++) {
-         //   panels.get(i).onTop = i == 0;
+            panels.get(i).onTop = i == 0;
             panels.get(i).drawScreen(mouseX, mouseY);
         }
     }
