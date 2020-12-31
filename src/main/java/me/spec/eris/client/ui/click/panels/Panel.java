@@ -1,17 +1,19 @@
-package me.spec.eris.client.ui.click.pannels;
+package me.spec.eris.client.ui.click.panels;
 
 import java.util.ArrayList;
 
+import me.spec.eris.api.config.ClientConfig;
 import me.spec.eris.api.module.ModuleCategory;
+import me.spec.eris.client.ui.click.panels.component.button.impl.config.ConfigButton;
+import me.spec.eris.client.ui.click.panels.component.button.impl.module.ModuleButton;
+import me.spec.eris.client.ui.click.panels.component.button.Button;
 import me.spec.eris.utils.visual.RenderUtilities;
 import org.lwjgl.opengl.GL11;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.module.Module;
 import me.spec.eris.client.ui.click.ClickGui;
-import me.spec.eris.client.ui.click.pannels.components.Button;
 import me.spec.eris.utils.world.TimerUtils;
-import net.minecraft.client.gui.Gui;
 
 public class Panel {
     private TimerUtils upTimer;
@@ -36,7 +38,12 @@ public class Panel {
         moduleCategory = cat;
 
         for (Module m : Eris.INSTANCE.moduleManager.getModulesInCategory(moduleCategory)) {
-            buttons.add(new Button(m));
+            buttons.add(new ModuleButton(m));
+        }
+        if(moduleCategory.equals(ModuleCategory.CONFIGS)) {
+            for(ClientConfig clientConfig : Eris.getInstance().getConfigManager().getManagerArraylist()) {
+                buttons.add(new ConfigButton(clientConfig));
+            }
         }
         upTimer = new TimerUtils();
         downTimer = new TimerUtils();
@@ -45,8 +52,14 @@ public class Panel {
     public void reload() {
         buttons.clear();
 
+
         for (Module m : Eris.INSTANCE.moduleManager.getModulesInCategory(moduleCategory)) {
-            buttons.add(new Button(m));
+            buttons.add(new ModuleButton(m));
+        }
+        if(moduleCategory.equals(ModuleCategory.CONFIGS)) {
+            for(ClientConfig clientConfig : Eris.getInstance().getConfigManager().getManagerArraylist()) {
+                buttons.add(new ConfigButton(clientConfig));
+            }
         }
     }
 

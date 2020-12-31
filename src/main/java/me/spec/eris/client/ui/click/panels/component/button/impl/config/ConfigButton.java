@@ -1,16 +1,17 @@
-package me.spec.eris.client.ui.click.pannels.components;
+package me.spec.eris.client.ui.click.panels.component.button.impl.config;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.config.ClientConfig;
 import me.spec.eris.client.ui.click.ClickGui;
+import me.spec.eris.client.ui.click.panels.component.button.Button;
 import me.spec.eris.utils.misc.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
-public class ConfigButton {
+public class ConfigButton extends Button {
 
     private ClientConfig host;
     private int x;
@@ -63,7 +64,7 @@ public class ConfigButton {
         lastBlue = Math.max(0, Math.min(1, lastBlue));
 
         Gui.drawRect(x, y, x + width, y + height, new Color(lastRed, lastGreen, lastBlue, (float) ClickGui.getSecondaryColor(false).getAlpha() / 255F).getRGB());
-        ClickGui.getFont().drawString(host.getConfigName(), this.x + 5, this.y + (this.height / 2) - (ClickGui.getFont().getHeight(host.getConfigName()) / 2), new Color(175, 175, 175).getRGB());
+        ClickGui.getFont().drawString(host.getConfigName().substring(0, 1).toUpperCase() + host.getConfigName().substring(1), this.x, this.y + (this.height / 2) - (ClickGui.getFont().getHeight(host.getConfigName()) / 2), new Color(175, 175, 175).getRGB());
         return this.height;
     }
 

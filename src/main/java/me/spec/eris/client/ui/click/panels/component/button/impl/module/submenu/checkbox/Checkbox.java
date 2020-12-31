@@ -1,9 +1,11 @@
-package me.spec.eris.client.ui.click.pannels.components;
+package me.spec.eris.client.ui.click.panels.component.button.impl.module.submenu.checkbox;
 
 import java.awt.Color;
 
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.client.ui.click.ClickGui;
+import me.spec.eris.client.ui.click.panels.component.Component;
+import me.spec.eris.client.ui.click.panels.component.button.impl.module.ModuleButton;
 import me.spec.eris.utils.visual.RenderUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -19,7 +21,7 @@ public class Checkbox extends Component {
 
     private BooleanValue set;
 
-    public Checkbox(BooleanValue s, Button b) {
+    public Checkbox(BooleanValue s, ModuleButton b) {
         super(s, b);
         this.set = s;
     }
