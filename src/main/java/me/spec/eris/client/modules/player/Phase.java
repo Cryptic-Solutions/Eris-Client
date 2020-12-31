@@ -52,7 +52,7 @@ public class Phase extends Module {
 					if (!event.isPre() && mc.thePlayer.isSneaking()) {
 						event.setYaw(event.getYaw() + MathUtils.getRandomInRange(-.2f, .2f));
 						mc.thePlayer.motionY = 0;
-						double multiplier = 0.3 + counter * .01;
+						double multiplier = 0.5 + counter * .01;
 						double mx = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
 						double mz = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
 						double x = MovementInput.moveForward * multiplier * mx + MovementInput.moveStrafe * multiplier * mz;

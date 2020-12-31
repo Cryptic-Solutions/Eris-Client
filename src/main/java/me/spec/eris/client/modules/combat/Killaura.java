@@ -44,6 +44,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StringUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 public class Killaura extends Module {
 
@@ -166,10 +167,6 @@ public class Killaura extends Module {
                 return;
             }
             boolean scaffoldCheck = Eris.getInstance().moduleManager.getModuleByClass(Scaffold.class).isToggled();
-            if (scaffoldCheck) {
-            	unBlock();
-            	return;
-            }
             if (modeValue.getValue() == Mode.SWITCH) {
 
                 updateTargetList();
@@ -188,24 +185,19 @@ public class Killaura extends Module {
                 }
 
                 target = currentEntity = targetList.get(targetIndex); 
-                shouldCritical = mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround && crits.isToggled()
-                        && critStopwatch.hasReached(250) && !Eris.getInstance().moduleManager.getModuleByClass(Speed.class).isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Flight.class).isToggled() &&  (crits.modeValue.getValue().equals(Criticals.Mode.WATCHDOG) && !mc.thePlayer.isMoving());
+                shouldCritical = mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround && crits.isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Speed.class).isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Flight.class).isToggled() &&  (crits.modeValue.getValue().equals(Criticals.Mode.WATCHDOG) && !mc.thePlayer.isMoving());
                 if (eu.isPre()) {
                     if (Eris.getInstance().moduleManager.getModuleByClass(Scaffold.class).isToggled()) {
                         index = 3;
                     } 
                     aim(eu);
-                    unBlock();
-                    prepareAttack(eu, scaffoldCheck); 
-                    if (!Eris.getInstance().moduleManager.getModuleByClass(Scaffold.class).isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Flight.class).isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Speed.class).isToggled() && clientRaper.hasReached(500) && ServerUtils.onServer("hypixel") && mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically && !mc.thePlayer.isMoving()) {
-                    //	sendPosition(0,.5/64,0, false, true);
-                        clientRaper.reset();
-                    }
                     if (crits.isToggled()) {
                         crits.doUpdate(eu);
-                    }      
+                    }
+                    unBlock();
+                    prepareAttack(eu, false);
                 } else if (!eu.isPre()) {
-                    if (!scaffoldCheck) {
+                    if (!scaffoldCheck  ) {
                         block();
                     }
                 }
@@ -544,7 +536,7 @@ public class Killaura extends Module {
                 }
             }
         } else {
-            if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 3 == 0) ? 50 : target.hurtTime % 2 == 0 || target.hurtTime == 0 ? 55 : 50 + target.hurtTime : delay)) {
+            if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || shouldCritical || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 2 != 0 || target.timesAttacked < 1) ? 50  : timesAttacked % 20 == 0 ? 52 :  50 : delay)) {
                 attackPrepare(e);
                 clickStopwatch.reset();
                 delay = Math.max(50, (1000 / clicksPerSecond.getValue()) + offset);
@@ -584,13 +576,7 @@ public class Killaura extends Module {
         if (dontAttack) return;
 
         Criticals criticalsMod = (Criticals) Eris.getInstance().moduleManager.getModuleByClass(Criticals.class);
-		if (shouldCritical) { 
-			for (double offset : criticalsMod.getOffsets()) {
-				mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY + offset, mc.thePlayer.posZ, false));
-			}
-			criticalsMod.waitTicks = 2;
-			critStopwatch.reset();
-		}
+
         if (target.getDistanceToEntity(mc.thePlayer) <= range) {
             boolean flag = mc.thePlayer.fallDistance > 0.0F && !mc.thePlayer.onGround && !mc.thePlayer.isOnLadder() && !mc.thePlayer.isInWater() && !mc.thePlayer.isPotionActive(Potion.blindness) && mc.thePlayer.ridingEntity == null && target instanceof EntityLivingBase;
             float f = (float) mc.thePlayer.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
@@ -603,13 +589,19 @@ public class Killaura extends Module {
             if (f1 > 0.0F) {
                 mc.thePlayer.onEnchantmentCritical(target);
             }
-            if ((noYeetPlus.getValue() && target.timesAttacked < 1) || fuckCheckVLs) {
+            if (((noYeetPlus.getValue() && target.timesAttacked < 1) || fuckCheckVLs) && !Eris.instance.gamemode.equals(Eris.Gamemode.DUELS)) {
                 int beforeHeldItem = mc.thePlayer.inventory.currentItem;
                 mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = 8));
                 mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = beforeHeldItem));
                 fuckCheckVLs = false;
             }
             mc.thePlayer.swingItem();
+            if (shouldCritical) {
+                for (double offset : criticalsMod.getOffsets()) {
+                    mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY + offset, mc.thePlayer.posZ, false));
+                } 
+                critStopwatch.reset();
+            }
             mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
             target.timesAttacked++;//Times attacked will be very useful for bypassing future anticheats on jah
         }
@@ -623,7 +615,8 @@ public class Killaura extends Module {
 
         if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
 
-            double value = autoBlock.getValue().equals(BlockMode.OFFSET) && mc.thePlayer.hurtTime > 2 ?  -.8f : -1; 
+            double value = autoBlock.getValue().equals(BlockMode.OFFSET) && mc.thePlayer.hurtTime > 2 ?  -.8f : -1;
+            if (Eris.instance.gamemode.equals(Eris.Gamemode.DUELS)) value = RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
             mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, value, value), EnumFacing.DOWN));
         }
         blocking = false;

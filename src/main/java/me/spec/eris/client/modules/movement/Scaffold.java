@@ -55,7 +55,7 @@ public class Scaffold extends Module {
     public Scaffold(String racism) {
         super("Scaffold", ModuleCategory.MOVEMENT, racism);
         setModuleType(ModuleType.FLAGGABLE);
-        invalid = Arrays.asList(Blocks.anvil, Blocks.wooden_pressure_plate, Blocks.stone_slab, Blocks.wooden_slab, Blocks.stone_slab2, Blocks.stone_pressure_plate, Blocks.light_weighted_pressure_plate, Blocks.heavy_weighted_pressure_plate, Blocks.sapling,
+        invalid = Arrays.asList(Blocks.ladder, Blocks.torch, Blocks.red_flower, Blocks.yellow_flower, Blocks.redstone_torch, Blocks.sand, Blocks.anvil, Blocks.wooden_pressure_plate, Blocks.stone_slab, Blocks.wooden_slab, Blocks.stone_slab2, Blocks.stone_pressure_plate, Blocks.light_weighted_pressure_plate, Blocks.heavy_weighted_pressure_plate, Blocks.sapling,
                 Blocks.air, Blocks.water, Blocks.fire, Blocks.flowing_water, Blocks.stone_button, Blocks.wooden_button, Blocks.lava, Blocks.flowing_lava, Blocks.chest, Blocks.anvil, Blocks.enchanting_table, Blocks.chest, Blocks.ender_chest, Blocks.gravel);
 
         lastBlockData = null;
@@ -173,20 +173,20 @@ public class Scaffold extends Module {
                 if (abuseTimer) {
                     if (!timerCap.hasReached(1500)) {
                         if (Eris.instance.moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving()) motionBoost = false;
-                        if (motionBoost) {
+                        if (motionBoost && mc.thePlayer.fallDistance <= 0.0) {
                             if (mc.thePlayer.ticksExisted % 2 != 0 ) {
-                                event.setY(mc.thePlayer.posY + 0.36);
+                                event.setY(mc.thePlayer.posY + 0.4);
                                 event.setOnGround(false);
                             } else {
                                 event.setOnGround(true);
                                 event.setY(mc.thePlayer.posY);
                             }
 
-                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .31F : .12F;
+                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .24F : .15F;
                             mc.thePlayer.motionX = -(Math.sin(mc.thePlayer.getDirection()) * moveSpeed);
                             mc.thePlayer.motionZ = Math.cos(mc.thePlayer.getDirection()) * moveSpeed;
                         }
-                        mc.timer.timerSpeed = !timerCap.hasReached(150) ? 2.3f : 1.4f;
+                        mc.timer.timerSpeed = !timerCap.hasReached(100) ? 2f : !timerCap.hasReached(300) ? 1.7f :  1.4f;
                     }
                 }
                 float[] rotations = getFacingRotations(blockEntry.position.getX(), blockEntry.position.getY(), blockEntry.position.getZ(), event.getY());

@@ -38,11 +38,10 @@ public class Heartbeat extends Module {
                             check.connect();
                             check.getInputStream().close();
                         } catch (java.net.MalformedURLException e) {
-
-                        } catch (java.io.IOException e) {
                             Eris.getInstance().sendNotification("Protection", "Failed to connect to one or more webserver(s), 30 seconds until shutdown");
                             checked = true;
                             checkTime = System.currentTimeMillis();
+                        } catch (java.io.IOException e) {
                         }
                     }
                 };

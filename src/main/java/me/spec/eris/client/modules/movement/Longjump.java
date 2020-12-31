@@ -63,29 +63,34 @@ public class Longjump extends Module {
 		                switch (stage) { 
 		                    case 2:
 		                        if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-		                            em.setY(mc.thePlayer.motionY = em.getMotionY(0.42F));
-		                            speed = em.getMovementSpeed() * 2F;
+		                            em.setY(mc.thePlayer.motionY = em.getMotionY(0.4F));
+									speed = 2 * em.getMovementSpeed();
 		                        }
 		                        break;
 		                    case 3:
-		                        speed = em.getMovementSpeed() * 2.2;
+								speed = 2.1499 * em.getMovementSpeed();
 		                        break;
 		                    case 4:
-		                    	speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.2 : 1.42;
+								speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.15 : 1.3;
 		                        break;
 		                    default:
-		                        if (mc.thePlayer.motionY < 0.0D) em.setY(mc.thePlayer.motionY *= .7);  
 		                        if (mc.thePlayer.fallDistance > 2.8 || stage > 14) {
-		    		            	Eris.instance.moduleManager.getModuleByClass(Longjump.class).toggle(false);
-		                        }
-		                        speed = getLastDistance() - getLastDistance() / 159;
+		                        	speed = Math.max(em.getMovementSpeed(), speed * .646);
+		                        } else {
+									if (mc.thePlayer.motionY < 0) em.setY(mc.thePlayer.motionY *= .646);
+									speed = getLastDistance() - getLastDistance() / 159;
+								}
 		                        break;
 		                }
 		                stage++;
 		            }
-		            if (stage >= 0) {
+		            if (stage >= 2) {
 			            em.setMoveSpeed(Math.max(speed, em.getMovementSpeed()));
-		            }
+		            } else {
+		            	setLastDistance(0);
+		            	em.setX(0);
+		            	em.setZ(0);
+					}
 				break;
     		}
 
@@ -95,11 +100,7 @@ public class Longjump extends Module {
     @Override
     public void onEnable() {			
     	Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
-    	crits.accumulatedFall = 0; 		
-    	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem += 1));
-    	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C0APacketAnimation()); 
-    	mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem -= 1));
-	    
+    	crits.accumulatedFall = 0;
     	if (crits.airTime > 0) {	
     		sendPosition(0,0,0,true,false);
     		crits.airTime = 0;

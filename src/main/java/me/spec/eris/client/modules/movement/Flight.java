@@ -68,7 +68,7 @@ public class Flight extends Module {
 			case WATCHDOG:
 	        	if (onGroundCheck) {
 	        		if (!damagePlayer) {
-	        			if (damageStopwatch.hasReached(150)) {
+	        			if (damageStopwatch.hasReached(50)) {
 		        			for (int i = 0; i < 9; i++) {
 		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getLegitMotion(), mc.thePlayer.posZ, false));
 		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getLegitMotion() % .0000625), mc.thePlayer.posZ, false));
@@ -141,9 +141,9 @@ public class Flight extends Module {
                         double zDif = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
                         setLastDistance(Math.sqrt(xDif * xDif + zDif * zDif));
     	               
-                    	if (counter > 9) {
+                    	if (counter > 2) {
                     		mc.thePlayer.motionY = 0;
-                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0003: -.0003));
+                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .001125 : -.001125));
                     	}
                     }
 				} else if (mc.thePlayer.ticksExisted % 12 == 0){
@@ -165,13 +165,13 @@ public class Flight extends Module {
             	break;
             	case WATCHDOG:
             		if (event.isSending()) {
-            			if (event.getPacket() instanceof C0APacketAnimation || event.getPacket() instanceof C02PacketUseEntity || event.getPacket() instanceof C08PacketPlayerBlockPlacement || event.getPacket() instanceof C07PacketPlayerDigging) {
+            		/*	if (event.getPacket() instanceof C0APacketAnimation || event.getPacket() instanceof C02PacketUseEntity || event.getPacket() instanceof C08PacketPlayerBlockPlacement || event.getPacket() instanceof C07PacketPlayerDigging) {
             				if (counter < 20) {
 								Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
 								aura.waitTicks = 4;
             					event.setCancelled();
 							}
-						}
+						}*/
             			if (event.getPacket() instanceof C03PacketPlayer) {
             				C03PacketPlayer packet = (C03PacketPlayer)event.getPacket();
             				

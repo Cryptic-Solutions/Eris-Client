@@ -32,15 +32,13 @@ public class NoFall extends Module {
             setMode(mode.getValue().toString());
     		switch (mode.getValue()) {
 				case WATCHDOG:
-					if (fallen && mc.thePlayer.isCollidedVertically && event.isPre()) {
-						mc.thePlayer.motionY = .015;
-						setLastDistance(0);
-						mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
-						Speed speed = ((Speed)Eris.getInstance().moduleManager.getModuleByClass(Speed.class));
-						speed.waitTicks = 1;
-						speed.hops = -1;
-						mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
-						fallen = false;//Don't remove this vaziak, it will be used later I swear on jahsey onfroy
+					if (fallen && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround) {
+						if (event.isPre()) {
+							mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
+							mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
+							fallen = false;
+						} else {
+						}
 					}
 				break;
     		}
@@ -48,15 +46,15 @@ public class NoFall extends Module {
         if (e instanceof EventMove) {
     		switch (mode.getValue()) {
 				case WATCHDOG: 
-		        	if (AntiVoid.isBlockUnder() && !Eris.instance.moduleManager.isEnabled(Longjump.class)) {
+		        	if (AntiVoid.isBlockUnder()) {
 						if (mc.thePlayer.fallDistance > 2.1) {
-							Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
-							crits.accumulatedFall = 0;
-							fallen = true;
 							mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.serverSideYaw, mc.thePlayer.serverSidePitch, true));
 							Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
-							aura.fuckCheckVLs = true;
+							Criticals crits = ((Criticals)Eris.getInstance().moduleManager.getModuleByClass(Criticals.class));
 							mc.thePlayer.fallDistance = 0;
+							crits.accumulatedFall = 0;
+							aura.fuckCheckVLs = true;
+							fallen = true;
 						}
 		        	}
 				break;
