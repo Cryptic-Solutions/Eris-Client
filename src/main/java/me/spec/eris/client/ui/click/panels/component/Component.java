@@ -1,14 +1,23 @@
-package me.spec.eris.client.ui.click.pannels.components;
+package me.spec.eris.client.ui.click.panels.component;
 
+import me.spec.eris.api.config.ClientConfig;
 import me.spec.eris.api.value.Value;
+import me.spec.eris.client.ui.click.panels.component.button.Button;
+import me.spec.eris.client.ui.click.panels.component.button.impl.module.ModuleButton;
 
-public class SetComp {
+public class Component {
 
     protected Button parent;
     protected Value set;
+    protected ClientConfig clientConfig;
 
-    public SetComp(Value<?> s, Button parent) {
+    public Component(Value<?> s, Button parent) {
         this.set = s;
+        this.parent = parent;
+    }
+
+    public Component(ClientConfig clientConfig, Button parent) {
+        this.clientConfig = clientConfig;
         this.parent = parent;
     }
 

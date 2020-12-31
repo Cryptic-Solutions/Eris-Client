@@ -1,7 +1,9 @@
-package me.spec.eris.client.ui.click.pannels.components;
+package me.spec.eris.client.ui.click.panels.component.button.impl.module.submenu.mode;
 
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.client.ui.click.ClickGui;
+import me.spec.eris.client.ui.click.panels.component.Component;
+import me.spec.eris.client.ui.click.panels.component.button.impl.module.ModuleButton;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -15,7 +17,7 @@ public class ModeButton extends Component {
     private ModeValue set;
     private int lastIndex = 0;
 
-    public ModeButton(ModeValue<?> s, Button b) {
+    public ModeButton(ModeValue<?> s, ModuleButton b) {
         super(s, b);
         this.set = s;
 
@@ -28,7 +30,7 @@ public class ModeButton extends Component {
         this.x = x;
         this.y = y;
 
-        Gui.drawRect(this.x, this.y, this.x + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
+        Gui.drawRect(this.x, this.y, this.x + this.parent.width, this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
         String name = this.set.getValueName() + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.GRAY + String.valueOf(set.getValue()).substring(0, 1).substring(0, 1).toUpperCase() + String.valueOf(set.getValue()).substring(1).toLowerCase();
         ClickGui.getFont().drawString(name, (this.x + 2), (y + (ClickGui.getFont().getHeight(name) / 2) - 1), ClickGui.getPrimaryColor().getRGB());
         return this.height;
@@ -52,6 +54,6 @@ public class ModeButton extends Component {
     }
 
     private boolean isHovered(int mouseX, int mouseY) {
-        return mouseX >= x && mouseX <= x + this.parent.getWidth() && mouseY >= y && mouseY <= y + height;
+        return mouseX >= x && mouseX <= x + this.parent.width && mouseY >= y && mouseY <= y + height;
     }
 }

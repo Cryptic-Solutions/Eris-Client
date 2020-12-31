@@ -33,6 +33,14 @@ public class ConfigManager extends Manager<ClientConfig> {
 
     @Override
     public void loadManager() {
+        try {
+            loadConfigs();
+        } catch(Exception e) {
+            loadDefaultConfig();
+        }
+    }
+
+    public void loadDefaultConfig() {
         File defaultFile = new File(FileManager.dir, "defaultconfig.eriscnf");
         if (!defaultFile.exists()) {
             try {

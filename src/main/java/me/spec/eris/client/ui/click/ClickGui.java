@@ -6,8 +6,7 @@ import java.util.ArrayList;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.module.ModuleCategory;
-import me.spec.eris.client.ui.click.pannels.Panel;
-import me.spec.eris.client.ui.click.pannels.components.Mode;
+import me.spec.eris.client.ui.click.panels.Panel;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,7 +17,6 @@ public class ClickGui extends GuiScreen {
     public static ArrayList<Panel> panels = new ArrayList<Panel>();
     public static boolean dragging = false;
     public boolean createdPanels;
-    public Mode mode;
 
     public void reload(boolean reloadUserInterface) {
         for (Panel p : ClickGui.panels) {

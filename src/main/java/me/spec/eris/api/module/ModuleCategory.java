@@ -7,7 +7,8 @@ public enum ModuleCategory {
     PLAYER("Player"),
     RENDER("Render"),
     MISC("Other"),
-    CLIENT("Client");
+    CLIENT("Client"),
+    CONFIGS("Configs");
 
     private String name;
 

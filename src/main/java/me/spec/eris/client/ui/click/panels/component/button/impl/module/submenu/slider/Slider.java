@@ -1,14 +1,15 @@
-package me.spec.eris.client.ui.click.pannels.components;
+package me.spec.eris.client.ui.click.panels.component.button.impl.module.submenu.slider;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
 
 import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.client.ui.click.ClickGui;
+import me.spec.eris.client.ui.click.panels.component.Component;
+import me.spec.eris.client.ui.click.panels.component.button.impl.module.ModuleButton;
 import me.spec.eris.utils.visual.RenderUtilities;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.util.EnumChatFormatting;
 
 public class Slider extends Component {
@@ -21,7 +22,7 @@ public class Slider extends Component {
 
     private NumberValue set;
 
-    public Slider(NumberValue<?> s, Button b) {
+    public Slider(NumberValue<?> s, ModuleButton b) {
         super(s, b);
         this.set = s;
     }
