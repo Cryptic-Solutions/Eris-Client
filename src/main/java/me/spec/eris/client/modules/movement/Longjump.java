@@ -36,7 +36,7 @@ public class Longjump extends Module {
 		if (e instanceof EventUpdate) {
 			setMode(mode.getValue().toString());
 			EventUpdate eu = (EventUpdate) e;
-			if (!onGroundCheck && groundTimer.hasReached(250) && eu.isPre()) {
+			if (!onGroundCheck && groundTimer.hasReached(350) && eu.isPre()) {
 				onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically;
 				groundTimer.reset();
 			}
@@ -79,7 +79,7 @@ public class Longjump extends Module {
 								speed = 2.13 * em.getMovementSpeed();
 								break;
 							case 4:
-								speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.12 : 1.35;
+								speed *= mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 1.12 : 1.3;
 								break;
 							default:
 								if (mc.thePlayer.fallDistance > 2.8 || stage > 14) {

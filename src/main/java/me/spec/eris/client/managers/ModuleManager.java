@@ -23,6 +23,7 @@ import me.spec.eris.client.modules.player.InventoryManager;
 import me.spec.eris.client.modules.player.NoFall;
 import me.spec.eris.client.modules.player.NoRotate;
 import me.spec.eris.client.modules.player.Phase;
+import me.spec.eris.client.modules.render.Animations;
 import me.spec.eris.client.modules.render.ESP;
 import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.modules.render.Racist;
@@ -73,6 +74,7 @@ public class ModuleManager extends Manager<Module> {
         /*
         Visual
          */
+        addToManagerArraylist(new Animations("FancyGlock17"));
         addToManagerArraylist(new HUD("SeeShitAppear"));
         addToManagerArraylist(new ESP("NiggerFinder"));
 
