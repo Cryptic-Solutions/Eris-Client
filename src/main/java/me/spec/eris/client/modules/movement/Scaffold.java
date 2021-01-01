@@ -172,9 +172,10 @@ public class Scaffold extends Module {
             if (event.isPre()) {
                 if (abuseTimer) {
                     if (!timerCap.hasReached(1500)) {
-                        if (Eris.getInstance().moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving()) motionBoost = false;
+                        if (Eris.getInstance().moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving())
+                            motionBoost = false;
                         if (motionBoost && mc.thePlayer.fallDistance <= 0.0) {
-                            if (mc.thePlayer.ticksExisted % 2 != 0 ) {
+                            if (mc.thePlayer.ticksExisted % 2 != 0) {
                                 event.setY(event.getY() + .0626 * 2);
                             }
 
@@ -182,7 +183,10 @@ public class Scaffold extends Module {
                             mc.thePlayer.motionX = -(Math.sin(mc.thePlayer.getDirection()) * moveSpeed);
                             mc.thePlayer.motionZ = Math.cos(mc.thePlayer.getDirection()) * moveSpeed;
                         }
-                        mc.timer.timerSpeed = !timerCap.hasReached(100) ? 2f : !timerCap.hasReached(300) ? 1.7f :  1.4f;
+
+                        if (timerSpeedAbuse.getValue()) {
+                            mc.timer.timerSpeed = !timerCap.hasReached(100) ? 2f : !timerCap.hasReached(300) ? 1.7f : 1.4f;
+                        }
                     }
                 }
                 float[] rotations = getFacingRotations(blockEntry.position.getX(), blockEntry.position.getY(), blockEntry.position.getZ(), event.getY());

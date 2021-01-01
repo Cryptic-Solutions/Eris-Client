@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.module.ModuleCategory;
+import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.click.panels.Panel;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.client.ui.hud.CustomHUD;
