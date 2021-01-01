@@ -52,7 +52,7 @@ public class HUD extends Module {
         super("HUD", ModuleCategory.RENDER, racism);
     }
 
-    private int coordX = 0, coordY= 425, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
+    private int coordX = 0, coordY= 425, labelX = 2, labelY = 2, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
 
     private int y;
     private static TTFFontRenderer fontRender;
@@ -71,6 +71,7 @@ public class HUD extends Module {
     @Override
     public void onEvent(Event e) {
         if (e instanceof EventRender2D) {
+            renderLabel(labelX, labelY);
             renderModuleList(moduleListX, moduleListY);
             renderCoords(coordX, coordY);
             renderPotions();
@@ -82,8 +83,6 @@ public class HUD extends Module {
         moduleListY = yPos;
         yText = moduleListY;
         ScaledResolution scaledResolution = new ScaledResolution(mc);
-
-        getFont().drawStringWithShadow(Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
         List<Module> modulesForRender = Eris.getInstance().moduleManager.getModulesForRender();
         int width = 0;
         int height = 0;
@@ -130,6 +129,13 @@ public class HUD extends Module {
         coordY = y;
         String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
         getFont().drawStringWithShadow(coords, coordX, coordY, Eris.getClientColor().getRGB());
+    }
+
+    public void renderLabel(int x, int y) {
+        labelX = x;
+        labelY = y;
+        String name = Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "");
+        getFont().drawStringWithShadow(name, labelX, labelY, Eris.getClientColor().getRGB());
     }
 
     public void renderPotions() {

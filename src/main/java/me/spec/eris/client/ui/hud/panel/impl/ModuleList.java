@@ -1,11 +1,10 @@
-package me.spec.eris.client.ui.hud.impl.panels;
+package me.spec.eris.client.ui.hud.panel.impl;
 
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.modules.render.HUD;
-import me.spec.eris.client.ui.click.ClickGui;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.api.Panel;
+import me.spec.eris.client.ui.hud.panel.Panel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;

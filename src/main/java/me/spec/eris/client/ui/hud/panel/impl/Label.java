@@ -1,22 +1,19 @@
-package me.spec.eris.client.ui.hud.impl.panels;
+package me.spec.eris.client.ui.hud.panel.impl;
 
 
 import me.spec.eris.Eris;
-import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.client.modules.render.HUD;
-import me.spec.eris.client.ui.click.ClickGui;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.api.Panel;
+import me.spec.eris.client.ui.hud.panel.Panel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class Coords extends Panel {
+public class Label extends Panel {
 
-    public Coords(int x, int y,int width, int height) {
+    public Label(int x, int y,int width, int height) {
         super(x, y, width, height);
     }
 
@@ -33,12 +30,12 @@ public class Coords extends Panel {
                 y = predictY;
             }
         }
-        String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
+        String name = Eris.getInstance().getClientName();
 
-        width = (int) getFont().getStringWidth(coords);
-        height = (int) getFont().getHeight(coords);
+        width = (int) getFont().getStringWidth(name);
+        height = (int) getFont().getHeight(name);
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        hud.renderCoords(x,y);
+        hud.renderLabel(x,y);
     }
 
     @Override

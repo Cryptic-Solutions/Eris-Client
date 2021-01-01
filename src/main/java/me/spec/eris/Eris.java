@@ -5,8 +5,7 @@ import java.awt.Color;
 import me.spec.eris.client.integration.playtime.PlaytimeTracker;
 import me.spec.eris.client.integration.server.ServerIntegration;
 import me.spec.eris.client.managers.*;
-import me.spec.eris.client.ui.hud.HUD;
-import net.minecraft.client.Minecraft;
+import me.spec.eris.client.ui.hud.CustomHUD;
 import org.lwjgl.opengl.Display;
 
 import libraries.thealtening.service.ServiceSwitcher;
@@ -40,7 +39,7 @@ public class Eris {
 	public CommandManager commandManager;
 	public FriendManager friendManager;
 	public ClickGui clickUI;
-	public HUD hud;
+	public CustomHUD customHud;
 	public ConfigManager configManager;
 	public ServiceSwitcher serviceSwitcher;
 
@@ -57,7 +56,7 @@ public class Eris {
 		this.commandManager = new CommandManager();
 		this.configManager = new ConfigManager();
 		this.clickUI = new ClickGui();
-		this.hud = new HUD(false);
+		this.customHud = new CustomHUD(false);
 		//new AntiVirus().start();
 		//new Connection().start();
 	}

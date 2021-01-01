@@ -1,12 +1,11 @@
 package me.spec.eris.client.ui.hud;
 
-import me.spec.eris.api.module.Module;
-import me.spec.eris.client.ui.hud.api.Panel;
-import me.spec.eris.client.ui.hud.impl.panels.Coords;
-import me.spec.eris.client.ui.hud.impl.panels.ModuleList;
+import me.spec.eris.client.ui.hud.panel.Panel;
+import me.spec.eris.client.ui.hud.panel.impl.Coords;
+import me.spec.eris.client.ui.hud.panel.impl.Label;
+import me.spec.eris.client.ui.hud.panel.impl.ModuleList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
@@ -14,15 +13,16 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class HUD extends GuiScreen {
+public class CustomHUD extends GuiScreen {
     private ArrayList<Panel> panels= new ArrayList<>();
     public boolean opened,createdPanels;
     ScaledResolution scalRes;
-    public HUD(boolean opened) {
+    public CustomHUD(boolean opened) {
         this.opened = opened;
         scalRes = new ScaledResolution(Minecraft.getMinecraft());
         panels.add(new Coords(3,scalRes.getScaledHeight() - 15, 20 , 20));
         panels.add(new ModuleList(scalRes.getScaledWidth(),0, 40 , 20));
+        panels.add(new Label(2,2, 20 , 20));
     }
     @Override
     public void onGuiClosed() {
