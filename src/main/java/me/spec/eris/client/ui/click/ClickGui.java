@@ -8,6 +8,9 @@ import me.spec.eris.Eris;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.client.ui.click.panels.Panel;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
+import me.spec.eris.client.ui.hud.HUD;
+import me.spec.eris.utils.player.PlayerUtils;
+import me.spec.eris.utils.visual.RenderUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -55,22 +58,43 @@ public class ClickGui extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
         ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
-        Minecraft.getMinecraft().fontRendererObj.drawString(toolTip, scalRes.getScaledWidth() / 2, scalRes.getScaledHeight() / 2 + 300, new Color(255, 255, 255).getRGB());
-		drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, new Color(0,0,0).getRGB());
 
+        //Config button -
+
+        //Hud Button
+
+        //backdrop
+		drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, new Color(0,0,0).getRGB());
         drawGradientRect(scalRes.getScaledWidth(), scalRes.getScaledHeight(),0,0, 0x00001215, new Color(0,0,0, 220).getRGB());
+
+        RenderUtilities.drawRoundedRect(3, scalRes.getScaledHeight(), 3 + mc.fontRendererObj.getStringWidth("Hud Customization") + 3, scalRes.getScaledHeight() - mc.fontRendererObj.FONT_HEIGHT * 1.2f, new Color(255,0,0,150).getRGB(),new Color(255,0,0,150).getRGB());
+
+        mc.fontRendererObj.drawStringWithShadow("Hud Customization", 5, scalRes.getScaledHeight() - 10, new Color(255,255,255).getRGB());
+
+       //pannels
         for (int i = 0; i < panels.size(); i++) {
             panels.get(i).onTop = i == 0;
             panels.get(i).drawScreen(mouseX, mouseY);
         }
+
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         for (Panel p : ClickGui.panels) {
             p.mouseClicked(mouseX, mouseY, mouseButton);
+        }
+
+        ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
+        int hudXPos1 = 3;
+        int hudXPos2 = 3 + mc.fontRendererObj.getStringWidth("Hud Customization") + 3;
+        int hudYPos1 = scalRes.getScaledHeight();
+        int hudYPos2 = scalRes.getScaledHeight() - 15;
+
+        if (mouseY <= hudYPos1 && mouseY >= hudYPos2 && mouseX >= hudXPos1 && mouseX <= hudXPos2) {
+            this.onGuiClosed();
+            mc.displayGuiScreen(new HUD(true));
         }
     }
 

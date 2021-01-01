@@ -8,6 +8,7 @@ import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
+import net.minecraft.client.Minecraft;
 import net.optifine.util.MathUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -32,9 +33,7 @@ public class HUD extends Module {
     private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows coords");
     private BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, "Backdrop on arraylist");
     private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, () -> arraylistBackground.getValue(), "Background Opacity");
-    private NumberValue<Integer> xPosition = new NumberValue<>("Arraylist X", 3, 0, 10, this, null, "Where the arraylist will begin on the X-Axis");
-    private NumberValue<Integer> yPosition = new NumberValue<>("Arraylist Y", 3, 0, 10, this, null, "Where the arraylist will begin on the Y-Axis");
-    private ModeValue<ColorMode> colorMode = new ModeValue<>("Arraylist Color", ColorMode.STATIC, this);
+   private ModeValue<ColorMode> colorMode = new ModeValue<>("Arraylist Color", ColorMode.STATIC, this);
 
     private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Speed");
     private NumberValue<Double> rainOffset = new NumberValue<>("Offset", 2d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Offset");
@@ -53,6 +52,8 @@ public class HUD extends Module {
         super("HUD", ModuleCategory.RENDER, racism);
     }
 
+    private int coordX = 0, coordY= 425, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
+
     private int y;
     private static TTFFontRenderer fontRender;
 
@@ -65,59 +66,70 @@ public class HUD extends Module {
     }
 
     int yText = 3;
+    int yPos = 3;
 
     @Override
     public void onEvent(Event e) {
         if (e instanceof EventRender2D) {
-            yText = yPosition.getValue();
-            ScaledResolution scaledResolution = new ScaledResolution(mc);
-
-            getFont().drawStringWithShadow(Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
-
-            if(coordinates.getValue()) {
-                String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
-                getFont().drawStringWithShadow(coords, 2, (mc.ingameGUI.getChatGUI().getChatOpen() ? 483 : 497), Eris.getClientColor().getRGB());
-            }
-
-            List<Module> modulesForRender = Eris.getInstance().moduleManager.getModulesForRender();
-
-            modulesForRender.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
-
-            if (!modulesForRender.isEmpty()) {
-                GlStateManager.pushMatrix();
-                GlStateManager.scale(1, 1f, 1);
-
-                y = yPosition.getValue();
-
-                modulesForRender.forEach(mod -> {
-                    String name = mod.getFullModuleDisplayName();
-
-                    double x = scaledResolution.getScaledWidth() - getFont().getStringWidth(name) - xPosition.getValue();
-
-                    if(arraylistBackground.getValue()) {
-                        RenderUtilities.drawRectangle(x - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, arraylistBackgroundOpacity.getValue().intValue()).getRGB());
-                    }
-                    switch (colorMode.getValue()) {
-                        case RAINBOW: {
-                            getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));
-                            break;
-                        }
-
-                        case STATIC: {
-                            getFont().drawStringWithShadow(name, (float) x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
-                            break;
-                        }
-                    }
-
-                    y += getFont().getHeight(name) + 2;
-                    yText += 12;
-                });
-
-                GlStateManager.popMatrix();
-            }
-
+            renderModuleList(moduleListX, moduleListY);
+            renderCoords(coordX, coordY);
             renderPotions();
         }
+    }
+
+    public int[] renderModuleList(int xPos, int yPos) {
+        moduleListX = xPos;
+        moduleListY = yPos;
+        yText = moduleListY;
+        ScaledResolution scaledResolution = new ScaledResolution(mc);
+
+        getFont().drawStringWithShadow(Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), ""), 2, 2, Eris.getClientColor().getRGB());
+        List<Module> modulesForRender = Eris.getInstance().moduleManager.getModulesForRender();
+        int width = 0;
+        int height = 0;
+        modulesForRender.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getFullModuleDisplayName()), getFont().getStringWidth(b.getFullModuleDisplayName())));
+
+        if (!modulesForRender.isEmpty()) {
+            width = (int) getFont().getStringWidth(modulesForRender.get(0).getFullModuleDisplayName());
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1, 1f, 1);
+
+            y = moduleListY;
+
+            modulesForRender.forEach(mod -> {
+                String name = mod.getFullModuleDisplayName();
+
+                double x = moduleListX - getFont().getStringWidth(name);
+
+                if(arraylistBackground.getValue()) {
+                    RenderUtilities.drawRectangle(x - 2, y, (double) getFont().getStringWidth(name) + 2, getFont().getHeight(name) + 2, new Color(0, 0, 0, arraylistBackgroundOpacity.getValue().intValue()).getRGB());
+                }
+                switch (colorMode.getValue()) {
+                    case RAINBOW: {
+                        getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));
+                        break;
+                    }
+
+                    case STATIC: {
+                        getFont().drawStringWithShadow(name, (float) x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                        break;
+                    }
+                }
+
+                y += getFont().getHeight(name) + 2;
+                yText += 12;
+            });
+            height = y;
+            GlStateManager.popMatrix();
+        }
+        return new int[]{width, height};
+    }
+
+    public void renderCoords(int x, int y) {
+        coordX = x;
+        coordY = y;
+        String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
+        getFont().drawStringWithShadow(coords, coordX, coordY, Eris.getClientColor().getRGB());
     }
 
     public void renderPotions() {
