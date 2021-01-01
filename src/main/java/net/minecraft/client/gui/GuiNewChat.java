@@ -2,9 +2,12 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 
+import java.awt.*;
 import java.util.Iterator;
 import java.util.List;
 
+import me.spec.eris.Eris;
+import me.spec.eris.client.modules.render.HUD;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,12 +71,16 @@ public class GuiNewChat extends Gui {
                             ++j;
 
                             if (l1 > 3) {
-                                int i2 = 0;
+                                int i2 = 2;
                                 int j2 = -i1 * 9;
-                                drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
+                                // background
+                                // TODO: add adjustable by setting
+                                drawRect(i2, j2 - 9, i2 + l + 4, j2, new Color(0,0,0, 180).getRGB());
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
-                                this.mc.fontRendererObj.drawStringWithShadow(s, (float) i2, (float) (j2 - 8), 16777215 + (l1 << 24));
+                                // TODO: on off for custom font
+                                //         this.mc.fontRendererObj.drawStringWithShadow(s, (float) i2, (float) (j2 - 8), 16777215 + (l1 << 24));
+                                Eris.getInstance().getFontRendererChat().drawStringWithShadow(s, (float) i2, (float) (j2 - 8.5), 16777215 + (l1 << 24));
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }

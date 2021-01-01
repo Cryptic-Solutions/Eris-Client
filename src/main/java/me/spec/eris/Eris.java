@@ -134,4 +134,8 @@ public class Eris {
 	public TTFFontRenderer getFontRenderer() {
 		return Eris.INSTANCE.fontManager.getFont("SFUI 18");
 	}
+
+	public TTFFontRenderer getFontRendererChat() {
+		return Eris.INSTANCE.fontManager.getFont("SFUI 16");
+	}
 }

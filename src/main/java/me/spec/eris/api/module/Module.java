@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
+import me.spec.eris.api.value.types.BooleanValue;
+import me.spec.eris.api.value.types.ModeValue;
+import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.client.events.player.EventMove;
 import me.spec.eris.client.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.client.antiflag.prioritization.enums.ModuleType;

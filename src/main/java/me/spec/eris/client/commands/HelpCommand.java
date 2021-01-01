@@ -3,6 +3,7 @@ package me.spec.eris.client.commands;
 import me.spec.eris.Eris;
 import me.spec.eris.api.command.Command;
 import me.spec.eris.utils.player.PlayerUtils;
+import net.minecraft.util.EnumChatFormatting;
 
 public class HelpCommand extends Command {
 
@@ -12,12 +13,18 @@ public class HelpCommand extends Command {
 
     @Override
     public void execute(String[] commandArguments) {
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + ">-----------------------------");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + EnumChatFormatting.RED + EnumChatFormatting.BOLD + Eris.getInstance().getClientName() + EnumChatFormatting.GRAY + " - " + EnumChatFormatting.WHITE + Eris.getInstance().getClientBuild());
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + "Developed by " +EnumChatFormatting.RED + EnumChatFormatting.BOLD + "Eris Team");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> ");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + "Commands:");
         Eris.getInstance().commandManager.getManagerArraylist().forEach(this::getCommandNameAndDescription);
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + ">-----------------------------");
     }
 
     private void getCommandNameAndDescription(Command command) {
         if(!command.getCommandName().equalsIgnoreCase("help")) {
-            PlayerUtils.tellUser(" " + command.getCommandName() + " - " + command.getCommandDescription());
+            PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + EnumChatFormatting.RED + EnumChatFormatting.BOLD + "." + command.getCommandName() + EnumChatFormatting.WHITE + " - " + command.getCommandDescription());
         }
     }
 }

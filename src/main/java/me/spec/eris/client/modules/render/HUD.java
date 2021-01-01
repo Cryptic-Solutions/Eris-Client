@@ -8,8 +8,8 @@ import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
+import me.spec.eris.utils.math.MathUtils;
 import net.minecraft.client.Minecraft;
-import net.optifine.util.MathUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -31,6 +31,8 @@ import net.minecraft.util.ResourceLocation;
 public class HUD extends Module {
 
     private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows coords");
+    private BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, "Ingame chat custom font");
+    private NumberValue<Integer> customChatOpacity = new NumberValue<>("Chat Opacity", 145, 1, 200, this, () -> customFontChat.getValue(), "Chat Background Opacity");
     private BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, "Backdrop on arraylist");
     private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, () -> arraylistBackground.getValue(), "Background Opacity");
    private ModeValue<ColorMode> colorMode = new ModeValue<>("Arraylist Color", ColorMode.STATIC, this);
@@ -128,7 +130,10 @@ public class HUD extends Module {
         coordX = x;
         coordY = y;
         String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
-        getFont().drawStringWithShadow(coords, coordX, coordY, Eris.getClientColor().getRGB());
+        /*
+        TODO: find out exact range for XYZ
+         */
+        getFont().drawStringWithShadow(coords, coordX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? coordY - 10 : coordY), Eris.getClientColor().getRGB());
     }
 
     public void renderLabel(int x, int y) {
