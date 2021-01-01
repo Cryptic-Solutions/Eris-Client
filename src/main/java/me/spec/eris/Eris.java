@@ -38,6 +38,7 @@ public class Eris {
 	public FontManager fontManager;
 	public CommandManager commandManager;
 	public FriendManager friendManager;
+	public CustomHUDManager customHUDManager;
 	public ClickGui clickUI;
 	public CustomHUD customHud;
 	public ConfigManager configManager;
@@ -55,6 +56,7 @@ public class Eris {
 		this.friendManager = new FriendManager();
 		this.commandManager = new CommandManager();
 		this.configManager = new ConfigManager();
+		this.customHUDManager = new CustomHUDManager();
 		this.clickUI = new ClickGui();
 		this.customHud = new CustomHUD(false);
 		//new AntiVirus().start();

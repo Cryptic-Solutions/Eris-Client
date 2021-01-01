@@ -8,8 +8,7 @@ import me.spec.eris.Eris;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.client.ui.click.panels.Panel;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.HUD;
-import me.spec.eris.utils.player.PlayerUtils;
+import me.spec.eris.client.ui.hud.CustomHUD;
 import me.spec.eris.utils.visual.RenderUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -94,7 +93,7 @@ public class ClickGui extends GuiScreen {
 
         if (mouseY <= hudYPos1 && mouseY >= hudYPos2 && mouseX >= hudXPos1 && mouseX <= hudXPos2) {
             this.onGuiClosed();
-            mc.displayGuiScreen(new HUD(true));
+            mc.displayGuiScreen(new CustomHUD(true));
         }
     }
 
