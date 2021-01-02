@@ -75,6 +75,10 @@ public class Eris {
 		return 0.1;
 	}
 
+	public String getClientBuildExperimental() {
+		return "010221";
+	}
+
 	public String getClientRelease() {
 		return "DEV";
 	}

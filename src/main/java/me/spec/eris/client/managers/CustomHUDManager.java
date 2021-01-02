@@ -1,11 +1,7 @@
 package me.spec.eris.client.managers;
 
-import me.spec.eris.Eris;
 import me.spec.eris.api.manager.Manager;
 import me.spec.eris.client.ui.hud.panel.Panel;
-import me.spec.eris.client.ui.hud.panel.impl.Coords;
-import me.spec.eris.client.ui.hud.panel.impl.Label;
-import me.spec.eris.client.ui.hud.panel.impl.ModuleList;
 
 import java.io.IOException;
 

@@ -1,6 +1,9 @@
 package me.spec.eris.client.ui.hud;
 
 import me.spec.eris.Eris;
+import me.spec.eris.api.manager.Manager;
+import me.spec.eris.client.ui.hud.panel.Panel;
+import me.spec.eris.client.ui.hud.panel.impl.BuildInfo;
 import me.spec.eris.client.ui.hud.panel.impl.Coords;
 import me.spec.eris.client.ui.hud.panel.impl.Label;
 import me.spec.eris.client.ui.hud.panel.impl.ModuleList;
@@ -11,18 +14,23 @@ import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class CustomHUD extends GuiScreen {
 
     public boolean opened,createdPanels;
     public ScaledResolution scaledResolution;
 
+    private ArrayList<Panel> panels = new ArrayList<>();
+
     public CustomHUD(boolean opened) {
         this.opened = opened;
         scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+        Eris.getInstance().customHUDManager.clearManagerArraylist();
         Eris.getInstance().customHUDManager.addToManagerArraylist(new Label(2,2, 20 , 20));
+        Eris.getInstance().customHUDManager.addToManagerArraylist(new BuildInfo(2,scaledResolution.getScaledHeight() - 35, 20 , 20));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new ModuleList(scaledResolution.getScaledWidth(),0, 40 , 20));
-        Eris.getInstance().customHUDManager.addToManagerArraylist(new Coords(3,scaledResolution.getScaledHeight() - 15, 20 , 20));
+        Eris.getInstance().customHUDManager.addToManagerArraylist(new Coords(2,scaledResolution.getScaledHeight() - 15, 20 , 20));
     }
     @Override
     public void onGuiClosed() {

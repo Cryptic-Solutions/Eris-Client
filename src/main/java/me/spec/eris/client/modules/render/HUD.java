@@ -1,6 +1,8 @@
 package me.spec.eris.client.modules.render;
 
 import java.awt.Color;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,21 +32,25 @@ import net.minecraft.util.ResourceLocation;
 
 public class HUD extends Module {
 
-    private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows coords");
-    public BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, "Ingame chat custom font");
+    private BooleanValue<Boolean> label = new BooleanValue<>("Watermark", true, this, true, "Shows Watermark");
+    private BooleanValue<Boolean> labelTime = new BooleanValue<>("Watermark Time", true, this, () -> label.getValue(), "Shows Time In Watermark");
+    private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows Coords");
+    private BooleanValue<Boolean> buildInfo = new BooleanValue<>("Build Info", true, this, "Shows UID And Build");
+    public BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, true, "Ingame Chat Custom Font");
     public NumberValue<Integer> customChatOpacity = new NumberValue<>("Chat Opacity", 145, 1, 200, this, () -> customFontChat.getValue(), "Chat Background Opacity");
-    private BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, "Backdrop on arraylist");
-    private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, () -> arraylistBackground.getValue(), "Background Opacity");
-    private ModeValue<ColorMode> colorMode = new ModeValue<>("Arraylist Color", ColorMode.STATIC, this);
+    private BooleanValue<Boolean> arraylist = new BooleanValue<>("Arraylist", true, this, true, "Shows Arraylist");
+    private BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, () -> arraylist.getValue(), "Backdrop On Arraylist");
+    private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, () -> arraylistBackground.getValue() && arraylist.getValue(), "Background Opacity");
+    private ModeValue<ColorMode> colorMode = new ModeValue<>("Arraylist Color", ColorMode.STATIC, this, true, () -> arraylist.getValue(), "Arraylist Color");
 
-    private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Speed");
-    private NumberValue<Double> rainOffset = new NumberValue<>("Offset", 2d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Offset");
-    private NumberValue<Double> saturation = new NumberValue<>("Saturation", 1d, 0d, 1d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Saturation");
-    private NumberValue<Double> brightness = new NumberValue<>("Brightness", 1d, 0d, 1d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Brightness");
+    private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW) && arraylist.getValue(), "Rainbow Speed");
+    private NumberValue<Double> rainOffset = new NumberValue<>("Offset", 2d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW) && arraylist.getValue(), "Rainbow Offset");
+    private NumberValue<Double> saturation = new NumberValue<>("Saturation", 1d, 0d, 1d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW) && arraylist.getValue(), "Rainbow Saturation");
+    private NumberValue<Double> brightness = new NumberValue<>("Brightness", 1d, 0d, 1d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW) && arraylist.getValue(), "Rainbow Brightness");
 
-    private NumberValue<Integer> red = new NumberValue<>("Red", 255, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "RED for Static ArrayList Color");
-    private NumberValue<Integer> green = new NumberValue<>("Green", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "GREEN for Static ArrayList Color");
-    private NumberValue<Integer> blue = new NumberValue<>("Blue", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC), "BLUE for Static ArrayList Color");
+    private NumberValue<Integer> red = new NumberValue<>("Red", 255, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC) && arraylist.getValue(), "RED for Static ArrayList Color");
+    private NumberValue<Integer> green = new NumberValue<>("Green", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC) && arraylist.getValue(), "GREEN for Static ArrayList Color");
+    private NumberValue<Integer> blue = new NumberValue<>("Blue", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC) && arraylist.getValue(), "BLUE for Static ArrayList Color");
 
     public enum ColorMode {
         STATIC, RAINBOW
@@ -54,7 +60,7 @@ public class HUD extends Module {
         super("HUD", ModuleCategory.RENDER, racism);
     }
 
-    private int coordX = 0, coordY= 425, labelX = 2, labelY = 2, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
+    private int coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
 
     private int y;
     private static TTFFontRenderer fontRender;
@@ -73,9 +79,18 @@ public class HUD extends Module {
     @Override
     public void onEvent(Event e) {
         if (e instanceof EventRender2D) {
-            renderLabel(labelX, labelY);
-            renderModuleList(moduleListX, moduleListY);
-            renderCoords(coordX, coordY);
+            if(label.getValue()) {
+                renderLabel(labelX, labelY);
+            }
+            if(arraylist.getValue()) {
+                renderModuleList(moduleListX, moduleListY);
+            }
+            if(coordinates.getValue()) {
+                renderCoords(coordX, coordY);
+            }
+            if(buildInfo.getValue()) {
+                renderBuildInfo(buildInfoX, buildInfoY);
+            }
             renderPotions();
         }
     }
@@ -130,17 +145,19 @@ public class HUD extends Module {
         coordX = x;
         coordY = y;
         String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
-        /*
-        TODO: find out exact range for XYZ
-         */
         getFont().drawStringWithShadow(coords, coordX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? coordY - 10 : coordY), Eris.getClientColor().getRGB());
+    }
+
+    public void renderBuildInfo(int x, int y) {
+        buildInfoX = x;
+        buildInfoY = y;
+        getFont().drawStringWithShadow("Build" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + "dev" + EnumChatFormatting.GRAY + "#0001" + EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + " " + Eris.getInstance().getClientBuildExperimental(), buildInfoX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? buildInfoX - 10 : buildInfoY), Eris.getClientColor().getRGB());
     }
 
     public void renderLabel(int x, int y) {
         labelX = x;
         labelY = y;
-        String name = Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "");
-        getFont().drawStringWithShadow(name, labelX, labelY, Eris.getClientColor().getRGB());
+        getFont().drawStringWithShadow((labelTime.getValue() ? Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "") + EnumChatFormatting.GRAY + " " + getTime() : Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "")), labelX, labelY, Eris.getClientColor().getRGB());
     }
 
     public void renderPotions() {
@@ -166,6 +183,12 @@ public class HUD extends Module {
             }
         }
         GL11.glPopMatrix();
+    }
+
+    public String getTime() {
+        LocalTime localTime = LocalTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        return localTime.format(dtf);
     }
 
     @Override

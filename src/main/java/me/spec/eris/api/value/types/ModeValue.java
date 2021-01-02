@@ -14,6 +14,8 @@ public class ModeValue<T extends Enum<T>> extends Value<T> {
         modes = readModes(getValue());
     }
 
+
+
     public ModeValue(String valueName, T defaultValueObject, Module parent) {
         super(valueName, defaultValueObject, parent);
         modes = readModes(getValue());
