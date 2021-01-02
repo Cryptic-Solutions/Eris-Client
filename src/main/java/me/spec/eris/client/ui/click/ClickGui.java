@@ -68,7 +68,7 @@ public class ClickGui extends GuiScreen {
 		drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, new Color(0,0,0).getRGB());
         drawGradientRect(scalRes.getScaledWidth(), scalRes.getScaledHeight(),0,0, 0x00001215, new Color(0,0,0, 220).getRGB());
 
-        RenderUtilities.drawRoundedRect(3, scalRes.getScaledHeight() , 3 + mc.fontRendererObj.getStringWidth("Hud Customization") + 3, scalRes.getScaledHeight() - mc.fontRendererObj.FONT_HEIGHT * 1.2f, new Color(255,0,0,150).getRGB(),new Color(255,0,0,150).getRGB());
+        RenderUtilities.drawRoundedRect(3, scalRes.getScaledHeight() , 3 + mc.fontRendererObj.getStringWidth("Hud Customization") + 3, scalRes.getScaledHeight() - mc.fontRendererObj.FONT_HEIGHT * 1.2f, Eris.getInstance().getClientColor(),Eris.getInstance().getClientColor());
 
         Eris.getInstance().getFontRenderer().drawStringWithShadow("Custom HUD", 5, scalRes.getScaledHeight() - 10, new Color(255,255,255).getRGB());
 
@@ -129,6 +129,6 @@ public class ClickGui extends GuiScreen {
     }
 
     public static Color getPrimaryColor() {
-        return Eris.getClientColor();
+        return Eris.getInstance().getClientColor2();
     }
 }

@@ -17,6 +17,7 @@ import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 public class Eris {
 
 	public static Eris INSTANCE;
+	private Color clientColor = new Color(255, 0, 0);;
 
 	/*
 	Variables
@@ -83,12 +84,24 @@ public class Eris {
 		return "DEV";
 	}
 
+	public String getCommandPrefix() {
+		return "-";
+	}
+
 	public String getFormattedClientName() {
 		return getClientName() + " v" + getClientBuild() + "b" + " | " + getClientRelease();
 	}
 
-	public static Color getClientColor() {
-		return new Color(255, 0, 0);
+	public int getClientColor() {
+		return clientColor.getRGB();
+	}
+
+	public Color getClientColor2() {
+		return clientColor;
+	}
+
+	public void setClientColor(Color clientColor) {
+		this.clientColor = clientColor;
 	}
 
 	public ServerIntegration getServerIntegration() {

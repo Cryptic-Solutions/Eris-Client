@@ -32,6 +32,11 @@ import net.minecraft.util.ResourceLocation;
 
 public class HUD extends Module {
 
+    private BooleanValue<Boolean> customClientColor = new BooleanValue<>("Custom Client Color", true, this, true, "Change client color");
+    private NumberValue<Integer> customClientColorRed = new NumberValue<>("Custom Color Red", 255, 0, 255, this, () -> customClientColor.getValue(), "RED For Client Color");
+    private NumberValue<Integer> customClientColorGreen = new NumberValue<>("Custom Color Green", 0, 0, 255, this, () -> customClientColor.getValue(), "GREEN For Client Color");
+    private NumberValue<Integer> customClientColorBlue = new NumberValue<>("Custom Color Blue", 0, 0, 255, this, () -> customClientColor.getValue(), "BLUE For Client Color");
+
     private BooleanValue<Boolean> label = new BooleanValue<>("Watermark", true, this, true, "Shows Watermark");
     private BooleanValue<Boolean> labelTime = new BooleanValue<>("Watermark Time", true, this, () -> label.getValue(), "Shows Time In Watermark");
     private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows Coords");
@@ -78,6 +83,9 @@ public class HUD extends Module {
 
     @Override
     public void onEvent(Event e) {
+        if(customClientColor.getValue()) {
+            Eris.getInstance().setClientColor(new Color(customClientColorRed.getValue(), customClientColorGreen.getValue(), customClientColorBlue.getValue()));
+        }
         if (e instanceof EventRender2D) {
             if(label.getValue()) {
                 renderLabel(labelX, labelY);
@@ -145,19 +153,19 @@ public class HUD extends Module {
         coordX = x;
         coordY = y;
         String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
-        getFont().drawStringWithShadow(coords, coordX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? coordY - 10 : coordY), Eris.getClientColor().getRGB());
+        getFont().drawStringWithShadow(coords, coordX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? coordY - 10 : coordY), Eris.getInstance().getClientColor());
     }
 
     public void renderBuildInfo(int x, int y) {
         buildInfoX = x;
         buildInfoY = y;
-        getFont().drawStringWithShadow("Build" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + "dev" + EnumChatFormatting.GRAY + "#0001" + EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + " " + Eris.getInstance().getClientBuildExperimental(), buildInfoX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? buildInfoX - 10 : buildInfoY), Eris.getClientColor().getRGB());
+        getFont().drawStringWithShadow("Build" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + "dev" + EnumChatFormatting.GRAY + "#0001" + EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + " " + Eris.getInstance().getClientBuildExperimental(), buildInfoX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? buildInfoX - 10 : buildInfoY), Eris.getInstance().getClientColor());
     }
 
     public void renderLabel(int x, int y) {
         labelX = x;
         labelY = y;
-        getFont().drawStringWithShadow((labelTime.getValue() ? Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "") + EnumChatFormatting.GRAY + " " + getTime() : Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "")), labelX, labelY, Eris.getClientColor().getRGB());
+        getFont().drawStringWithShadow((labelTime.getValue() ? Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "") + EnumChatFormatting.GRAY + " " + getTime() : Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "")), labelX, labelY, Eris.getInstance().getClientColor());
     }
 
     public void renderPotions() {

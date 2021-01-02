@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.EnumChatFormatting;
 
 public class Checkbox extends Component {
 
@@ -35,8 +36,8 @@ public class Checkbox extends Component {
         this.y = y;
 
         Gui.drawRect(this.x, this.y, this.x + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
-        String name = this.set.getValueName();
-        ClickGui.getFont().drawString(name, (this.x + 16), (y + (ClickGui.getFont().getHeight(name) / 2) + 0.5F), (set.getValueSplitter() ? new Color(255, 255, 255).getRGB() : new Color(175, 175, 175).getRGB()));
+        String name = (set.getValueSplitter() ? EnumChatFormatting.BOLD + this.set.getValueName() : this.set.getValueName());
+        ClickGui.getFont().drawString(name, (this.x + 16), (y + (ClickGui.getFont().getHeight(name) / 2) + 0.5F), new Color(175, 175, 175).getRGB());
         RenderUtilities.drawRoundedRect(this.x + 3, this.y + 5, this.x + 14, this.y + 14, new Color(0, 0, 0, 0).getRGB(), (boolean) this.set.getValue() ? new Color(29, 29, 29, 191).getRGB() : new Color(29, 29, 29, 190).getRGB());
         GlStateManager.color(1, 1, 1);
         float x1 = (boolean) this.set.getValue() ? 5 : 1.5F;

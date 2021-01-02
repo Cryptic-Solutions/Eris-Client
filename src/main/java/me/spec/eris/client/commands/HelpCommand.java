@@ -24,7 +24,7 @@ public class HelpCommand extends Command {
 
     private void getCommandNameAndDescription(Command command) {
         if(!command.getCommandName().equalsIgnoreCase("help")) {
-            PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + EnumChatFormatting.RED + EnumChatFormatting.BOLD + "." + command.getCommandName() + EnumChatFormatting.WHITE + " - " + command.getCommandDescription());
+            PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + EnumChatFormatting.RED + EnumChatFormatting.BOLD + Eris.getInstance().getCommandPrefix() + command.getCommandName() + EnumChatFormatting.WHITE + " - " + command.getCommandDescription());
         }
     }
 }

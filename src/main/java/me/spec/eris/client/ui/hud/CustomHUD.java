@@ -45,8 +45,8 @@ public class CustomHUD extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        Gui.drawRect(0,(scaledResolution.getScaledHeight() / 2) - 1, scaledResolution.getScaledWidth(), (scaledResolution.getScaledHeight() / 2) + 1, Eris.getClientColor().getRGB());
-        Gui.drawRect((scaledResolution.getScaledWidth() / 2) - 1,0,(scaledResolution.getScaledWidth() / 2) + 1, scaledResolution.getScaledHeight(), Eris.getClientColor().getRGB());
+        Gui.drawRect(0,(scaledResolution.getScaledHeight() / 2) - 1, scaledResolution.getScaledWidth(), (scaledResolution.getScaledHeight() / 2) + 1, Eris.getInstance().getClientColor());
+        Gui.drawRect((scaledResolution.getScaledWidth() / 2) - 1,0,(scaledResolution.getScaledWidth() / 2) + 1, scaledResolution.getScaledHeight(), Eris.getInstance().getClientColor());
         Gui.drawRect(0,0, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), new Color(0,0,0,135).getRGB());
         Eris.getInstance().customHUDManager.drawScreenForPanels(mouseX, mouseY);
     }
