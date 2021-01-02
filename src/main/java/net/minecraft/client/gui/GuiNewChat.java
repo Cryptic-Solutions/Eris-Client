@@ -73,14 +73,15 @@ public class GuiNewChat extends Gui {
                             if (l1 > 3) {
                                 int i2 = 2;
                                 int j2 = -i1 * 9;
-                                // background
-                                // TODO: add adjustable by setting
-                                drawRect(i2, j2 - 9, i2 + l + 4, j2, new Color(0,0,0, 180).getRGB());
+                                HUD hud = ((HUD) Eris.getInstance().moduleManager.getModuleByClass(HUD.class));
+                                drawRect(i2, j2 - 9, i2 + l + 4, j2, new Color(0,0,0, hud.customChatOpacity.getValue()).getRGB());
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
-                                // TODO: on off for custom font
-                                //         this.mc.fontRendererObj.drawStringWithShadow(s, (float) i2, (float) (j2 - 8), 16777215 + (l1 << 24));
-                                Eris.getInstance().getFontRendererChat().drawStringWithShadow(s, (float) i2, (float) (j2 - 8.5), 16777215 + (l1 << 24));
+                                if(hud.customFontChat.getValue()) {
+                                    Eris.getInstance().getFontRendererChat().drawStringWithShadow(s, (float) i2, (float) (j2 - 8.5), 16777215 + (l1 << 24));
+                                } else {
+                                    this.mc.fontRendererObj.drawStringWithShadow(s, (float) i2, (float) (j2 - 8), 16777215 + (l1 << 24));
+                                }
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }

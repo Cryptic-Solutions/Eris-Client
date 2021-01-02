@@ -31,11 +31,11 @@ import net.minecraft.util.ResourceLocation;
 public class HUD extends Module {
 
     private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows coords");
-    private BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, "Ingame chat custom font");
-    private NumberValue<Integer> customChatOpacity = new NumberValue<>("Chat Opacity", 145, 1, 200, this, () -> customFontChat.getValue(), "Chat Background Opacity");
+    public BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, "Ingame chat custom font");
+    public NumberValue<Integer> customChatOpacity = new NumberValue<>("Chat Opacity", 145, 1, 200, this, () -> customFontChat.getValue(), "Chat Background Opacity");
     private BooleanValue<Boolean> arraylistBackground = new BooleanValue<>("Arraylist Background", true, this, "Backdrop on arraylist");
     private NumberValue<Integer> arraylistBackgroundOpacity = new NumberValue<>("Background Opacity", 145, 1, 200, this, () -> arraylistBackground.getValue(), "Background Opacity");
-   private ModeValue<ColorMode> colorMode = new ModeValue<>("Arraylist Color", ColorMode.STATIC, this);
+    private ModeValue<ColorMode> colorMode = new ModeValue<>("Arraylist Color", ColorMode.STATIC, this);
 
     private NumberValue<Double> rainSpeed = new NumberValue<>("Speed", 3d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Speed");
     private NumberValue<Double> rainOffset = new NumberValue<>("Offset", 2d, 1d, 6d, this, () -> colorMode.getValue().equals(ColorMode.RAINBOW), "Rainbow Offset");
