@@ -172,17 +172,18 @@ public class Scaffold extends Module {
             if (event.isPre()) {
                 if (abuseTimer) {
                     if (!timerCap.hasReached(1500)) {
-                        if (Eris.getInstance().moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving()) motionBoost = false;
-                        if (motionBoost && mc.thePlayer.fallDistance <= 0.0 && !timerCap.hasReached(800)) {
-                            if (mc.thePlayer.ticksExisted % 2 != 0 ) {
-                                event.setY(event.getY() + .4);
-                                event.setOnGround(false);
+                        if (Eris.getInstance().moduleManager.isEnabled(Speed.class) || !mc.thePlayer.isMoving())
+                            motionBoost = false;
+                        if (motionBoost && mc.thePlayer.fallDistance <= 0.0) {
+                            if (mc.thePlayer.ticksExisted % 2 != 0) {
+                                event.setY(event.getY() + .0626 * 2);
                             }
 
-                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .28F : .14F;
+                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .3F : .2F;
                             mc.thePlayer.motionX = -(Math.sin(mc.thePlayer.getDirection()) * moveSpeed);
                             mc.thePlayer.motionZ = Math.cos(mc.thePlayer.getDirection()) * moveSpeed;
                         }
+
                         if (timerSpeedAbuse.getValue()) {
                             mc.timer.timerSpeed = !timerCap.hasReached(100) ? 2f : !timerCap.hasReached(300) ? 1.7f : 1.4f;
                         }

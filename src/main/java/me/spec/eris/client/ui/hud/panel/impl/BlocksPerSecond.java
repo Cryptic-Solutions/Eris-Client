@@ -1,12 +1,10 @@
-package me.spec.eris.client.ui.hud.impl.panels;
+package me.spec.eris.client.ui.hud.panel.impl;
 
 
 import me.spec.eris.Eris;
-import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.client.modules.render.HUD;
-import me.spec.eris.client.ui.click.ClickGui;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.api.Panel;
+import me.spec.eris.client.ui.hud.panel.Panel;
 import me.spec.eris.utils.math.MathUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -34,12 +32,12 @@ public class BlocksPerSecond extends Panel {
                 y = predictY;
             }
         }
-
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        String bps = "Blocks p/s" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.GRAY + String.valueOf(MathUtils.round(hud.getDistTraveled(), 2));
-        width = (int) Eris.getInstance().fontManager.getFont().getStringWidth(bps);
-        height = (int) Eris.getInstance().fontManager.getFont().getHeight(bps);
-        hud.renderBPS(x, y);
+        String bps = "Blocks per/s" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(hud.getDistTraveled(), 3);
+
+        width = (int) getFont().getStringWidth(bps);
+        height = (int) getFont().getHeight(bps);
+        hud.renderBlocksPerSecond(x,y);
     }
 
     @Override
@@ -76,5 +74,13 @@ public class BlocksPerSecond extends Panel {
 
     private boolean isHovered(int mouseX, int mouseY) {
         return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
+    }
+    private static TTFFontRenderer fontRender;
+    public static TTFFontRenderer getFont() {
+        if (fontRender == null) {
+            fontRender = Eris.INSTANCE.fontManager.getFont("SFUI 18");
+        }
+
+        return fontRender;
     }
 }

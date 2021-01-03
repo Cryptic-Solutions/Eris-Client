@@ -59,9 +59,9 @@ public class Speed extends Module {
 
 		switch (mode.getValue()) {
 			case WATCHDOG:
+				if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || Eris.INSTANCE.moduleManager.isEnabled(Longjump.class)) return;
 				if (e instanceof EventUpdate) {
 					setMode(mode.getValue().toString());
-					if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || Eris.INSTANCE.moduleManager.isEnabled(Longjump.class)) return;
 					EventUpdate eu = (EventUpdate) e;
 					double xDist = mc.thePlayer.posX - mc.thePlayer.prevPosX;
 					double zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
@@ -72,7 +72,6 @@ public class Speed extends Module {
 				}
 				if (e instanceof EventStep) {
 					EventStep event = (EventStep) e;
-					if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || Eris.INSTANCE.moduleManager.isEnabled(Longjump.class)) return;
 					if (!event.isPre()) {
 						double height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY;
 						if (height <= .6 && height >= -.5 && height != 0.0) {
@@ -82,40 +81,36 @@ public class Speed extends Module {
 					}
 				}
 				if (e instanceof EventMove) {
-					Step step = ((Step) Eris.getInstance().moduleManager.getModuleByClass(Step.class));
-
-					if (Eris.getInstance().moduleManager.isEnabled(Scaffold.class) || Eris.getInstance().moduleManager.isEnabled(Flight.class) || Eris.getInstance().moduleManager.isEnabled(Longjump.class) || step.cancelMorePackets) {
-						mc.timer.timerSpeed = 1.0f;
-						hops = -2;
-						waitTicks = 4;
-						if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) return;
-					}
 					boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
 					EventMove em = (EventMove) e;
-
+					Step step = ((Step) Eris.getInstance().moduleManager.getModuleByClass(Step.class));
+					if (Eris.getInstance().moduleManager.isEnabled(Scaffold.class) || Eris.getInstance().moduleManager.isEnabled(Flight.class) || Eris.getInstance().moduleManager.isEnabled(Longjump.class) || step.cancelMorePackets) {
+						mc.timer.timerSpeed = 1.0f;
+						hops = -1;
+						if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) return;
+					}
 					if (waitTicks > 0 && mc.thePlayer.onGround) waitTicks--;
 					if (waitTicks > 0 || !mc.thePlayer.isMoving() || mc.thePlayer.fallDistance > 2.25) {
+						setLastDistance(0.0);
 						stage = 0;
 						return;
 					}
 
-					if (reset) stage = 0;
+					if (reset) {
+						if (stage < 3) {
+							hops = -1;
+						}
+						stage = 0;
+					}
 					switch (stage) {
 						case 0:
-							if (reset) {
-								if (stage < 1 && stage > 0) {
-									stage = -1;
-								} else {
-									stage = 0;
-								}
-							}
 							setLastDistance(0.0);
 							if (mc.thePlayer.onGround) {
 								if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.4f;
 								mc.thePlayer.isAirBorne = true;
 								mc.thePlayer.triggerAchievement(StatList.jumpStat);
 								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 9.0E-4D * 2));
-								speed = em.getMovementSpeed() * (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 != 0 ? 2.24 : 2.1499);
+								speed = em.getMovementSpeed() * (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 == 0 ? 2.16 : 2.1499);
 								hops++;
 							}
 							setLastDistance(0.0);
@@ -125,9 +120,9 @@ public class Speed extends Module {
 							break;
 						default:
 							if ((stage == 2 || stage == 6) && mc.timer.timerSpeed > 1.0f) {
-								mc.timer.timerSpeed -= stage == 2 ? .2f : .2f;
+								mc.timer.timerSpeed -= stage == 2 ? .15f : .25f;
 							}
-							speed = getLastDistance() - getLastDistance() / 160 - 1.0e-5;
+							speed = getLastDistance() - getLastDistance() / 159;
 						break;
 				}
 				em.setMoveSpeed(waitTicks > 0 ? .2 : speed);

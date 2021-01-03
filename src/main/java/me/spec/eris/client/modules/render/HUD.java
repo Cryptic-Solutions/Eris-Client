@@ -1,9 +1,9 @@
 package me.spec.eris.client.modules.render;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,8 +40,10 @@ public class HUD extends Module {
     private NumberValue<Integer> customClientColorBlue = new NumberValue<>("Custom Color Blue", 0, 0, 255, this, () -> customClientColor.getValue(), "BLUE For Client Color");
 
     private BooleanValue<Boolean> label = new BooleanValue<>("Watermark", true, this, true, "Shows Watermark");
-    private BooleanValue<Boolean> labelTime = new BooleanValue<>("Watermark Time", true, this, () -> label.getValue(), "Shows Time In Watermark");
+    public BooleanValue<Boolean> labelTime = new BooleanValue<>("Watermark Time", true, this, () -> label.getValue(), "Shows Time In Watermark");
     private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows Coords");
+    private BooleanValue<Boolean> blocksPerSecond = new BooleanValue<>("Blocks per/s", true, this, "Shows blocks per second");
+    private BooleanValue<Boolean> potions = new BooleanValue<>("Potions", true, this, "Shows Potion Effects");
     private BooleanValue<Boolean> buildInfo = new BooleanValue<>("Build Info", true, this, "Shows UID And Build");
     public BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, true, "Ingame Chat Custom Font");
     public NumberValue<Integer> customChatOpacity = new NumberValue<>("Chat Opacity", 145, 1, 200, this, () -> customFontChat.getValue(), "Chat Background Opacity");
@@ -63,14 +65,19 @@ public class HUD extends Module {
         STATIC, RAINBOW
     }
 
-    public HUD(String racism) {
-        super("HUD", ModuleCategory.RENDER, racism);
-    }
- 
-    private int coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
- 
+    private int bpsX = 0, bpsY = 400, coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, size = 16, potionsX = 37, potionsY = (new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight() - (230) - size * 2) - 5, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
+    private double lastPosX;
+    private double lastPosZ;
+    private ArrayList<Double> distances;
     private int y;
     private static TTFFontRenderer fontRender;
+
+    public HUD(String racism) {
+        super("HUD", ModuleCategory.RENDER, racism);
+        this.lastPosX = Double.NaN;
+        this.lastPosZ = Double.NaN;
+        this.distances = new ArrayList<Double>();
+    }
 
     public static TTFFontRenderer getFont() {
         if (fontRender == null) {
@@ -88,6 +95,19 @@ public class HUD extends Module {
         if(customClientColor.getValue()) {
             Eris.getInstance().setClientColor(new Color(customClientColorRed.getValue(), customClientColorGreen.getValue(), customClientColorBlue.getValue()));
         }
+        if (e instanceof EventUpdate) {
+            if (!Double.isNaN(this.lastPosX) && !Double.isNaN(this.lastPosZ)) {
+                final double differenceX = Math.abs(this.lastPosX - Minecraft.getMinecraft().thePlayer.posX);
+                final double differenceZ = Math.abs(this.lastPosZ - Minecraft.getMinecraft().thePlayer.posZ);
+                final double distance = Math.sqrt(differenceX * differenceX + differenceZ * differenceZ) * 2.0;
+                this.distances.add(distance);
+                if (this.distances.size() > 20) {
+                    this.distances.remove(0);
+                }
+            }
+            this.lastPosX = Minecraft.getMinecraft().thePlayer.posX;
+            this.lastPosZ = Minecraft.getMinecraft().thePlayer.posZ;
+        }
         if (e instanceof EventRender2D) {
             if(label.getValue()) {
                 renderLabel(labelX, labelY);
@@ -101,7 +121,12 @@ public class HUD extends Module {
             if(buildInfo.getValue()) {
                 renderBuildInfo(buildInfoX, buildInfoY);
             }
-            renderPotions();
+            if(potions.getValue()) {
+                renderPotions(potionsX, potionsY);
+            }
+            if (blocksPerSecond.getValue()) {
+                renderBlocksPerSecond(bpsX, bpsY);
+            }
         }
     }
 
@@ -158,6 +183,21 @@ public class HUD extends Module {
         getFont().drawStringWithShadow(coords, coordX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? coordY - 10 : coordY), Eris.getInstance().getClientColor());
     }
 
+    public double getDistTraveled() {
+        double total = 0.0;
+        for (final double d : this.distances) {
+            total += d;
+        }
+        return total * mc.timer.timerSpeed;
+    }
+
+    public void renderBlocksPerSecond(int x, int y) {
+        bpsX = x;
+        bpsY = y;
+        String bps = "Blocks per/s" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(getDistTraveled(), 3);
+        getFont().drawStringWithShadow(bps, x, y, Eris.getInstance().getClientColor());
+    }
+
     public void renderBuildInfo(int x, int y) {
         buildInfoX = x;
         buildInfoY = y;
@@ -170,27 +210,10 @@ public class HUD extends Module {
         getFont().drawStringWithShadow((labelTime.getValue() ? Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "") + EnumChatFormatting.GRAY + " " + getTime() : Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "")), labelX, labelY, Eris.getInstance().getClientColor());
     }
 
-    public void renderBPS(int x, int y) {
-        bpsX = x;
-        bpsY = y;
-        String bps = "Blocks p/s" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.GRAY + String.valueOf(MathUtils.round(getDistTraveled(), 2));
-        getFont().drawStringWithShadow(bps, bpsX, bpsY, Eris.getClientColor().getRGB());
-    }
-
-    public double getDistTraveled() {
-        double total = 0.0;
-        for (final double d : this.distances) {
-            total += d;
-        }
-        return total * mc.timer.timerSpeed;
-    }
-
-    public void renderPotions() {
-        ScaledResolution scaledResolution = new ScaledResolution(mc);
+    public int[] renderPotions(int x, int y) {
+        potionsX = x;
+        potionsY = y;
         GL11.glPushMatrix();
-        int size = 16;
-        float x = 37;
-        float y = (scaledResolution.getScaledHeight() - (230) - size * 2) - 5;
         Collection<?> var4 = Module.mc.thePlayer.getActivePotionEffects();
         int i = 0;
         if (!var4.isEmpty()) {
@@ -204,10 +227,14 @@ public class HUD extends Module {
                     theGui.drawTexturedModalRect((int) x, (int) y - (18 * i), var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
                     getFont().drawStringWithShadow("" + (var7.getDuration() <= 300 ? ChatFormatting.RED : ChatFormatting.WHITE) + Potion.getDurationString(var7), (int) x - Eris.getInstance().getFontRenderer().getStringWidth("" + Potion.getDurationString(var7)) - 5, (int) y - (18 * i) + 6, -1);
                     i++;
+                    GL11.glPopMatrix();
+                    return new int[]{(int) getFont().getStringWidth("" + Potion.getDurationString(var7)), (int) getFont().getHeight("" + Potion.getDurationString(var7))};
+
                 }
             }
         }
         GL11.glPopMatrix();
+        return new int[]{50,50};//Ice: yes lets return null and cause client crash--developr
     }
 
     public String getTime() {

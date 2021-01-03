@@ -38,7 +38,7 @@ public class Disabler extends Module {
         	if (event.isSending()) {
         		switch (mode.getValue()) {
     			case WATCHDOG:
-            		//if (event.getPacket() instanceof C00PacketKeepAlive) event.setCancelled();
+            		if (event.getPacket() instanceof C00PacketKeepAlive) event.setCancelled();
 				break;
         		}
         	}

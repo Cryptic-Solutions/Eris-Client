@@ -33,8 +33,8 @@ public class Coords extends Panel {
         }
         String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
 
-        width = (int) Eris.getInstance().fontManager.getFont().getStringWidth(coords);
-        height = (int)Eris.getInstance().fontManager.getFont().getHeight(coords);
+        width = (int) getFont().getStringWidth(coords);
+        height = (int) getFont().getHeight(coords);
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
         hud.renderCoords(x,y);
     }
@@ -73,5 +73,13 @@ public class Coords extends Panel {
 
     private boolean isHovered(int mouseX, int mouseY) {
         return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
+    }
+    private static TTFFontRenderer fontRender;
+    public static TTFFontRenderer getFont() {
+        if (fontRender == null) {
+            fontRender = Eris.INSTANCE.fontManager.getFont("SFUI 18");
+        }
+
+        return fontRender;
     }
 }

@@ -23,10 +23,10 @@ public class ModuleList extends Panel {
 
             ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
 
-            int predictX = mouseX - width / 2;
-            int predictY = (mouseY - height / 2) + yOffset;
-            if (!(predictX < 0 || predictX > scalRes.getScaledWidth())) x = mouseX + width / 2;
-            if (!(predictY < 0|| predictY > scalRes.getScaledHeight())) y = (mouseY - height / 2) + yOffset;
+            int predictX = mouseX - (width / 2);
+            int predictY = mouseY - height / 2;
+            if (!(predictX < 0 || predictX > scalRes.getScaledWidth() - (width / 2)))  x = (mouseX + width / 2) + xOffset;
+            if (!(predictY < 0|| predictY > scalRes.getScaledHeight() - (height / 2)))  y = (mouseY - height / 2) + yOffset;
 
         }
 
@@ -36,16 +36,14 @@ public class ModuleList extends Panel {
         height = rq[1];
     }
 
+
+
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (isHovered(mouseX + width, mouseY)) {
             if (mouseButton == 0 && !dragged) {
                 dragging = true;
                 dragged = true;
-                int xPos = this.x + (width / 2);
-                int yPos = this.y + (height / 2);
-                this.xOffset = xPos - x;
-                this.yOffset = yPos - y;
             }
         }
     }

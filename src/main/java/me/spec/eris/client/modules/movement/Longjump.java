@@ -47,6 +47,9 @@ public class Longjump extends Module {
 					if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
 						eu.setY(eu.getY() + 1.225e-8);
 					}
+					if (stage < 2) {
+						mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
+					}
 					if (!onGroundCheck || Eris.getInstance().getModuleManager().isEnabled(Flight.class)) return;
 					double xDist = mc.thePlayer.posX - mc.thePlayer.prevPosX;
 					double zDist = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
@@ -121,6 +124,8 @@ public class Longjump extends Module {
 		Speed speed = ((Speed)Eris.getInstance().moduleManager.getModuleByClass(Speed.class));
 		aura.fuckCheckVLs = true;
 		crits.accumulatedFall = 0;
+		speed.waitTicks = 1;
+		setLastDistance(0);
 		if (crits.airTime > 0) {
 			sendPosition(0,0,0,true,false);
 			crits.airTime = 0;
