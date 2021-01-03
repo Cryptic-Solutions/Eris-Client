@@ -540,7 +540,7 @@ public class Killaura extends Module {
                 }
             }
         } else {
-            if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || shouldCritical || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 2 != 0 || target.timesAttacked < 1) ? 50  : timesAttacked % 10 == 0 ? 52 :  50 : delay)) {
+            if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || shouldCritical || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 2 != 0 || target.timesAttacked < 1) ? 50  : timesAttacked % 10 == 0 ? 56 :  50 : delay)) {
                 attackPrepare(e);
                 clickStopwatch.reset();
                 delay = Math.max(50, (1000 / clicksPerSecond.getValue()) + offset);

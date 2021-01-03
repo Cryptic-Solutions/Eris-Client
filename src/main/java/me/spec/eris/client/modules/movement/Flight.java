@@ -17,8 +17,10 @@ import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.utils.world.TimerUtils;
+import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
+import net.minecraft.potion.Potion;
 
 public class Flight extends Module {
 
@@ -66,45 +68,46 @@ public class Flight extends Module {
                     break;
 			case WATCHDOG:
 	        	if (onGroundCheck) {
-	        		if (!damagePlayer) {
-	        			if (damageStopwatch.hasReached(50)) {
-		        			for (int i = 0; i < 9; i++) {
-		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getLegitMotion(), mc.thePlayer.posZ, false));
-		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getLegitMotion() % .0000625), mc.thePlayer.posZ, false));
-		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
-		        			}
-		        			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
-		        			damagePlayer = true;
-	        			} else {
-	        				event.setX(0);
-	        				event.setY(0);
-	        				event.setZ(0);
-	        			}
-	        		} else {
-		        		switch (counter) {
-		        		case 0:
-		        			break;
+	        		double moveSpeed = 1.2;
+	        		switch (counter) {
+	        			case 0:
+	        				if (damageStopwatch.hasReached(50)) {
+	        					for (int i = 0; i < 9; i++) {
+	        						mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getLegitMotion(), mc.thePlayer.posZ, false));
+	        						mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getLegitMotion() % .0000625), mc.thePlayer.posZ, false));
+	        						mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
+	        					}
+	        					damagePlayer = true;
+	        					event.setMoveSpeed(.5);
+	        					mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
+	        				} else {
+	        					event.setX(0);
+	        					event.setZ(0);
+	        				}
+							break;
 		        		case 1:
 		        			mc.timer.timerSpeed = 1;
 		        			if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42F));
-								speed =  .6;
+								event.setY(mc.thePlayer.motionY = event.getMotionY(event.getLegitMotion()));
+								speed *= 2.1499;
 		        			}
 		        			break;
 		        		case 2:
+							if (mc.thePlayer.isPotionActive(Potion.jump)) {
+								event.setY(mc.thePlayer.motionY = -(event.getMotionY(event.getLegitMotion()) - .01));
+							}
 		        			mc.timer.timerSpeed = 1;
-		        			speed = 1.4;
+							speed = 1.3 * moveSpeed;
 		        			break;
-		        		default:
-		        			speed = getLastDistance() - getLastDistance() / 159;
-		        			break;
+							default:
+								speed = getLastDistance() - getLastDistance() / 160 - 1.0e-4;
+								break;
 		        		}
-		        		if (damaged) { 
-		        			speed = Math.max(speed, event.getMovementSpeed());
-		        			counter++;
-		        		}
+		        		speed = Math.max(speed, event.getMovementSpeed());
+		        		if (damagePlayer) {
+							counter++;
+						}
 		        		event.setMoveSpeed(speed);
-	        		}
 	        	}
 				break;
 			default:
@@ -117,7 +120,11 @@ public class Flight extends Module {
             setMode(mode.getValue().toString());
             switch (mode.getValue()) {
                 case VANILLA:
-
+                	if (mc.thePlayer.ticksExisted % 3 != 0) return;
+					PlayerCapabilities cap = new PlayerCapabilities();
+					cap.setFlySpeed(.5f);
+					cap.setPlayerWalkSpeed(1.5f);
+					mc.thePlayer.sendQueue.addToSendQueue(new C13PacketPlayerAbilities(cap));
                     break;
 			case WATCHDOG:
 				if (onGroundCheck) {  
@@ -132,17 +139,14 @@ public class Flight extends Module {
 	                if (counter < 15 && !damaged) {
 	                    timerAbuseStopwatch.reset();
 	                }
-	                if (!damaged && mc.thePlayer.hurtTime > 0) {
-	                    damaged = true; 
-	                }
                     if (event.isPre()) {  
                         double xDif = mc.thePlayer.posX - mc.thePlayer.prevPosX;
                         double zDif = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
                         setLastDistance(Math.sqrt(xDif * xDif + zDif * zDif));
     	               
-                    	if (counter > 2) {
+                    	if (counter > 1) {
                     		mc.thePlayer.motionY = 0;
-                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0005 : 0));
+                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .000625 : -.000625));
                     	}
                     }
 				} else if (mc.thePlayer.ticksExisted % 12 == 0){

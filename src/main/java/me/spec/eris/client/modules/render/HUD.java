@@ -1,6 +1,7 @@
 package me.spec.eris.client.modules.render;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -8,8 +9,9 @@ import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
+import me.spec.eris.client.events.player.EventUpdate;
+import me.spec.eris.utils.math.MathUtils;
 import net.minecraft.client.Minecraft;
-import net.optifine.util.MathUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -52,8 +54,9 @@ public class HUD extends Module {
         super("HUD", ModuleCategory.RENDER, racism);
     }
 
-    private int coordX = 0, coordY= 425, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
-
+    private int coordX = 0, coordY= 425, bpsX = 0, bpsY = new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight() / 2, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
+    private double lastPosX, lastPosZ;
+    private ArrayList<Double> distances = new ArrayList<>();
     private int y;
     private static TTFFontRenderer fontRender;
 
@@ -70,9 +73,23 @@ public class HUD extends Module {
 
     @Override
     public void onEvent(Event e) {
+        if (e instanceof EventUpdate) {
+            if (!Double.isNaN(this.lastPosX) && !Double.isNaN(this.lastPosZ)) {
+                final double differenceX = Math.abs(this.lastPosX - Minecraft.getMinecraft().thePlayer.posX);
+                final double differenceZ = Math.abs(this.lastPosZ - Minecraft.getMinecraft().thePlayer.posZ);
+                final double distance = Math.sqrt(differenceX * differenceX + differenceZ * differenceZ) * 2.0;
+                this.distances.add(distance);
+                if (this.distances.size() > 20) {
+                    this.distances.remove(0);
+                }
+            }
+            this.lastPosX = Minecraft.getMinecraft().thePlayer.posX;
+            this.lastPosZ = Minecraft.getMinecraft().thePlayer.posZ;
+        }
         if (e instanceof EventRender2D) {
             renderModuleList(moduleListX, moduleListY);
             renderCoords(coordX, coordY);
+            renderBPS(bpsX, bpsY);
             renderPotions();
         }
     }
@@ -130,6 +147,21 @@ public class HUD extends Module {
         coordY = y;
         String coords = "XYZ" + EnumChatFormatting.GRAY + ": " + Math.round(mc.thePlayer.posX) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posY) + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.GRAY + Math.round(mc.thePlayer.posZ);
         getFont().drawStringWithShadow(coords, coordX, coordY, Eris.getClientColor().getRGB());
+    }
+
+    public void renderBPS(int x, int y) {
+        bpsX = x;
+        bpsY = y;
+        String bps = "Blocks p/s" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.GRAY + String.valueOf(MathUtils.round(getDistTraveled(), 2));
+        getFont().drawStringWithShadow(bps, bpsX, bpsY, Eris.getClientColor().getRGB());
+    }
+
+    public double getDistTraveled() {
+        double total = 0.0;
+        for (final double d : this.distances) {
+            total += d;
+        }
+        return total * mc.timer.timerSpeed;
     }
 
     public void renderPotions() {

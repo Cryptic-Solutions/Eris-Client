@@ -2,6 +2,7 @@ package me.spec.eris.client.ui.hud;
 
 import me.spec.eris.api.module.Module;
 import me.spec.eris.client.ui.hud.api.Panel;
+import me.spec.eris.client.ui.hud.impl.panels.BlocksPerSecond;
 import me.spec.eris.client.ui.hud.impl.panels.Coords;
 import me.spec.eris.client.ui.hud.impl.panels.ModuleList;
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,7 @@ public class HUD extends GuiScreen {
         scalRes = new ScaledResolution(Minecraft.getMinecraft());
         panels.add(new Coords(3,scalRes.getScaledHeight() - 15, 20 , 20));
         panels.add(new ModuleList(scalRes.getScaledWidth(),0, 40 , 20));
+        panels.add(new BlocksPerSecond(0, scalRes.getScaledWidth() / 2, 20, 20));
     }
     @Override
     public void onGuiClosed() {
