@@ -32,7 +32,7 @@ public class Potions extends Panel {
         }
 
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        int[] values = hud.renderPotions(x, y);
+        int[] values = hud.renderPotions(x, y);//this only calls renderPotions once instead of 3 times
         height = values[0];
         width = values[1];
 

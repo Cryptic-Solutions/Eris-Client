@@ -78,6 +78,9 @@ public class HUD extends Module {
         this.lastPosZ = Double.NaN;
         this.distances = new ArrayList<Double>();
     }
+	
+    private int y;
+    private static TTFFontRenderer fontRender;
 
     public static TTFFontRenderer getFont() {
         if (fontRender == null) {
