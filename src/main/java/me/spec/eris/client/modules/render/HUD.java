@@ -13,6 +13,7 @@ import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.utils.math.MathUtils;
+import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
@@ -42,7 +43,10 @@ public class HUD extends Module {
     private BooleanValue<Boolean> label = new BooleanValue<>("Watermark", true, this, true, "Shows Watermark");
     public BooleanValue<Boolean> labelTime = new BooleanValue<>("Watermark Time", true, this, () -> label.getValue(), "Shows Time In Watermark");
     private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows Coords");
-    private BooleanValue<Boolean> blocksPerSecond = new BooleanValue<>("Blocks per/s", true, this, "Shows blocks per second");
+    private BooleanValue<Boolean> blocksPerSecond = new BooleanValue<>("BPS", true, this, "Shows BPS");
+    public NumberValue<Integer> bpsPlaces = new NumberValue<>("BPS Formatting", 3, 1, 10, this, () -> blocksPerSecond.getValue(), "Formatting For BPS");
+    public ModeValue<BPSMode> bpsType = new ModeValue<>("BPS Typing", BPSMode.BPS, this, true, () -> blocksPerSecond.getValue(), "BPS Type");
+    private BooleanValue<Boolean> ping = new BooleanValue<>("Ping", true, this, "Shows Ping");
     private BooleanValue<Boolean> potions = new BooleanValue<>("Potions", true, this, "Shows Potion Effects");
     private BooleanValue<Boolean> buildInfo = new BooleanValue<>("Build Info", true, this, "Shows UID And Build");
     public BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, true, "Ingame Chat Custom Font");
@@ -65,10 +69,14 @@ public class HUD extends Module {
         STATIC, RAINBOW
     }
 
-    private int bpsX = 0, bpsY = 400, coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, size = 16, potionsX = 37, potionsY = (new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight() - (230) - size * 2) - 5, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
+    public enum BPSMode {
+        BPS, BPERS;
+    }
+
+    private int bpsX = 0, bpsY = 440, pingX = 0, pingY = 425, coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, size = 16, potionsX = 37, potionsY = (new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight() - (230) - size * 2) - 5, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
     private double lastPosX;
     private double lastPosZ;
-    private ArrayList<Double> distances;
+    public ArrayList<Double> distances;
     private int y;
     private static TTFFontRenderer fontRender;
 
@@ -125,7 +133,10 @@ public class HUD extends Module {
                 renderPotions(potionsX, potionsY);
             }
             if (blocksPerSecond.getValue()) {
-                renderBlocksPerSecond(bpsX, bpsY);
+                renderBPS(bpsX, bpsY);
+            }
+            if(ping.getValue()) {
+                renderPing(pingX, pingY);
             }
         }
     }
@@ -183,19 +194,18 @@ public class HUD extends Module {
         getFont().drawStringWithShadow(coords, coordX, (mc.ingameGUI.getChatGUI().getChatOpen() && MathUtils.isInRange(coordY, 400, 445) ? coordY - 10 : coordY), Eris.getInstance().getClientColor());
     }
 
-    public double getDistTraveled() {
-        double total = 0.0;
-        for (final double d : this.distances) {
-            total += d;
-        }
-        return total * mc.timer.timerSpeed;
-    }
-
-    public void renderBlocksPerSecond(int x, int y) {
+    public void renderBPS(int x, int y) {
         bpsX = x;
         bpsY = y;
-        String bps = "Blocks per/s" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(getDistTraveled(), 3);
+        String bps = bpsType.getValue().equals(BPSMode.BPS) ? "BPS" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(PlayerUtils.getDistTraveled(distances), bpsPlaces.getValue() != null ? bpsPlaces.getValue() : 3) : "Blocks per/s" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(PlayerUtils.getDistTraveled(distances), bpsPlaces.getValue() != null ? bpsPlaces.getValue() : 3);
         getFont().drawStringWithShadow(bps, x, y, Eris.getInstance().getClientColor());
+    }
+
+    public void renderPing(int x, int y) {
+        pingX = x;
+        pingY = y;
+        String ping = "Ping" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + PlayerUtils.getPlayerPing();
+        getFont().drawStringWithShadow(ping, x, y, Eris.getInstance().getClientColor());
     }
 
     public void renderBuildInfo(int x, int y) {
@@ -234,7 +244,7 @@ public class HUD extends Module {
             }
         }
         GL11.glPopMatrix();
-        return new int[]{50,50};//Ice: yes lets return null and cause client crash--developr
+        return new int[]{50,50};
     }
 
     public String getTime() {

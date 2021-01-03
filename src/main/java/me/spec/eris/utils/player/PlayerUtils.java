@@ -2,6 +2,7 @@ package me.spec.eris.utils.player;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.friend.Friend;
@@ -9,6 +10,7 @@ import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.client.modules.combat.AntiBot;
 import me.spec.eris.utils.math.rotation.RotationUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMob;
@@ -113,7 +115,7 @@ public class PlayerUtils {
         return false;
     }
 
-    public static String getBPS() {
+    public static String getBPSOldUselessBye() {
         final double xDiff = Minecraft.getMinecraft().thePlayer.posX - Minecraft.getMinecraft().thePlayer.prevPosX;
         final double zDiff = Minecraft.getMinecraft().thePlayer.posZ - Minecraft.getMinecraft().thePlayer.prevPosZ;
         final float minecraftTIckRate = (Minecraft.getMinecraft().timer.ticksPerSecond / 1000.0f);
@@ -124,6 +126,22 @@ public class PlayerUtils {
         } else {
             return bps.equalsIgnoreCase("-1") ? "0" : bps;
         }
+    }
+
+    public static double getDistTraveled(ArrayList<Double> distances) {
+        double total = 0.0;
+        for (final double d : distances) {
+            total += d;
+        }
+        return total * Minecraft.getMinecraft().timer.timerSpeed;
+    }
+
+    public static int getPlayerPing() {
+        int ping = 0;
+        if(Minecraft.getMinecraft().thePlayer != null) {
+            ping = new NetworkPlayerInfo(Minecraft.getMinecraft().thePlayer.getGameProfile()).getResponseTime();
+        }
+        return ping != 0 ? ping : 0;
     }
 
     public static void tellUser(String message) {

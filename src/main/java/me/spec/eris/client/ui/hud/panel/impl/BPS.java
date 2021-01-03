@@ -6,6 +6,7 @@ import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.client.ui.hud.panel.Panel;
 import me.spec.eris.utils.math.MathUtils;
+import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
@@ -13,9 +14,9 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class BlocksPerSecond extends Panel {
+public class BPS extends Panel {
 
-    public BlocksPerSecond(int x, int y,int width, int height) {
+    public BPS(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 
@@ -33,11 +34,11 @@ public class BlocksPerSecond extends Panel {
             }
         }
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        String bps = "Blocks per/s" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(hud.getDistTraveled(), 3);
+        String bps = hud.bpsType.getValue().equals(HUD.BPSMode.BPS) ? "BPS" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(PlayerUtils.getDistTraveled(hud.distances), hud.bpsPlaces.getValue() != null ? hud.bpsPlaces.getValue() : 3) : "Blocks per/s";
 
         width = (int) getFont().getStringWidth(bps);
         height = (int) getFont().getHeight(bps);
-        hud.renderBlocksPerSecond(x,y);
+        hud.renderBPS(x,y);
     }
 
     @Override
