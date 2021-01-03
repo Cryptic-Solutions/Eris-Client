@@ -120,4 +120,13 @@ public class PlayerUtils {
             System.out.println("[" + Eris.getInstance().getClientName() + "]>>" + message);
         }
     }
+
+    public static void tellUserUnformatted(String message) {
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null
+                && Minecraft.getMinecraft().theWorld != null) {
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(message));
+        } else {
+            System.out.println("[" + Eris.getInstance().getClientName() + "]>>" + message);
+        }
+    }
 }

@@ -73,12 +73,12 @@ public class Slider extends Component {
         float distance = (float) ((val - min) / (max - min));
         Gui.drawRect(this.x - 5, this.y, this.x - 5 + this.parent.getWidth(), this.y + this.height, ClickGui.getSecondaryColor(true).getRGB());
         String name = this.set.getValueName() + EnumChatFormatting.GRAY + ": " + new DecimalFormat("#.##").format(this.set.getValue());
-        Gui.drawRect(this.x + 2, this.y + ClickGui.getFont().getHeight(name) + 6, (int) (this.x + (maxX * distance)), this.y + this.height - 4, ClickGui.getPrimaryColor().getRGB());
+        Gui.drawRect(this.x - 2, this.y + ClickGui.getFont().getHeight(name) + 6, (int) (this.x - 2 + (maxX * distance)), this.y + this.height - 4, ClickGui.getPrimaryColor().getRGB());
 
         boolean flag = ((int) (this.x + (maxX * distance)) + 3) > x + maxX;
         int location =  ((int) (this.x + (maxX * distance)) + 3);
 
-        RenderUtilities.drawRoundedRect((int) (this.x + (maxX * distance)), this.y + ClickGui.getFont().getHeight(name) + 7, location,this.y + this.height - 4, new Color(255,255,255, 200).getRGB(), new Color(255,255,255, 200).getRGB() );
+        RenderUtilities.drawRoundedRect((int) (this.x - 2 + (maxX * distance)), this.y + ClickGui.getFont().getHeight(name) + 7, location,this.y + this.height - 4, new Color(255,255,255, 200).getRGB(), new Color(255,255,255, 200).getRGB() );
         GlStateManager.pushMatrix();
         float scale = 1;
         GlStateManager.scale(scale, scale, scale);

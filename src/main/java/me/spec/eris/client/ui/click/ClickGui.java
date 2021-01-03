@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.module.ModuleCategory;
+import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.click.panels.Panel;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.HUD;
-import me.spec.eris.utils.player.PlayerUtils;
+import me.spec.eris.client.ui.hud.CustomHUD;
 import me.spec.eris.utils.visual.RenderUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -68,11 +68,10 @@ public class ClickGui extends GuiScreen {
 		drawGradientRect(0, 0, scalRes.getScaledWidth(), scalRes.getScaledHeight(), 0x00001215, new Color(0,0,0).getRGB());
         drawGradientRect(scalRes.getScaledWidth(), scalRes.getScaledHeight(),0,0, 0x00001215, new Color(0,0,0, 220).getRGB());
 
-        RenderUtilities.drawRoundedRect(3, scalRes.getScaledHeight(), 3 + mc.fontRendererObj.getStringWidth("Hud Customization") + 3, scalRes.getScaledHeight() - mc.fontRendererObj.FONT_HEIGHT * 1.2f, new Color(255,0,0,150).getRGB(),new Color(255,0,0,150).getRGB());
+        RenderUtilities.drawRoundedRect(3, scalRes.getScaledHeight() , 3 + mc.fontRendererObj.getStringWidth("Hud Customization") + 3, scalRes.getScaledHeight() - mc.fontRendererObj.FONT_HEIGHT * 1.2f, Eris.getInstance().getClientColor(),Eris.getInstance().getClientColor());
 
-        mc.fontRendererObj.drawStringWithShadow("Hud Customization", 5, scalRes.getScaledHeight() - 10, new Color(255,255,255).getRGB());
+        Eris.getInstance().getFontRenderer().drawStringWithShadow("Custom HUD", 5, scalRes.getScaledHeight() - 10, new Color(255,255,255).getRGB());
 
-       //pannels
         for (int i = 0; i < panels.size(); i++) {
             panels.get(i).onTop = i == 0;
             panels.get(i).drawScreen(mouseX, mouseY);
@@ -88,13 +87,13 @@ public class ClickGui extends GuiScreen {
 
         ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
         int hudXPos1 = 3;
-        int hudXPos2 = 3 + mc.fontRendererObj.getStringWidth("Hud Customization") + 3;
+        int hudXPos2 = (int) (3 + Eris.getInstance().getFontRenderer().getStringWidth("Custom HUD") + 3);
         int hudYPos1 = scalRes.getScaledHeight();
         int hudYPos2 = scalRes.getScaledHeight() - 15;
 
         if (mouseY <= hudYPos1 && mouseY >= hudYPos2 && mouseX >= hudXPos1 && mouseX <= hudXPos2) {
             this.onGuiClosed();
-            mc.displayGuiScreen(new HUD(true));
+            mc.displayGuiScreen(new CustomHUD(true));
         }
     }
 
@@ -130,6 +129,6 @@ public class ClickGui extends GuiScreen {
     }
 
     public static Color getPrimaryColor() {
-        return Eris.getClientColor();
+        return Eris.getInstance().getClientColor2();
     }
 }

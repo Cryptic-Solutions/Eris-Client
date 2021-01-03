@@ -1,45 +1,47 @@
-package me.spec.eris.client.ui.hud.impl.panels;
+package me.spec.eris.client.ui.hud.panel.impl;
 
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.modules.render.HUD;
-import me.spec.eris.client.ui.click.ClickGui;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.api.Panel;
+import me.spec.eris.client.ui.hud.panel.Panel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class ModuleList extends Panel {
+public class BuildInfo extends Panel {
 
-    public ModuleList(int x, int y,int width, int height) {
+    public BuildInfo(int x, int y,int width, int height) {
         super(x, y, width, height);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY) {
         if (dragging) {
-
             ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
-
-            int predictX = mouseX - width / 2;
-            int predictY = (mouseY - height / 2) + yOffset;
-            if (!(predictX < 0 || predictX > scalRes.getScaledWidth())) x = mouseX + width / 2;
-            if (!(predictY < 0|| predictY > scalRes.getScaledHeight())) y = (mouseY - height / 2) + yOffset;
-
+            int predictX = mouseX - (width / 2) + xOffset;
+            int predictY = mouseY - (height / 2) + yOffset;
+            if (predictX > 0 && predictX < scalRes.getScaledWidth() - width + 1) {
+                x = predictX;
+            }
+            if (predictY > 0 && predictY < scalRes.getScaledHeight() - 5) {
+                y = predictY;
+            }
         }
+        String build = "Build" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + "dev" + EnumChatFormatting.GRAY + "#0001" + EnumChatFormatting.GRAY + " | " + EnumChatFormatting.WHITE + " " + Eris.getInstance().getClientBuildExperimental();
 
+        width = (int) getFont().getStringWidth(build);
+        height = (int) getFont().getHeight(build);
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        int[] rq = hud.renderModuleList(x,y);
-        width = rq[0];
-        height = rq[1];
+        hud.renderBuildInfo(x,y);
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        if (isHovered(mouseX + width, mouseY)) {
+        if (isHovered(mouseX, mouseY)) {
             if (mouseButton == 0 && !dragged) {
                 dragging = true;
                 dragged = true;

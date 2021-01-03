@@ -5,8 +5,7 @@ import java.awt.Color;
 import me.spec.eris.client.integration.playtime.PlaytimeTracker;
 import me.spec.eris.client.integration.server.ServerIntegration;
 import me.spec.eris.client.managers.*;
-import me.spec.eris.client.ui.hud.HUD;
-import net.minecraft.client.Minecraft;
+import me.spec.eris.client.ui.hud.CustomHUD;
 import org.lwjgl.opengl.Display;
 
 import libraries.thealtening.service.ServiceSwitcher;
@@ -18,6 +17,7 @@ import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 public class Eris {
 
 	public static Eris INSTANCE;
+	private Color clientColor = new Color(255, 0, 0);;
 
 	/*
 	Variables
@@ -39,8 +39,9 @@ public class Eris {
 	public FontManager fontManager;
 	public CommandManager commandManager;
 	public FriendManager friendManager;
+	public CustomHUDManager customHUDManager;
 	public ClickGui clickUI;
-	public HUD hud;
+	public CustomHUD customHud;
 	public ConfigManager configManager;
 	public ServiceSwitcher serviceSwitcher;
 
@@ -56,8 +57,9 @@ public class Eris {
 		this.friendManager = new FriendManager();
 		this.commandManager = new CommandManager();
 		this.configManager = new ConfigManager();
+		this.customHUDManager = new CustomHUDManager();
 		this.clickUI = new ClickGui();
-		this.hud = new HUD(false);
+		this.customHud = new CustomHUD(false);
 		//new AntiVirus().start();
 		//new Connection().start();
 	}
@@ -74,16 +76,32 @@ public class Eris {
 		return 0.1;
 	}
 
+	public String getClientBuildExperimental() {
+		return "010221";
+	}
+
 	public String getClientRelease() {
 		return "DEV";
+	}
+
+	public String getCommandPrefix() {
+		return "-";
 	}
 
 	public String getFormattedClientName() {
 		return getClientName() + " v" + getClientBuild() + "b" + " | " + getClientRelease();
 	}
 
-	public static Color getClientColor() {
-		return new Color(255, 0, 0);
+	public int getClientColor() {
+		return clientColor.getRGB();
+	}
+
+	public Color getClientColor2() {
+		return clientColor;
+	}
+
+	public void setClientColor(Color clientColor) {
+		this.clientColor = clientColor;
 	}
 
 	public ServerIntegration getServerIntegration() {
@@ -132,5 +150,9 @@ public class Eris {
 
 	public TTFFontRenderer getFontRenderer() {
 		return Eris.INSTANCE.fontManager.getFont("SFUI 18");
+	}
+
+	public TTFFontRenderer getFontRendererChat() {
+		return Eris.INSTANCE.fontManager.getFont("SFUI 16");
 	}
 }

@@ -183,7 +183,9 @@ public class Scaffold extends Module {
                             mc.thePlayer.motionX = -(Math.sin(mc.thePlayer.getDirection()) * moveSpeed);
                             mc.thePlayer.motionZ = Math.cos(mc.thePlayer.getDirection()) * moveSpeed;
                         }
-                        mc.timer.timerSpeed = !timerCap.hasReached(100) ? 2f : !timerCap.hasReached(300) ? 1.4f :  1.2f;
+                        if (timerSpeedAbuse.getValue()) {
+                            mc.timer.timerSpeed = !timerCap.hasReached(100) ? 2f : !timerCap.hasReached(300) ? 1.7f : 1.4f;
+                        }
                     }
                 }
                 float[] rotations = getFacingRotations(blockEntry.position.getX(), blockEntry.position.getY(), blockEntry.position.getZ(), event.getY());

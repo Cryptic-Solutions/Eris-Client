@@ -33,4 +33,8 @@ public abstract class Manager<T> {
     public void removeFromManagerArraylistIndex(int index) {
         managerArraylist.remove(index);
     }
+
+    public void clearManagerArraylist() {
+        getManagerArraylist().clear();
+    }
 }

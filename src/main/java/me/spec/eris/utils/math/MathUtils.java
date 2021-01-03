@@ -31,6 +31,14 @@ public enum MathUtils {
         return shifted;
     }
 
+    public static boolean isInRange(double number, double minRange, double maxRange) {
+        if(number > minRange && number <= maxRange) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static float secRanFloat(float min, float max) {
 
         SecureRandom rand = new SecureRandom();

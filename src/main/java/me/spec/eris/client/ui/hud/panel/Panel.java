@@ -1,4 +1,4 @@
-package me.spec.eris.client.ui.hud.api;
+package me.spec.eris.client.ui.hud.panel;
 
 import me.spec.eris.api.value.Value;
 import net.minecraft.client.Minecraft;
