@@ -193,6 +193,7 @@ public class HUD extends Module {
                 }
             }
         }
+        GL11.glPopMatrix();
         return null;
     }
 
