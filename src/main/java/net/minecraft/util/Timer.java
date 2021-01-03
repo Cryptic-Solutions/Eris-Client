@@ -6,7 +6,7 @@ public class Timer {
     /**
      * The number of timer ticks per second of real time
      */
-    float ticksPerSecond;
+    public float ticksPerSecond;
 
     /**
      * The time reported by the high-resolution clock at the last call of updateTimer(), in seconds
@@ -38,13 +38,13 @@ public class Timer {
     /**
      * The time reported by the system clock at the last sync, in milliseconds
      */
-    private long lastSyncSysClock;
+    public long lastSyncSysClock;
 
     /**
      * The time reported by the high-resolution clock at the last sync, in milliseconds
      */
-    private long lastSyncHRClock;
-    private long field_74285_i;
+    public long lastSyncHRClock;
+    public long field_74285_i;
 
     /**
      * A ratio used to sync the high-resolution clock to the system clock, updated once per second

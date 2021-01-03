@@ -1,6 +1,7 @@
 package me.spec.eris.utils.player;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.friend.Friend;
@@ -27,6 +28,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 
 public class PlayerUtils {
 
@@ -109,6 +111,19 @@ public class PlayerUtils {
             }
         }
         return false;
+    }
+
+    public static String getBPS() {
+        final double xDiff = Minecraft.getMinecraft().thePlayer.posX - Minecraft.getMinecraft().thePlayer.prevPosX;
+        final double zDiff = Minecraft.getMinecraft().thePlayer.posZ - Minecraft.getMinecraft().thePlayer.prevPosZ;
+        final float minecraftTIckRate = (Minecraft.getMinecraft().timer.ticksPerSecond / 1000.0f);
+        final DecimalFormat formatter = new DecimalFormat("#.#");
+        String bps = (formatter.format(MathHelper.sqrt_double(xDiff * xDiff + zDiff * zDiff) / minecraftTIckRate / 2 - 1));
+        if(Minecraft.getMinecraft().thePlayer == null) {
+            return "0";
+        } else {
+            return bps.equalsIgnoreCase("-1") ? "0" : bps;
+        }
     }
 
     public static void tellUser(String message) {
