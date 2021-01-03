@@ -5,15 +5,17 @@ import me.spec.eris.Eris;
 import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.client.ui.hud.panel.Panel;
+import me.spec.eris.utils.math.MathUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class Potions extends Panel {
+public class BlocksPerSecond extends Panel {
 
-    public Potions(int x, int y,int width, int height) {
+    public BlocksPerSecond(int x, int y,int width, int height) {
         super(x, y, width, height);
     }
 
@@ -30,12 +32,12 @@ public class Potions extends Panel {
                 y = predictY;
             }
         }
-
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        int[] values = hud.renderPotions(x, y);//this only calls renderPotions once instead of 3 times
-        height = values[0];
-        width = values[1];
+        String bps = "Blocks per/s" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(hud.getDistTraveled(), 3);
 
+        width = (int) getFont().getStringWidth(bps);
+        height = (int) getFont().getHeight(bps);
+        hud.renderBlocksPerSecond(x,y);
     }
 
     @Override

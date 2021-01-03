@@ -24,7 +24,7 @@ public class Criticals extends Module {
 	public ModeValue<Mode> modeValue = new ModeValue<>("Mode", Mode.SPOOF, this);
 	public double accumulatedFall, posY;
 
-	private static final double[] OFFSETS1 = new double[] {0.051, 0.011511, 0.001, 0.001};
+	private static final double[] OFFSETS1 = new double[] {0.05225, 0.011511, 0.001, 0.001};
 	private static final double[] OFFSETS2 = new double[] { 0.05D, 0.0D, 0.012511D, 0.0D };
 
 	public Criticals(String racism) {

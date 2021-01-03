@@ -185,7 +185,7 @@ public class Killaura extends Module {
                 }
 
                 target = currentEntity = targetList.get(targetIndex); 
-                shouldCritical = mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround && crits.isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Speed.class).isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Flight.class).isToggled() &&  (crits.modeValue.getValue().equals(Criticals.Mode.WATCHDOG) && !mc.thePlayer.isMoving());
+                shouldCritical = critStopwatch.hasReached(50) && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround && crits.isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Speed.class).isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Flight.class).isToggled() &&  (crits.modeValue.getValue().equals(Criticals.Mode.WATCHDOG) && !mc.thePlayer.isMoving());
                 if (eu.isPre()) {
                     if (Eris.getInstance().moduleManager.getModuleByClass(Scaffold.class).isToggled()) {
                         index = 3;
@@ -540,7 +540,7 @@ public class Killaura extends Module {
                 }
             }
         } else {
-            if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || shouldCritical || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 2 != 0 || target.timesAttacked < 1) ? 50  : timesAttacked % 10 == 0 ? 52 :  50 : delay)) {
+            if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || shouldCritical || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 2 != 0 || target.timesAttacked < 1) ? 50  : timesAttacked % 20 == 0 ? 52 :  50 : delay)) {
                 attackPrepare(e);
                 clickStopwatch.reset();
                 delay = Math.max(50, (1000 / clicksPerSecond.getValue()) + offset);

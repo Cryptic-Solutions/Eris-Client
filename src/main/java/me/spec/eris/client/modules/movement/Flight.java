@@ -66,45 +66,46 @@ public class Flight extends Module {
                     break;
 			case WATCHDOG:
 	        	if (onGroundCheck) {
-	        		if (!damagePlayer) {
-	        			if (damageStopwatch.hasReached(50)) {
-		        			for (int i = 0; i < 9; i++) {
-		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getLegitMotion(), mc.thePlayer.posZ, false));
-		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getLegitMotion() % .0000625), mc.thePlayer.posZ, false));
-		        				mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
-		        			}
-		        			mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
-		        			damagePlayer = true;
-	        			} else {
-	        				event.setX(0);
-	        				event.setY(0);
-	        				event.setZ(0);
-	        			}
-	        		} else {
 		        		switch (counter) {
 		        		case 0:
+		        			if (!damagePlayer) {
+								if (damageStopwatch.hasReached(50)) {
+									for (int i = 0; i < 9; i++) {
+										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getLegitMotion(), mc.thePlayer.posZ, false));
+										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getLegitMotion() % .0000625), mc.thePlayer.posZ, false));
+										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
+									}
+									speed = flySpeed.getValue() /4;
+									mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
+									damagePlayer = true;
+								} else {
+									event.setX(0);
+									event.setY(0);
+									event.setZ(0);
+								}
+						}
+
 		        			break;
 		        		case 1:
 		        			mc.timer.timerSpeed = 1;
 		        			if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
 		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42F));
-								speed =  .6;
+								speed *= 2.149999;
 		        			}
 		        			break;
 		        		case 2:
 		        			mc.timer.timerSpeed = 1;
-		        			speed = 1.4;
+		        			speed = flySpeed.getValue();
 		        			break;
 		        		default:
 		        			speed = getLastDistance() - getLastDistance() / 159;
 		        			break;
 		        		}
-		        		if (damaged) { 
+		        		if (damagePlayer) {
 		        			speed = Math.max(speed, event.getMovementSpeed());
 		        			counter++;
 		        		}
 		        		event.setMoveSpeed(speed);
-	        		}
 	        	}
 				break;
 			default:

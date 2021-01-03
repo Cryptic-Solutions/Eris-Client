@@ -96,16 +96,14 @@ public class Speed extends Module {
 						return;
 					}
 
-					if (reset) stage = 0;
+					if (reset) {
+						if (stage < 3) {
+							hops = -1;
+						}
+						stage = 0;
+					}
 					switch (stage) {
 						case 0:
-							if (reset) {
-								if (stage < 1 && stage > 0) {
-									stage = -1;
-								} else {
-									stage = 0;
-								}
-							}
 							setLastDistance(0.0);
 							if (mc.thePlayer.onGround) {
 								if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.4f;
@@ -122,7 +120,7 @@ public class Speed extends Module {
 							break;
 						default:
 							if ((stage == 2 || stage == 6) && mc.timer.timerSpeed > 1.0f) {
-								mc.timer.timerSpeed -= stage == 2 ? .25f : .15f;
+								mc.timer.timerSpeed -= stage == 2 ? .15f : .25f;
 							}
 							speed = getLastDistance() - getLastDistance() / 159;
 						break;
