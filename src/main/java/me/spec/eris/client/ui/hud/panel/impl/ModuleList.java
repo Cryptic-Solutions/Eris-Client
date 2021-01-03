@@ -36,6 +36,8 @@ public class ModuleList extends Panel {
         height = rq[1];
     }
 
+
+
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (isHovered(mouseX + width, mouseY)) {

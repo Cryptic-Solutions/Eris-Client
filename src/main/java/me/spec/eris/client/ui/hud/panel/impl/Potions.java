@@ -11,9 +11,9 @@ import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.IOException;
 
-public class Label extends Panel {
+public class Potions extends Panel {
 
-    public Label(int x, int y,int width, int height) {
+    public Potions(int x, int y,int width, int height) {
         super(x, y, width, height);
     }
 
@@ -30,12 +30,12 @@ public class Label extends Panel {
                 y = predictY;
             }
         }
-        HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        String name = hud.labelTime.getValue() ? Eris.INSTANCE.getClientName() + " " + hud.getTime() : Eris.INSTANCE.getClientName();
 
-        width = (int) getFont().getStringWidth(name);
-        height = (int) getFont().getHeight(name);
-        hud.renderLabel(x,y);
+        HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
+        width = hud.renderPotions(x, y)[0];
+        height = hud.renderPotions(x, y)[1];
+        hud.renderPotions(x, y);
+
     }
 
     @Override

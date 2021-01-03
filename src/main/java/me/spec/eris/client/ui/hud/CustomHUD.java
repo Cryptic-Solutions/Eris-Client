@@ -3,10 +3,8 @@ package me.spec.eris.client.ui.hud;
 import me.spec.eris.Eris;
 import me.spec.eris.api.manager.Manager;
 import me.spec.eris.client.ui.hud.panel.Panel;
-import me.spec.eris.client.ui.hud.panel.impl.BuildInfo;
-import me.spec.eris.client.ui.hud.panel.impl.Coords;
+import me.spec.eris.client.ui.hud.panel.impl.*;
 import me.spec.eris.client.ui.hud.panel.impl.Label;
-import me.spec.eris.client.ui.hud.panel.impl.ModuleList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -21,8 +19,6 @@ public class CustomHUD extends GuiScreen {
     public boolean opened,createdPanels;
     public ScaledResolution scaledResolution;
 
-    private ArrayList<Panel> panels = new ArrayList<>();
-
     public CustomHUD(boolean opened) {
         this.opened = opened;
         scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
@@ -31,6 +27,7 @@ public class CustomHUD extends GuiScreen {
         Eris.getInstance().customHUDManager.addToManagerArraylist(new BuildInfo(2,scaledResolution.getScaledHeight() - 35, 20 , 20));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new ModuleList(scaledResolution.getScaledWidth(),0, 40 , 20));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new Coords(2,scaledResolution.getScaledHeight() - 15, 20 , 20));
+        Eris.getInstance().customHUDManager.addToManagerArraylist(new Potions(400 , 400, 100, 100));
     }
     @Override
     public void onGuiClosed() {

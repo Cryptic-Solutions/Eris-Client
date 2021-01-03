@@ -38,8 +38,9 @@ public class HUD extends Module {
     private NumberValue<Integer> customClientColorBlue = new NumberValue<>("Custom Color Blue", 0, 0, 255, this, () -> customClientColor.getValue(), "BLUE For Client Color");
 
     private BooleanValue<Boolean> label = new BooleanValue<>("Watermark", true, this, true, "Shows Watermark");
-    private BooleanValue<Boolean> labelTime = new BooleanValue<>("Watermark Time", true, this, () -> label.getValue(), "Shows Time In Watermark");
+    public BooleanValue<Boolean> labelTime = new BooleanValue<>("Watermark Time", true, this, () -> label.getValue(), "Shows Time In Watermark");
     private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows Coords");
+    private BooleanValue<Boolean> potions = new BooleanValue<>("Potions", true, this, "Shows Potion Effects");
     private BooleanValue<Boolean> buildInfo = new BooleanValue<>("Build Info", true, this, "Shows UID And Build");
     public BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, true, "Ingame Chat Custom Font");
     public NumberValue<Integer> customChatOpacity = new NumberValue<>("Chat Opacity", 145, 1, 200, this, () -> customFontChat.getValue(), "Chat Background Opacity");
@@ -64,8 +65,7 @@ public class HUD extends Module {
     public HUD(String racism) {
         super("HUD", ModuleCategory.RENDER, racism);
     }
-
-    private int coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
+    private int coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, size = 16, potionsX = 37, potionsY = (new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight() - (230) - size * 2) - 5, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
 
     private int y;
     private static TTFFontRenderer fontRender;
@@ -99,7 +99,9 @@ public class HUD extends Module {
             if(buildInfo.getValue()) {
                 renderBuildInfo(buildInfoX, buildInfoY);
             }
-            renderPotions();
+            if(potions.getValue()) {
+                renderPotions(potionsX, potionsY);
+            }
         }
     }
 
@@ -168,12 +170,10 @@ public class HUD extends Module {
         getFont().drawStringWithShadow((labelTime.getValue() ? Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "") + EnumChatFormatting.GRAY + " " + getTime() : Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "")), labelX, labelY, Eris.getInstance().getClientColor());
     }
 
-    public void renderPotions() {
-        ScaledResolution scaledResolution = new ScaledResolution(mc);
+    public int[] renderPotions(int x, int y) {
+        potionsX = x;
+        potionsY = y;
         GL11.glPushMatrix();
-        int size = 16;
-        float x = 37;
-        float y = (scaledResolution.getScaledHeight() - (230) - size * 2) - 5;
         Collection<?> var4 = Module.mc.thePlayer.getActivePotionEffects();
         int i = 0;
         if (!var4.isEmpty()) {
@@ -187,10 +187,13 @@ public class HUD extends Module {
                     theGui.drawTexturedModalRect((int) x, (int) y - (18 * i), var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
                     getFont().drawStringWithShadow("" + (var7.getDuration() <= 300 ? ChatFormatting.RED : ChatFormatting.WHITE) + Potion.getDurationString(var7), (int) x - Eris.getInstance().getFontRenderer().getStringWidth("" + Potion.getDurationString(var7)) - 5, (int) y - (18 * i) + 6, -1);
                     i++;
+                    GL11.glPopMatrix();
+                    return new int[]{(int) getFont().getStringWidth("" + Potion.getDurationString(var7)), (int) getFont().getHeight("" + Potion.getDurationString(var7))};
+
                 }
             }
         }
-        GL11.glPopMatrix();
+        return null;
     }
 
     public String getTime() {
