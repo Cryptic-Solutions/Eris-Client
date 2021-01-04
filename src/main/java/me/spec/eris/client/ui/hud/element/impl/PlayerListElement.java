@@ -11,9 +11,9 @@ import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.IOException;
 
-public class LabelElement extends Element {
+public class PlayerListElement extends Element {
 
-    public LabelElement(int x, int y, int width, int height) {
+    public PlayerListElement(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 
@@ -31,11 +31,10 @@ public class LabelElement extends Element {
             }
         }
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        String name = hud.labelTime.getValue() ? Eris.INSTANCE.getClientName() + " " + hud.getTime() : Eris.INSTANCE.getClientName();
+        int[] dimensions = hud.renderPlayerlist(x, y);
 
-        width = (int) getFont().getStringWidth(name);
-        height = (int) getFont().getHeight(name);
-        hud.renderLabel(x,y);
+        width = dimensions[0];
+        height = dimensions[1];
     }
 
     @Override

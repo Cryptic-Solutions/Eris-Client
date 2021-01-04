@@ -20,13 +20,14 @@ public class CustomHUD extends GuiScreen {
         this.opened = opened;
         scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
         Eris.getInstance().customHUDManager.clearManagerArraylist();
+        Eris.getInstance().customHUDManager.addToManagerArraylist(new ModuleListElement(scaledResolution.getScaledWidth(),0, 40 , 20));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new LabelElement(2,2, 20 , 20));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new BuildInfoElement(2,scaledResolution.getScaledHeight() - 35, 20 , 20));
-        Eris.getInstance().customHUDManager.addToManagerArraylist(new ModuleListElement(scaledResolution.getScaledWidth(),0, 40 , 20));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new CoordsElement(2,scaledResolution.getScaledHeight() - 15, 20 , 20));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new PotionsElement(0 , 250, 100, 100));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new BPSElement(0 , 300, 100, 100));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new PingElement(0 , 250, 100, 100));
+        Eris.getInstance().customHUDManager.addToManagerArraylist(new PlayerListElement(0 , 220, 100, 100));
     }
     @Override
     public void onGuiClosed() {

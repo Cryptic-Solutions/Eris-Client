@@ -10,13 +10,13 @@ public abstract class Element {
     public Minecraft mc = Minecraft.getMinecraft();
     public int width, height, x, y, xOffset, yOffset;
     public boolean dragging, dragged;
+
     public Element(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
-
 
     public int getWidth() { return width; }
 

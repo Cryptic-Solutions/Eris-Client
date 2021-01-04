@@ -49,6 +49,7 @@ public class HUD extends Module {
     private BooleanValue<Boolean> ping = new BooleanValue<>("Ping", true, this, "Shows Ping");
     private BooleanValue<Boolean> potions = new BooleanValue<>("Potions", true, this, "Shows Potion Effects");
     private BooleanValue<Boolean> buildInfo = new BooleanValue<>("Build Info", true, this, "Shows UID And Build");
+    private BooleanValue<Boolean> killLeaderboard = new BooleanValue<>("Kill Leaderboard", true, this, "Shows Kill Leaderboard");
     public BooleanValue<Boolean> customFontChat = new BooleanValue<>("Chat Font", true, this, true, "Ingame Chat Custom Font");
     public NumberValue<Integer> customChatOpacity = new NumberValue<>("Chat Opacity", 145, 1, 200, this, () -> customFontChat.getValue(), "Chat Background Opacity");
     private BooleanValue<Boolean> arraylist = new BooleanValue<>("Arraylist", true, this, true, "Shows Arraylist");
@@ -138,6 +139,9 @@ public class HUD extends Module {
             if(ping.getValue()) {
                 renderPing(pingX, pingY);
             }
+            if(killLeaderboard.getValue()) {
+                renderPlayerlist(playerListX, playerListY);
+            }
         }
     }
 
@@ -218,6 +222,12 @@ public class HUD extends Module {
         labelX = x;
         labelY = y;
         getFont().drawStringWithShadow((labelTime.getValue() ? Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "") + EnumChatFormatting.GRAY + " " + getTime() : Eris.getInstance().getClientName().substring(0, 1) + EnumChatFormatting.WHITE + Eris.getInstance().getClientName().replace(Eris.getInstance().getClientName().substring(0, 1), "")), labelX, labelY, Eris.getInstance().getClientColor());
+    }
+
+    public int[] renderPlayerlist(int x, int y) {
+        playerListX = x;
+        playerListY = y;
+        return new int[]{50, 50};
     }
 
     public int[] renderPotions(int x, int y) {

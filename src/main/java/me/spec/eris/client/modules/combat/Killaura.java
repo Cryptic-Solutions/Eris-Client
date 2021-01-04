@@ -81,8 +81,8 @@ public class Killaura extends Module {
     /*TargetHUD settings*/
     public BooleanValue<Boolean> targetHUDValue = new BooleanValue<>("TargetHUD", false, this, true, "Display hud information on your target");
     public BooleanValue<Boolean> targetHUDSettings = new BooleanValue<>("Target HUD settings", false, this, () -> targetHUDValue.getValue(), "Display settings for target hud");
+    public NumberValue<Double> targetHudOpacity = new NumberValue<Double>("TargetHUD Opacity", 100.0, 1.0, 200.0, this, () -> targetHUDSettings.getValue(), "If the entity is farther than this distance behind a wall, they wont be attacked");
     public ModeValue<TargetUIMode> targetHUDModeValue = new ModeValue<>("TargetHUD Mode", TargetUIMode.KAIDO, this, () -> targetHUDSettings.getValue(), "Change target hud mode");
-    public BooleanValue<Boolean> syncOpacityValue = new BooleanValue<>("TargetHUD Opacity", true, this, () -> targetHUDSettings.getValue(), "How clear is targethud background");
 
     /*Targetting settings*/
     public BooleanValue<Boolean> targettingSettings = new BooleanValue<>("Targetting settings", false, this, true, "Display settings for attacking");
@@ -224,18 +224,18 @@ public class Killaura extends Module {
                         float xNigga = (rolf.getScaledWidth() / 2) + 80;
                         float yNigga = (rolf.getScaledHeight() / 2) + 120;
                         if (Minecraft.getMinecraft().thePlayer != null && currentEntity instanceof EntityPlayer) {
-                            String playerName = StringUtils.stripControlCodes(currentEntity.getName()); 
+                            String playerName = StringUtils.stripControlCodes(currentEntity.getName());
                             int maxX2 = 30;
                             float maxX = Math.max(maxX2, mc.fontRendererObj.getStringWidth(playerName) + 47);
                             // RenderUtilities.drawRectangle(xNigga - 1, yNigga - 1, 142F, 44F, new Color(0,
                             // 0, 0, 150).getRGB());
-                            RenderUtilities.drawRectangle(xNigga, yNigga, (20 + maxX) / 2 + 45, 35f,
-                                    new Color(0, 0, 0, 90).getRGB());
+                            RenderUtilities.drawRectangle(xNigga, yNigga, (25 + maxX) / 2 + 45, 45f,
+                                    new Color(0, 0, 0, (int)targetHudOpacity.getValue().doubleValue()).getRGB());
                             // RenderUtilities.drawRectangle(xNigga, yNigga + 40, 140, 2, new Color(0, 0,
                             // 0).getRGB());
-                            font.drawStringWithShadow(playerName, xNigga + 20F, yNigga + 6F,
+                            font.drawStringWithShadow(playerName, xNigga + 30F, yNigga + 6F,
                                     new Color(200, 200, 200, 255).getRGB());
-                            RenderUtilities.drawEntityOnScreen((int) xNigga + 9, (int) yNigga + 28, 12, 270, 0, currentEntity);
+                            RenderUtilities.drawEntityOnScreen((int) xNigga + 15, (int) yNigga + 40, 20, 260, 0, currentEntity);
                             float xSpeed = 133f / (Minecraft.getDebugFPS() * 1.05f);
                             float desiredWidth = ((maxX - maxX2 - 2) / currentEntity.getMaxHealth())
                                     * Math.min(currentEntity.getHealth(), currentEntity.getMaxHealth());
@@ -246,11 +246,11 @@ public class Killaura extends Module {
                                     animated += (animated < desiredWidth ? xSpeed * 3 : -xSpeed);
                                 }
                             }
-                            RenderUtilities.drawRectangle(xNigga + 20, yNigga + 18F, animated, 10F,
+                            RenderUtilities.drawRectangle(xNigga + 30, yNigga + 30F, animated, 10F,
                                     PlayerUtils.getHealthColor(currentEntity));
                             if (currentEntity.getHealth() != 0) {
-                                font.drawStringWithShadow(
-                                        String.valueOf(Math.round(currentEntity.getHealth())), xNigga + 56.5F - (font.getStringWidth(String.valueOf(Math.round(currentEntity.getHealth()))) / 2), yNigga + 19F,
+                                Eris.getInstance().getFontRenderer().drawStringWithShadow(
+                                        Math.round(currentEntity.getHealth()) + "♥", xNigga + 36 - (font.getStringWidth(String.valueOf(Math.round(currentEntity.getHealth()))) / 2), yNigga + 17F,
                                         -1);
                             }
 
@@ -264,7 +264,7 @@ public class Killaura extends Module {
                         if (Minecraft.getMinecraft().thePlayer != null && currentEntity instanceof EntityPlayer) {
                             String playerName = "Name: " + StringUtils.stripControlCodes(currentEntity.getName());
                             int distance = (int) ((mc.thePlayer.getDistanceToEntity(currentEntity)));
-                            RenderUtilities.drawRectangle(xNigga, yNigga, 140F, 40F, new Color(0, 0, 0, 90).getRGB());
+                            RenderUtilities.drawRectangle(xNigga, yNigga, 140F, 40F, new Color(0, 0, 0, (int)targetHudOpacity.getValue().doubleValue()).getRGB());
                             RenderUtilities.drawRectangle(xNigga, yNigga + 40, 140, 2, new Color(0, 0, 0).getRGB());
                             if (currentEntity.getName().length() > 15)
                                 playerName = "Name: LongNameNigga";
@@ -321,7 +321,7 @@ public class Killaura extends Module {
                         }
 
                         float maxX = Math.max(maxX2, mc.fontRendererObj.getStringWidth(name) + 30);
-                        Gui.drawRect(renderX, renderY, renderX + maxX, renderY + 40, new Color(0, 0, 0, 0.6f).getRGB());
+                        Gui.drawRect(renderX, renderY, renderX + maxX, renderY + 40, new Color(0, 0, 0, (int)targetHudOpacity.getValue().doubleValue()).getRGB());
                         Gui.drawRect(renderX, renderY + 38, renderX + (maxX * healthPercentage), renderY + 40,
                                 PlayerUtils.getHealthColor(currentEntity));
                         mc.fontRendererObj.drawStringWithShadow(name, renderX + 25, renderY + 7, -1);

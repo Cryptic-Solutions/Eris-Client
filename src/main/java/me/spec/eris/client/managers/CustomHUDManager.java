@@ -2,13 +2,15 @@ package me.spec.eris.client.managers;
 
 import me.spec.eris.api.manager.Manager;
 import me.spec.eris.client.ui.hud.element.Element;
+
 import java.io.IOException;
 
 public class CustomHUDManager extends Manager<Element> {
 
+
+
     @Override
     public void loadManager() {
-
     }
 
     public void drawScreenForPanels(int mouseX, int mouseY) {
@@ -23,13 +25,6 @@ public class CustomHUDManager extends Manager<Element> {
                 e.printStackTrace();
             }
         });
-        for(Element element : getManagerArraylist()) {
-            if(element.isHovered(mouseX, mouseY)) {
-                if(mouseButton == 1) {
-                    // TODO
-                }
-            }
-        }
     }
 
     public void mouseReleased(int mouseX, int mouseY, int state) {
