@@ -2,6 +2,7 @@ package me.spec.eris;
 
 import java.awt.Color;
 
+import me.spec.eris.client.integration.kill.KillTracker;
 import me.spec.eris.client.integration.playtime.PlaytimeTracker;
 import me.spec.eris.client.integration.server.ServerIntegration;
 import me.spec.eris.client.managers.*;
@@ -30,6 +31,7 @@ public class Eris {
 	 */
 	public ServerIntegration serverIntegration;
 	private PlaytimeTracker playtimeTracker;
+	public KillTracker killTracker;
 
 	/*
 	Managers
@@ -50,6 +52,7 @@ public class Eris {
 		Display.setTitle(getFormattedClientName());
 		this.serverIntegration = new ServerIntegration();
 		this.playtimeTracker = new PlaytimeTracker();
+		this.killTracker = new KillTracker();
 		this.serviceSwitcher = new ServiceSwitcher();
 		this.fontManager = new FontManager();
 		this.notificationManager = new NotificationManager();

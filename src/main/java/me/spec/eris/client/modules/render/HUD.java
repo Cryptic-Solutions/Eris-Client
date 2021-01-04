@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.value.types.BooleanValue;
@@ -15,6 +16,7 @@ import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.utils.math.MathUtils;
 import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -227,6 +229,8 @@ public class HUD extends Module {
     public int[] renderPlayerlist(int x, int y) {
         playerListX = x;
         playerListY = y;
+        int yXD = playerListY;
+        Eris.getInstance().killTracker.getPlayerKills().forEach((k, v) -> System.out.println(k.getName() + " " + v));
         return new int[]{50, 50};
     }
 

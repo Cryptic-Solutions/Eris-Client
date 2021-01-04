@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import me.spec.eris.Eris;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
@@ -641,6 +643,10 @@ public abstract class EntityPlayer extends EntityLivingBase {
         this.setSize(0.2F, 0.2F);
         this.setPosition(this.posX, this.posY, this.posZ);
         this.motionY = 0.10000000149011612D;
+        if(this.getLastAttacker() instanceof EntityPlayer) {
+            Eris.getInstance().killTracker.addKillToPlayer((EntityPlayer) this.getLastAttacker(), 1);
+        }
+
 
         if (this.getName().equals("Notch")) {
             this.dropItem(new ItemStack(Items.apple, 1), true, false);

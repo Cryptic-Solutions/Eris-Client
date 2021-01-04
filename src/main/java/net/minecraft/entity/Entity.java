@@ -23,6 +23,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.crash.CrashReport;
@@ -1981,6 +1982,10 @@ public abstract class Entity implements ICommandSender {
      * This method gets called when the entity kills another one.
      */
     public void onKillEntity(EntityLivingBase entityLivingIn) {
+        System.out.println(entityLivingIn);
+        if(entityLivingIn instanceof EntityPlayer) {
+            System.out.println("omegalul");
+        }
     }
 
     protected boolean pushOutOfBlocks(double x, double y, double z) {

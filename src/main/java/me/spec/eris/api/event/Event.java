@@ -3,6 +3,7 @@ package me.spec.eris.api.event;
 import me.spec.eris.Eris;
 import me.spec.eris.client.events.chat.ChatMessageEvent;
 import me.spec.eris.api.module.Module;
+import me.spec.eris.client.events.player.EventUpdate;
 import net.minecraft.client.Minecraft;
 
 public class Event {
@@ -20,9 +21,9 @@ public class Event {
     public void call() {
         if (Eris.getInstance() == null) return;
 
-        if(this instanceof ChatMessageEvent) {
-            Eris.getInstance().commandManager.onEvent(this);
-        }
+        //if(this instanceof EventUpdate) {
+           // Eris.getInstance().killTracker.onEvent(this);
+        //}
 
         if (antiCrash.isToggled()) {
             for (Module m : Eris.INSTANCE.moduleManager.getModules()) {
