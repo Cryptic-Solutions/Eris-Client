@@ -230,6 +230,7 @@ public class HUD extends Module {
         int yRectLevel = playerListY;
         HashMap<EntityPlayer, Integer> leaderboard = Eris.getInstance().killTracker.getPlayerKills();
         ArrayList<EntityPlayer> playerArrayList = PlayerUtils.getPlayersInDistanceForPlayerList(50, 30, 30);
+        int[] dimensions = new int[]{50, 50};
         if(!playerArrayList.isEmpty()) {
             playerArrayList.sort((b, a) -> Double.compare(getFont().getStringWidth(a.getName()), getFont().getStringWidth(b.getName())));
             for(EntityPlayer player : playerArrayList) {
@@ -237,11 +238,13 @@ public class HUD extends Module {
             }
             int width = (int) (playerListX + getFont().getStringWidth(playerArrayList.get(0).getName()) + 24);
             int height = yRectLevel;
+            dimensions = new int[]{width, height};
             Gui.drawRect(playerListX, playerListY, width, height, new Color(0,0,0, 120).getRGB());
             for(EntityPlayer player : playerArrayList) {
                 fontRender.drawStringWithShadow(player.getName() + EnumChatFormatting.GRAY + " (" + Math.round(mc.thePlayer.getDistanceToEntity(player)) + "m" + ")", playerListX, yTextLevel, -1);
                 yTextLevel += 10;
             }
+            return dimensions;
         }
 
         return new int[]{50, 50};
