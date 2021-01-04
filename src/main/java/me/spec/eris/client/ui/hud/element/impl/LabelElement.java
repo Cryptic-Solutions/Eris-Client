@@ -1,22 +1,19 @@
-package me.spec.eris.client.ui.hud.panel.impl;
+package me.spec.eris.client.ui.hud.element.impl;
 
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.panel.Panel;
-import me.spec.eris.utils.math.MathUtils;
-import me.spec.eris.utils.player.PlayerUtils;
+import me.spec.eris.client.ui.hud.element.Element;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class BPS extends Panel {
+public class LabelElement extends Element {
 
-    public BPS(int x, int y, int width, int height) {
+    public LabelElement(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 
@@ -34,11 +31,11 @@ public class BPS extends Panel {
             }
         }
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        String bps = hud.bpsType.getValue().equals(HUD.BPSMode.BPS) ? "BPS" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + MathUtils.round(PlayerUtils.getDistTraveled(hud.distances), hud.bpsPlaces.getValue() != null ? hud.bpsPlaces.getValue() : 3) : "Blocks per/s";
+        String name = hud.labelTime.getValue() ? Eris.INSTANCE.getClientName() + " " + hud.getTime() : Eris.INSTANCE.getClientName();
 
-        width = (int) getFont().getStringWidth(bps);
-        height = (int) getFont().getHeight(bps);
-        hud.renderBPS(x,y);
+        width = (int) getFont().getStringWidth(name);
+        height = (int) getFont().getHeight(name);
+        hud.renderLabel(x,y);
     }
 
     @Override
@@ -72,10 +69,7 @@ public class BPS extends Panel {
     public void keyTyped(char typedChar, int keyCode) throws IOException {
 
     }
-
-    private boolean isHovered(int mouseX, int mouseY) {
-        return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
-    }
+    
     private static TTFFontRenderer fontRender;
     public static TTFFontRenderer getFont() {
         if (fontRender == null) {

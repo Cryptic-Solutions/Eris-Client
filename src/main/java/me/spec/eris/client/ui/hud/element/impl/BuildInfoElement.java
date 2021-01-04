@@ -1,10 +1,10 @@
-package me.spec.eris.client.ui.hud.panel.impl;
+package me.spec.eris.client.ui.hud.element.impl;
 
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.panel.Panel;
+import me.spec.eris.client.ui.hud.element.Element;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
@@ -12,9 +12,9 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class BuildInfo extends Panel {
+public class BuildInfoElement extends Element {
 
-    public BuildInfo(int x, int y,int width, int height) {
+    public BuildInfoElement(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 
@@ -71,9 +71,6 @@ public class BuildInfo extends Panel {
 
     }
 
-    private boolean isHovered(int mouseX, int mouseY) {
-        return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
-    }
     private static TTFFontRenderer fontRender;
     public static TTFFontRenderer getFont() {
         if (fontRender == null) {

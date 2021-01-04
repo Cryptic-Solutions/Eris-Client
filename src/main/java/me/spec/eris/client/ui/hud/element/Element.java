@@ -1,23 +1,22 @@
-package me.spec.eris.client.ui.hud.panel;
+package me.spec.eris.client.ui.hud.element;
 
-import me.spec.eris.api.value.Value;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-public abstract class Panel {
+public abstract class Element {
 
     public Minecraft mc = Minecraft.getMinecraft();
     public int width, height, x, y, xOffset, yOffset;
     public boolean dragging, dragged;
-    public Panel(int x, int y, int width, int height) {
+    public Element(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
+
 
     public int getWidth() { return width; }
 
@@ -30,4 +29,8 @@ public abstract class Panel {
     public abstract void actionPerformed(GuiButton button) throws IOException;
 
     public abstract void keyTyped(char typedChar, int keyCode) throws IOException;
+
+    public boolean isHovered(int mouseX, int mouseY) {
+        return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
+    }
 }

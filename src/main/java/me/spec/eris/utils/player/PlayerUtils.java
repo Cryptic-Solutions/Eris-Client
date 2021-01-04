@@ -5,12 +5,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import me.spec.eris.Eris;
-import me.spec.eris.api.friend.Friend;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.client.modules.combat.AntiBot;
 import me.spec.eris.utils.math.rotation.RotationUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMob;
@@ -71,6 +71,21 @@ public class PlayerUtils {
         final float f2 = player.getMaxHealth();
         final float f3 = Math.max(0.0f, Math.min(f, f2) / f2);
         return Color.HSBtoRGB(f3 / 3.0f, 1.0f, 0.75f) | 0xFF000000;
+    }
+
+    public static ArrayList<EntityPlayer> getPlayersInDistanceForPlayerList(int distance, int nameLengthLimit, int arrayLengthLimit) {
+        ArrayList<EntityPlayer> list = new ArrayList<>();
+        for(Entity e : Minecraft.getMinecraft().theWorld.loadedEntityList) {
+            if(e instanceof EntityPlayer) {
+                if(Minecraft.getMinecraft().thePlayer.getDistanceToEntity(e) < 5 && e.getName().length() <= nameLengthLimit && !e.getName().equalsIgnoreCase(Minecraft.getMinecraft().thePlayer.getName())) {
+                   list.add((EntityPlayer) e);
+                   if(list.size() > arrayLengthLimit) {
+                       list.remove(e);
+                   }
+                }
+            }
+        }
+        return list;
     }
 
     public static void swapBackToItem() {

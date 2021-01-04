@@ -31,6 +31,10 @@ public enum MathUtils {
         return shifted;
     }
 
+    public static void addToInteger(int assignedInteger, int addedValue) {
+        assignedInteger += addedValue;
+    }
+
     public static boolean isInRange(double number, double minRange, double maxRange) {
         if(number > minRange && number <= maxRange) {
             return true;

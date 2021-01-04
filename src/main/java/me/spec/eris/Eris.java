@@ -5,6 +5,7 @@ import java.awt.Color;
 import me.spec.eris.client.integration.playtime.PlaytimeTracker;
 import me.spec.eris.client.integration.server.ServerIntegration;
 import me.spec.eris.client.managers.*;
+import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.client.ui.hud.CustomHUD;
 import org.lwjgl.opengl.Display;
 
@@ -27,7 +28,7 @@ public class Eris {
 	/*
 	Server integration
 	 */
-	private ServerIntegration serverIntegration;
+	public ServerIntegration serverIntegration;
 	private PlaytimeTracker playtimeTracker;
 
 	/*

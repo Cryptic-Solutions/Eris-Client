@@ -1,53 +1,49 @@
-package me.spec.eris.client.ui.hud.panel.impl;
+package me.spec.eris.client.ui.hud.element.impl;
 
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.panel.Panel;
+import me.spec.eris.client.ui.hud.element.Element;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.IOException;
 
-public class Potions extends Panel {
+public class ModuleListElement extends Element {
 
-    public Potions(int x, int y,int width, int height) {
+    public ModuleListElement(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY) {
         if (dragging) {
+
             ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
-            int predictX = mouseX - (width / 2) + xOffset;
-            int predictY = mouseY - (height / 2) + yOffset;
-            if (predictX > 0 && predictX < scalRes.getScaledWidth() - width + 1) {
-                x = predictX;
-            }
-            if (predictY > 0 && predictY < scalRes.getScaledHeight() - 5) {
-                y = predictY;
-            }
+
+            int predictX = mouseX - (width / 2);
+            int predictY = mouseY - height / 2;
+            if (!(predictX < 0 || predictX > scalRes.getScaledWidth() - (width / 2)))  x = (mouseX + width / 2) + xOffset;
+            if (!(predictY < 0|| predictY > scalRes.getScaledHeight() - (height / 2)))  y = (mouseY - height / 2) + yOffset;
+
         }
 
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        int[] values = hud.renderPotions(x, y);//this only calls renderPotions once instead of 3 times
-        height = values[0];
-        width = values[1];
-
+        int[] rq = hud.renderModuleList(x,y);
+        width = rq[0];
+        height = rq[1];
     }
+
+
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        if (isHovered(mouseX, mouseY)) {
+        if (isHovered(mouseX + width, mouseY)) {
             if (mouseButton == 0 && !dragged) {
                 dragging = true;
                 dragged = true;
-                int xPos = this.x + (width / 2);
-                int yPos = this.y + (height / 2);
-                this.xOffset = xPos - x;
-                this.yOffset = yPos - y;
             }
         }
     }
@@ -70,9 +66,6 @@ public class Potions extends Panel {
 
     }
 
-    private boolean isHovered(int mouseX, int mouseY) {
-        return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
-    }
     private static TTFFontRenderer fontRender;
     public static TTFFontRenderer getFont() {
         if (fontRender == null) {

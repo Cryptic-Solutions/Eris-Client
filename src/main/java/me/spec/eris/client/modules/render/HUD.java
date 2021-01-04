@@ -44,8 +44,8 @@ public class HUD extends Module {
     public BooleanValue<Boolean> labelTime = new BooleanValue<>("Watermark Time", true, this, () -> label.getValue(), "Shows Time In Watermark");
     private BooleanValue<Boolean> coordinates = new BooleanValue<>("Coordinates", true, this, "Shows Coords");
     private BooleanValue<Boolean> blocksPerSecond = new BooleanValue<>("BPS", true, this, "Shows BPS");
-    public NumberValue<Integer> bpsPlaces = new NumberValue<>("BPS Formatting", 3, 1, 10, this, () -> blocksPerSecond.getValue(), "Formatting For BPS");
-    public ModeValue<BPSMode> bpsType = new ModeValue<>("BPS Typing", BPSMode.BPS, this, true, () -> blocksPerSecond.getValue(), "BPS Type");
+    public NumberValue<Integer> bpsPlaces = new NumberValue<>("BPS Rounding", 3, 1, 10, this, () -> blocksPerSecond.getValue(), "Rounding For BPS");
+    public ModeValue<BPSMode> bpsType = new ModeValue<>("BPS Formatting", BPSMode.BPS, this, true, () -> blocksPerSecond.getValue(), "BPS Formatting");
     private BooleanValue<Boolean> ping = new BooleanValue<>("Ping", true, this, "Shows Ping");
     private BooleanValue<Boolean> potions = new BooleanValue<>("Potions", true, this, "Shows Potion Effects");
     private BooleanValue<Boolean> buildInfo = new BooleanValue<>("Build Info", true, this, "Shows UID And Build");
@@ -73,7 +73,7 @@ public class HUD extends Module {
         BPS, BPERS;
     }
 
-    private int bpsX = 0, bpsY = 440, pingX = 0, pingY = 425, coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, size = 16, potionsX = 37, potionsY = (new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight() - (230) - size * 2) - 5, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
+    private int bpsX = 0, bpsY = 440, playerListX = 30, playerListY = 30, pingX = 0, pingY = 425, coordX = 0, coordY= 425, labelX = 2, labelY = 2, buildInfoX = 0, buildInfoY = 400, size = 16, potionsX = 37, potionsY = (new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight() - (230) - size * 2) - 5, moduleListX = new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth(), moduleListY = 0;
     private double lastPosX;
     private double lastPosZ;
     public ArrayList<Double> distances;

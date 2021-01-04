@@ -1,21 +1,19 @@
-package me.spec.eris.client.ui.hud.panel.impl;
+package me.spec.eris.client.ui.hud.element.impl;
 
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
-import me.spec.eris.client.ui.hud.panel.Panel;
-import me.spec.eris.utils.player.PlayerUtils;
+import me.spec.eris.client.ui.hud.element.Element;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class Ping extends Panel {
+public class PotionsElement extends Element {
 
-    public Ping(int x, int y,int width, int height) {
+    public PotionsElement(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 
@@ -32,12 +30,12 @@ public class Ping extends Panel {
                 y = predictY;
             }
         }
-        HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
-        String ping = "Ping" + EnumChatFormatting.GRAY + ": " + EnumChatFormatting.RESET + PlayerUtils.getPlayerPing();
 
-        width = (int) getFont().getStringWidth(ping);
-        height = (int) getFont().getHeight(ping);
-        hud.renderPing(x,y);
+        HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
+        int[] values = hud.renderPotions(x, y);//this only calls renderPotions once instead of 3 times
+        height = values[0];
+        width = values[1];
+
     }
 
     @Override
@@ -72,9 +70,6 @@ public class Ping extends Panel {
 
     }
 
-    private boolean isHovered(int mouseX, int mouseY) {
-        return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
-    }
     private static TTFFontRenderer fontRender;
     public static TTFFontRenderer getFont() {
         if (fontRender == null) {
