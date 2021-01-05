@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import me.spec.eris.api.config.file.filetypes.AltsFile;
 import me.spec.eris.api.config.file.filetypes.BindFile;
+import me.spec.eris.api.config.file.filetypes.CustomHUDFile;
 import me.spec.eris.api.config.file.filetypes.TimePlayedFile;
 import net.minecraft.client.Minecraft;
 
@@ -27,6 +28,7 @@ public class FileManager {
         files.add(new TimePlayedFile());
         files.add(new AltsFile());
         files.add(new BindFile());
+        files.add(new CustomHUDFile());
     }
 
     public void saveTimePlayedFile() {
@@ -39,6 +41,10 @@ public class FileManager {
 
     public DataFile getBindsFile() {
         return files.get(2);
+    }
+
+    public DataFile getCustomHUDFile() {
+        return files.get(3);
     }
 
     public DataFile getDataFile(String fileName) {
