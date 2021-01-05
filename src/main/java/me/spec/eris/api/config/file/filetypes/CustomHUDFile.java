@@ -41,7 +41,6 @@ public class CustomHUDFile extends DataFile {
                 int y = Integer.parseInt(args[2]);
 
                 if(Eris.getInstance().customHUDManager.getManagerArraylist().get(index) != null) {
-                    System.out.println(Eris.getInstance().customHUDManager.getManagerArraylist().get(index));
                     if(x != 0 && y != 0) {
                         Eris.getInstance().customHUDManager.getManagerArraylist().get(index).x = x;
                         Eris.getInstance().customHUDManager.getManagerArraylist().get(index).y = y;
