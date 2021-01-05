@@ -6,6 +6,7 @@ import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.spec.eris.Eris;
 import me.spec.eris.api.module.ModuleCategory;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -99,7 +100,7 @@ public class ESP extends Module {
                     float upscale = 1.0F / scale;
                     GL11.glPushMatrix();
                     GL11.glScalef(scale, scale, scale);
-                    mc.fontRendererObj.drawStringWithShadow(text, (x + xDif / 2.0F) * upscale - mc.fontRendererObj.getStringWidth(text) / 2.0F, (y - 9 + yOff) * upscale, -1);
+                    Eris.getInstance().getFontRenderer().drawStringWithShadow(text, (x + xDif / 2.0F) * upscale - Eris.getInstance().getFontRenderer().getStringWidth(text) / 2.0F, (y - 9 + yOff) * upscale, -1);
 
 
                     GL11.glScalef(1.0F, 1.0F, 1.0F);

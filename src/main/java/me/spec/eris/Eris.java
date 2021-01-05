@@ -1,12 +1,11 @@
 package me.spec.eris;
 
-import java.awt.Color;
+import java.awt.*;
 
 import me.spec.eris.client.integration.kill.KillTracker;
 import me.spec.eris.client.integration.playtime.PlaytimeTracker;
 import me.spec.eris.client.integration.server.ServerIntegration;
 import me.spec.eris.client.managers.*;
-import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.client.ui.hud.CustomHUD;
 import org.lwjgl.opengl.Display;
 
