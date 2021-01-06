@@ -1,28 +1,32 @@
 package me.spec.eris.client.ui.alts;
 
-import java.util.ArrayList;
+import me.spec.eris.api.manager.Manager;
 
-public class AltManager {
+public class AltManager extends Manager<Alt> {
 
-    private static ArrayList<Alt> alts = new ArrayList<Alt>();
 
-    public static void addAlt(Alt alt) {
-        alts.add(alt);
+    public void addAlt(Alt alt) {
+        getManagerArraylist().add(alt);
     }
 
-    public static void removeAlt(Alt alt) {
-        if (alts.contains(alt)) {
-            alts.remove(alt);
+    public void removeAlt(Alt alt) {
+        if (getManagerArraylist().contains(alt)) {
+            getManagerArraylist().remove(alt);
         }
     }
 
-    public static void removeAlt(int alt) {
-        if (alts.size() > alt) {
-            alts.remove(alt);
+    public void removeAlt(int alt) {
+        if (getManagerArraylist().size() > alt) {
+            getManagerArraylist().remove(alt);
         }
     }
 
-    public static ArrayList<Alt> getAlts() {
-        return alts;
+    public Alt getAltByName(String name) {
+        for(Alt alt : getManagerArraylist()) {
+            if(alt.getUser().equalsIgnoreCase(name)) {
+                return alt;
+            }
+        }
+        return new Alt("lmao", "lmao");
     }
 }

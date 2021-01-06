@@ -2,6 +2,7 @@ package me.spec.eris.api.config.file.filetypes;
 
 import java.util.ArrayList;
 
+import me.spec.eris.Eris;
 import me.spec.eris.api.config.file.DataFile;
 import me.spec.eris.client.ui.alts.Alt;
 import me.spec.eris.client.ui.alts.AltManager;
@@ -17,8 +18,8 @@ public class AltsFile extends DataFile {
     @Override
     public void save() {
         ArrayList<String> toWrite = new ArrayList<String>();
-        for (int k = 0; k < AltManager.getAlts().size(); k++) {
-            toWrite.add(AltManager.getAlts().get(k).getUser() + ":" + AltManager.getAlts().get(k).getPass());
+        for (int k = 0; k <  Eris.getInstance().altManager.getManagerArraylist().size(); k++) {
+            toWrite.add( Eris.getInstance().altManager.getManagerArraylist().get(k).getUser() + ":" +  Eris.getInstance().altManager.getManagerArraylist().get(k).getPass());
         }
 
         if (!toWrite.isEmpty()) {
@@ -39,7 +40,7 @@ public class AltsFile extends DataFile {
                 if (lines.get(k).split(":").length > 1) {
                     pass = lines.get(k).split(":")[1];
                 }
-                AltManager.getAlts().add(new Alt(username == null ? "" : username, pass == null ? "" : pass));
+                Eris.getInstance().altManager.getManagerArraylist().add(new Alt(username == null ? "" : username, pass == null ? "" : pass));
             }
         }
     }

@@ -7,6 +7,7 @@ import me.spec.eris.client.integration.kill.KillTracker;
 import me.spec.eris.client.integration.playtime.PlaytimeTracker;
 import me.spec.eris.client.integration.server.ServerIntegration;
 import me.spec.eris.client.managers.*;
+import me.spec.eris.client.ui.alts.AltManager;
 import me.spec.eris.client.ui.hud.CustomHUD;
 import org.lwjgl.opengl.Display;
 
@@ -37,6 +38,7 @@ public class Eris {
 	/*
 	Managers
 	 */
+	public AltManager altManager;
 	public ModuleManager moduleManager;
 	public FileManager fileManager;
 	public NotificationManager notificationManager;
@@ -51,6 +53,7 @@ public class Eris {
 
 	public void onStart() {
 		Display.setTitle(getFormattedClientName());
+		this.altManager = new AltManager();
 		this.discordIntegration = new DiscordIntegration();
 		this.serverIntegration = new ServerIntegration();
 		this.playtimeTracker = new PlaytimeTracker();

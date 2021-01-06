@@ -2,6 +2,7 @@ package me.spec.eris.client.ui.alts.gui;
 
 import java.awt.Color;
 
+import me.spec.eris.Eris;
 import me.spec.eris.client.ui.alts.AltManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -38,7 +39,7 @@ public class AltButton extends GuiButton {
             Gui.drawRect(this.xPosition, this.yPosition, this.xPosition + 2, this.yPosition + this.height, new Color(150, 150, 150).getRGB());
             Gui.drawRect(this.xPosition + this.width - 2, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, new Color(150, 150, 150).getRGB());
         }
-        mc.fontRendererObj.drawStringWithShadow(AltManager.getAlts().get(alt).getUser(), this.xPosition + (this.width / 2) - (mc.fontRendererObj.getStringWidth(AltManager.getAlts().get(alt).getUser()) / 2), this.yPosition + (this.height / 2) - (mc.fontRendererObj.FONT_HEIGHT / 2), -1);
+        mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().altManager.getManagerArraylist().get(alt).getUser(), this.xPosition + (this.width / 2) - (mc.fontRendererObj.getStringWidth(Eris.getInstance().altManager.getManagerArraylist().get(alt).getUser()) / 2), this.yPosition + (this.height / 2) - (mc.fontRendererObj.FONT_HEIGHT / 2), -1);
     }
 
     public void setSelected(boolean selected) {
@@ -60,7 +61,7 @@ public class AltButton extends GuiButton {
     @Override
     public void mouseClicked(int x, int y) {
         if (this.selected) {
-            this.parent.login(AltManager.getAlts().get(alt));
+            this.parent.login(Eris.getInstance().altManager.getManagerArraylist().get(alt));
         }
         this.parent.setSelected(this.alt);
     }

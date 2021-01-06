@@ -52,7 +52,7 @@ public class GuiAltManager extends GuiScreen {
         this.buttonList.clear();
         this.offset = 0;
 
-        for (int i = 0; i < AltManager.getAlts().size(); i++) {
+        for (int i = 0; i < Eris.getInstance().altManager.getManagerArraylist().size(); i++) {
             this.buttonList.add(new AltButton(this.width / 2 - 100, ((i + 1) * 21) + 20, i, this));
         }
 
@@ -202,7 +202,7 @@ public class GuiAltManager extends GuiScreen {
             try {
                 String email = this.email.getText();
                 String pass = this.pass.getText();
-                AltManager.addAlt(new Alt(email, pass));
+                Eris.getInstance().altManager.addAlt(new Alt(email, pass));
                 Eris.INSTANCE.fileManager.saveAltsFile();
                 this.refresh();
             } catch (Exception e) {
@@ -213,7 +213,7 @@ public class GuiAltManager extends GuiScreen {
                 if (g instanceof AltButton) {
                     AltButton ab = (AltButton) g;
                     if (ab.isSelected()) {
-                        AltManager.removeAlt(ab.getAlt());
+                        Eris.getInstance().altManager.removeAlt(ab.getAlt());
                     }
                 }
                 this.refresh();
@@ -235,7 +235,7 @@ public class GuiAltManager extends GuiScreen {
                             ArrayList<String> lines = FileUtils.getLines(file);
                             for (String str : lines) {
                                 if (str.contains(":") && !str.startsWith(":") && !str.endsWith(":")) {
-                                    AltManager.addAlt(new Alt(str.split(":")[0], str.substring(str.indexOf(":") + 1)));
+                                    Eris.getInstance().altManager.addAlt(new Alt(str.split(":")[0], str.substring(str.indexOf(":") + 1)));
                                 }
                             }
                             refresh();
@@ -246,7 +246,7 @@ public class GuiAltManager extends GuiScreen {
             });
             fileChoose.start();
         } else if (button.id == 3) {
-            AltManager.getAlts().clear();
+            Eris.getInstance().altManager.getManagerArraylist().clear();
             this.refresh();
             Eris.INSTANCE.fileManager.saveDataFile();
         } else if (button.id == 69696969) {
