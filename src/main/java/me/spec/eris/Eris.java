@@ -2,6 +2,7 @@ package me.spec.eris;
 
 import java.awt.*;
 
+import me.spec.eris.client.integration.discord.DiscordIntegration;
 import me.spec.eris.client.integration.kill.KillTracker;
 import me.spec.eris.client.integration.playtime.PlaytimeTracker;
 import me.spec.eris.client.integration.server.ServerIntegration;
@@ -28,6 +29,7 @@ public class Eris {
 	/*
 	Server integration
 	 */
+	public DiscordIntegration discordIntegration;
 	public ServerIntegration serverIntegration;
 	private PlaytimeTracker playtimeTracker;
 	public KillTracker killTracker;
@@ -49,6 +51,7 @@ public class Eris {
 
 	public void onStart() {
 		Display.setTitle(getFormattedClientName());
+		this.discordIntegration = new DiscordIntegration();
 		this.serverIntegration = new ServerIntegration();
 		this.playtimeTracker = new PlaytimeTracker();
 		this.killTracker = new KillTracker();
@@ -65,6 +68,10 @@ public class Eris {
 		this.customHud = new CustomHUD(false);
 		//new AntiVirus().start();
 		//new Connection().start();
+	}
+
+	public void onClose() {
+		this.discordIntegration.stopRPC();
 	}
 
 	public static Eris getInstance() {

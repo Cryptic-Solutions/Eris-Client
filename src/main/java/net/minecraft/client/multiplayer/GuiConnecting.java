@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import me.spec.eris.Eris;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -45,6 +46,7 @@ public class GuiConnecting extends GuiScreen {
 
     private void connect(final String ip, final int port) {
         logger.info("Connecting to " + ip + ", " + port);
+        Eris.getInstance().discordIntegration.update("In Game", "Playing " + ip);
         (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
             public void run() {
                 InetAddress inetaddress = null;

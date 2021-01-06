@@ -28,6 +28,7 @@ public class MainMenu extends GuiMainMenu
         viewportTexture = new DynamicTexture(256, 256);
         backgroundTexture = mc.getTextureManager().getDynamicTextureLocation("background", viewportTexture);
         backgroundTexture = mc.getTextureManager().getDynamicTextureLocation("background", viewportTexture);
+        Eris.getInstance().discordIntegration.update( "Idling", "In Main Menu");
         buttonList.add(new ExpandButton(2, width / 2 - 100, height / 2 - 32, 200, 20, "Singleplayer"));
         buttonList.add(new ExpandButton(0, width / 2 - 100, height / 2 - 11, 200, 20, "Multiplayer"));
         buttonList.add(new ExpandButton(1, width / 2 - 100, height / 2 + 11, 200, 20, "Accounts"));

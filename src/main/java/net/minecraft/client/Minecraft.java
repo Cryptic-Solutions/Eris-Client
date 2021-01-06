@@ -951,6 +951,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
      * application (or web page) is exited.
      */
     public void shutdownMinecraftApplet() {
+        Eris.getInstance().onClose();
         try {
             this.stream.shutdownStream();
             logger.info("Stopping!");

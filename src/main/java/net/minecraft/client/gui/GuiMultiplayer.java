@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
 
+import me.spec.eris.Eris;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -48,6 +49,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
      * window resizes, the buttonList is cleared beforehand.
      */
     public void initGui() {
+        Eris.getInstance().discordIntegration.update("Idling", "In Multiplayer Menu");
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
 
