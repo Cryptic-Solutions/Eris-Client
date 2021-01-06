@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 
+import me.spec.eris.utils.visual.RenderUtilities;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 

@@ -1,4 +1,5 @@
 package me.spec.eris.client.ui.main.buttons;
+import me.spec.eris.Eris;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
@@ -52,7 +53,7 @@ public class ExpandButton extends GuiButton
             --size;
         }
         drawRect(x - size, y - size, x + x1 + size, y + y1 + size, alpha);
-        drawCenteredString(mc.fontRendererObj, text, x + x1 / 2, y + y1 / 2 - 4, -1);
+        Eris.getInstance().getFontRenderer().drawCenteredString(text, x + x1 / 2, y + y1 / 2 - 4, -1);
     }
 }
 

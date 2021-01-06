@@ -26,9 +26,8 @@ public class MainMenu extends GuiMainMenu
             return;
         }
 
-        viewportTexture = new DynamicTexture(256, 256);
         backgroundTexture = mc.getTextureManager().getDynamicTextureLocation("background", viewportTexture);
-        buttonList.add(new ExpandButton(2, width / 2 - 100, height / 2 - 32, 200, 20, "Lonelymf")); 
+        buttonList.add(new ExpandButton(2, width / 2 - 100, height / 2 - 32, 200, 20, "Singleplayer"));
         buttonList.add(new ExpandButton(0, width / 2 - 100, height / 2 - 11, 200, 20, "Multiplayer"));
         buttonList.add(new ExpandButton(1, width / 2 - 100, height / 2 + 11, 200, 20, "Accounts"));
         buttonList.add(new ExpandButton(3, width / 2 - 100, height / 2 + 33, 100, 20, "Options"));
@@ -63,26 +62,27 @@ public class MainMenu extends GuiMainMenu
     	drawGradientRect(0, 0, width, height, 0, -1610612736);
     	drawGradientRect(0, 0, width, height, -2130750123, 16764108);
 
-        String s = "Eris " + " | MC 1.8.9";
-        this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1); 
+        String s = "Eris" + " | 1.8.9";
+        Eris.getInstance().getFontRenderer().drawString(s, 2, this.height - 10, -1);
 
         String s2 = "Developed with love UwU - Spec";
-        this.drawString(this.fontRendererObj, s2, this.width - this.fontRendererObj.getStringWidth(s2) - 2, this.height - 10, -1);
+        Eris.getInstance().getFontRenderer().drawString(s2, (int) (this.width - Eris.getInstance().getFontRenderer().getStringWidth(s2) - 2), this.height - 10, -1);
  
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) (this.width / 2), this.height / 2 - 70, 0.0F);
         GlStateManager.rotate(0, 0.0F, 0.0F, 1.0F);
         float f = 1.8F - MathHelper.abs(MathHelper.sin((float) (Minecraft.getSystemTime() % 1000L) / 1000.0F * (float) Math.PI * 2.0F) * .4F);
-        f = f * 100.0F / (float) (this.fontRendererObj.getStringWidth("IN DEVELOPMENT") + 32);
+        f = f * 100.0F / (float) (Eris.getInstance().getFontRenderer().getStringWidth("IN DEVELOPMENT") + 32);
         GlStateManager.scale(f, f, f);
-        this.drawCenteredString(this.fontRendererObj, "IN DEVELOPMENT", 0, 0, -256);
+
+        Eris.getInstance().getFontRenderer().drawCenteredString( "IN DEVELOPMENT", 0, 0, -256);
         GlStateManager.popMatrix();
         
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) (this.width / 2), this.height / 2 - 70, 0.0F);
         GlStateManager.rotate(0, 0.0F, 0.0F, 1.0F);
         float f2 = 4F;
-        f = f * 100.0F / (float) (this.fontRendererObj.getStringWidth("ERIS") + 32);
+        f = f * 100.0F / (float) (Eris.getInstance().getFontRenderer().getStringWidth("ERIS") + 32);
         GlStateManager.scale(f2, f2, f2);
         this.drawCenteredString(this.fontRendererObj, "ERIS", 0, -10, new Color(255,20,20).getRGB());
         GlStateManager.popMatrix();

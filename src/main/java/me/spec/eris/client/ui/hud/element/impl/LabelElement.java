@@ -21,8 +21,8 @@ public class LabelElement extends Element {
     public void drawScreen(int mouseX, int mouseY) {
         if (dragging) {
             ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
-            int predictX = mouseX - (width / 2) + xOffset;
-            int predictY = mouseY - (height / 2) + yOffset;
+            int predictX = mouseX - (width / 2) + xOffset - 1;
+            int predictY = mouseY - (height / 2) + yOffset - 1;
             if (predictX > 0 && predictX < scalRes.getScaledWidth() - width + 1) {
                 x = predictX;
             }

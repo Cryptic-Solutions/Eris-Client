@@ -53,7 +53,6 @@ public class MainMenu extends GuiMainMenu
     }
     
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
- 
             GlStateManager.disableAlpha();
             this.renderSkybox(mouseX, mouseY, partialTicks);
             GlStateManager.enableAlpha();
