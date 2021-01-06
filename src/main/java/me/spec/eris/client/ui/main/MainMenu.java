@@ -25,7 +25,8 @@ public class MainMenu extends GuiMainMenu
             mc.displayGuiScreen(new GuiLogin(this));
             return;
         }
-
+        viewportTexture = new DynamicTexture(256, 256);
+        backgroundTexture = mc.getTextureManager().getDynamicTextureLocation("background", viewportTexture);
         backgroundTexture = mc.getTextureManager().getDynamicTextureLocation("background", viewportTexture);
         buttonList.add(new ExpandButton(2, width / 2 - 100, height / 2 - 32, 200, 20, "Singleplayer"));
         buttonList.add(new ExpandButton(0, width / 2 - 100, height / 2 - 11, 200, 20, "Multiplayer"));
