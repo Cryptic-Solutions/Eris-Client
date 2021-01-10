@@ -19,6 +19,7 @@ import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
+import net.minecraft.potion.Potion;
 
 public class Flight extends Module {
 
@@ -87,14 +88,13 @@ public class Flight extends Module {
 
 		        			break;
 		        		case 1:
-		        			mc.timer.timerSpeed = 1;
 		        			if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically) {
-		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier((float) 0.42F));
+		        				event.setY(mc.thePlayer.motionY = event.getJumpBoostModifier(event.getLegitMotion()));
 								speed *= 2.149999;
 		        			}
 		        			break;
 		        		case 2:
-		        			mc.timer.timerSpeed = 1;
+							if (mc.thePlayer.isPotionActive(Potion.jump)) event.setY(mc.thePlayer.motionY = -event.getJumpBoostModifier(event.getLegitMotion() - .1));
 		        			speed = flySpeed.getValue();
 		        			break;
 		        		default:
@@ -143,13 +143,14 @@ public class Flight extends Module {
     	               
                     	if (counter > 2) {
                     		mc.thePlayer.motionY = 0;
-                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0005 : 0));
+                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0625 / 64 : 0));
                     	}
                     }
 				} else if (mc.thePlayer.ticksExisted % 12 == 0){
+					onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically;
+				} else {
 					setLastDistance(0.0);
 					mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
-					onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically;
 				}
 				break;
 			default:
