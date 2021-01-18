@@ -23,4 +23,6 @@ public class MovementInput {
     public double getStrafe() {
         return moveStrafe;
     }
+
+    public void setForward(int i) { moveForward = i; }
 }

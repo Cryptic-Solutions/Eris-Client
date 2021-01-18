@@ -10,10 +10,7 @@ import me.spec.eris.api.module.Module;
 import me.spec.eris.client.modules.client.AntiCrash;
 import me.spec.eris.client.modules.client.ClickGUI;
 import me.spec.eris.client.modules.client.Disabler;
-import me.spec.eris.client.modules.combat.AntiBot;
-import me.spec.eris.client.modules.combat.Criticals;
-import me.spec.eris.client.modules.combat.Killaura;
-import me.spec.eris.client.modules.combat.Velocity;
+import me.spec.eris.client.modules.combat.*;
 import me.spec.eris.client.modules.misc.AntiDesync;
 import me.spec.eris.client.modules.movement.*;
 import me.spec.eris.client.modules.persistance.FlagDetection;
@@ -42,6 +39,7 @@ public class ModuleManager extends Manager<Module> {
         addToManagerArraylist(new Killaura("BeanerBeater"));
         addToManagerArraylist(new Velocity("FatRomanian"));
         addToManagerArraylist(new Criticals("BalkinHardHitter"));
+        addToManagerArraylist(new TargetStrafe("UrAsianBolt"));
 
         /*
         Movement

@@ -1,6 +1,5 @@
 package me.spec.eris.client.modules.combat;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
 import me.spec.eris.client.events.player.EventUpdate;
-import me.spec.eris.client.events.render.EventRender2D;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.module.Module;
 import me.spec.eris.client.integration.server.interfaces.Gamemode;
@@ -19,39 +17,26 @@ import me.spec.eris.client.modules.movement.Speed;
 import me.spec.eris.api.value.types.BooleanValue;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.api.value.types.NumberValue;
-import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.utils.player.PlayerUtils;
-import me.spec.eris.utils.visual.RenderUtilities;
-import me.spec.eris.utils.network.ServerUtils;
 import me.spec.eris.utils.world.TimerUtils;
 import me.spec.eris.utils.math.MathUtils;
 import me.spec.eris.utils.math.rotation.AngleUtility;
 import me.spec.eris.utils.math.rotation.RotationUtils;
 import me.spec.eris.utils.math.vec.Vector;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 public class Killaura extends Module {
-
-    // finals mom is a hotty
-    public Criticals crits;
-    public TimerUtils critStopwatch;
     public ModeValue<Mode> modeValue = new ModeValue<>("Mode", Mode.SWITCH, this);
     public BooleanValue<Boolean> attackSettings = new BooleanValue<>("Attack settings", false, this, true, "Display settings for attacking");
     /*Attack settings*/
@@ -66,63 +51,46 @@ public class Killaura extends Module {
     public BooleanValue<Boolean> dynamicAttack = new BooleanValue<>("Dynamic Attacks", true, this, () -> attackSettings.getValue(), "Optimize the speed at which the killaura attacks, great for hvh and hypixel");
     public BooleanValue<Boolean> armorBreak = new BooleanValue<>("Armor Breaker", false, this, () -> attackSettings.getValue(), "Send change item packets to increase the amount of armor broken, flags Nc+");
     public BooleanValue<Boolean> hitbox = new BooleanValue<>("Hitbox Checks", false, this, () -> attackSettings.getValue(), "Properly check if the killaura is aiming at the target before actually attacking");
-    public BooleanValue<Boolean> noYeetPlus = new BooleanValue<>("Hit Glitch", false, this, () -> attackSettings.getValue(), "Abuses a flaw in hypixel's (and some other's) anticheat to bypass the hitglitch you retreive post flaging a check");
+    public BooleanValue<Boolean> skiddedNoCheat = new BooleanValue<>("Hit Glitch", false, this, () -> attackSettings.getValue(), "Abuses a flaw in hypixel's (and some other's) anticheat to bypass the hitglitch you retreive post flaging a check");
 
     public BooleanValue<Boolean> aimingSettings = new BooleanValue<>("Aiming settings", false, this, true, "Display settings for aiming");
-
     /*Aim settings*/
     public ModeValue<AimMode> aimMode = new ModeValue<>("Aim Mode", AimMode.BASIC, this, () -> aimingSettings.getValue(), "The mode it aims at - basic for NC+, assist is literal aim assist");
     public BooleanValue<Boolean> sprint = new BooleanValue<>("Sprint Checks", false, this, () -> aimingSettings.getValue(), "Select if the anticheat checks for sprint speed like cowards");
     public BooleanValue<Boolean> lockView = new BooleanValue<>("Silent Aiming", true, this, () -> aimingSettings.getValue(), "Aim silently, do not force player to change");
 
-    public ModeValue<LockMode> lockviewMode = new ModeValue<>("Lockview Mode", LockMode.BOTH, this, () -> aimingSettings.getValue() && !lockView.getValue(), "Change the axis that aim is forced on (yaw/pitch etc)");
+    public ModeValue<LockMode> lockMode = new ModeValue<>("Lock view Mode", LockMode.BOTH, this, () -> aimingSettings.getValue() && !lockView.getValue(), "Change the axis that aim is forced on (yaw/pitch etc)");
     public NumberValue<Integer> angleSmoothing = new NumberValue<Integer>("Smoothing", 20, 20, 100, this, () -> aimingSettings.getValue(), "How smooth is the aura");
-
-    /*TargetHUD settings*/
-    public BooleanValue<Boolean> targetHUDValue = new BooleanValue<>("TargetHUD", false, this, true, "Display hud information on your target");
-    public BooleanValue<Boolean> targetHUDSettings = new BooleanValue<>("Target HUD settings", false, this, () -> targetHUDValue.getValue(), "Display settings for target hud");
-    public NumberValue<Double> targetHudOpacity = new NumberValue<Double>("TargetHUD Opacity", 100.0, 1.0, 200.0, this, () -> targetHUDSettings.getValue(), "If the entity is farther than this distance behind a wall, they wont be attacked");
-    public ModeValue<TargetUIMode> targetHUDModeValue = new ModeValue<>("TargetHUD Mode", TargetUIMode.KAIDO, this, () -> targetHUDSettings.getValue(), "Change target hud mode");
-
     /*Targetting settings*/
-    public BooleanValue<Boolean> targettingSettings = new BooleanValue<>("Targetting settings", false, this, true, "Display settings for attacking");
-    public BooleanValue<Boolean> invisibles = new BooleanValue<>("Invisibles", false, this, () -> targettingSettings.getValue(), "Attack invisibles");
-    public BooleanValue<Boolean> animals = new BooleanValue<>("Animals", true, this, () -> targettingSettings.getValue(), "Attack animals");
-    public BooleanValue<Boolean> players = new BooleanValue<>("Players", true, this, () -> targettingSettings.getValue(), "Attack players");
-    public BooleanValue<Boolean> dead = new BooleanValue<>("Deads", true, this, () -> targettingSettings.getValue(), "Attack dead niggas");
-    public BooleanValue<Boolean> mobs = new BooleanValue<>("Mobs", false, this, () -> targettingSettings.getValue(), "Attack monsters");
-    public BooleanValue<Boolean> teams = new BooleanValue<>("Teams", false, this, () -> targettingSettings.getValue(), "Ignore team members");
+    public BooleanValue<Boolean> targetingSettings = new BooleanValue<>("Targeting settings", false, this, true, "Display settings for attacking");
+    public BooleanValue<Boolean> invisible = new BooleanValue<>("Invisibles", false, this, () -> targetingSettings.getValue(), "Attack invisibles");
+    public BooleanValue<Boolean> animals = new BooleanValue<>("Animals", true, this, () -> targetingSettings.getValue(), "Attack animals");
+    public BooleanValue<Boolean> players = new BooleanValue<>("Players", true, this, () -> targetingSettings.getValue(), "Attack players");
+    public BooleanValue<Boolean> dead = new BooleanValue<>("Deads", true, this, () -> targetingSettings.getValue(), "Attack dead niggas");
+    public BooleanValue<Boolean> mobs = new BooleanValue<>("Mobs", false, this, () -> targetingSettings.getValue(), "Attack monsters");
+    public BooleanValue<Boolean> teams = new BooleanValue<>("Teams", false, this, () -> targetingSettings.getValue(), "Ignore team members");
 
-    public double targetedarea;
+    public double targetedArea;
     public boolean changingArea, blocking, reverse, shouldCritical, fuckCheckVLs;
     public int delay, index, maxYaw, reachVL, hitCounter, maxPitch, targetIndex, rotationSwap, timesAttacked, offset, waitTicks;
-    public float currentYaw, currentPitch, pitchincrease, animated = 20F, blockPosValue;
+    public float currentYaw, currentPitch, pitchIncrease, animated = 20F, blockPosValue;
+    //Begin static abuse
     public static Entity lastAimedTarget;
-    private static EntityLivingBase target;
+    public static EntityLivingBase target;
     public static EntityLivingBase currentEntity;
+    //End static abuse
     public TimerUtils clientRaper;
+    public TimerUtils critStopwatch;
     public TimerUtils clickStopwatch;
     public ArrayList<EntityLivingBase> targetList;
     public List<EntityLivingBase> targets = new ArrayList<>();
-
     public AngleUtility angleUtility;
-
-    public enum Mode {SWITCH, MULTI}
-
-    public enum TargetHudMode {OLD, NEW, OFF}
-
-    public enum AimMode {ASSIST, ADVANCED, BASIC}
-
+    public enum Mode {SWITCH}//, MULTI}
     public enum LockMode {YAW, PITCH, BOTH}
-
-    public enum TargetUIMode {OLD, KAIDO, NOVOLINE;}
-
+    public enum AimMode {ASSIST, ADVANCED, BASIC}
     public enum BlockMode {OFF, NCP, OFFSET, FALCON, FAKE}
-
-
-
     public Killaura(String racism) {
-        super("Killaura", ModuleCategory.COMBAT, racism);
+        super("KillAura", ModuleCategory.COMBAT, racism);
         angleUtility = new AngleUtility(70, 250, 70, 200);
         clickStopwatch = new TimerUtils();
         clientRaper = new TimerUtils();
@@ -135,7 +103,6 @@ public class Killaura extends Module {
         blockPosValue = 1;
         waitTicks = 0;
         delay = 73;
-        crits = (Criticals) Eris.INSTANCE.moduleManager.getModuleByClass(Criticals.class);
         unBlock();
         critStopwatch.reset();
         super.onEnable();
@@ -158,7 +125,7 @@ public class Killaura extends Module {
             if (sprint.getValue() && Math.abs(mc.thePlayer.rotationYaw - eu.getYaw()) > 20 && mc.thePlayer.isSprinting()) {
                 mc.thePlayer.setSprinting(false);
             }
-            if (/*AutoUse.speedThrow || */Eris.getInstance().moduleManager.isEnabled(Longjump.class)) {
+            if (Eris.getInstance().moduleManager.isEnabled(Longjump.class)) {
                 waitTicks = 3;
                 return;
             }
@@ -168,7 +135,6 @@ public class Killaura extends Module {
             }
             boolean scaffoldCheck = Eris.getInstance().moduleManager.getModuleByClass(Scaffold.class).isToggled();
             if (modeValue.getValue() == Mode.SWITCH) {
-
                 updateTargetList();
                 if (targetList.isEmpty() || targetList.size() - 1 < targetIndex) {
                     reset(-1, eu);
@@ -179,13 +145,13 @@ public class Killaura extends Module {
                     reset(0, eu);
                     return;
                 }
-                if (!PlayerUtils.isValid(targetList.get(targetIndex), targetingDist.getValue(), invisibles.getValue(), teams.getValue(), dead.getValue(), players.getValue(), animals.getValue(), mobs.getValue(), rayCastDist.getValue())) {
+                if (!PlayerUtils.isValid(targetList.get(targetIndex), targetingDist.getValue(), invisible.getValue(), teams.getValue(), dead.getValue(), players.getValue(), animals.getValue(), mobs.getValue(), rayCastDist.getValue())) {
                     reset(-1, eu);
                     return;
                 }
-
+                Criticals criticals = ((Criticals)Eris.getInstance().getModuleManager().getModuleByClass(Criticals.class));
                 target = currentEntity = targetList.get(targetIndex); 
-                shouldCritical = critStopwatch.hasReached(50) && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround && crits.isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Speed.class).isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Flight.class).isToggled() &&  (crits.modeValue.getValue().equals(Criticals.Mode.WATCHDOG) && !mc.thePlayer.isMoving());
+                shouldCritical = critStopwatch.hasReached(50) && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround && criticals.isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Speed.class).isToggled() && !Eris.getInstance().moduleManager.getModuleByClass(Flight.class).isToggled() &&  (criticals.modeValue.getValue().equals(Criticals.Mode.WATCHDOG) && !mc.thePlayer.isMoving());
                 if (eu.isPre()) {
                     if (Eris.getInstance().moduleManager.getModuleByClass(Scaffold.class).isToggled()) {
                         index = 3;
@@ -195,8 +161,8 @@ public class Killaura extends Module {
                         unBlock();
                         return;
                     }
-                    if (crits.isToggled()) {
-                        crits.doUpdate(eu);
+                    if (criticals.isToggled()) {
+                        criticals.doUpdate(eu);
                     }
                     unBlock();
                     prepareAttack(eu, false);
@@ -206,223 +172,58 @@ public class Killaura extends Module {
                     }
                 }
             }
-            if (modeValue.getValue() == Mode.MULTI) {
+           /* if (modeValue.getValue() == Mode.MULTI) {
                 for (EntityPlayer entity : mc.theWorld.playerEntities) {
                     if (entity.getDistanceSqToEntity(mc.thePlayer) <= range.getValue()) {
                         // TODO: stuff
                     }
                 }
-            }
-        } else if (e instanceof EventRender2D) {
-            if (targetHUDValue.getValue()) {
-                if (font == null) {
-                    font = Eris.getInstance().fontManager.getFont("SFUI 18");
-                }
-                switch (targetHUDModeValue.getValue()) {
-                    case KAIDO: {
-                        ScaledResolution rolf = new ScaledResolution(mc);
-                        float xNigga = (rolf.getScaledWidth() / 2) + 80;
-                        float yNigga = (rolf.getScaledHeight() / 2) + 120;
-                        if (Minecraft.getMinecraft().thePlayer != null && currentEntity instanceof EntityPlayer) {
-                            String playerName = StringUtils.stripControlCodes(currentEntity.getName());
-                            int maxX2 = 30;
-                            float maxX = Math.max(maxX2, mc.fontRendererObj.getStringWidth(playerName) + 47);
-                            // RenderUtilities.drawRectangle(xNigga - 1, yNigga - 1, 142F, 44F, new Color(0,
-                            // 0, 0, 150).getRGB());
-                            RenderUtilities.drawRectangle(xNigga, yNigga, (25 + maxX) / 2 + 45, 45f,
-                                    new Color(0, 0, 0, (int)targetHudOpacity.getValue().doubleValue()).getRGB());
-                            // RenderUtilities.drawRectangle(xNigga, yNigga + 40, 140, 2, new Color(0, 0,
-                            // 0).getRGB());
-                            font.drawStringWithShadow(playerName, xNigga + 30F, yNigga + 6F,
-                                    new Color(200, 200, 200, 255).getRGB());
-                            RenderUtilities.drawEntityOnScreen((int) xNigga + 15, (int) yNigga + 40, 20, 260, 0, currentEntity);
-                            float xSpeed = 133f / (Minecraft.getDebugFPS() * 1.05f);
-                            float desiredWidth = ((maxX - maxX2 - 2) / currentEntity.getMaxHealth())
-                                    * Math.min(currentEntity.getHealth(), currentEntity.getMaxHealth());
-                            if (desiredWidth < animated || desiredWidth > animated) {
-                                if (Math.abs(desiredWidth - animated) <= xSpeed) {
-                                    animated = desiredWidth;
-                                } else {
-                                    animated += (animated < desiredWidth ? xSpeed * 3 : -xSpeed);
-                                }
-                            }
-                            RenderUtilities.drawRectangle(xNigga + 30, yNigga + 30F, animated, 10F,
-                                    PlayerUtils.getHealthColor(currentEntity));
-                            if (currentEntity.getHealth() != 0) {
-                                Eris.getInstance().getFontRenderer().drawStringWithShadow(
-                                        Math.round(currentEntity.getHealth()) + "♥", xNigga + 36 - (font.getStringWidth(String.valueOf(Math.round(currentEntity.getHealth()))) / 2), yNigga + 17F,
-                                        -1);
-                            }
-
-                        }
-                        break;
-                    }
-                    case OLD: {
-                        ScaledResolution rolf = new ScaledResolution(mc);
-                        float xNigga = (rolf.getScaledWidth() / 2) + 150;
-                        float yNigga = (rolf.getScaledHeight() / 2) + 120;
-                        if (Minecraft.getMinecraft().thePlayer != null && currentEntity instanceof EntityPlayer) {
-                            String playerName = "Name: " + StringUtils.stripControlCodes(currentEntity.getName());
-                            int distance = (int) ((mc.thePlayer.getDistanceToEntity(currentEntity)));
-                            RenderUtilities.drawRectangle(xNigga, yNigga, 140F, 40F, new Color(0, 0, 0, (int)targetHudOpacity.getValue().doubleValue()).getRGB());
-                            RenderUtilities.drawRectangle(xNigga, yNigga + 40, 140, 2, new Color(0, 0, 0).getRGB());
-                            if (currentEntity.getName().length() > 15)
-                                playerName = "Name: LongNameNigga";
-                            font.drawStringWithShadow(playerName, xNigga + 25.5F, yNigga + 4F,
-                                    new Color(200, 200, 200, 255).getRGB());
-                            font.drawStringWithShadow(
-                                    "Distance: " + Integer.toString(distance) + "m", xNigga + 25.5F, yNigga + 15F,
-                                    new Color(200, 200, 200, 255).getRGB());
-                            font.drawStringWithShadow(
-                                    "Armor: " + Math.round(currentEntity.getTotalArmorValue()), xNigga + 25.5F, yNigga + 25F,
-                                    new Color(200, 200, 200, 255).getRGB());
-                            RenderUtilities.drawEntityOnScreen((int) xNigga + 12, (int) yNigga + 31, 13,
-                                    currentEntity.rotationYaw, -currentEntity.rotationPitch, currentEntity);
-                            float xSpeed = 133f / (Minecraft.getDebugFPS() * 1.05f);
-                            float desiredWidth = (140F / currentEntity.getMaxHealth())
-                                    * Math.min(currentEntity.getHealth(), currentEntity.getMaxHealth());
-                            if (desiredWidth < animated || desiredWidth > animated) {
-                                if (Math.abs(desiredWidth - animated) <= xSpeed) {
-                                    animated = desiredWidth;
-                                } else {
-                                    animated += (animated < desiredWidth ? xSpeed * 3 : -xSpeed);
-                                }
-                            }
-                            RenderUtilities.drawRectangle(xNigga, yNigga + 40F, animated, 2F,
-                                    PlayerUtils.getHealthColor(currentEntity));
-
-                        }
-                        break;
-                    }
-                    case NOVOLINE: {
-                        if (currentEntity == null)
-                            return;
-                        ScaledResolution sr = new ScaledResolution(mc);
-                        String name = StringUtils.stripControlCodes(currentEntity.getName());
-                        float startX = 20;
-                        float renderX = (sr.getScaledWidth() / 2) + startX;
-                        float renderY = (sr.getScaledHeight() / 2) + 10;
-                        int maxX2 = 30;
-                        float healthPercentage = currentEntity.getHealth() / currentEntity.getMaxHealth();
-                        if (currentEntity.getCurrentArmor(3) != null) {
-                            maxX2 += 15;
-                        }
-                        if (currentEntity.getCurrentArmor(2) != null) {
-                            maxX2 += 15;
-                        }
-                        if (currentEntity.getCurrentArmor(1) != null) {
-                            maxX2 += 15;
-                        }
-                        if (currentEntity.getCurrentArmor(0) != null) {
-                            maxX2 += 15;
-                        }
-                        if (currentEntity.getHeldItem() != null) {
-                            maxX2 += 15;
-                        }
-
-                        float maxX = Math.max(maxX2, mc.fontRendererObj.getStringWidth(name) + 30);
-                        Gui.drawRect(renderX, renderY, renderX + maxX, renderY + 40, new Color(0, 0, 0, (int)targetHudOpacity.getValue().doubleValue()).getRGB());
-                        Gui.drawRect(renderX, renderY + 38, renderX + (maxX * healthPercentage), renderY + 40,
-                                PlayerUtils.getHealthColor(currentEntity));
-                        mc.fontRendererObj.drawStringWithShadow(name, renderX + 25, renderY + 7, -1);
-                        int xAdd = 0;
-                        double multiplier = 0.85;
-                        GlStateManager.pushMatrix();
-                        GlStateManager.scale(multiplier, multiplier, multiplier);
-                        if (currentEntity.getCurrentArmor(3) != null) {
-                            mc.getRenderItem().renderItemAndEffectIntoGUI(currentEntity.getCurrentArmor(3),
-                                    (int) ((((sr.getScaledWidth() / 2) + startX + 23) + xAdd) / multiplier),
-                                    (int) (((sr.getScaledHeight() / 2) + 28) / multiplier));
-                            xAdd += 15;
-                        }
-                        if (currentEntity.getCurrentArmor(2) != null) {
-                            mc.getRenderItem().renderItemAndEffectIntoGUI(currentEntity.getCurrentArmor(2),
-                                    (int) ((((sr.getScaledWidth() / 2) + startX + 23) + xAdd) / multiplier),
-                                    (int) (((sr.getScaledHeight() / 2) + 28) / multiplier));
-                            xAdd += 15;
-                        }
-                        if (currentEntity.getCurrentArmor(1) != null) {
-                            mc.getRenderItem().renderItemAndEffectIntoGUI(currentEntity.getCurrentArmor(1),
-                                    (int) ((((sr.getScaledWidth() / 2) + startX + 23) + xAdd) / multiplier),
-                                    (int) (((sr.getScaledHeight() / 2) + 28) / multiplier));
-                            xAdd += 15;
-                        }
-                        if (currentEntity.getCurrentArmor(0) != null) {
-                            mc.getRenderItem().renderItemAndEffectIntoGUI(currentEntity.getCurrentArmor(0),
-                                    (int) ((((sr.getScaledWidth() / 2) + startX + 23) + xAdd) / multiplier),
-                                    (int) (((sr.getScaledHeight() / 2) + 28) / multiplier));
-                            xAdd += 15;
-                        }
-                        if (currentEntity.getHeldItem() != null) {
-                            mc.getRenderItem().renderItemAndEffectIntoGUI(currentEntity.getHeldItem(),
-                                    (int) ((((sr.getScaledWidth() / 2) + startX + 23) + xAdd) / multiplier),
-                                    (int) (((sr.getScaledHeight() / 2) + 28) / multiplier));
-                        }
-                        GlStateManager.popMatrix();
-                        GuiInventory.drawEntityOnScreen((int) renderX + 12, (int) renderY + 33, 15, currentEntity.rotationYaw,
-                                currentEntity.rotationPitch, currentEntity);
-
-                        break;
-                    }
-                }
-            }
+            }*/
         }
     }
 
-    private TTFFontRenderer font;
-
     public void aim(EventUpdate e) {
-        Vector.Vector3<Double> enemyCoords = new Vector.Vector3<>(
-                target.getEntityBoundingBox().minX
-                        + (target.getEntityBoundingBox().maxX - target.getEntityBoundingBox().minX) / 2,
-                target.getEntityBoundingBox().minY - pitchincrease,
-                target.getEntityBoundingBox().minZ
-                        + (target.getEntityBoundingBox().maxZ - target.getEntityBoundingBox().minZ) / 2);
-        Vector.Vector3<Double> myCoords = new Vector.Vector3<>(mc.thePlayer.getEntityBoundingBox().minX
-                + (mc.thePlayer.getEntityBoundingBox().maxX - mc.thePlayer.getEntityBoundingBox().minX) / 2,
-                mc.thePlayer.posY,
-                mc.thePlayer.getEntityBoundingBox().minZ
-                        + (mc.thePlayer.getEntityBoundingBox().maxZ - mc.thePlayer.getEntityBoundingBox().minZ)
-                        / 2);
+        AxisAlignedBB bb = getBoundingBox(target);
+        double targetMinX = bb.minX;
+        double targetMaxX = bb.maxX;
+        double targetMinZ = bb.minZ;
+        double targetMaxZ = bb.maxZ;
+        AxisAlignedBB pbb = getBoundingBox(mc.thePlayer);
+        double playerMinX = pbb.minX;
+        double playerMaxX = pbb.maxX;
+        double playerMinZ = pbb.minZ;
+        double playerMaxZ = pbb.maxZ;
+        Vector.Vector3<Double> enemyCords = new Vector.Vector3<>(targetMinX + (targetMaxX - targetMinX) / 2,target.getEntityBoundingBox().minY ,targetMinZ + (targetMaxZ - targetMinZ) / 2);
+        Vector.Vector3<Double> myCords = new Vector.Vector3<>(playerMinX + (playerMaxX - playerMinX) / 2, mc.thePlayer.posY + pitchIncrease, playerMinZ + (playerMaxZ - playerMinZ) / 2);
         AngleUtility.Angle srcAngle = new AngleUtility.Angle(!lockView.getValue() ? mc.thePlayer.rotationYaw : e.getYaw(), !lockView.getValue() ? mc.thePlayer.rotationPitch : e.getPitch());
-        AngleUtility.Angle dstAngle = angleUtility.calculateAngle(enemyCoords, myCoords, target, rotationSwap);
+        AngleUtility.Angle dstAngle = angleUtility.calculateAngle(enemyCords, myCords, target, rotationSwap);
         AngleUtility.Angle newSmoothing = angleUtility.smoothAngle(dstAngle, srcAngle, 300, 40 * 30);
-
         double x = target.posX - mc.thePlayer.posX + (target.lastTickPosX - target.posX) / 2;
         double z = target.posZ - mc.thePlayer.posZ + (target.lastTickPosZ - target.posZ) / 2;
-        float destinationYaw = 0;
         if (lastAimedTarget != target) {
             index = 3;
             fuckCheckVLs = true;
             changingArea = false;
-            targetedarea = rotationSwap = 0;
+            targetedArea = rotationSwap = 0;
         }
-
         lastAimedTarget = target;
-        if (!lockView.getValue()) {
-            currentYaw = mc.thePlayer.rotationYaw;
-        }
-        double smooth = (1 + ((angleSmoothing.getValue()) * .035));
-        destinationYaw = RotationUtils.constrainAngle(currentYaw - (float) -(Math.atan2(x, z) * (58 + targetedarea)));
-        float pitch = newSmoothing.getPitch();
-        if (pitch > 90f) {
-            pitch = 90f;
-        } else if (pitch < -90.0f) {
-            pitch = -90.0f;
-        }
-        smooth = smooth + (mc.thePlayer.getDistanceToEntity(target) * .1 + (mc.thePlayer.ticksExisted % 4 == 0 ? 40 * .001 : 0));
-        destinationYaw = (float) (currentYaw - destinationYaw / smooth);
+        float destinationPitch = newSmoothing.getPitch();
+        if (destinationPitch > 90) destinationPitch = 90;
+        if (destinationPitch < -90) destinationPitch = -90;
+        float destinationYaw = (float) (currentYaw - RotationUtils.constrainAngle(currentYaw - (float) -(Math.atan2(x, z) * (58 + targetedArea))) / (1 + ((angleSmoothing.getValue()) * .035)) + (mc.thePlayer.getDistanceToEntity(target) * .05 + (mc.thePlayer.ticksExisted % 4 == 0 ? 40 * .001 : 0)));
         boolean ticks = mc.thePlayer.ticksExisted % 20 == 0;
         if (mc.thePlayer.ticksExisted % 15 == 0) {
             if (rotationSwap++ >= 3) {
                 rotationSwap = 0;
             }
-            pitchincrease += changingArea ? MathUtils.getRandomInRange(-.055, -.075) : MathUtils.getRandomInRange(.055, .075);
+            pitchIncrease += changingArea ? MathUtils.getRandomInRange(-.055, -.075) : MathUtils.getRandomInRange(.055, .075);
         }
-        if (pitchincrease >= .9) {
+        if (pitchIncrease >= .9) {
+            pitchIncrease = .9f;
             changingArea = true;
         }
-        if (pitchincrease <= -.15) {
+        if (pitchIncrease <= -.15) {
+            pitchIncrease = -.15f;
             changingArea = false;
         }
         if (aimMode.getValue().equals(AimMode.ASSIST)) {
@@ -461,53 +262,38 @@ public class Killaura extends Module {
             
             mc.thePlayer.rotationPitch = MathHelper.clamp_float((float) ((double) playerPitch - (double) f3 * 0.15D), -90.0F, 90.0F);
             mc.thePlayer.rotationYaw = (float) ((double) playerYaw + (double) f2 * 0.15D);
-        } else if (aimMode.getValue().equals(AimMode.ADVANCED)) {
-            float theYaw = (float) MathUtils.preciseRound(destinationYaw, 1) + (ticks ? .243437f : .14357f);
-            float thePitch = (float) MathUtils.preciseRound(newSmoothing.getPitch(), 1) + (ticks ? .1335f : .13351f);
+        } else {
+            float destPitch = aimMode.getValue().equals(AimMode.ADVANCED) ? destinationPitch : AngleUtility.getRotations(target)[1];
+            float destYaw =  aimMode.getValue().equals(AimMode.ADVANCED) ? destinationYaw :  AngleUtility.getRotations(target)[0];
+            float gcdValue = ticks ? aimMode.getValue().ordinal() * .1f + .0337f : aimMode.getValue().ordinal() * .1f + .042069f;
+            float yawToSet = (float) MathUtils.preciseRound(destYaw, 1)+ (gcdValue * 2) ;
+            float pitchToSet = (float) MathUtils.preciseRound(destPitch, 1) + gcdValue;
             if (!lockView.getValue()) {
-                switch (lockviewMode.getValue()) {
+                switch (lockMode.getValue()) {
                     case PITCH:
-                        mc.thePlayer.rotationPitch = thePitch;
-                        e.setYaw(theYaw);
+                        mc.thePlayer.rotationPitch = pitchToSet;
+                        e.setYaw(yawToSet);
                     case YAW:
-                        mc.thePlayer.rotationYaw = theYaw;
-                        e.setPitch(thePitch);
+                        mc.thePlayer.rotationYaw = yawToSet;
+                        e.setPitch(pitchToSet);
                         break;
                     case BOTH:
-                        mc.thePlayer.rotationYaw = theYaw;
-                        mc.thePlayer.rotationPitch = thePitch;
-                        break;
-                }
-            } else {
-                e.setPitch(thePitch);
-                e.setYaw(theYaw);
-            }
-        } else if (aimMode.getValue().equals(AimMode.BASIC)) {
-            float theYaw = (float) MathUtils.preciseRound(AngleUtility.getRotations(target)[0], 1) + (ticks ? .243437f : .14357f);
-            float thePitch = (float) MathUtils.preciseRound(AngleUtility.getRotations(target)[1], 1) + (ticks ? .1335f : .13351f);
-            if (!lockView.getValue()) {
-                switch (lockviewMode.getValue()) {
-                    case PITCH:
-                        mc.thePlayer.rotationPitch = thePitch;
-                        e.setYaw(theYaw);
-                    case YAW:
-                        mc.thePlayer.rotationYaw = theYaw;
-                        e.setPitch(thePitch);
-                        break;
-                    case BOTH:
-                        mc.thePlayer.rotationYaw = theYaw;
-                        mc.thePlayer.rotationPitch = thePitch;
+                        mc.thePlayer.rotationYaw = yawToSet;
+                        mc.thePlayer.rotationPitch = pitchToSet;
                         break;
 
                 }
             } else {
-                e.setPitch(thePitch);
-                e.setYaw(theYaw);
+                e.setPitch(pitchToSet);
+                e.setYaw(yawToSet);
             }
         }
-
         currentPitch = e.getPitch();
         currentYaw = e.getYaw();
+    }
+
+    public AxisAlignedBB getBoundingBox(Entity ent) {
+        return ent.getEntityBoundingBox();
     }
 
     public void prepareAttack(EventUpdate e, boolean scaffoldCheck) {
@@ -527,31 +313,21 @@ public class Killaura extends Module {
                 if (!blocking) {
                     attackPrepare(e);
                     delay = Math.max(50, (1000 / clicksPerSecond.getValue()) + offset);
-                    offset += reverse ? -MathUtils.getRandomInRange(1, 3) : -MathUtils.getRandomInRange(1, 3);
-                    if (offset > clicksPerSecondRandom.getValue()) {
-                        reverse = true;
-                    } else if (offset <= -clicksPerSecondRandom.getValue()) {
-                        reverse = false;
-                    }
-                    clickStopwatch.reset();
                 } else {
                     delay = 51;
-                    clickStopwatch.reset();
                 }
+                clickStopwatch.reset();
             }
         } else {
             if (clickStopwatch.hasReached(dynamicAttack.getValue() ? index > 0 ? 60 : (crits.airTime > 2 || shouldCritical || mc.thePlayer.fallDistance >= .626 && mc.thePlayer.ticksExisted % 2 != 0 || target.timesAttacked < 1) ? 50  : timesAttacked % 20 == 0 ? 52 :  50 : delay)) {
                 attackPrepare(e);
                 clickStopwatch.reset();
                 delay = Math.max(50, (1000 / clicksPerSecond.getValue()) + offset);
-                offset += reverse ? -MathUtils.getRandomInRange(1, 3) : -MathUtils.getRandomInRange(1, 3);
-                if (offset > clicksPerSecondRandom.getValue()) {
-                    reverse = true;
-                } else if (offset <= -clicksPerSecondRandom.getValue()) {
-                    reverse = false;
-                }
+                if (offset > clicksPerSecondRandom.getValue())   reverse = true;
+                if (offset <= -clicksPerSecondRandom.getValue())  reverse = false;
             }
         }
+        offset += reverse ? -MathUtils.getRandomInRange(1, 3) : -MathUtils.getRandomInRange(1, 3);
     }
 
     public void attackPrepare(EventUpdate e) {
@@ -560,15 +336,15 @@ public class Killaura extends Module {
 
         if (hitbox.getValue() || index > 0) {
             if (RotationUtils.rayTrace(e.getYaw(), e.getPitch(), range.getValue()) != null) {
-                attackExecutre(e, RotationUtils.rayTrace(e.getYaw(), e.getPitch(), range.getValue()), reachVL > 0 ? range.getValue() + 1 : range.getValue() + 1, targetingDist.getValue(), !attackTarget.getValue());
+                attackExecute(e, RotationUtils.rayTrace(e.getYaw(), e.getPitch(), range.getValue()), reachVL > 0 ? range.getValue() + 1 : range.getValue() + 1, targetingDist.getValue(), !attackTarget.getValue());
             } else {
                 mc.thePlayer.swingItem();
             }
             index--;
         } else {
-            attackExecutre(e, target, reachVL > 0 ? range.getValue() + 1 : range.getValue(), targetingDist.getValue(), !attackTarget.getValue());
+            attackExecute(e, target, reachVL > 0 ? range.getValue() + 1 : range.getValue(), targetingDist.getValue(), !attackTarget.getValue());
         }
-        if (MathUtils.round((float) mc.thePlayer.getDistanceToEntity(target), 4f) <= range.getValue() + 1) {
+        if (MathUtils.round(mc.thePlayer.getDistanceToEntity(target), 4f) <= range.getValue() + 1) {
             if (reachVL > 0) reachVL--;
         } else {
             reachVL = abusiveAura.getValue();
@@ -576,64 +352,41 @@ public class Killaura extends Module {
         if (armorBreaker) PlayerUtils.swapBackToItem();
     }
 
-    public void attackExecutre(EventUpdate e, EntityLivingBase target, double range, double targetRange, boolean dontAttack) {
-        if (dontAttack) return;
+    public void attackExecute(EventUpdate e, EntityLivingBase target, double range, double targetRange, boolean dontAttack) {
+        if (dontAttack || target.getDistanceToEntity(mc.thePlayer) > range) return;
+        boolean flag = mc.thePlayer.fallDistance > 0.0F && !mc.thePlayer.onGround && !mc.thePlayer.isOnLadder() && !mc.thePlayer.isInWater() && !mc.thePlayer.isPotionActive(Potion.blindness) && mc.thePlayer.ridingEntity == null && target instanceof EntityLivingBase;
+        float f = (float) mc.thePlayer.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+        if (EnchantmentHelper.func_152377_a(mc.thePlayer.getHeldItem(), target.getCreatureAttribute()) > 0)  mc.thePlayer.onEnchantmentCritical(target);
 
-        Criticals criticalsMod = (Criticals) Eris.getInstance().moduleManager.getModuleByClass(Criticals.class);
-
-        if (target.getDistanceToEntity(mc.thePlayer) <= range) {
-            boolean flag = mc.thePlayer.fallDistance > 0.0F && !mc.thePlayer.onGround && !mc.thePlayer.isOnLadder() && !mc.thePlayer.isInWater() && !mc.thePlayer.isPotionActive(Potion.blindness) && mc.thePlayer.ridingEntity == null && target instanceof EntityLivingBase;
-            float f = (float) mc.thePlayer.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-            float f1 = 0.0F;
-            if (target instanceof EntityLivingBase) {
-                f1 = EnchantmentHelper.func_152377_a(mc.thePlayer.getHeldItem(), ((EntityLivingBase) target).getCreatureAttribute());
-            } else {
-                f1 = EnchantmentHelper.func_152377_a(mc.thePlayer.getHeldItem(), EnumCreatureAttribute.UNDEFINED);
-            }
-            if (f1 > 0.0F) {
-                mc.thePlayer.onEnchantmentCritical(target);
-            }
-            if (((noYeetPlus.getValue() && target.timesAttacked < 1) || fuckCheckVLs) && !Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS)) {
-                int beforeHeldItem = mc.thePlayer.inventory.currentItem;
-                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = 8));
-                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = beforeHeldItem));
-                fuckCheckVLs = false;
-            }
-            mc.thePlayer.swingItem();
-            if (shouldCritical) {
-                for (double offset : criticalsMod.getOffsets()) {
-                    mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY + offset, mc.thePlayer.posZ, false));
-                } 
-                critStopwatch.reset();
-            }
-            mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
-            target.timesAttacked++;//Times attacked will be very useful for bypassing future anticheats on jah
+        if (((skiddedNoCheat.getValue() && target.timesAttacked < 1) || fuckCheckVLs) && !Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS)) {
+            int beforeHeldItem = mc.thePlayer.inventory.currentItem;
+            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = 8));
+            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem = beforeHeldItem));
+            fuckCheckVLs = false;
         }
-
+        mc.thePlayer.swingItem();
+        if (shouldCritical) {
+            for (double offset : ((Criticals) Eris.getInstance().moduleManager.getModuleByClass(Criticals.class)).getOffsets()) {
+                mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY + offset, mc.thePlayer.posZ, false));
+            }
+            critStopwatch.reset();
+        }
+        mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+        target.timesAttacked++;//Times attacked will be very useful for bypassing future anticheats on jah
         timesAttacked += 1;
     }
 
     public void unBlock() {
-        if (!PlayerUtils.isHoldingSword() || !blocking || autoBlock.getValue().equals(BlockMode.FALCON) || autoBlock.getValue().equals(BlockMode.OFF))
-            return;
-
-        if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
-
-            double value = autoBlock.getValue().equals(BlockMode.OFFSET) && mc.thePlayer.hurtTime > 2 ?  -.8f : -1;
-            if (Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS) || !mc.thePlayer.isMoving()) value = RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
-            mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, value, value), EnumFacing.DOWN));
-        }
+        if (!PlayerUtils.isHoldingSword() || !blocking || autoBlock.getValue().equals(BlockMode.FALCON) || autoBlock.getValue().equals(BlockMode.OFF)) return;
+        double value = autoBlock.getValue().equals(BlockMode.OFFSET) && mc.thePlayer.hurtTime > 2 ?  -.8f : -1;
+        if (Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS) || !mc.thePlayer.isMoving()) value = RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
+        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, value, value), EnumFacing.DOWN));
         blocking = false;
     }
 
     public void block() { 
-        if (!PlayerUtils.isHoldingSword() || blocking || autoBlock.getValue().equals(BlockMode.FALCON) || autoBlock.getValue().equals(BlockMode.OFF))
-            return;
-
-        if (autoBlock.getValue().equals(BlockMode.NCP) || autoBlock.getValue().equals(BlockMode.OFFSET)) {
-            double value = autoBlock.getValue().equals(BlockMode.OFFSET) ? -1 : -1; 
-            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(value, -1, value), 255, mc.thePlayer.inventory.getCurrentItem(), 0, 0, 0));
-        }
+        if (!PlayerUtils.isHoldingSword() || blocking || autoBlock.getValue().equals(BlockMode.FALCON) || autoBlock.getValue().equals(BlockMode.OFF)) return;
+        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0, 0, 0));
         blocking = true;
     }
 
@@ -648,12 +401,10 @@ public class Killaura extends Module {
         target = null;
         targetList.clear();
         mc.theWorld.getLoadedEntityList().forEach(entity -> {
-            if (entity != null && entity instanceof EntityLivingBase) {
-                if (PlayerUtils.isValid((EntityLivingBase) entity, targetingDist.getValue(), invisibles.getValue(), teams.getValue(), dead.getValue(), players.getValue(), animals.getValue(), mobs.getValue(), rayCastDist.getValue())) {
+            if (entity instanceof EntityLivingBase) {
+                if (PlayerUtils.isValid((EntityLivingBase) entity, targetingDist.getValue(), invisible.getValue(), teams.getValue(), dead.getValue(), players.getValue(), animals.getValue(), mobs.getValue(), rayCastDist.getValue())) {
                     targetList.add((EntityLivingBase) entity);
-                } else if (targetList.contains(entity)) {
-                    targetList.remove(entity);
-                }
+                } else targetList.remove(entity);
             }
         });
         if (targetList.size() > 1) {
@@ -665,5 +416,4 @@ public class Killaura extends Module {
     public static Entity getTarget() {
         return target;
     }
-
 }

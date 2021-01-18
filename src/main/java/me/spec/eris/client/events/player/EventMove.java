@@ -3,6 +3,9 @@ package me.spec.eris.client.events.player;
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
 import me.spec.eris.client.modules.combat.Killaura;
+import me.spec.eris.client.modules.combat.TargetStrafe;
+import me.spec.eris.utils.math.rotation.RotationUtils;
+import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovementInput;
@@ -79,40 +82,44 @@ public class EventMove extends Event {
 
     public void setMoveSpeed(double moveSpeed) {
         Minecraft mc = Minecraft.getMinecraft();
-        double range = ((Killaura) Eris.getInstance().moduleManager.getModuleByClass(Killaura.class)).range.getValue();
         MovementInput movementInput = mc.thePlayer.movementInput;
         double moveForward = movementInput.getForward();
-		/*boolean targetStrafe = TargetStrafe.canStrafe();
-		if (targetStrafe) {
-			if (mc.thePlayer.getDistanceToEntity(Aura.currentEntity) <= ((TargetStrafe) Eris.getmodulemanager.getModuleByClass(TargetStrafe.class)).distance.getValue()) {
-				moveForward = 0;
-			} else {*/
-      //  moveForward = 1;
-        //}
-        //}
-        double moveStrafe = /*targetStrafe ? TargetStrafe.direction : */movementInput.getStrafe() * 1.0;
-        double yaw = /*targetStrafe ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] :*/ mc.thePlayer.rotationYaw;
-        double value = 1;
-        if (moveStrafe > 0) {
-        	moveStrafe = value;
-        } else if (moveStrafe < 0) {
-        	moveStrafe = -value;
-        }
-        if (moveForward != 0.0D) {
-        	if (moveStrafe > 0.0D) {
-        		yaw += (moveForward > 0.0D ? -45 : 45);
-        	} else if (moveStrafe < 0.0D) {
-        		yaw += (moveForward > 0.0D ? 45 : -45);
-        	}
-        	moveStrafe = 0.0D;
-        	if (moveForward > 0.0D) {
-        		moveForward = value;
-        	} else if (moveForward < 0.0D) {
-        		moveForward = -value;
-        	}
+        TargetStrafe targetStrafe = ((TargetStrafe)Eris.getInstance().getModuleManager().getModuleByClass(TargetStrafe.class));
+        if (targetStrafe.canStrafe()) {
+            PlayerUtils.tellUser("strafin boi");
+            if (mc.thePlayer.getDistanceToEntity(Killaura.currentEntity) <= 4) {
+                moveForward = 0;
+            } else {
+                moveForward = targetStrafe.direction;
             }
-        setX(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw + 90)) + moveStrafe * moveSpeed * Math.sin(Math.toRadians(yaw + 90)));
-        setZ(moveForward * moveSpeed * Math.sin(Math.toRadians(yaw + 90)) - moveStrafe * moveSpeed * Math.cos(Math.toRadians(yaw + 90))); 
+        }
+        double moveStrafe = targetStrafe.canStrafe() ? targetStrafe.direction : movementInput.getStrafe();
+        double yaw = targetStrafe.canStrafe() ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] : mc.thePlayer.rotationYaw;
+        if (moveForward == 0.0D && moveStrafe == 0.0D) {
+            setX(0.0D);
+            setZ(0.0D);
+        } else {
+            if (moveStrafe > 0) {
+                moveStrafe = 1;
+            } else if (moveStrafe < 0) {
+                moveStrafe = -1;
+            }
+            if (moveForward != 0.0D) {
+                if (moveStrafe > 0.0D) {
+                    yaw += (moveForward > 0.0D ? -45 : 45);
+                } else if (moveStrafe < 0.0D) {
+                    yaw += (moveForward > 0.0D ? 45 : -45);
+                }
+                moveStrafe = 0.0D;
+                if (moveForward > 0.0D) {
+                    moveForward = 1.0D;
+                } else if (moveForward < 0.0D) {
+                    moveForward = -1.0D;
+                }
+            }
+            setX(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw + 90)) + moveStrafe * moveSpeed * Math.sin(Math.toRadians(yaw + 90)));
+            setZ(moveForward * moveSpeed * Math.sin(Math.toRadians(yaw + 90)) - moveStrafe * moveSpeed * Math.cos(Math.toRadians(yaw + 90)));
+        }
     }
 
     public double getJumpBoostModifier(double baseJumpHeight) {

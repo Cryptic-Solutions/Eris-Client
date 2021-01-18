@@ -3,6 +3,7 @@ package me.spec.eris.client.modules.movement;
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
 import me.spec.eris.api.module.ModuleCategory;
+import me.spec.eris.client.events.player.EventJump;
 import me.spec.eris.client.events.player.EventMove;
 import me.spec.eris.client.events.player.EventStep;
 import me.spec.eris.client.events.player.EventUpdate;
@@ -60,6 +61,9 @@ public class Speed extends Module {
 		switch (mode.getValue()) {
 			case WATCHDOG:
 				if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || Eris.INSTANCE.moduleManager.isEnabled(Longjump.class)) return;
+				if (e instanceof EventJump) {
+					e.setCancelled();
+				}
 				if (e instanceof EventUpdate) {
 					setMode(mode.getValue().toString());
 					EventUpdate eu = (EventUpdate) e;

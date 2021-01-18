@@ -73,7 +73,7 @@ public class Flight extends Module {
 								if (damageStopwatch.hasReached(50)) {
 									for (int i = 0; i < 9; i++) {
 										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getLegitMotion(), mc.thePlayer.posZ, false));
-										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getLegitMotion() % .0000625), mc.thePlayer.posZ, false));
+										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getLegitMotion() % .000625), mc.thePlayer.posZ, false));
 										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
 									}
 									speed = flySpeed.getValue() /4;
@@ -98,7 +98,7 @@ public class Flight extends Module {
 		        			speed = flySpeed.getValue();
 		        			break;
 		        		default:
-		        			speed = getLastDistance() - getLastDistance() / 159;
+		        			speed = getLastDistance() - getLastDistance() / 159.9;
 		        			break;
 		        		}
 		        		if (damagePlayer) {
@@ -123,10 +123,17 @@ public class Flight extends Module {
 			case WATCHDOG:
 				if (onGroundCheck) {  
 					mc.thePlayer.onGround = true;
+					//Yes, indeed I am being scummy and fucking with fov to make it look faster, come for me mad skids
 	        		if (timerAbuse.getValue() && counter >= 15 & damaged) {
 	                    if (!timerAbuseStopwatch.hasReached(timerDelay.getValue() * 1000)) {
+	                    	if (mc.gameSettings.ofDynamicFov) {
+	                    		mc.gameSettings.fovSetting += .05;
+							}
 	                        mc.timer.timerSpeed = timerSpeedAbuse.getValue();
 	                    } else {
+							if (mc.gameSettings.ofDynamicFov) {
+								if (mc.gameSettings.fovSetting > 90) mc.gameSettings.fovSetting = 90;
+							}
 	                        mc.timer.timerSpeed = 1F;
 	                    }
 	                }
@@ -140,11 +147,12 @@ public class Flight extends Module {
                         double xDif = mc.thePlayer.posX - mc.thePlayer.prevPosX;
                         double zDif = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
                         setLastDistance(Math.sqrt(xDif * xDif + zDif * zDif));
-    	               
-                    	if (counter > 2) {
-                    		mc.thePlayer.motionY = 0;
-                    		event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0625 / 64 : 0));
-                    	}
+
+                        if (counter > 2) {
+                        	mc.thePlayer.motionY = 0;
+                        	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? .0017 : 0));
+                        }
+
                     }
 				} else if (mc.thePlayer.ticksExisted % 12 == 0){
 					onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically;
@@ -212,6 +220,7 @@ public class Flight extends Module {
 
     @Override
     public void onEnable() {
+		mc.thePlayer.stepHeight = 0.0f;
     	if (Eris.INSTANCE.moduleManager.isEnabled(Speed.class)) {
         	Eris.INSTANCE.moduleManager.getModuleByClass(Speed.class).toggle(false);
     	}

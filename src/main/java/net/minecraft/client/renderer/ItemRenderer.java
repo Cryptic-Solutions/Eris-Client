@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import me.spec.eris.client.modules.render.Animations;
+import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -309,22 +311,22 @@ public class ItemRenderer {
      */
     public void renderItemInFirstPerson(float partialTicks) {
         if (!Config.isShaders() || !Shaders.isSkipRenderHand()) {
-            float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
-            AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
-            float f1 = abstractclientplayer.getSwingProgress(partialTicks);
-            float f2 = abstractclientplayer.prevRotationPitch + (abstractclientplayer.rotationPitch - abstractclientplayer.prevRotationPitch) * partialTicks;
-            float f3 = abstractclientplayer.prevRotationYaw + (abstractclientplayer.rotationYaw - abstractclientplayer.prevRotationYaw) * partialTicks;
-            this.func_178101_a(f2, f3);
+            final float f = 1.0f - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
+            final AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
+            final float f2 = abstractclientplayer.getSwingProgress(partialTicks);
+            final float f3 = abstractclientplayer.prevRotationPitch + (abstractclientplayer.rotationPitch - abstractclientplayer.prevRotationPitch) * partialTicks;
+            final float f4 = abstractclientplayer.prevRotationYaw + (abstractclientplayer.rotationYaw - abstractclientplayer.prevRotationYaw) * partialTicks;
+            this.func_178101_a(f3, f4);
             this.func_178109_a(abstractclientplayer);
-            this.func_178110_a((EntityPlayerSP) abstractclientplayer, partialTicks);
+            this.func_178110_a((EntityPlayerSP)abstractclientplayer, partialTicks);
             GlStateManager.enableRescaleNormal();
             GlStateManager.pushMatrix();
             Killaura aura = (Killaura) Eris.INSTANCE.moduleManager.getModuleByClass(Killaura.class);
 
             if (this.itemToRender != null) {
                 if (this.itemToRender.getItem() instanceof ItemMap) {
-                    this.renderItemMap(abstractclientplayer, f2, f, f1);
-                } else if (abstractclientplayer.getItemInUseCount() > 0) {
+                    this.renderItemMap(abstractclientplayer, f2, f, f2);
+                } else if (abstractclientplayer.getItemInUseCount() > 0 || aura.blocking && PlayerUtils.isHoldingSword()) {
                     EnumAction enumaction = this.itemToRender.getItemUseAction();
 
                     switch (enumaction) {
@@ -339,25 +341,121 @@ public class ItemRenderer {
                             break;
 
                         case BLOCK:
-                            this.transformFirstPersonItem(f, 0.0F);
-                            this.func_178103_d();
+                            float f6 = MathHelper.sin((float) (MathHelper.sqrt_float(f2) * 2.1));
+                            float var15 = MathHelper.sin(MathHelper.sqrt_float(f2) * (float)Math.PI);          if (Eris.INSTANCE.getModuleManager().getModuleByClass(Animations.class).isToggled()) {
+                                switch (((Animations)Eris.getInstance().getModuleManager().getModuleByClass(Animations.class)).mode.getValue()) {
+                                    default:
+                                        break;
+                                    case EPIC: {
+                                        this.transformFirstPersonItem(f, f2);
+                                        this.func_178103_d();
+                                        GlStateManager.translate(0.0f, 0.0f, 0.0f);
+                                        GlStateManager.rotate(5.0f, 50.0f, 100.0f, 50.0f);
+                                        break;
+                                    }
+                                    case PUNCH: {
+                                        this.transformFirstPersonItem(f, 0.0f);
+                                        this.func_178103_d();
+                                        GlStateManager.translate(-0.0f, 0.4f, 0.1f);
+                                        GlStateManager.rotate(-var15 * 35.0f, -8.0f, -0.0f, 9.0f);
+                                        GlStateManager.rotate(-var15 * 10.0f, 1.0f, -0.4f, -0.5f);
+                                        break;
+                                    }
+                                    case SLIDE2: {
+                                        this.transformFirstPersonItem(f * 0.5f, 0.0f);
+                                        GlStateManager.rotate(-var15 * -74.0f / 4.0f, -8.0f, -0.0f, 9.0f);
+                                        GlStateManager.rotate(-var15 * 15.0f, 1.0f, var15 / 2.0f, -0.0f);
+                                        this.func_178103_d();
+                                        GL11.glTranslated(1.2, 0.3, 0.5);
+                                        GL11.glTranslatef(-1.0f, this.mc.thePlayer.isSneaking() ? -0.1f : -0.2f, 0.2f);
+                                        break;
+                                    }
+                                    case HELIUM: {
+                                        this.transformFirstPersonItem(f, 1.0f);
+                                        this.func_178103_d();
+                                        GL11.glTranslatef(0.4f, 0.1f, -0.01f);
+                                        final float var16 = MathHelper.sin(f2 * f2 * 5.1415925f);
+                                        GlStateManager.translate(-0.1f, 0.3f, 0.2f);
+                                        GlStateManager.rotate(var16 * 13.0f, -10.0f, -1.4f, -10.0f);
+                                        break;
+                                    }
+                                    case POKE: {
+                                        this.transformFirstPersonItem(f, 1.0f);
+                                        this.func_178103_d();
+                                        GL11.glTranslatef(0.1f, 0.3f, 0.7f);
+                                        final float var17 = MathHelper.sin(f2 * f2 * 5.1415925f);
+                                        GlStateManager.translate(-0.4f, -0.1f, -0.2f);
+                                        GlStateManager.rotate(var17 * 33.0f, 85.0f, -0.4f, -5.0f);
+                                        break;
+                                    }
+                                    case SKID: {
+                                        this.transformFirstPersonItem(f * 0.5f, 0.0f);
+                                        GlStateManager.rotate(-var15 * 10.0f, 0.0f, 15.0f, 300.0f);
+                                        GlStateManager.rotate(-var15 * 10.0f, 300.0f, var15 / 2.0f, 1.0f);
+                                        this.func_178103_d();
+                                        GL11.glTranslated(1.2, 0.2, 0.1);
+                                        GL11.glTranslatef(-2.1f, -0.2f, 0.1f);
+                                        break;
+                                    }
+                                    case SPIN: {
+                                        this.transformFirstPersonItem(f, f2);
+                                        this.func_178103_d();
+                                        final float var18 = MathHelper.sin(f2 * f2 * 5.1415925f);
+                                        GL11.glTranslatef(0.1f, -0.1f, 0.3f);
+                                        GlStateManager.translate(0.1f, -0.1f, 0.4f);
+                                        break;
+                                    }
+                                    case MEME: {
+                                        this.transformFirstPersonItem(f, 0.0f);
+                                        this.func_178103_d();
+                                        final float var19 = MathHelper.sin(MathHelper.sqrt_float(f2) * 3.1415927f);
+                                        GlStateManager.translate(-0.05f, 0.6f, 0.3f);
+                                        GlStateManager.rotate(-var19 * 70.0f / 2.0f, -8.0f, -0.0f, 9.0f);
+                                        GlStateManager.rotate(-var19 * 70.0f, 1.5f, -0.4f, -0.0f);
+                                        break;
+                                    }
+                                    case SLIDE: {
+                                        this.transformFirstPersonItem(f, 1.0f);
+                                        this.func_178103_d();
+                                        GL11.glTranslatef(0.6f, 0.3f, 0.7f);
+                                        final float var17 = MathHelper.sin(f2 * f2 * 5.1415925f);
+                                        GlStateManager.translate(-0.52f, -0.1f, -0.2f);
+                                        GlStateManager.rotate(var17 * -19.0f, 25.0f, -0.4f, -5.0f);
+                                    }
+                                    case SLIDE3: {
+                                        this.transformFirstPersonItem(f, f2);
+                                        this.func_178103_d();
+                                        final float var18 = MathHelper.sin(f2 * f2 * 5.1415925f);
+                                        GL11.glTranslatef(0.1f, -0.1f, 0.3f);
+                                        GlStateManager.translate(0.1f, -0.1f, 0.4f);
+                                    }
+                                    case SKIDMIX: {
+                                        this.transformFirstPersonItem(f, f2 / 40.0f);
+                                        this.func_178103_d();
+                                    }
+                                    case DEFAULT: {
+                                        this.transformFirstPersonItem(f, 0.0F);
+                                        this.func_178103_d();
+                                    }
+                                }
+                            } else {
+                                this.transformFirstPersonItem(f, 0.0F);
+                                this.func_178103_d();
+                            }
                             break;
 
                         case BOW:
                             this.transformFirstPersonItem(f, 0.0F);
                             this.func_178098_a(partialTicks, abstractclientplayer);
                     }
-                } else if (aura.blocking) {
-                    this.transformFirstPersonItem(f, f1);
-                    this.func_178103_d();
                 } else {
-                    this.func_178105_d(f1);
-                    this.transformFirstPersonItem(f, f1);
+                    this.func_178105_d(f2);
+                    this.transformFirstPersonItem(f, f2);
                 }
 
                 this.renderItem(abstractclientplayer, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
             } else if (!abstractclientplayer.isInvisible()) {
-                this.func_178095_a(abstractclientplayer, f, f1);
+                this.func_178095_a(abstractclientplayer, f, f2);
             }
 
             GlStateManager.popMatrix();
