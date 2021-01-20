@@ -176,16 +176,16 @@ public class Scaffold extends Module {
                             motionBoost = false;
                         if (motionBoost && mc.thePlayer.fallDistance <= 0.0) {
                             if (mc.thePlayer.ticksExisted % 2 != 0) {
-                                event.setY(event.getY() + .0626 * 2);
+                                event.setY(event.getY() + .3335);
                             }
 
-                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .3F : .2F;
+                            float moveSpeed = mc.thePlayer.ticksExisted % 2 != 0 ? .25F : .14F;
                             mc.thePlayer.motionX = -(Math.sin(mc.thePlayer.getDirection()) * moveSpeed);
                             mc.thePlayer.motionZ = Math.cos(mc.thePlayer.getDirection()) * moveSpeed;
                         }
 
                         if (timerSpeedAbuse.getValue()) {
-                            mc.timer.timerSpeed = !timerCap.hasReached(100) ? 2f : !timerCap.hasReached(300) ? 1.7f : 1.4f;
+                            mc.timer.timerSpeed = !timerCap.hasReached(100) ? 2f : !timerCap.hasReached(600) ? 1.55f : 1.07f;
                         }
                     }
                 }
@@ -193,7 +193,7 @@ public class Scaffold extends Module {
                 yaw = (yawMouseFilter.smooth(rotations[0] + MathUtils.getRandomInRange(-1f, 5f), speed));
                 pitch = (pitchMouseFilter.smooth(rotations[1] + MathUtils.getRandomInRange(-1.20f, 3.50f), speed));
                 event.setPitch(pitch);
-             //   event.setYaw(yaw);
+                event.setYaw(yaw);
 
             } else {
                 int heldItem = mc.thePlayer.inventory.currentItem;

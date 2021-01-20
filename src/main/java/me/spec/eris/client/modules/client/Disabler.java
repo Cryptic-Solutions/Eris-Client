@@ -5,6 +5,7 @@ import me.spec.eris.client.events.client.EventPacket;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.module.Module;
 import me.spec.eris.api.value.types.ModeValue;
+import me.spec.eris.utils.math.MathUtils;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 import net.minecraft.network.play.server.S39PacketPlayerAbilities;
@@ -38,7 +39,12 @@ public class Disabler extends Module {
         	if (event.isSending()) {
         		switch (mode.getValue()) {
     			case WATCHDOG:
-            		if (event.getPacket() instanceof C00PacketKeepAlive) event.setCancelled();
+            		if (event.getPacket() instanceof C00PacketKeepAlive) {
+                        C00PacketKeepAlive keepAlive = (C00PacketKeepAlive)event.getPacket();
+                        keepAlive.key -= MathUtils.secRanInt(1,225);
+                        mc.thePlayer.sendQueue.addToSendQueueNoEvent(keepAlive);
+                        event.setCancelled();
+                    }
 				break;
         		}
         	}

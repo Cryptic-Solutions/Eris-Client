@@ -110,11 +110,11 @@ public class Speed extends Module {
 						case 0:
 							setLastDistance(0.0);
 							if (mc.thePlayer.onGround) {
-								if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.4f;
+								if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) mc.timer.timerSpeed = 1.35f;
 								mc.thePlayer.isAirBorne = true;
 								mc.thePlayer.triggerAchievement(StatList.jumpStat);
 								em.setY(mc.thePlayer.motionY = (float) em.getMotionY(.42f - 9.0E-4D * 2));
-								speed = em.getMovementSpeed() * (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 == 0 ? 2.16 : 2.1499);
+								speed = em.getMovementSpeed() * (Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class) || hops < 0 || waitTicks > 0 ? 1.8 : hops % 3 == 0 ? 2.22 : 2.1499);
 								hops++;
 							}
 							setLastDistance(0.0);
@@ -124,7 +124,7 @@ public class Speed extends Module {
 							break;
 						default:
 							if ((stage == 2 || stage == 6) && mc.timer.timerSpeed > 1.0f) {
-								mc.timer.timerSpeed -= stage == 2 ? .15f : .25f;
+								mc.timer.timerSpeed -= stage == 2 ? .15f : .13f;
 							}
 							speed = getLastDistance() - getLastDistance() / 159;
 						break;

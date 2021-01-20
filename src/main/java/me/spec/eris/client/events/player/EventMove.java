@@ -86,12 +86,7 @@ public class EventMove extends Event {
         double moveForward = movementInput.getForward();
         TargetStrafe targetStrafe = ((TargetStrafe)Eris.getInstance().getModuleManager().getModuleByClass(TargetStrafe.class));
         if (targetStrafe.canStrafe()) {
-            PlayerUtils.tellUser("strafin boi");
-            if (mc.thePlayer.getDistanceToEntity(Killaura.currentEntity) <= 4) {
-                moveForward = 0;
-            } else {
-                moveForward = targetStrafe.direction;
-            }
+            if (mc.thePlayer.getDistanceToEntity(Killaura.currentEntity) <= 2)  moveForward = 0;
         }
         double moveStrafe = targetStrafe.canStrafe() ? targetStrafe.direction : movementInput.getStrafe();
         double yaw = targetStrafe.canStrafe() ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] : mc.thePlayer.rotationYaw;
@@ -99,11 +94,6 @@ public class EventMove extends Event {
             setX(0.0D);
             setZ(0.0D);
         } else {
-            if (moveStrafe > 0) {
-                moveStrafe = 1;
-            } else if (moveStrafe < 0) {
-                moveStrafe = -1;
-            }
             if (moveForward != 0.0D) {
                 if (moveStrafe > 0.0D) {
                     yaw += (moveForward > 0.0D ? -45 : 45);

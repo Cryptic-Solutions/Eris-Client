@@ -11,6 +11,7 @@ import me.spec.eris.api.module.Module;
 import me.spec.eris.client.modules.combat.Criticals;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.client.modules.combat.Killaura;
+import me.spec.eris.utils.math.MathUtils;
 import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
@@ -88,8 +89,10 @@ public class Longjump extends Module {
 								if (mc.thePlayer.fallDistance > 2.8 || stage > 14) {
 									speed = Math.max(em.getMovementSpeed(), speed * .7);
 								} else {
-									if (mc.thePlayer.motionY < 0) em.setY(mc.thePlayer.motionY *= (mc.thePlayer.ticksExisted % 2 == 0 ? .626 : .9));
-									speed = getLastDistance() - getLastDistance() / 159;
+									if (mc.thePlayer.motionY < 0) {
+										em.setY(em.getY() + .0325);
+									}
+									speed = getLastDistance() - getLastDistance() / 159.5;
 								}
 								break;
 						}
