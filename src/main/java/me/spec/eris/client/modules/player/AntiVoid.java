@@ -36,8 +36,7 @@ public class AntiVoid extends Module {
             }
 
             if (!isBlockUnder() && mc.thePlayer.fallDistance > 2.99f) {
-                mc.thePlayer.motionY = 0;
-                ((EventUpdate) e).setY(((EventUpdate) e).getY() + 12);
+                ((EventUpdate) e).setY(((EventUpdate) e).getY() + 13);
             }
         }
     }

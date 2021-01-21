@@ -111,7 +111,7 @@ public class Step extends Module {
                 } else {
                 	height = mc.thePlayer.getEntityBoundingBox().minY - mc.thePlayer.posY; 	 
                     if (height > 0) {
-                        if (crits.airTime > 0 || scaffold.motionBoost) {
+                        if (crits.airTime > 0 && crits.waitTicks <= 0 || scaffold.motionBoost) {
                             sendPosition(0,0,0,mc.thePlayer.onGround,false);
                             scaffold.motionBoost = false;
                             crits.accumulatedFall = 0;

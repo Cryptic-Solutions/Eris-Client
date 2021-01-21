@@ -205,13 +205,13 @@ public class HUD extends Module {
         EntityLivingBase currentEntity = Killaura.target;
         targetX = x;
         targetY = y;
+        int width = 250;
         Killaura aura = (Killaura) Eris.getInstance().getModuleManager().getModuleByClass(Killaura.class);
         if (mc.currentScreen instanceof CustomHUD) {
             RenderUtilities.drawRoundedRect(targetX, targetY, targetX + 250, targetY - 75, new Color(255,90,90,100).getRGB(), new Color(0,0,0, 127).getRGB());
         } else {
 
-            if (currentEntity != null && aura.targetList.size() > 0) {
-                RenderUtilities.drawRoundedRect(targetX, targetY, targetX + 250, targetY - 75, new Color(255,90,90,100).getRGB(), new Color(0,0,0, 127).getRGB());
+            if (currentEntity != null && Killaura.getTarget() != null) {
                 String name = "Name: " + (currentEntity instanceof EntityPlayer ? currentEntity.getDisplayName().getFormattedText() : currentEntity.getName());
                 String reach = "Reach: " + String.valueOf(MathUtils.round((double) mc.thePlayer.getDistanceToEntity(currentEntity), 2));
                 String armor = "Armor: " + Math.round(currentEntity.getTotalArmorValue());
@@ -224,14 +224,17 @@ public class HUD extends Module {
                     hasBetterArmor = "You";
                 }
 
-                String moreHealth = "";
+                String moreHealth = "Health Advantage: ";
                 if (currentEntity.getHealth() > mc.thePlayer.getHealth()) {
-                    moreHealth = "Them: " + EnumChatFormatting.GRAY + MathUtils.round((double) (Math.abs(currentEntity.getHealth() - mc.thePlayer.getHealth()) / 2), 2);
+                    moreHealth += "Them: " + EnumChatFormatting.GRAY + MathUtils.round((double) (Math.abs(currentEntity.getHealth() - mc.thePlayer.getHealth()) / 2), 2);
                 } else if (currentEntity.getTotalArmorValue() == mc.thePlayer.getHealth() || Math.abs(currentEntity.getHealth() - mc.thePlayer.getHealth()) / 2 == 0.0) {
-                    moreHealth = "None";
+                    moreHealth += "None";
                 } else {
-                    moreHealth = "You: " + EnumChatFormatting.GRAY + MathUtils.round((double) (Math.abs(currentEntity.getHealth() - mc.thePlayer.getHealth()) / 2), 2);
+                    moreHealth += "You: " + EnumChatFormatting.GRAY + MathUtils.round((double) (Math.abs(currentEntity.getHealth() - mc.thePlayer.getHealth()) / 2), 2);
                 }
+
+                width = 170;
+                RenderUtilities.drawRoundedRect(targetX, targetY, targetX + width, targetY - 75, new Color(255,90,90,100).getRGB(), new Color(0,0,0, 127).getRGB());
 
                 getFont().drawStringWithShadow(name, targetX + 45, targetY - 70, new Color(255,255,255).getRGB());
                 getFont().drawStringWithShadow(reach, targetX + 45, targetY - 60, new Color(255,255,255).getRGB());
@@ -260,7 +263,7 @@ public class HUD extends Module {
                     int g = (int) (50 + (230 - 50) * hpPercentage);
                     int b = 50;
 
-                    getFont().drawStringWithShadow(moreHealth = "Health Advantage: " + moreHealth, targetX + 45, targetY - 20, new Color(255,255,255).getRGB());
+                    getFont().drawStringWithShadow(moreHealth, targetX + 45, targetY - 20, new Color(255,255,255).getRGB());
                     RenderUtilities.drawRoundedRect(targetX + 44, targetY - 3, targetX + 151, targetY - 8, new Color(255,90,90,100).getRGB(), new Color(0,0,0,90).getRGB());
                     RenderUtilities.drawRoundedRect(targetX + 45, targetY - 3, targetX + 45 + animated, targetY - 8, new Color(255,90,90,100).getRGB(), new Color(r,g,b).getRGB());
                 } else {
@@ -272,7 +275,6 @@ public class HUD extends Module {
                 GL11.glColor4f(1, 1, 1, 1);
                 drawEntityOnScreen(targetX + 25, targetY - 10, 30, currentEntity.rotationYaw, -currentEntity.rotationPitch, currentEntity);
                 GL11.glDisable(GL11.GL_BLEND);
-
             }
         }
     }

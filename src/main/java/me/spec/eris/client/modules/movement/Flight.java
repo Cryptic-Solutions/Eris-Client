@@ -21,6 +21,7 @@ import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 
 public class Flight extends Module {
 
@@ -71,14 +72,14 @@ public class Flight extends Module {
 		        		switch (counter) {
 		        		case 0:
 		        			if (!damagePlayer) {
-								if (damageStopwatch.hasReached(50)) {
+								if (damageStopwatch.hasReached(150)) {
 									for (int i = 0; i < 9; i++) {
 										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getMotionY(event.getLegitMotion()), mc.thePlayer.posZ, false));
-										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + (event.getMotionY(event.getLegitMotion()) % .000625), mc.thePlayer.posZ, false));
+										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + event.getMotionY(event.getLegitMotion()) % .0000625, mc.thePlayer.posZ, false));
 										mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(false));
 									}
-									speed = flySpeed.getValue() /4;
 									mc.getNetHandler().addToSendQueueNoEvent(new C03PacketPlayer(true));
+									speed = flySpeed.getValue() /4;
 									damagePlayer = true;
 								} else {
 									event.setX(0);
@@ -151,7 +152,11 @@ public class Flight extends Module {
 
                         if (counter > 2) {
                         	mc.thePlayer.motionY = 0;
-                        	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? MathUtils.secRanDouble(.0000625, .0000626) : 0));
+                        	double val = .000245;
+                        	if (mc.thePlayer.ticksExisted % 4 == 0) {
+                        		val += MathUtils.secRanDouble(-.000015, .000015);
+							}
+                        	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? val: 0));
                         }
 
                     }

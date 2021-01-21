@@ -1,17 +1,18 @@
 package net.minecraft.entity;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.events.player.EventSafeWalk;
 import me.spec.eris.client.events.player.EventStep;
+import me.spec.eris.client.modules.combat.Criticals;
+import me.spec.eris.client.modules.combat.Killaura;
+import me.spec.eris.client.modules.combat.TargetStrafe;
 import me.spec.eris.client.modules.movement.Scaffold;
 import me.spec.eris.client.modules.movement.Speed;
 import me.spec.eris.client.modules.movement.Step;
+import me.spec.eris.utils.player.PlayerUtils;
 import me.spec.eris.utils.world.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -42,6 +43,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -758,7 +760,19 @@ public abstract class Entity implements ICommandSender {
                 this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, y, 0.0D));
                 if (this == Minecraft.getMinecraft().thePlayer && y > -0.6 && (Step.isInvalid() || Eris.INSTANCE.moduleManager.isEnabled(Speed.class))) {
                     double blockHeight = 1.0 + y;
-
+                    if (blockHeight > .49 && blockHeight <= 0.8740000128746033) {
+                        Criticals crits = (Criticals)Eris.getInstance().getModuleManager().getModuleByClass(Criticals.class);
+                        if (crits.modeValue.getValue().equals(Criticals.Mode.WATCHDOG) && crits.isToggled()) {
+                            if (crits.airTime > 0 && crits.waitTicks <= 0 && Killaura.getTarget() != null) {
+                                Killaura aura = ((Killaura)Eris.getInstance().getModuleManager().getModuleByClass(Killaura.class));
+                                aura.fuckCheckVLs = true;
+                                crits.airTime = 0;
+                                PlayerUtils.tellUser("Stopped potential crit flag");
+                                Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY, Minecraft.getMinecraft().thePlayer.posZ, true));
+                                crits.waitTicks = 4;
+                            }
+                        }
+                    }
                     List<Double> blockHeights = Arrays.asList(0.875, 0.625, 0.8125, 0.9375, 0.75, 0.6875);
 
                     if ((blockHeight % 0.5 == 0 || blockHeights.contains(blockHeight))) {

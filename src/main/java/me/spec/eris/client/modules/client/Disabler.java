@@ -39,12 +39,6 @@ public class Disabler extends Module {
         	if (event.isSending()) {
         		switch (mode.getValue()) {
     			case WATCHDOG:
-            		if (event.getPacket() instanceof C00PacketKeepAlive) {
-                        C00PacketKeepAlive keepAlive = (C00PacketKeepAlive)event.getPacket();
-                        keepAlive.key -= MathUtils.secRanInt(1,225);
-                        mc.thePlayer.sendQueue.addToSendQueueNoEvent(keepAlive);
-                        event.setCancelled();
-                    }
 				break;
         		}
         	}
