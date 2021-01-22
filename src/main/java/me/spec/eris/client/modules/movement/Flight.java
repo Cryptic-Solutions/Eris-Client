@@ -45,7 +45,7 @@ public class Flight extends Module {
     private final TimerUtils damageStopwatch = new TimerUtils();
     private final List<Packet> packets = new LinkedList<>();
 
-    private boolean onGroundCheck, damagePlayer;
+    private boolean onGroundCheck, damagePlayer, damageBoost;
     private double speed;
     private int counter;
 
@@ -68,7 +68,7 @@ public class Flight extends Module {
                     event.setMoveSpeed(flySpeed.getValue());
                     break;
 			case WATCHDOG:
-	        	if (onGroundCheck) {
+	        	if (onGroundCheck && damageBoost) {
 		        		switch (counter) {
 		        		case 0:
 		        			if (!damagePlayer) {
@@ -108,6 +108,7 @@ public class Flight extends Module {
 		        			counter++;
 		        		}
 		        		event.setMoveSpeed(speed);
+		        		damageBoost = !mc.thePlayer.isCollidedHorizontally;
 	        	}
 				break;
 			default:
@@ -142,21 +143,19 @@ public class Flight extends Module {
 	                if (counter < 15 && !damaged) {
 	                    timerAbuseStopwatch.reset();
 	                }
-	                if (!damaged && mc.thePlayer.hurtTime > 0) {
-	                    damaged = true; 
-	                }
+	                if (!damaged && mc.thePlayer.hurtTime > 0)  damaged = true;
                     if (event.isPre()) {  
                         double xDif = mc.thePlayer.posX - mc.thePlayer.prevPosX;
                         double zDif = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
                         setLastDistance(Math.sqrt(xDif * xDif + zDif * zDif));
-
-                        if (counter > 2) {
+                        if (counter > 2 || !damageBoost) {
                         	double val = 8.25E-6;
 							mc.thePlayer.motionY = 0;
                         	if (mc.thePlayer.ticksExisted % 4 == 0)val += MathUtils.secRanDouble(1.24E-14D, 1.25E-13D);
                         	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? val : -val));
-                        }
 
+                        	if (!mc.thePlayer.isMoving()) forceMove();
+                        }
                     }
 				} else if (mc.thePlayer.ticksExisted % 12 == 0){
 					onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically;
@@ -222,6 +221,7 @@ public class Flight extends Module {
     	}
     	damagePlayer = false;
     	damaged = false;
+    	damageBoost = mc.thePlayer.isMoving();
     	onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically; 
     	timerAbuseStopwatch.reset();
     	damageStopwatch.reset();

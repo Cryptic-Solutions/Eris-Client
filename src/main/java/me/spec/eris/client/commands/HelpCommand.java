@@ -19,7 +19,7 @@ public class HelpCommand extends Command {
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> (Kaido, Spec, Vaziak)");
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> ");
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD + "With credits to" + EnumChatFormatting.GRAY + ":");
-        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> (Matt (SummerDev), God (Purity), Pulse, Ice, N4tive, Fr0sty)");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> (Matt (SummerDev), God (Purity), Ice, N4tive, Fr0sty)");
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> ");
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + "Commands:");
         Eris.getInstance().commandManager.getManagerArraylist().forEach(this::getCommandNameAndDescription);

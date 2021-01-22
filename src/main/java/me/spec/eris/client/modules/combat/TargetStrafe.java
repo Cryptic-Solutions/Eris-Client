@@ -9,11 +9,11 @@ import me.spec.eris.client.modules.movement.Scaffold;
 import me.spec.eris.client.modules.player.AntiVoid;
 
 public class TargetStrafe extends Module {
-    public int direction = 1;
     public TargetStrafe(String racism) {
         super("TargetStrafe", ModuleCategory.COMBAT, racism);
     }
 
+    public int strafeDirection = 1;
     @Override
     public void onEnable() {
         super.onEnable();
@@ -28,24 +28,20 @@ public class TargetStrafe extends Module {
     public void onEvent(Event e) {
         if (e instanceof EventUpdate) {
             EventUpdate eu = (EventUpdate)e;
-            if (eu.isPre()) {
-                boolean changeDirectionInFight = false;
-                Killaura aura = (Killaura) Eris.getInstance().getModuleManager().getModuleByClass(Killaura.class);
-                if (mc.thePlayer.ticksExisted % 35 == 0 && Killaura.target != null && aura.targetList.size() > 0) {
-                    if (mc.thePlayer.getDistanceToEntity(Killaura.target) <= aura.range.getValue() - .25f) changeDirectionInFight = true;
-                }
-                boolean thevoid = !AntiVoid.isBlockUnder() && mc.thePlayer.ticksExisted % 3 == 0;
-                if (mc.thePlayer.isCollidedHorizontally || thevoid || !thevoid && changeDirectionInFight) {
-                    if (direction == 1) {
-                        direction = -1;
-                    } else {
-                        direction = 1;
-                    }
-                }
-                if (canStrafe()) {
-                    mc.thePlayer.movementInput.setForward(0);
-                }
+
+            boolean changeDirectionInFight = false;
+            boolean thevoid = !AntiVoid.isBlockUnder() && mc.thePlayer.ticksExisted % 3 == 0;
+
+            Killaura aura = (Killaura) Eris.getInstance().getModuleManager().getModuleByClass(Killaura.class);
+            if (mc.thePlayer.ticksExisted % 35 == 0 && Killaura.target != null && aura.targetList.size() > 0) {
+                if (mc.thePlayer.getDistanceToEntity(Killaura.target) <= aura.range.getValue() - .25f) changeDirectionInFight = true;
             }
+            //Changing direction with conditionals
+            if (mc.thePlayer.isCollidedHorizontally || thevoid || !thevoid && changeDirectionInFight) {
+                strafeDirection = -strafeDirection;
+            }
+            //Setting move input forward & strafe to zero to prevent player input from over riding customstrafe
+            if (canStrafe()) mc.thePlayer.movementInput.setForward(0);
         }
     }
 

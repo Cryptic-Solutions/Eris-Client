@@ -5,7 +5,6 @@ import me.spec.eris.api.event.Event;
 import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.client.modules.combat.TargetStrafe;
 import me.spec.eris.utils.math.rotation.RotationUtils;
-import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovementInput;
@@ -76,40 +75,26 @@ public class EventMove extends Event {
         return speed;
     }
 
-    double forward = MovementInput.moveForward, strafe = MovementInput.moveStrafe,
-            yaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
-
 
     public void setMoveSpeed(double moveSpeed) {
         Minecraft mc = Minecraft.getMinecraft();
-        MovementInput movementInput = mc.thePlayer.movementInput;
-        double moveForward = movementInput.getForward();
+        double moveForward = mc.thePlayer.movementInput.getForward();
         TargetStrafe targetStrafe = ((TargetStrafe)Eris.getInstance().getModuleManager().getModuleByClass(TargetStrafe.class));
         if (targetStrafe.canStrafe()) {
             if (mc.thePlayer.getDistanceToEntity(Killaura.currentEntity) <= 2)  moveForward = 0;
         }
-        double moveStrafe = targetStrafe.canStrafe() ? targetStrafe.direction : movementInput.getStrafe();
+        double moveStrafe = targetStrafe.canStrafe() ? targetStrafe.strafeDirection : mc.thePlayer.movementInput.getStrafe();
         double yaw = targetStrafe.canStrafe() ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] : mc.thePlayer.rotationYaw;
-        if (moveForward == 0.0D && moveStrafe == 0.0D) {
-            setX(0.0D);
-            setZ(0.0D);
-        } else {
-            if (moveForward != 0.0D) {
-                if (moveStrafe > 0.0D) {
-                    yaw += (moveForward > 0.0D ? -45 : 45);
-                } else if (moveStrafe < 0.0D) {
-                    yaw += (moveForward > 0.0D ? 45 : -45);
-                }
-                moveStrafe = 0.0D;
-                if (moveForward > 0.0D) {
-                    moveForward = 1.0D;
-                } else if (moveForward < 0.0D) {
-                    moveForward = -1.0D;
-                }
-            }
-            setX(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw + 90)) + moveStrafe * moveSpeed * Math.sin(Math.toRadians(yaw + 90)));
-            setZ(moveForward * moveSpeed * Math.sin(Math.toRadians(yaw + 90)) - moveStrafe * moveSpeed * Math.cos(Math.toRadians(yaw + 90)));
+        if (moveForward == 0.0F && moveStrafe == 0.0F) {
+            setX(0);
+            setZ(0);
         }
+        if (moveForward != 0 && moveStrafe != 0) {
+            moveForward = moveForward * Math.sin(Math.PI / 4);
+            moveStrafe = moveStrafe * Math.cos(Math.PI / 4);
+        }
+        setX(moveForward * moveSpeed * -Math.sin(Math.toRadians(yaw)) + (moveStrafe) * moveSpeed * Math.cos(Math.toRadians(yaw)));
+        setZ(moveForward * moveSpeed * Math.cos(Math.toRadians(yaw)) - (moveStrafe) * moveSpeed * -Math.sin(Math.toRadians(yaw)));
     }
 
     public double getJumpBoostModifier(double baseJumpHeight) {
