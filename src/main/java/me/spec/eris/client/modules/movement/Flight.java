@@ -152,8 +152,8 @@ public class Flight extends Module {
 
                         if (counter > 2) {
                         	mc.thePlayer.motionY = 0;
-                        	double val = 7.95E-6D;
-                        	if (mc.thePlayer.ticksExisted % 4 == 0)val += MathUtils.secRanDouble(1.23E-14D, 1.23E-13D);
+                        	double val = 7.5E-6D;
+                        	if (mc.thePlayer.ticksExisted % 4 == 0)val += MathUtils.secRanDouble(1.24E-14D, 1.25E-13D);
                         	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? val: -val));
                         }
 
