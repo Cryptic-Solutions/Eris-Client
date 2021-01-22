@@ -15,7 +15,11 @@ public class HelpCommand extends Command {
     public void execute(String[] commandArguments) {
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + ">-----------------------------");
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + EnumChatFormatting.RED + EnumChatFormatting.BOLD + Eris.getInstance().getClientName() + EnumChatFormatting.GRAY + " - " + EnumChatFormatting.WHITE + Eris.getInstance().getClientBuild());
-        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + "Developed by " +EnumChatFormatting.RED + EnumChatFormatting.BOLD + "Eris Team");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + "Developed by " +EnumChatFormatting.RED + EnumChatFormatting.BOLD + "Eris Team" + EnumChatFormatting.GRAY + ":");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> (Kaido, Spec, Vaziak)");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> ");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD + "With credits to" + EnumChatFormatting.GRAY + ":");
+        PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> (Matt (SummerDev), God (Purity), Pulse, Ice, N4tive, Fr0sty)");
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> ");
         PlayerUtils.tellUserUnformatted(EnumChatFormatting.GRAY + "> " + "Commands:");
         Eris.getInstance().commandManager.getManagerArraylist().forEach(this::getCommandNameAndDescription);

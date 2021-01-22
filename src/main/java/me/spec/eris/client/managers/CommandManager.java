@@ -9,7 +9,6 @@ import me.spec.eris.api.manager.Manager;
 
 public class CommandManager extends Manager<Command> {
 
-
     @Override
     public void loadManager() {
         addToManagerArraylist(new HelpCommand(),
@@ -25,20 +24,20 @@ public class CommandManager extends Manager<Command> {
     }
 
     public void onEvent(Event e) {
-        ChatMessageEvent event = (ChatMessageEvent) e;
-        String chatMessage = event.getChatMessage();
+        if (e instanceof  ChatMessageEvent) {
+            ChatMessageEvent event = (ChatMessageEvent) e;
+            String chatMessage = event.getChatMessage();
 
-        if(chatMessage.startsWith(Eris.getInstance().getCommandPrefix())) {
-            e.setCancelled();
-            String noPrefixChatMessage = chatMessage.replace(Eris.getInstance().getCommandPrefix(), "");
-            String[] commandArguments = noPrefixChatMessage.split(" ");
-            for(Command command : getManagerArraylist()) {
-                if(commandArguments[0].equalsIgnoreCase(command.getCommandName())) {
-                    command.execute(commandArguments);
+            if(chatMessage.startsWith(Eris.getInstance().getCommandPrefix())) {
+                e.setCancelled();
+                String noPrefixChatMessage = chatMessage.replace(Eris.getInstance().getCommandPrefix(), "");
+                String[] commandArguments = noPrefixChatMessage.split(" ");
+                for(Command command : getManagerArraylist()) {
+                    if(commandArguments[0].equalsIgnoreCase(command.getCommandName())) {
+                        command.execute(commandArguments);
+                    }
                 }
             }
-
         }
-
     }
 }

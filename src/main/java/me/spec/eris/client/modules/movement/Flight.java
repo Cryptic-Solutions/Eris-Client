@@ -152,11 +152,9 @@ public class Flight extends Module {
 
                         if (counter > 2) {
                         	mc.thePlayer.motionY = 0;
-                        	double val = .000245;
-                        	if (mc.thePlayer.ticksExisted % 4 == 0) {
-                        		val += MathUtils.secRanDouble(-.000015, .000015);
-							}
-                        	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? val: 0));
+                        	double val = 7.95E-6D;
+                        	if (mc.thePlayer.ticksExisted % 4 == 0)val += MathUtils.secRanDouble(1.23E-14D, 1.23E-13D);
+                        	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? val: -val));
                         }
 
                     }
@@ -180,17 +178,10 @@ public class Flight extends Module {
             	break;
             	case WATCHDOG:
             		if (event.isSending()) {
-            		/*	if (event.getPacket() instanceof C0APacketAnimation || event.getPacket() instanceof C02PacketUseEntity || event.getPacket() instanceof C08PacketPlayerBlockPlacement || event.getPacket() instanceof C07PacketPlayerDigging) {
-            				if (counter < 20) {
-								Killaura aura = ((Killaura)Eris.getInstance().moduleManager.getModuleByClass(Killaura.class));
-								aura.waitTicks = 4;
-            					event.setCancelled();
-							}
-						}*/
             			if (event.getPacket() instanceof C03PacketPlayer) {
             				C03PacketPlayer packet = (C03PacketPlayer)event.getPacket();
             				
-            				if (blink.getValue()){ //|| !timerAbuseStopwatch.hasReached(timerDelay.getValue() * 1000) && counter > 7) {
+            				if (blink.getValue()){
 	            				if (packet.isMoving()) {
 	            					packets.add(packet);
 	            					event.setCancelled();
@@ -199,7 +190,7 @@ public class Flight extends Module {
             					event.setCancelled();
             				}
 
-							if (packets.size() >= 25 && blink.getValue()) {// || counter > 7 && packets.size() > ((int)((timerDelay.getValue() * 1000 / 20) / 6) - 5) && !timerAbuseStopwatch.hasReached(timerDelay.getValue() * 1000) && mc.timer.timerSpeed > 1F) {
+							if (packets.size() >= 25 && blink.getValue()) {
 								flush();
 							}
             			}

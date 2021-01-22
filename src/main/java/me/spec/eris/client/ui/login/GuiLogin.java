@@ -78,6 +78,7 @@ public class GuiLogin extends GuiScreen {
 
     @Override
     public void drawScreen(final int x, final int y, final float z) {
+        this.drawDefaultBackground();
         this.password.drawTextBox();
         this.name.drawTextBox();
         this.uid.drawTextBox();

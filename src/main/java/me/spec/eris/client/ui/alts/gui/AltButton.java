@@ -4,9 +4,11 @@ import java.awt.Color;
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.ui.alts.AltManager;
+import me.spec.eris.utils.visual.RenderUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class AltButton extends GuiButton {
 
@@ -28,18 +30,20 @@ public class AltButton extends GuiButton {
         if (!this.parent.isAltInArea(this.yPosition)) {
             return;
         }
-        this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+        ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
+        this.hovered = mouseX >= 10 && mouseY >= this.yPosition && mouseX < scalRes.getScaledWidth() - 170 && mouseY < this.yPosition + this.height;
 
         Color color = new Color(0, 0, 0, 150);
         if (this.hovered) {
             color = new Color(0, 0, 0, 200);
         }
-        Gui.drawRect(this.xPosition, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, color.getRGB());
+        RenderUtilities.drawRoundedRect(10, yPosition, scalRes.getScaledWidth() - 170, yPosition + height, new Color(255,0,0).getRGB(), color.getRGB());
         if (this.selected) {
-            Gui.drawRect(this.xPosition, this.yPosition, this.xPosition + 2, this.yPosition + this.height, new Color(150, 150, 150).getRGB());
-            Gui.drawRect(this.xPosition + this.width - 2, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, new Color(150, 150, 150).getRGB());
+            RenderUtilities.drawRoundedRect(10, yPosition, scalRes.getScaledWidth() - 170, yPosition + height, new Color(255,0,0).getRGB(), color.getRGB());
         }
-        mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().altManager.getManagerArraylist().get(alt).getUser(), this.xPosition + (this.width / 2) - (mc.fontRendererObj.getStringWidth(Eris.getInstance().altManager.getManagerArraylist().get(alt).getUser()) / 2), this.yPosition + (this.height / 2) - (mc.fontRendererObj.FONT_HEIGHT / 2), -1);
+        String toDraw = Eris.getInstance().altManager.getManagerArraylist().get(alt).getUser();
+        Eris.getInstance().getFontRenderer().drawCenteredString(toDraw, (Math.abs((scalRes.getScaledWidth() - 170) - 5) / 2), this.yPosition + (height / 2) - Eris.getInstance().getFontRenderer().getHeight(toDraw) / 2, -1);
+       // mc.fontRendererObj.drawStringWithShadow(Eris.getInstance().altManager.getManagerArraylist().get(alt).getUser(), this.xPosition + (this.width / 2) - (mc.fontRendererObj.getStringWidth(Eris.getInstance().altManager.getManagerArraylist().get(alt).getUser()) / 2), this.yPosition + (this.height / 2) - (mc.fontRendererObj.FONT_HEIGHT / 2), -1);
     }
 
     public void setSelected(boolean selected) {

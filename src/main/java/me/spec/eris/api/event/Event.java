@@ -21,9 +21,9 @@ public class Event {
     public void call() {
         if (Eris.getInstance() == null) return;
 
-        //if(this instanceof EventUpdate) {
-           // Eris.getInstance().killTracker.onEvent(this);
-        //}
+        if(this instanceof ChatMessageEvent) {
+            Eris.getInstance().commandManager.onEvent(this);
+        }
 
         if (antiCrash.isToggled()) {
             for (Module m : Eris.INSTANCE.moduleManager.getModules()) {

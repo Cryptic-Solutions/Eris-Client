@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
 
+import me.spec.eris.client.events.chat.ChatMessageEvent;
 import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -109,7 +110,9 @@ public class GuiChat extends GuiScreen {
             String s = this.inputField.getText().trim();
 
             if (s.length() > 0) {
-                this.sendChatMessage(s);
+                ChatMessageEvent event = new ChatMessageEvent(s);
+                event.call();
+                if (!event.isCancelled())this.sendChatMessage(s);
             }
 
             this.mc.displayGuiScreen((GuiScreen) null);
