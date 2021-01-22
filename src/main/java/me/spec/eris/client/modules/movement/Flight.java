@@ -6,7 +6,9 @@ import java.util.List;
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
 import me.spec.eris.client.events.client.EventPacket;
+import me.spec.eris.client.events.player.EventJump;
 import me.spec.eris.client.events.player.EventMove;
+import me.spec.eris.client.events.player.EventStep;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.module.Module;
@@ -53,7 +55,10 @@ public class Flight extends Module {
 
     @Override
     public void onEvent(Event e) {
-        setMode(mode.getValue().toString()); 
+        setMode(mode.getValue().toString());
+        if (e instanceof EventJump || e instanceof EventStep) {
+			e.setCancelled();
+		}
         if (e instanceof EventMove) {
             EventMove event = (EventMove) e;
             switch (mode.getValue()) {

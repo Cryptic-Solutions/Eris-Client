@@ -8,6 +8,9 @@ import me.spec.eris.Eris;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.client.modules.combat.AntiBot;
 import me.spec.eris.utils.math.rotation.RotationUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
@@ -17,6 +20,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemEnderPearl;
@@ -28,9 +32,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 
 public class PlayerUtils {
 
@@ -129,6 +131,50 @@ public class PlayerUtils {
         }
         return false;
     }
+
+    public static boolean isOnLiquid() {
+        Minecraft mc = Minecraft.getMinecraft();
+        AxisAlignedBB boundingBox = mc.thePlayer.getEntityBoundingBox();
+        if (boundingBox == null) {
+            return false;
+        }
+        boundingBox = boundingBox.contract(0.01D, 0.0D, 0.01D).offset(0.0D, -0.01D, 0.0D);
+        boolean onLiquid = false;
+        int y = (int) boundingBox.minY;
+        for (int x = MathHelper.floor_double(boundingBox.minX); x < MathHelper
+                .floor_double(boundingBox.maxX + 1.0D); x++) {
+            for (int z = MathHelper.floor_double(boundingBox.minZ); z < MathHelper
+                    .floor_double(boundingBox.maxZ + 1.0D); z++) {
+                Block block = mc.theWorld.getBlockState((new BlockPos(x, y, z))).getBlock();
+                if (block != Blocks.air) {
+                    if (!(block instanceof BlockLiquid)) {
+                        return false;
+                    }
+                    onLiquid = true;
+                }
+            }
+        }
+        return onLiquid;
+    }
+
+
+    public static boolean isInLiquid() {
+        Minecraft mc = Minecraft.getMinecraft();
+        if(mc.thePlayer == null) {
+            return false;
+        }
+        for (int x = MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().minX); x < MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().maxX) + 1; x++) {
+            for (int z = MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().minZ); z < MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().maxZ) + 1; z++) {
+                BlockPos pos = new BlockPos(x, (int) mc.thePlayer.getEntityBoundingBox().minY, z);
+                Block block = mc.theWorld.getBlockState(pos).getBlock();
+                if ((block != null) && (!(block instanceof BlockAir))) {
+                    return block instanceof BlockLiquid;
+                }
+            }
+        }
+        return false;
+    }
+
 
     public static String getBPSOldUselessBye() {
         final double xDiff = Minecraft.getMinecraft().thePlayer.posX - Minecraft.getMinecraft().thePlayer.prevPosX;

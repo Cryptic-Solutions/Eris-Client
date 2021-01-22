@@ -78,12 +78,12 @@ public class EventMove extends Event {
 
     public void setMoveSpeed(double moveSpeed) {
         Minecraft mc = Minecraft.getMinecraft();
-        double moveForward = mc.thePlayer.movementInput.getForward();
         TargetStrafe targetStrafe = ((TargetStrafe)Eris.getInstance().getModuleManager().getModuleByClass(TargetStrafe.class));
-        if (targetStrafe.canStrafe()) {
-            if (mc.thePlayer.getDistanceToEntity(Killaura.currentEntity) <= 2)  moveForward = 0;
-        }
+        double moveForward = mc.thePlayer.movementInput.getForward();
         double moveStrafe = targetStrafe.canStrafe() ? targetStrafe.strafeDirection : mc.thePlayer.movementInput.getStrafe();
+        if (targetStrafe.canStrafe()) {
+            if (mc.thePlayer.getDistanceToEntity(Killaura.currentEntity) <= 3)  moveForward = 0;
+        }
         double yaw = targetStrafe.canStrafe() ? RotationUtils.getNeededRotations(Killaura.currentEntity)[0] : mc.thePlayer.rotationYaw;
         if (moveForward == 0.0F && moveStrafe == 0.0F) {
             setX(0);

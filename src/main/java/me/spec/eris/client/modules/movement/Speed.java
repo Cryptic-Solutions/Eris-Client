@@ -14,6 +14,7 @@ import me.spec.eris.client.integration.server.interfaces.Gamemode;
 import me.spec.eris.client.modules.combat.Criticals;
 import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.api.value.types.ModeValue;
+import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.stats.StatList;
 
 public class Speed extends Module {
@@ -60,7 +61,22 @@ public class Speed extends Module {
 
 		switch (mode.getValue()) {
 			case WATCHDOG:
-				if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || Eris.INSTANCE.moduleManager.isEnabled(Longjump.class)) return;
+				if (Eris.INSTANCE.moduleManager.isEnabled(Flight.class) || Eris.INSTANCE.moduleManager.isEnabled(Longjump.class) || mc.thePlayer.isOnLadder() || PlayerUtils.isInLiquid() || PlayerUtils.isOnLiquid()) {
+					if (e instanceof EventUpdate) {
+						EventUpdate eu = (EventUpdate) e;
+						if (eu.isPre()) {
+							float moveSpeed = .42f;
+							if (PlayerUtils.isInLiquid()) {
+								if (mc.thePlayer.ticksExisted % 2 == 0) mc.thePlayer.motionY = moveSpeed;
+							} else if (PlayerUtils.isOnLiquid()) {
+								mc.thePlayer.motionX = -(Math.sin(mc.thePlayer.getDirection()) * moveSpeed);
+								mc.thePlayer.motionZ = Math.cos(mc.thePlayer.getDirection()) * moveSpeed;
+							}
+						}
+					}
+					hops = -1;
+					return;
+				}
 				if (e instanceof EventJump) {
 					e.setCancelled();
 				}
@@ -88,10 +104,9 @@ public class Speed extends Module {
 					boolean reset = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, mc.thePlayer.motionY, 0.0)).size() > 0 && mc.thePlayer.onGround;
 					EventMove em = (EventMove) e;
 					Step step = ((Step) Eris.getInstance().moduleManager.getModuleByClass(Step.class));
-					if (Eris.getInstance().moduleManager.isEnabled(Scaffold.class) || Eris.getInstance().moduleManager.isEnabled(Flight.class) || Eris.getInstance().moduleManager.isEnabled(Longjump.class) || step.cancelMorePackets) {
+					if (step.cancelMorePackets) {
 						mc.timer.timerSpeed = 1.0f;
 						hops = -1;
-						if (!Eris.INSTANCE.moduleManager.isEnabled(Scaffold.class)) return;
 					}
 					if (waitTicks > 0 && mc.thePlayer.onGround) waitTicks--;
 					if (waitTicks > 0 || !mc.thePlayer.isMoving() || mc.thePlayer.fallDistance > 2.25) {
@@ -99,7 +114,6 @@ public class Speed extends Module {
 						stage = 0;
 						return;
 					}
-
 					if (reset) {
 						if (stage < 3) {
 							hops = -1;
