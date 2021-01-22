@@ -151,18 +151,17 @@ public class Flight extends Module {
                         setLastDistance(Math.sqrt(xDif * xDif + zDif * zDif));
 
                         if (counter > 2) {
-                        	mc.thePlayer.motionY = 0;
-                        	double val = 7.5E-6D;
+                        	double val = 8.25E-6;
+							mc.thePlayer.motionY = 0;
                         	if (mc.thePlayer.ticksExisted % 4 == 0)val += MathUtils.secRanDouble(1.24E-14D, 1.25E-13D);
-                        	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? val: -val));
+                        	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? val : -val));
                         }
 
                     }
 				} else if (mc.thePlayer.ticksExisted % 12 == 0){
 					onGroundCheck = mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically;
 				} else {
-					setLastDistance(0.0);
-					mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
+					setLastDistance(mc.thePlayer.motionX = mc.thePlayer.motionZ = 0);
 				}
 				break;
 			default:
