@@ -11,7 +11,7 @@ public class AntiDesync extends Module {
     private int lastSlot;
 
     public AntiDesync(String racism) {
-        super("AntiDesync", ModuleCategory.MISC, racism);;
+        super("AntiDesync", ModuleCategory.MISC, racism);
     }
 
     @Override
