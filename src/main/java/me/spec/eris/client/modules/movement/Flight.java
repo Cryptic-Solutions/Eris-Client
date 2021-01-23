@@ -56,9 +56,7 @@ public class Flight extends Module {
     @Override
     public void onEvent(Event e) {
         setMode(mode.getValue().toString());
-        if (e instanceof EventJump || e instanceof EventStep) {
-			e.setCancelled();
-		}
+        if (e instanceof EventJump || e instanceof EventStep) e.setCancelled();
         if (e instanceof EventMove) {
             EventMove event = (EventMove) e;
             switch (mode.getValue()) {
