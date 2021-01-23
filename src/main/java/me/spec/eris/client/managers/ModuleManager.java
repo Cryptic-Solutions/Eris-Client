@@ -51,7 +51,7 @@ public class ModuleManager extends Manager<Module> {
         addToManagerArraylist(new GuiMove("T-Mobile"));
         addToManagerArraylist(new Scaffold("StevePlaceBlockForYou"));
         addToManagerArraylist(new Longjump("NiggerJump"));
-        addToManagerArraylist(new NoSlowDown("Tredmill"));
+        addToManagerArraylist(new NoSlowDown("Treadmill"));
 
         /*
         Misc
