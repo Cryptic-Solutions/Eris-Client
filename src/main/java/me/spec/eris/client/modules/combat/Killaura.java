@@ -3,6 +3,7 @@ package me.spec.eris.client.modules.combat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
@@ -34,7 +35,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import org.apache.commons.lang3.RandomUtils;
 
 public class Killaura extends Module {
     public ModeValue<Mode> modeValue = new ModeValue<>("Mode", Mode.SWITCH, this);
@@ -379,7 +379,7 @@ public class Killaura extends Module {
     public void unBlock() {
         if (!PlayerUtils.isHoldingSword() || !blocking || autoBlock.getValue().equals(BlockMode.FALCON) || autoBlock.getValue().equals(BlockMode.OFF)) return;
         double value = autoBlock.getValue().equals(BlockMode.OFFSET) && mc.thePlayer.hurtTime > 2 ?  -.8f : -1;
-        if (Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS) || !mc.thePlayer.isMoving()) value = RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
+        if (Eris.getInstance().getServerIntegration().getGameMode().equals(Gamemode.DUELS) || !mc.thePlayer.isMoving()) value = ThreadLocalRandom.current().nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
         mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(value, value, value), EnumFacing.DOWN));
         blocking = false;
     }

@@ -7,6 +7,8 @@ import me.spec.eris.api.event.Event;
 import me.spec.eris.client.events.chat.ChatMessageEvent;
 import me.spec.eris.api.manager.Manager;
 
+import java.util.Iterator;
+
 public class CommandManager extends Manager<Command> {
     
     private final String prefix = Eris.getInstance().getCommandPrefix();
@@ -42,4 +44,5 @@ public class CommandManager extends Manager<Command> {
             }
         }
     }
+
 }
