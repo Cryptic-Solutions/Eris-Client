@@ -7,8 +7,12 @@ import me.spec.eris.api.event.Event;
 import me.spec.eris.client.events.chat.ChatMessageEvent;
 import me.spec.eris.api.manager.Manager;
 
-public class CommandManager extends Manager<Command> {
+import java.util.Iterator;
 
+public class CommandManager extends Manager<Command> {
+    
+    private final String prefix = Eris.getInstance().getCommandPrefix();
+    
     @Override
     public void loadManager() {
         addToManagerArraylist(new HelpCommand(),
@@ -28,7 +32,7 @@ public class CommandManager extends Manager<Command> {
             ChatMessageEvent event = (ChatMessageEvent) e;
             String chatMessage = event.getChatMessage();
 
-            if(chatMessage.startsWith(Eris.getInstance().getCommandPrefix())) {
+            if(chatMessage.startsWith(prefix)) {
                 e.setCancelled();
                 String noPrefixChatMessage = chatMessage.replace(Eris.getInstance().getCommandPrefix(), "");
                 String[] commandArguments = noPrefixChatMessage.split(" ");
@@ -40,4 +44,5 @@ public class CommandManager extends Manager<Command> {
             }
         }
     }
+
 }
