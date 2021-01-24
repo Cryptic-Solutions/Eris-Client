@@ -7,8 +7,6 @@ import com.mojang.authlib.GameProfile;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import me.spec.eris.Eris;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;

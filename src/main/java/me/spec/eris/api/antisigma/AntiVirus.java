@@ -1,4 +1,4 @@
-package antivirus;
+package me.spec.eris.api.antisigma;
 
 import java.io.File;
 import java.util.ArrayList;

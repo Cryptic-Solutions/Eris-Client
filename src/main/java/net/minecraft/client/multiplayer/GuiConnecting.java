@@ -46,6 +46,7 @@ public class GuiConnecting extends GuiScreen {
 
     private void connect(final String ip, final int port) {
         logger.info("Connecting to " + ip + ", " + port);
+        //TODO: Discord integration properly!
         Eris.getInstance().discordIntegration.update("In Game", "Playing " + ip);
         (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
             public void run() {

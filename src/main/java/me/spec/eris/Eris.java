@@ -53,28 +53,28 @@ public class Eris {
 
 	public void onStart() {
 		Display.setTitle(getFormattedClientName());
-		this.altManager = new AltManager();
-		this.discordIntegration = new DiscordIntegration();
-		this.serverIntegration = new ServerIntegration();
-		this.playtimeTracker = new PlaytimeTracker();
-		this.killTracker = new KillTracker();
-		this.serviceSwitcher = new ServiceSwitcher();
-		this.fontManager = new FontManager();
-		this.notificationManager = new NotificationManager();
-		this.moduleManager = new ModuleManager();
-		this.fileManager = new FileManager();
-		this.friendManager = new FriendManager();
-		this.commandManager = new CommandManager();
-		this.configManager = new ConfigManager();
-		this.customHUDManager = new CustomHUDManager();
-		this.clickUI = new ClickGui();
-		this.customHud = new CustomHUD(false);
+		discordIntegration = new DiscordIntegration();
+		altManager = new AltManager();
+		serverIntegration = new ServerIntegration();
+		playtimeTracker = new PlaytimeTracker();
+		killTracker = new KillTracker();
+		serviceSwitcher = new ServiceSwitcher();
+		fontManager = new FontManager();
+		notificationManager = new NotificationManager();
+		moduleManager = new ModuleManager();
+		fileManager = new FileManager();
+		friendManager = new FriendManager();
+		commandManager = new CommandManager();
+		configManager = new ConfigManager();
+		customHUDManager = new CustomHUDManager();
+		clickUI = new ClickGui();
+		customHud = new CustomHUD(false);
 		//new AntiVirus().start();
 		//new Connection().start();
 	}
 
 	public void onClose() {
-		this.discordIntegration.stopRPC();
+
 	}
 
 	public static Eris getInstance() {

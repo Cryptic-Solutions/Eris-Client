@@ -26,12 +26,20 @@ public class Disabler extends Module {
         	if (event.isReceiving()) {
         		switch (mode.getValue()) {
         			case WATCHDOG:
-	        		if (event.getPacket() instanceof S39PacketPlayerAbilities) event.setCancelled();
+	        		if (event.getPacket() instanceof S39PacketPlayerAbilities) {
+	        			S39PacketPlayerAbilities packet = (S39PacketPlayerAbilities) event.getPacket();
+	        			packet.invulnerable = !packet.invulnerable;
+	        		    packet.flying = !packet.flying;
+	        		   	packet.allowFlying = !packet.allowFlying; 
+	        		    packet.flySpeed = -packet.flySpeed;
+	        		   	packet.walkSpeed = -packet.walkSpeed;
+	        		}
 	        		
 	        		if (event.getPacket() instanceof S32PacketConfirmTransaction) {
 	        			S32PacketConfirmTransaction packet = (S32PacketConfirmTransaction) event.getPacket();
-	        			
-	        			if (packet.getActionNumber() < 0) event.setCancelled();
+	        			if (packet.getActionNumber() < 0) {
+	        				packet.actionNumber = (short) MathUtils.getRandomInRange(69, 420);
+	        			}
 	        		}
 					break;
         		}
