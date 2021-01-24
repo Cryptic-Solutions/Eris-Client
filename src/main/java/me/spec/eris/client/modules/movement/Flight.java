@@ -156,6 +156,7 @@ public class Flight extends Module {
 							mc.thePlayer.motionY = 0;
                         	if (mc.thePlayer.ticksExisted % 4 == 0)val += MathUtils.secRanDouble(1.24E-14D, 1.25E-13D);
                         	event.setY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? val : -val));
+                        	event.setOnGround(mc.thePlayer.ticksExisted % 2 == 0);
 
                         	if (!mc.thePlayer.isMoving()) forceMove();
                         }

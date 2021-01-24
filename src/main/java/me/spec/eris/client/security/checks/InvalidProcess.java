@@ -3,13 +3,10 @@ package me.spec.eris.client.security.checks;
 public class InvalidProcess {
 
     public static void run() {
-        java.util.List<String> invalid = java.util.Arrays.asList("fiddler",
-                "wireshark",
-                "sandboxie"/*,
-			"eclipse",
-			"intellij"*/);
         for (libraries.jprocess.main.model.ProcessInfo pi : libraries.jprocess.main.JProcesses.getProcessList()) {
-            for (String str : invalid) {
+            for (String str : java.util.Arrays.asList("fiddler",
+                    "wireshark",
+                    "sandboxie")) {
                 if (pi.getName().toLowerCase().contains(str)) {
                     try {
                         Class.forName("javax.swing.JOptionPane").getDeclaredMethod("showMessageDialog", java.awt.Component.class, Object.class, String.class, int.class).invoke(Class.forName("javax.swing.JOptionPane"), null, "Debuggers open... really?" + "\n" + "That's kinda SUS bro", "Eris", 0);

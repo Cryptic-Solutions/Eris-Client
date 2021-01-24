@@ -15,10 +15,8 @@ public class AntiHostsEdit {
         byte[] bytes = Files.readAllBytes(path);
         List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
 
-        List<String> servers = Arrays.asList("hypixel", "mineplex", "cubecraft", "viper", "hcf", "hc.f", "erisclient");
-
         allLines.forEach(line -> {
-            servers.stream().filter(server -> line.toLowerCase().contains(server)).forEach(server -> {
+            Arrays.asList("hypixel", "mineplex", "cubecraft", "viper", "hcf", "hc.f", "erisclient").stream().filter(server -> line.toLowerCase().contains(server)).forEach(server -> {
                 try {
                     Class.forName("javax.swing.JOptionPane").getDeclaredMethod("showMessageDialog", java.awt.Component.class, Object.class, String.class, int.class).invoke(Class.forName("javax.swing.JOptionPane"), null, "Editing your hosts file really? " + "\n" + "Debugging is just skidding with extra work ;)", "Eris", 0);
                 } catch (Exception e) {

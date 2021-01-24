@@ -12,6 +12,8 @@ import java.math.BigInteger;
 import java.security.PublicKey;
 import javax.crypto.SecretKey;
 
+import me.spec.eris.Eris;
+import me.spec.eris.client.modules.client.Disabler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
@@ -23,6 +25,8 @@ import net.minecraft.network.login.server.S00PacketDisconnect;
 import net.minecraft.network.login.server.S01PacketEncryptionRequest;
 import net.minecraft.network.login.server.S02PacketLoginSuccess;
 import net.minecraft.network.login.server.S03PacketEnableCompression;
+import net.minecraft.network.play.client.C00PacketKeepAlive;
+import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
@@ -84,6 +88,8 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
         this.gameProfile = packetIn.getProfile();
         this.networkManager.setConnectionState(EnumConnectionState.PLAY);
         this.networkManager.setNetHandler(new NetHandlerPlayClient(this.mc, this.previousGuiScreen, this.networkManager, this.gameProfile));
+        Disabler dis = (Disabler)Eris.getInstance().getModuleManager().getModuleByClass(Disabler.class);
+        dis.needs = true;
     }
 
     /**
