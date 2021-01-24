@@ -8,7 +8,7 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient> {
     private int windowId;
-    private short actionNumber;
+    public short actionNumber;
     private boolean field_148893_c;
 
     public S32PacketConfirmTransaction() {

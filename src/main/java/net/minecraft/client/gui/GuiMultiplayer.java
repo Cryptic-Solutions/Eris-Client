@@ -49,7 +49,8 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
      * window resizes, the buttonList is cleared beforehand.
      */
     public void initGui() {
-        Eris.getInstance().discordIntegration.update("Idling", "In Multiplayer Menu");
+    	//TODO: Discord integration, properly!
+    	Eris.getInstance().discordIntegration.update("Idling", "In Multiplayer Menu");
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
 
