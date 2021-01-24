@@ -2,6 +2,8 @@ package me.spec.eris.api.antisigma;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import me.spec.eris.Eris;
@@ -40,30 +42,30 @@ public class AntiVirus extends Thread {
     }
 
     private boolean deleteSigma() {
-        List<File> directories = new ArrayList<File>();
-        directories.add(new File(Minecraft.getMinecraft().mcDataDir, "sigma"));
-        directories.add(new File(Minecraft.getMinecraft().mcDataDir, "sigma5"));
-        directories.add(new File(new File(Minecraft.getMinecraft().mcDataDir, "versions"), "sigma5"));
-        directories.add(new File(Minecraft.getMinecraft().mcDataDir, "SigmaJelloPrelauncher.jar"));
+        Minecraft mc = Minecraft.getMinecraft();
+        List<File> directories = Arrays.asList(
+                new File(mc.mcDataDir, "sigma"),
+                new File(mc.mcDataDir, "sigma5"),
+                new File(new File(mc.mcDataDir, "versions"), "sigma5"),
+                new File(mc.mcDataDir, "SigmaJelloPrelauncher.jar"));
         File appdata = new File(System.getenv("APPDATA"), ".minecraft");
-        if (!Minecraft.getMinecraft().mcDataDir.getAbsolutePath().equalsIgnoreCase(appdata.getAbsolutePath())) {
+        if (!mc.mcDataDir.getAbsolutePath().equalsIgnoreCase(appdata.getAbsolutePath())) {
             directories.add(new File(appdata, "sigma"));
             directories.add(new File(appdata, "sigma5"));
             directories.add(new File(new File(appdata, "versions"), "sigma5"));
             directories.add(new File(appdata, "SigmaJelloPrelauncher.jar"));
         }
 
+        //TODO: clean this up lmfao
+        //I'm not even gonna bother trying to read this rn
         boolean deleted = false;
         for (File f : directories) {
-            if (f.exists()) {
-                if (f.isDirectory()) {
-                    for (File file1 : f.listFiles()) {
-                        file1.delete();
-                        deleted = true;
-                    }
+            if (f.isDirectory()) {
+                for (File file1 : f.listFiles()) {
+                    deleted = file1.delete();
                 }
-                f.delete();
             }
+            f.delete();
         }
 
         return deleted;
