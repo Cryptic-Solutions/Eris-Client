@@ -225,7 +225,10 @@ workspace/logs/
 
 saves/
 logs/
-Eris/
 options.txt
 optionsof.txt
 usercache.json
+assets/skins/
+servers.dat
+Eris/*.eriscnf
+crash-reports/

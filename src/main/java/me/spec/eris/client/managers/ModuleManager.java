@@ -36,6 +36,7 @@ public class ModuleManager extends Manager<Module> {
         Combat
          */
         addToManagerArraylist(new AntiBot ("GhostNiggers"));
+        addToManagerArraylist(new AutoClicker("AutoClicker"));
         addToManagerArraylist(new Killaura("BeanerBeater"));
         addToManagerArraylist(new Velocity("FatRomanian"));
         addToManagerArraylist(new Criticals("BalkinHardHitter"));
