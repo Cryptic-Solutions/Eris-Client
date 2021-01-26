@@ -4,7 +4,6 @@ import me.spec.eris.api.event.Event;
 import me.spec.eris.api.module.Module;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.value.types.NumberValue;
-import me.spec.eris.client.events.client.EventPacket;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.utils.world.TimerUtils;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -36,9 +35,6 @@ public class AutoClicker extends Module {
                     stopwatch.reset();
                 }
             }
-        }
-        if (event instanceof EventPacket && !(((EventPacket) event).getPacket() instanceof C03PacketPlayer) && (((EventPacket) event).isSending())) {
-            mc.thePlayer.addChatComponentMessage(new ChatComponentText("wtf packet out" + ((EventPacket) event).getPacket().getClass().getSimpleName()));
         }
     }
 
