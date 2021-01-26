@@ -40,7 +40,7 @@ public class AutoClicker extends Module {
 
     private long getRandom() {
         if (cpsMin.getValue() >= cpsMax.getValue()) {
-            return Math.round(cpsMin.getValue() + cpsMax.getValue() / 2);
+            return 10;
         }
         double[] randoms = new double[randomizationLevel.getValue().intValue()];
         for(int i = 0; i < randomizationLevel.getValue(); i++) {
