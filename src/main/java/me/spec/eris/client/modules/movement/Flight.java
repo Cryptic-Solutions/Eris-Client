@@ -211,9 +211,7 @@ public class Flight extends Module {
     }
     
     public void flush() {
-		packets.forEach(lePaqquete -> {
-			mc.thePlayer.sendQueue.addToSendQueueNoEvent(lePaqquete); 
-		});
+		packets.forEach(mc.thePlayer.sendQueue::addToSendQueueNoEvent);
 		packets.clear();
     }
 

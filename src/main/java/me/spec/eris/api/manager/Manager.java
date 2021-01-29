@@ -1,13 +1,12 @@
 package me.spec.eris.api.manager;
 
-import me.spec.eris.api.command.Command;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
-public abstract class Manager<T> implements Iterable<T> {
+public abstract class Manager<T> implements Iterable<T>{
 
     protected final List<T> managerArraylist = new ArrayList<>();
 
@@ -42,6 +41,10 @@ public abstract class Manager<T> implements Iterable<T> {
     }
 
     public final Iterator<T> iterator() {
-        return getManagerArraylist().iterator();
+        return managerArraylist.iterator();
+    }
+
+    public Stream<T> stream() {
+        return managerArraylist.stream();
     }
 }

@@ -2,6 +2,7 @@ package me.spec.eris.client.modules.player;
 
 import me.spec.eris.Eris;
 import me.spec.eris.api.event.Event;
+import me.spec.eris.client.events.client.EventPacket;
 import me.spec.eris.client.events.player.EventMove;
 import me.spec.eris.client.events.player.EventUpdate;
 import me.spec.eris.api.module.ModuleCategory;
@@ -19,12 +20,17 @@ public class NoFall extends Module {
 		super("NoFall", ModuleCategory.PLAYER, racism);
     } 
     private ModeValue<Mode> mode = new ModeValue<Mode>("Mode", Mode.WATCHDOG, this);
-    private enum Mode {WATCHDOG}
+    private enum Mode {EDIT, WATCHDOG}
     
     private boolean fallen;
     
     @Override
-    public void onEvent(Event e) { 
+    public void onEvent(Event e) {
+    	if (e instanceof EventPacket && ((EventPacket) e).getPacket() instanceof C03PacketPlayer) {
+    		if (mode.getValue().equals(Mode.EDIT)) {
+				(((C03PacketPlayer) ((EventPacket) e).getPacket())).onGround = true;
+			}
+		}
         if (e instanceof EventUpdate) {
 			EventUpdate event = (EventUpdate)e;
             setMode(mode.getValue().toString());

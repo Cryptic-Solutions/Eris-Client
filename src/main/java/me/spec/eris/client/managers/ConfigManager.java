@@ -3,7 +3,6 @@ package me.spec.eris.client.managers;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -102,17 +101,17 @@ public class ConfigManager extends Manager<ClientConfig> {
     public void saveDefaultFile() {
         Eris.getInstance().clickUI.reload(false);
         JsonObject jsonObject = new JsonObject();
-        for (Module module : Eris.getInstance().moduleManager.getModules()) {
-            if (module.getCategory() != null) {
-                JsonObject moduleObject = new JsonObject();
-                moduleObject.addProperty("name", module.getName());
-                moduleObject.addProperty("active", module.isToggled());
+        /* TODO: Assign all modules categories OR remove the null check as all modules
+            should have categories, though I'm not sure how this base works */
+        Eris.getInstance().getModuleManager().stream().filter(module -> module.getCategory() != null).forEach(module -> {
+            JsonObject moduleObject = new JsonObject();
+            moduleObject.addProperty("name", module.getName());
+            moduleObject.addProperty("active", module.isToggled());
 
-                module.getSettings().forEach(value -> moduleObject.addProperty(value.getValueName(), String.valueOf(value.getValue())));
+            module.getSettings().forEach(value -> moduleObject.addProperty(value.getValueName(), String.valueOf(value.getValue())));
 
-                jsonObject.add(module.getName(), moduleObject);
-            }
-        }
+            jsonObject.add(module.getName(), moduleObject);
+        });
 
         try {
             FileWriter fileWriter = new FileWriter(new File(FileManager.dir, "defaultconfig.eriscnf"));

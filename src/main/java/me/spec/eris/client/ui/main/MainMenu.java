@@ -69,7 +69,7 @@ public class MainMenu extends GuiMainMenu
         String s = "Eris" + " | 1.8.9";
         Eris.getInstance().getFontRenderer().drawString(s, 2, this.height - 10, -1);
 
-        String s2 = "Developed with love UwU - Spec";
+        String s2 = "Developed with love - Spec";
         Eris.getInstance().getFontRenderer().drawString(s2, (int) (this.width - Eris.getInstance().getFontRenderer().getStringWidth(s2) - 2), this.height - 10, -1);
  
         GlStateManager.pushMatrix();
