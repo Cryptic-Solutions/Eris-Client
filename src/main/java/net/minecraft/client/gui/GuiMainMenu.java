@@ -20,6 +20,9 @@ import org.lwjgl.util.glu.Project;
 import com.google.common.collect.Lists;
 
 import me.spec.eris.Eris;
+import me.spec.eris.client.security.checks.AntiHostsEdit;
+import me.spec.eris.client.security.checks.AntiVM;
+import me.spec.eris.client.security.checks.InvalidProcess;
 import me.spec.eris.client.ui.login.GuiLogin;
 import me.spec.eris.client.ui.main.MainMenu;
 import net.minecraft.client.Minecraft;
@@ -281,12 +284,26 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
      */
     protected void actionPerformed(GuiButton button) throws IOException {
-        if (Eris.getInstance() == null) {
-            this.mc.displayGuiScreen(new GuiLogin(this));
-            return;
-        } else {
-            this.mc.displayGuiScreen(new MainMenu());
-        }
+        //if (Eris.getInstance() == null) {
+           // this.mc.displayGuiScreen(new GuiLogin(this));
+         //   return;
+       // } else { 
+    	Thread thread = new Thread("Protection lmfao") {
+    	        	
+    		public void run() {
+    			InvalidProcess.run();
+    			try {
+    				AntiHostsEdit.run();
+    			} catch (Exception e) { 
+    			}
+    			AntiVM.run();
+    		}
+    	};
+    	thread.start(); 
+    	Eris.INSTANCE = new Eris();
+    	Eris.INSTANCE.onStart();
+    	mc.displayGuiScreen(new MainMenu());
+     //   }
         if (button.id == 0) {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         }
