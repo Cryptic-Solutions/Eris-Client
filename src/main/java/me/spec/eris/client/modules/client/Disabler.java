@@ -8,9 +8,12 @@ import me.spec.eris.api.module.Module;
 import me.spec.eris.api.module.ModuleCategory;
 import me.spec.eris.api.value.types.ModeValue;
 import me.spec.eris.client.events.client.EventPacket;
+
 import me.spec.eris.utils.math.MathUtils;
 import me.spec.eris.utils.world.TimerUtils;
+
 import net.minecraft.network.Packet;
+
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
