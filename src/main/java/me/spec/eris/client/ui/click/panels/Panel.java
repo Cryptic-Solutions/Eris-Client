@@ -8,6 +8,7 @@ import me.spec.eris.client.ui.click.panels.component.button.impl.config.ConfigBu
 import me.spec.eris.client.ui.click.panels.component.button.impl.module.ModuleButton;
 import me.spec.eris.client.ui.click.panels.component.button.Button;
 import me.spec.eris.utils.visual.RenderUtilities;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
 
 import me.spec.eris.Eris;

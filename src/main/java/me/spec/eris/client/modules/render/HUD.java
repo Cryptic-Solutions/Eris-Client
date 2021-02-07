@@ -14,6 +14,7 @@ import me.spec.eris.client.modules.combat.Killaura;
 import me.spec.eris.client.ui.hud.CustomHUD;
 import me.spec.eris.utils.math.MathUtils;
 import me.spec.eris.utils.player.PlayerUtils;
+import me.spec.eris.utils.visual.ColorUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -182,7 +183,7 @@ public class HUD extends Module {
                 }
                 switch (colorMode.getValue()) {
                     case RAINBOW: {
-                        getFont().drawStringWithShadow(name, (float) x, y, getRainbow(6000, -15 * yText));
+                        getFont().drawStringWithShadow(name, (float) x, y, ColorUtilities.getRainbow(6000, -15 * yText, rainSpeed.getValue(), rainOffset.getValue(), saturation.getValue().floatValue(), brightness.getValue().floatValue()));
                         break;
                     }
 
@@ -423,21 +424,6 @@ public class HUD extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-    }
-
-    public Color fade(long offset, float fade) {
-        float hue = (float) (System.nanoTime() + offset) / 1.0E10F % 1.0F;
-        long color = Long.parseLong(Integer.toHexString(Color.HSBtoRGB(hue, 1.0f, 1.0F)),
-                16);
-        Color c = new Color((int) color);
-        return new Color(c.getRed() / 255.0F * fade, c.getGreen() / 255.0F * fade, c.getBlue() / 255.0F * fade,
-                c.getAlpha() / 155.0F);
-    }
-
-    public int getRainbow(int speed, int offset) {
-        float hue = (float) ((System.currentTimeMillis() * rainSpeed.getValue() + offset / rainOffset.getValue()) % speed * 2);
-        hue /= speed;
-        return Color.getHSBColor(hue, saturation.getValue().floatValue(), brightness.getValue().floatValue()).getRGB();
     }
 
 
