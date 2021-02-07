@@ -853,7 +853,6 @@ public abstract class EntityLivingBase extends Entity {
                     if (flag && s != null) {
                         this.playSound(s, this.getSoundVolume(), this.getSoundPitch());
                     }
-
                     this.onDeath(source);
                 } else {
                     String s1 = this.getHurtSound();

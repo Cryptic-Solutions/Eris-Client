@@ -27,8 +27,7 @@ public class CustomHUD extends GuiScreen {
         Eris.getInstance().customHUDManager.addToManagerArraylist(new PotionsElement(0 , 250, 100, 100));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new BPSElement(0 , 300, 100, 100));
         Eris.getInstance().customHUDManager.addToManagerArraylist(new PingElement(0 , 250, 100, 100));
-        Eris.getInstance().customHUDManager.addToManagerArraylist(new PlayerListElement(0 , 220, 100, 100));
-        Eris.getInstance().customHUDManager.addToManagerArraylist(new Target(300, 400, 250, 75));
+        Eris.getInstance().customHUDManager.addToManagerArraylist(new TargetElement(300, 400, 250, 75));
     }
     @Override
     public void onGuiClosed() {

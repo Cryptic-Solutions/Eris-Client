@@ -11,9 +11,9 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class Target extends Element {
+public class TargetElement extends Element {
 
-    public Target(int x, int y, int width, int height) {
+    public TargetElement(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 

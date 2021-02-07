@@ -76,7 +76,7 @@ public class HUD extends Module {
     private NumberValue<Integer> blue = new NumberValue<>("Blue", 0, 0, 255, this, () -> colorMode.getValue().equals(ColorMode.STATIC) && arraylist.getValue(), "BLUE for Static ArrayList Color");
 
     public enum ColorMode {
-        STATIC, RAINBOW
+        STATIC, RAINBOW, RANDOMIZED;
     }
 
     public enum BPSMode {
@@ -188,6 +188,10 @@ public class HUD extends Module {
 
                     case STATIC: {
                         getFont().drawStringWithShadow(name, (float) x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                        break;
+                    }
+                    case RANDOMIZED: {
+                        getFont().drawStringWithShadow(name, (float) x, y, mod.getColor());
                         break;
                     }
                 }

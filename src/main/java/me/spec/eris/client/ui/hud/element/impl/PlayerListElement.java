@@ -19,8 +19,8 @@ public class PlayerListElement extends Element {
 
     @Override
     public void drawScreen(int mouseX, int mouseY) {
+        ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
         if (dragging) {
-            ScaledResolution scalRes = new ScaledResolution(Minecraft.getMinecraft());
             int predictX = mouseX - (width / 2) + xOffset - 1;
             int predictY = mouseY - (height / 2) + yOffset - 1;
             if (predictX > 0 && predictX < scalRes.getScaledWidth() - width + 1) {
@@ -32,7 +32,6 @@ public class PlayerListElement extends Element {
         }
         HUD hud = ((HUD)Eris.getInstance().getModuleManager().getModuleByClass(HUD.class));
         int[] dimensions = hud.renderPlayerlist(x, y);
-
         width = dimensions[0];
         height = dimensions[1];
     }

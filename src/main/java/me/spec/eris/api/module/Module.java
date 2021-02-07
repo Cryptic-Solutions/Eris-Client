@@ -9,6 +9,7 @@ import me.spec.eris.client.antiflag.prioritization.enums.ModulePriority;
 import me.spec.eris.client.antiflag.prioritization.enums.ModuleType;
 import me.spec.eris.api.value.Value;
 import me.spec.eris.client.modules.render.Racist;
+import me.spec.eris.utils.visual.ColorUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.EnumChatFormatting;
@@ -22,6 +23,7 @@ public class Module {
     private boolean isToggled;
     private int key;
     private boolean hidden;
+    private int color;
     private ModuleType moduleType = ModuleType.NONFLAGGABLE;
     private ModulePriority modulePriority = ModulePriority.LOWEST;
     private ArrayList<Value> settings = new ArrayList<Value>();
@@ -33,12 +35,22 @@ public class Module {
         this.name = name;
         this.racistName = racistName;
         this.moduleCategory = moduleCategory;
+        this.setColor(ColorUtilities.createGermanColor());
     }
 
     public Module(String name, boolean enabled) {
         this.isToggled = enabled;
         this.name = name;
         this.moduleCategory = null;
+        this.setColor(ColorUtilities.createGermanColor());
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public void addSetting(Value<?> value) {

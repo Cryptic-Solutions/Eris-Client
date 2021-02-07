@@ -1,8 +1,11 @@
 package me.spec.eris.api.config.file.filetypes;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+import me.spec.eris.client.modules.render.HUD;
 import me.spec.eris.client.ui.hud.element.Element;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 import me.spec.eris.Eris;
@@ -31,6 +34,11 @@ public class CustomHUDFile extends DataFile {
 
     @Override
     public void load() {
+        if(Minecraft.getMinecraft().theWorld != null) {
+            if(!Eris.getInstance().getModuleManager().getModuleByClass(HUD.class).isToggled()) {
+                Eris.getInstance().getModuleManager().getModuleByClass(HUD.class).toggle(true);
+            }
+        }
         ArrayList<String> lines = FileUtils.getLines(this.file);
         for (int k = 0; k < lines.size(); k++) {
             if (lines.get(k).contains(":")) {
@@ -40,7 +48,7 @@ public class CustomHUDFile extends DataFile {
                 int x = Integer.parseInt(args[1]);
                 int y = Integer.parseInt(args[2]);
 
-                if(Eris.getInstance().customHUDManager.getManagerArraylist().get(index) != null) {
+                if(Objects.nonNull(Eris.getInstance().customHUDManager.getManagerArraylist().get(index))) {
                     if(x != 0 && y != 0) {
                         Eris.getInstance().customHUDManager.getManagerArraylist().get(index).x = x;
                         Eris.getInstance().customHUDManager.getManagerArraylist().get(index).y = y;
@@ -48,7 +56,6 @@ public class CustomHUDFile extends DataFile {
                         Eris.getInstance().customHUDManager.getManagerArraylist().get(index).x = 50;
                         Eris.getInstance().customHUDManager.getManagerArraylist().get(index).y = 50;
                     }
-                } else {
                 }
             }
         }
