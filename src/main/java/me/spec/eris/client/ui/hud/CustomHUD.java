@@ -1,6 +1,9 @@
 package me.spec.eris.client.ui.hud;
 
 import me.spec.eris.Eris;
+import me.spec.eris.api.module.ModuleCategory;
+import me.spec.eris.client.ui.click.ClickGui;
+import me.spec.eris.client.ui.click.panels.Panel;
 import me.spec.eris.client.ui.hud.element.impl.*;
 import me.spec.eris.client.ui.hud.element.impl.LabelElement;
 import net.minecraft.client.Minecraft;
@@ -10,6 +13,7 @@ import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class CustomHUD extends GuiScreen {
 

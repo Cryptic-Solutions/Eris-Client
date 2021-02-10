@@ -3,18 +3,27 @@ package me.spec.eris.client.ui.hud.element.impl;
 
 import me.spec.eris.Eris;
 import me.spec.eris.client.modules.render.HUD;
+import me.spec.eris.client.ui.click.ClickGui;
+import me.spec.eris.client.ui.click.panels.component.Component;
 import me.spec.eris.client.ui.fonts.TTFFontRenderer;
 import me.spec.eris.client.ui.hud.element.Element;
 import me.spec.eris.utils.math.MathUtils;
 import me.spec.eris.utils.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class BPSElement extends Element {
+
+    private boolean hovered, clickable, open;
 
     public BPSElement(int x, int y, int width, int height) {
         super(x, y, width, height);
