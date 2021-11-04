@@ -1,5 +1,8 @@
 # Eris
+Sponsoring novoline updates with values and rotations 
+for months to come.
 
+TLDR:
 MattEdits thought he was special when he leaked my src...
 Thats cool but idc
 
